@@ -19,8 +19,8 @@ void NewMenu::accept() {
 	QString txt = ui->options->currentItem()->text();
 	if (txt == "Project") {
 		NewProject menu(this);
+        this->close();
 		menu.exec();
 	}
-	this->close();
 	this->parentWidget()->activateWindow();
 }
