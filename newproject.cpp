@@ -1,5 +1,5 @@
 #include <QDir>
-#include <QDataStream>
+#include <QTextStream>
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -32,26 +32,26 @@ void NewProject::accept() {
 		return;
 	}
 	this->strProjectDir = path;
-	QDir().mkdir(path);
-	QDir().mkdir(path + "/Animations");
-	QDir().mkdir(path + "/Resources/Images");
-	QDir().mkdir(path + "/Creatures/Types");
-	QDir().mkdir(path + "/Creatures/Classes");
-	QDir().mkdir(path + "/Creatures/Moves");
-	QDir().mkdir(path + "/Items");
-	QDir().mkdir(path + "/Misc");
-	QDir().mkdir(path + "/People/Classes");
-	QDir().mkdir(path + "/Instances/Creatures");
-	QDir().mkdir(path + "/Instances/People");
-	QDir().mkdir(path + "/Worlds/Sprites");
-	QDir().mkdir(path + "/Worlds/TileClasses");
-	QDir().mkdir(path + "/Worlds/Worlds");
-	QDir().mkdir(path + "/Worlds/Zones");
+	QDir().mkpath(path);
+	QDir().mkpath(path + "/Animations");
+	QDir().mkpath(path + "/Resources/Images");
+	QDir().mkpath(path + "/Creatures/Types");
+	QDir().mkpath(path + "/Creatures/Classes");
+	QDir().mkpath(path + "/Creatures/Moves");
+	QDir().mkpath(path + "/Items");
+	QDir().mkpath(path + "/Misc");
+	QDir().mkpath(path + "/People/Classes");
+	QDir().mkpath(path + "/Instances/Creatures");
+	QDir().mkpath(path + "/Instances/People");
+	QDir().mkpath(path + "/Worlds/Sprites");
+	QDir().mkpath(path + "/Worlds/TileClasses");
+	QDir().mkpath(path + "/Worlds/Worlds");
+	QDir().mkpath(path + "/Worlds/Zones");
 
 	QFile f(path + "/Misc/SaveVariables.json");
 	f.open(QIODevice::WriteOnly);
-	QDataStream out(&f);
-	out << "{}";
+    QTextStream out(&f);
+    out << "{}\n";
 	f.close();
 	this->close();
 	this->parentWidget()->activateWindow();
