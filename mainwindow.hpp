@@ -9,13 +9,16 @@ class MainWindow;
 
 class MainWindow : public QMainWindow {
 		Q_OBJECT
+	private:
+		Ui::MainWindow *ui;
+		QString projectDir;
 
 	public:
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
 
 	private:
-		Ui::MainWindow *ui;
+		void setProjectDir(QString);
 
 	public slots:
 		void newMenu();

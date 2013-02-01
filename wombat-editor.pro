@@ -8,22 +8,25 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = wombat-editor
+TARGET = WombatEditor
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     newmenu.cpp \
-    newproject.cpp
+    newproject.cpp \
+    savevariables.cpp
 
 HEADERS  += mainwindow.hpp \
     newmenu.hpp \
-    newproject.hpp
+    newproject.hpp \
+    savevariables.hpp
 
 FORMS    += mainwindow.ui \
     newmenu.ui \
-    newproject.ui
+    newproject.ui \
+    savevariables.ui
 
 RESOURCES += \
     rsrc.qrc

@@ -1,6 +1,7 @@
-#ifndef NEWPORJECT_HPP
-#define NEWPORJECT_HPP
+#ifndef NEWPROJECT_HPP
+#define NEWPROJECT_HPP
 
+#include <QString>
 #include <QDialog>
 
 namespace Ui {
@@ -10,15 +11,19 @@ class NewProject;
 class NewProject : public QDialog {
 		Q_OBJECT
 		
+	private:
+		Ui::NewProject *ui;
+		QString strProjectDir;
+
 	public:
 		explicit NewProject(QWidget *parent = 0);
 		~NewProject();
-		
-	private:
-		Ui::NewProject *ui;
 
+		QString projectDir();
+		
 	public slots:
 		void accept();
+        void browse();
 };
 
-#endif // NEWPORJECT_HPP
+#endif // NEWPrOJECT_HPP

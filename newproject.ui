@@ -160,5 +160,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnBrowse</sender>
+   <signal>clicked()</signal>
+   <receiver>NewProject</receiver>
+   <slot>browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>62</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>browse()</slot>
+ </slots>
 </ui>

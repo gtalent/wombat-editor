@@ -15,8 +15,15 @@ class NewMenu : public QDialog {
 		explicit NewMenu(QWidget *parent = 0, QString projectDir = "");
 		~NewMenu();
 
+		/**
+		 * @brief newWhat returns what the user wants to make a new instance of
+		 * @return what the user wants to make a new instance of
+		 */
+		QString newWhat();
+
 	private:
 		Ui::NewMenu *ui;
+		QString strNewWhat;
 
 	public slots:
 		void accept();

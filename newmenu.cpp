@@ -1,6 +1,5 @@
 #include "newmenu.hpp"
 #include "ui_newmenu.h"
-#include "newproject.hpp"
 
 NewMenu::NewMenu(QWidget *parent, QString projectDir) :
 	QDialog(parent), ui(new Ui::NewMenu) {
@@ -16,11 +15,11 @@ NewMenu::~NewMenu() {
 }
 
 void NewMenu::accept() {
-	QString txt = ui->options->currentItem()->text();
-	if (txt == "Project") {
-		NewProject menu(this);
-        this->close();
-		menu.exec();
-	}
+	strNewWhat = ui->options->currentItem()->text();
+	close();
 	this->parentWidget()->activateWindow();
+}
+
+QString NewMenu::newWhat() {
+	return strNewWhat;
 }
