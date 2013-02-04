@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow {
 		~MainWindow();
 
 	private:
-		void setProjectDir(QString);
+		void openProject(QString);
 
 	public slots:
 		void newMenu();

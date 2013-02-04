@@ -64,5 +64,5 @@ QString NewProject::projectDir() {
 void NewProject::browse() {
 	QString p = QFileDialog::getExistingDirectory(this, tr("Select Project Directory..."), QDir::homePath());
 	if (p != "")
-		ui->lePath->setText(p);
+        this->ui->lePath->setText(p);
 }
