@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>SaveVariables</class>
  <widget class="QWidget" name="SaveVariables">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,8 +30,21 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnRemove">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>&amp;Remove</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>E&amp;dit</string>
          </property>
         </widget>
        </item>
@@ -48,12 +64,105 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableView" name="tblVars"/>
+      <widget class="QTableWidget" name="tblVars">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
+      </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnAdd</sender>
+   <signal>clicked()</signal>
+   <receiver>SaveVariables</receiver>
+   <slot>addClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>50</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRemove</sender>
+   <signal>clicked()</signal>
+   <receiver>SaveVariables</receiver>
+   <slot>removeClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tblVars</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>SaveVariables</receiver>
+   <slot>tableClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>168</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnEdit</sender>
+   <signal>clicked()</signal>
+   <receiver>SaveVariables</receiver>
+   <slot>editCurrentVar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>addClicked()</slot>
+  <slot>removeClicked()</slot>
+  <slot>tableClicked(QModelIndex)</slot>
+  <slot>editCurrentVar()</slot>
+ </slots>
 </ui>

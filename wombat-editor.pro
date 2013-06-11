@@ -12,21 +12,37 @@ TARGET = WombatEditor
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
+SOURCES += main.cpp \
+    mainwindow.cpp \
     newmenu.cpp \
     newproject.cpp \
-    savevariables.cpp
+    savevariables.cpp \
+    importmenu.cpp \
+    models/modelmakerdefs.cpp \
+    models/enginemodels.cpp \
+    models/editormodels.cpp \
+    savevariableeditor.cpp
 
 HEADERS  += mainwindow.hpp \
     newmenu.hpp \
     newproject.hpp \
-    savevariables.hpp
+    savevariables.hpp \
+    importmenu.hpp \
+    filetab.hpp \
+    models/modelmakerdefs.hpp \
+    models/enginemodels.hpp \
+    models/editormodels.hpp \
+    savevariableeditor.hpp
 
 FORMS    += mainwindow.ui \
     newmenu.ui \
     newproject.ui \
-    savevariables.ui
+    savevariables.ui \
+    importmenu.ui \
+    savevariableeditor.ui
 
 RESOURCES += \
     rsrc.qrc
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += json

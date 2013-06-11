@@ -1,1 +1,7 @@
-wombat-editor.pro.user
+tags
+WombatEditor
+*.o
+wombat-editor.pro.user*
+moc_*
+ui_*
+qrc_*

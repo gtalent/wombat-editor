@@ -5,11 +5,11 @@
 #include <QDialog>
 
 namespace Ui {
-class NewProject;
+	class NewProject;
 }
 
 class NewProject : public QDialog {
-		Q_OBJECT
+	Q_OBJECT
 		
 	private:
 		Ui::NewProject *ui;
@@ -23,7 +23,7 @@ class NewProject : public QDialog {
 		
 	public slots:
 		void accept();
-        void browse();
+		void browse();
 };
 
 #endif // NEWPrOJECT_HPP

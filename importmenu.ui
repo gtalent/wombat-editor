@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NewMenu</class>
- <widget class="QDialog" name="NewMenu">
+ <class>ImportMenu</class>
+ <widget class="QDialog" name="ImportMenu">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New...</string>
+   <string>Import...</string>
   </property>
   <property name="modal">
    <bool>false</bool>
@@ -24,7 +24,12 @@
     <widget class="QListWidget" name="options">
      <item>
       <property name="text">
-       <string>Project</string>
+       <string>Image</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sound</string>
       </property>
      </item>
     </widget>
@@ -46,7 +51,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>NewMenu</receiver>
+   <receiver>ImportMenu</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -62,7 +67,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>NewMenu</receiver>
+   <receiver>ImportMenu</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

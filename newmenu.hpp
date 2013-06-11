@@ -5,11 +5,11 @@
 #include <QDialog>
 
 namespace Ui {
-class NewMenu;
+	class NewMenu;
 }
 
 class NewMenu : public QDialog {
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 		explicit NewMenu(QWidget *parent = 0, QString projectDir = "");

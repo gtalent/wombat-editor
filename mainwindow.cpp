@@ -2,15 +2,19 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 
+#include <iostream>
+
 #include "mainwindow.hpp"
 #include "newmenu.hpp"
+#include "savevariables.hpp"
+#include "importmenu.hpp"
 #include "newproject.hpp"
 #include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-
+	m_currentTab = 0;
 }
 
 MainWindow::~MainWindow() {
@@ -23,21 +27,28 @@ void MainWindow::newMenu() {
 	NewMenu menu(this, "");
 	menu.exec();
 	QString nw = menu.newWhat();
-
 	if (nw == "Project") {
 		NewProject np(this);
 		np.exec();
-		openProject(np.projectDir());
+		QString p = np.projectDir();
+		if (p != "") {
+			openProject(p);
+		}
 	}
 }
 
 void MainWindow::openProject() {
-	openProject(QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath()));
+	QString p = QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath());
+	if (p != "") {
+		openProject(p);
+	}
 }
 
 void MainWindow::openProject(QString path) {
-	projectDir = path;
-	setWindowTitle("Wombat Editor - " + path);
+	if (!path.endsWith("/"))
+		path += "/";
+	m_projectDir = path;
+	setWindowTitle("Wombat Editor - " + path.mid(0, path.length() - 1));
 
 	if (ui->fileList->model())
 		delete ui->fileList->model();
@@ -53,4 +64,36 @@ void MainWindow::openProject(QString path) {
 	model->setNameFilters(l);
 	model->setNameFilterDisables(false);
 	ui->fileList->setRootIndex(model->setRootPath(path));
+	ui->actionImport->setEnabled(true);
+}
+
+void MainWindow::openFile(QModelIndex index) {
+	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	if (m_projectDir + "Misc/SaveVariables.json" == path) {
+		//open save variables tab
+		if (!m_openTabs[path]) {
+			SaveVariables *widget = new SaveVariables(path, ui->tabWidget);
+			ui->tabWidget->addTab(widget, "SaveVariables.json");
+			m_openTabs[path] = widget;
+			m_currentTab = widget;
+		}
+	}
+}
+
+void MainWindow::import() {
+	ImportMenu menu(this);
+	menu.exec();
+	QString nw = menu.importWhat();
+
+	if (nw == "Image") {
+		NewProject np(this);
+		np.exec();
+		openProject(np.projectDir());
+	}
+}
+
+void MainWindow::saveFile() {
+	FileTab *t = m_currentTab;
+	if (t)
+		t->saveFile();
 }

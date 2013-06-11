@@ -3,23 +3,22 @@
 
 NewMenu::NewMenu(QWidget *parent, QString projectDir) :
 	QDialog(parent), ui(new Ui::NewMenu) {
-    this->ui->setupUi(this);
-    this->ui->options->addItem("Project");
+	this->ui->setupUi(this);
 	if (projectDir != "") {
-        this->ui->options->addItem("Animation");
+		this->ui->options->addItem("Animation");
 	}
 }
 
 NewMenu::~NewMenu() {
-    delete this->ui;
+	delete this->ui;
 }
 
 void NewMenu::accept() {
-    this->strNewWhat = this->ui->options->currentItem()->text();
-    this->close();
+	this->strNewWhat = this->ui->options->currentItem()->text();
+	this->close();
 	this->parentWidget()->activateWindow();
 }
 
 QString NewMenu::newWhat() {
-    return this->strNewWhat;
+	return this->strNewWhat;
 }
