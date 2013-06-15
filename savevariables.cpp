@@ -87,6 +87,8 @@ void SaveVariables::editCurrentVar() {
 			//check to see if a variable by this name already exists
 			bool exists = false;
 			if (key.toStdString() != nv.first) { // if a variable by this name already exists
+				// delete the old value from the list in case the name changed
+				m_file.vars.erase(key.toStdString());
 				for (map<string, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); ++i) {
 					if (i->first == nv.first) {
 						exists = true;
@@ -96,8 +98,6 @@ void SaveVariables::editCurrentVar() {
 			}
 			
 			if (!exists) {
-				// delete the old value from the list in case the name changed
-				m_file.vars.erase(key.toStdString());
 				QString type;
 				std::stringstream s;
 				if (nv.second->isString()) {
