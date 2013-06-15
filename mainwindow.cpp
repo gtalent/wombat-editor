@@ -84,9 +84,9 @@ void MainWindow::openFile(QModelIndex index) {
 void MainWindow::import() {
 	ImportMenu menu(this);
 	menu.exec();
-	QString nw = menu.importWhat();
+	QString iw = menu.importWhat();
 
-	if (nw == "Image") {
+	if (iw == "Image") {
 		NewProject np(this);
 		np.exec();
 		openProject(np.projectDir());
@@ -100,7 +100,9 @@ void MainWindow::saveFile() {
 }
 
 void MainWindow::fileSaved() {
+	ui->actionSave->setEnabled(false);
 }
 
 void MainWindow::fileChanged() {
+	ui->actionSave->setEnabled(true);
 }

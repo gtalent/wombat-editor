@@ -139,8 +139,8 @@ void SaveVariables::removeClicked() {
 	if (ui->tblVars->currentIndex().row() == -1) {
 		ui->btnRemove->setEnabled(false);
 		ui->btnEdit->setEnabled(false);
-		notifyFileChange();
 	}
+	notifyFileChange();
 }
 
 void SaveVariables::tableClicked(QModelIndex) {
