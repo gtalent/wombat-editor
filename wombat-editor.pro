@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     newproject.cpp \
     savevariables.cpp \
     importmenu.cpp \
+    editortab.cpp \
     models/modelmakerdefs.cpp \
     models/enginemodels.cpp \
     models/editormodels.cpp \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.hpp \
     newproject.hpp \
     savevariables.hpp \
     importmenu.hpp \
-    filetab.hpp \
+    editortab.hpp \
+    editortablistener.hpp \
     models/modelmakerdefs.hpp \
     models/enginemodels.hpp \
     models/editormodels.hpp \

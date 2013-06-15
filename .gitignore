@@ -5,3 +5,4 @@ wombat-editor.pro.user*
 moc_*
 ui_*
 qrc_*
+Makefile

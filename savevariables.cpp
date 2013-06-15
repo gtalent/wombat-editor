@@ -75,8 +75,6 @@ void SaveVariables::editCurrentVar() {
 void SaveVariables::removeClicked() {
 	int row = ui->tblVars->currentItem()->row();
 	string key = ui->tblVars->item(row, 0)->text().toStdString();
-	cout << "row: " << row << endl;
-	cout << "key: " << key << endl;
 	m_file.vars.erase(key);
 	ui->tblVars->removeRow(row);
 	if (ui->tblVars->currentIndex().row() == -1) {
@@ -92,5 +90,6 @@ void SaveVariables::tableClicked(QModelIndex) {
 
 bool SaveVariables::saveFile() {
 	m_file.writeFile(m_path.toStdString());
+	notifyFileChange();
 	return false;
 }

@@ -6,17 +6,17 @@
 #include <QModelIndex>
 #include <QMainWindow>
 
-#include "filetab.hpp"
+#include "editortab.hpp"
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow: public QMainWindow {
+class MainWindow: public QMainWindow, public EditorTabListener {
 	Q_OBJECT
 	private:
 		Ui::MainWindow *ui;
-		FileTab *m_currentTab;
+		EditorTab *m_currentTab;
 		QString m_projectDir;
 		std::map<QString, QWidget*> m_openTabs;
 
@@ -33,6 +33,9 @@ class MainWindow: public QMainWindow {
 		void openFile(QModelIndex);
 		void import();
 		void saveFile();
+
+		void fileSaved();
+		void fileChanged();
 };
 
 #endif // MAINWINDOW_HPP

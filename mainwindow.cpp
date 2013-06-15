@@ -72,10 +72,11 @@ void MainWindow::openFile(QModelIndex index) {
 	if (m_projectDir + "Misc/SaveVariables.json" == path) {
 		//open save variables tab
 		if (!m_openTabs[path]) {
-			SaveVariables *widget = new SaveVariables(path, ui->tabWidget);
-			ui->tabWidget->addTab(widget, "SaveVariables.json");
-			m_openTabs[path] = widget;
-			m_currentTab = widget;
+			SaveVariables *sv = new SaveVariables(path, ui->tabWidget);
+			sv->addListener(this);
+			ui->tabWidget->addTab(sv, "SaveVariables.json");
+			m_openTabs[path] = sv;
+			m_currentTab = sv;
 		}
 	}
 }
@@ -93,7 +94,13 @@ void MainWindow::import() {
 }
 
 void MainWindow::saveFile() {
-	FileTab *t = m_currentTab;
+	EditorTab *t = m_currentTab;
 	if (t)
 		t->saveFile();
+}
+
+void MainWindow::fileSaved() {
+}
+
+void MainWindow::fileChanged() {
 }

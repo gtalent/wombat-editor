@@ -6,14 +6,14 @@
 #include <QAbstractTableModel>
 #include <QTableWidgetItem>
 
-#include "filetab.hpp"
+#include "editortab.hpp"
 #include "models/editormodels.hpp"
 
 namespace Ui {
 	class SaveVariables;
 }
 
-class SaveVariables: public QWidget, public FileTab {
+class SaveVariables: public QWidget, public EditorTab {
 	Q_OBJECT
 	class Var: public QAbstractTableModel {
 	};
