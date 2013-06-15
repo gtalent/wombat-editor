@@ -31,7 +31,6 @@ class SaveVariables: public QWidget, public EditorTab {
 		bool saveFile();
 
 	protected slots:
-		void addVar(QString name, QString type, QString val);
 		void addVar(QString name, modelmaker::unknown *val);
 		void addClicked();
 		void editCurrentVar();
