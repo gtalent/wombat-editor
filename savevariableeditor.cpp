@@ -1,12 +1,12 @@
 #include "savevariableeditor.hpp"
 #include "ui_savevariableeditor.h"
 
-SaveVariableEditor::SaveVariableEditor(QWidget *parent, unknown *val): QDialog(parent), ui(new Ui::SaveVariableEditor) {
+SaveVariableEditor::SaveVariableEditor(QWidget *parent, QString key, unknown *val): QDialog(parent), ui(new Ui::SaveVariableEditor) {
 	ui->setupUi(this);
-	ui->leValue->hide();
-	ui->sbValue->hide();
+	ui->leName->setText(key);
 	updateType(ui->cbType->currentText());
-	updateValue(val);
+	if (val)
+		updateValue(val);
 }
 
 SaveVariableEditor::~SaveVariableEditor() {
@@ -16,22 +16,26 @@ SaveVariableEditor::~SaveVariableEditor() {
 void SaveVariableEditor::updateValue(unknown *v) {
 	if (v->isBool()) {
 		ui->cbValue->setCurrentText(v->toBool() ? "True" : "False");
+		updateType("Bool");
 	} else if (v->isString()) {
 		ui->leValue->setText(QString(v->toString().c_str()));
+		updateType("String");
 	} else if (v->isInt()) {
 		ui->sbValue->setValue(v->toInt());
+		updateType("Number");
 	}
 }
 
 unknown* SaveVariableEditor::getValue() {
 	unknown *v = new unknown();
 	QString t = ui->cbType->currentText();
-	if (t == "Bool")
+	if (t == "Bool") {
 		v->set(ui->cbValue->currentText() == "True");
-	else if (t == "Number")
+	} else if (t == "Number") {
 		v->set(ui->sbValue->value());
-	else if (t == "String")
+	} else if (t == "String") {
 		v->set(ui->leValue->text().toStdString());
+	}
 	return v;
 }
 

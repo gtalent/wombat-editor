@@ -53,23 +53,27 @@ void SaveVariables::addVar(QString name, QString type, QString val) {
 void SaveVariables::addClicked() {
 	unknown u;
 	u.set(false);
-	SaveVariableEditor editor(this, &u);
+	SaveVariableEditor editor(this, "", &u);
 	editor.setWindowTitle("Add Variable...");
 	if (editor.exec()) {
 		std::pair<string, unknown*> p = editor.getVar();
 		m_file.vars[p.first] = *p.second;
 		addVar(QString(p.first.c_str()), p.second);
+		notifyFileChange();
 	}
 }
 
 void SaveVariables::editCurrentVar() {
 	int row = ui->tblVars->currentItem()->row();
-	string key = ui->tblVars->item(row, 0)->text().toStdString();
-	SaveVariableEditor editor(this, &m_file.vars[key]);
-	m_file.vars.erase(key);
-	editor.exec();
-	std::pair<string, unknown*> p = editor.getVar();
-	m_file.vars[p.first].set(p.second);
+	QString key = ui->tblVars->item(row, 0)->text();
+	SaveVariableEditor editor(this, key, &m_file.vars[key.toStdString()]);
+	m_file.vars.erase(key.toStdString());
+	if (editor.exec()) {
+		std::pair<string, unknown*> p = editor.getVar();
+		ui->tblVars->setItem(ui->tblVars->rowCount() - 1, 0, new QTableWidgetItem(QString(p.first.c_str())));
+		m_file.vars[p.first].set(p.second);
+		notifyFileChange();
+	}
 }
 
 void SaveVariables::removeClicked() {
@@ -80,6 +84,7 @@ void SaveVariables::removeClicked() {
 	if (ui->tblVars->currentIndex().row() == -1) {
 		ui->btnRemove->setEnabled(false);
 		ui->btnEdit->setEnabled(false);
+		notifyFileChange();
 	}
 }
 

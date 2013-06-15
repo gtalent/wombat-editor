@@ -1,6 +1,8 @@
 #ifndef SAVEVARIABLEEDITOR_HPP
 #define SAVEVARIABLEEDITOR_HPP
 
+#include <string>
+
 #include <QDialog>
 
 #include "models/modelmakerdefs.hpp"
@@ -18,7 +20,7 @@ class SaveVariableEditor: public QDialog {
 		Ui::SaveVariableEditor *ui;
 
 	public:
-		explicit SaveVariableEditor(QWidget *parent, unknown *val);
+		explicit SaveVariableEditor(QWidget *parent, QString key = "", unknown *val = 0);
 		~SaveVariableEditor();
 		std::pair<string, unknown*> getVar();
 
