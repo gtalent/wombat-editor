@@ -4,9 +4,10 @@
 SaveVariableEditor::SaveVariableEditor(QWidget *parent, QString key, unknown *val): QDialog(parent), ui(new Ui::SaveVariableEditor) {
 	ui->setupUi(this);
 	ui->leName->setText(key);
-	updateType(ui->cbType->currentText());
 	if (val)
 		updateValue(val);
+	else // set default type if there is no value
+		updateType("Bool");
 }
 
 SaveVariableEditor::~SaveVariableEditor() {
@@ -51,13 +52,16 @@ void SaveVariableEditor::updateType(QString t) {
 		ui->cbValue->show();
 		ui->leValue->hide();
 		ui->sbValue->hide();
+		ui->cbType->setCurrentText("Bool");
 	} else if (t == "String") {
 		ui->cbValue->hide();
 		ui->leValue->show();
 		ui->sbValue->hide();
+		ui->cbType->setCurrentText("String");
 	} else if (t == "Number") {
 		ui->cbValue->hide();
 		ui->leValue->hide();
 		ui->sbValue->show();
+		ui->cbType->setCurrentText("Number");
 	}
 }
