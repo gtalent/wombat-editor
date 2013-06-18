@@ -9,15 +9,17 @@
 #include "savevariables.hpp"
 #include "ui_savevariables.h"
 
-using namespace std;
+using modelmaker::unknown;
 
-SaveVariables::SaveVariables(QString path, QWidget *parent): QWidget(parent), ui(new Ui::SaveVariables) {
+SaveVariables::SaveVariables(QString path, QWidget *parent): QWidget(parent), EditorTab(parent), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_path = path;
 	m_file.loadFile(path.toStdString());
 	for (map<string, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
-		addVar(QString(i->first.c_str()), &m_file.vars[i->first]);
+		//clone the mapped var because addVar re-sets the value in the map, and that causes wierdness
+		unknown unk(&m_file.vars[i->first]);
+		addVar(i->first, &unk);
 	}
 }
 
@@ -25,7 +27,7 @@ SaveVariables::~SaveVariables() {
 	delete ui;
 }
 
-void SaveVariables::addVar(QString name, unknown *val) {
+void SaveVariables::insertVar(int row, string name, unknown *val) {
 	string v = "N/A";
 	QString type = "N/A";
 	std::stringstream s;
@@ -41,13 +43,30 @@ void SaveVariables::addVar(QString name, unknown *val) {
 	}
 	s >> v;
 
-	ui->tblVars->setRowCount(ui->tblVars->rowCount() + 1);
-	ui->tblVars->setItem(ui->tblVars->rowCount() - 1, 0, new QTableWidgetItem(name));
-	ui->tblVars->setItem(ui->tblVars->rowCount() - 1, 1, new QTableWidgetItem(type));
+	ui->tblVars->insertRow(row);
+	ui->tblVars->setItem(row, 0, new QTableWidgetItem(QString(name.c_str())));
+	ui->tblVars->setItem(row, 1, new QTableWidgetItem(type));
 	if (type == "Bool")
-		ui->tblVars->setItem(ui->tblVars->rowCount() - 1, 2, new QTableWidgetItem(QString(v.c_str()) == "0" ? "False" : "True"));
+		ui->tblVars->setItem(row, 2, new QTableWidgetItem(QString(v.c_str()) == "0" ? "False" : "True"));
 	else
-		ui->tblVars->setItem(ui->tblVars->rowCount() - 1, 2, new QTableWidgetItem(QString(v.c_str())));
+		ui->tblVars->setItem(row, 2, new QTableWidgetItem(QString(v.c_str())));
+	m_file.vars.erase(name);
+	m_file.vars.insert(make_pair(name, unknown()));
+	m_file.vars[name].set(val);
+}
+
+void SaveVariables::addVar(string name, unknown *val) {
+	insertVar(ui->tblVars->rowCount(), name, val);
+}
+
+void SaveVariables::removeVar(int row) {
+	string key = ui->tblVars->item(row, 0)->text().toStdString();
+	m_file.vars.erase(key);
+	ui->tblVars->removeRow(row);
+	if (ui->tblVars->currentIndex().row() == -1) {
+		ui->btnRemove->setEnabled(false);
+		ui->btnEdit->setEnabled(false);
+	}
 }
 
 void SaveVariables::addClicked() {
@@ -62,11 +81,9 @@ void SaveVariables::addClicked() {
 				exists = true;
 			}
 		}
-		m_file.vars[stdStrName].set(p.second);
 
 		if (!exists) {
-			addVar(QString(p.first.c_str()), p.second);
-			notifyFileChange();
+			notifyFileChange(new AddVarCommand(this, p.first, p.second));
 			break;
 		} else {
 			QMessageBox alert;
@@ -80,6 +97,7 @@ void SaveVariables::editCurrentVar() {
 	int row = ui->tblVars->currentItem()->row();
 	QString key = ui->tblVars->item(row, 0)->text();
 	SaveVariableEditor editor(this, key, &m_file.vars[key.toStdString()]);
+	editor.setWindowTitle("Edit Variable...");
 	for (bool done = false; !done;) {
 		if (editor.exec()) {
 			std::pair<string, unknown*> nv = editor.getVar();
@@ -98,26 +116,7 @@ void SaveVariables::editCurrentVar() {
 			}
 			
 			if (!exists) {
-				QString type;
-				std::stringstream s;
-				if (nv.second->isString()) {
-					type = "String";
-					s << nv.second->toString();
-				} else if (nv.second->isInt()) {
-					type = "Number";
-					s << nv.second->toInt();
-				} else if (nv.second->isBool()) {
-					type = "Bool";
-					s << (nv.second->toBool() ? "True" : "False");
-				}
-				string tmp;
-				s >> tmp;
-				QString val(tmp.c_str());
-
-				ui->tblVars->setItem(row, 0, new QTableWidgetItem(QString(nv.first.c_str())));
-				ui->tblVars->setItem(row, 1, new QTableWidgetItem(type));
-				ui->tblVars->setItem(row, 2, new QTableWidgetItem(val));
-				m_file.vars[nv.first].set(nv.second);
+				setVar(row, nv.first, nv.second);
 				notifyFileChange();
 				done = true;
 			} else {
@@ -131,16 +130,33 @@ void SaveVariables::editCurrentVar() {
 	}
 }
 
+void SaveVariables::setVar(int row, string name, unknown *val) {
+	QString type;
+	std::stringstream s;
+	if (val->isString()) {
+		type = "String";
+		s << val->toString();
+	} else if (val->isInt()) {
+		type = "Number";
+		s << val->toInt();
+	} else if (val->isBool()) {
+		type = "Bool";
+		s << (val->toBool() ? "True" : "False");
+	}
+	string tmp;
+	s >> tmp;
+	QString valStr(tmp.c_str());
+	
+	ui->tblVars->setItem(row, 0, new QTableWidgetItem(QString(name.c_str())));
+	ui->tblVars->setItem(row, 1, new QTableWidgetItem(type));
+	ui->tblVars->setItem(row, 2, new QTableWidgetItem(valStr));
+	m_file.vars[name].set(val);
+}
+
 void SaveVariables::removeClicked() {
 	int row = ui->tblVars->currentItem()->row();
 	string key = ui->tblVars->item(row, 0)->text().toStdString();
-	m_file.vars.erase(key);
-	ui->tblVars->removeRow(row);
-	if (ui->tblVars->currentIndex().row() == -1) {
-		ui->btnRemove->setEnabled(false);
-		ui->btnEdit->setEnabled(false);
-	}
-	notifyFileChange();
+	notifyFileChange(new RemoveVarCommand(this, key, &m_file.vars[key]));
 }
 
 void SaveVariables::tableClicked(QModelIndex) {
@@ -150,6 +166,51 @@ void SaveVariables::tableClicked(QModelIndex) {
 
 bool SaveVariables::saveFile() {
 	m_file.writeFile(m_path.toStdString());
-	notifyFileChange();
+	notifyFileSave();
 	return false;
+}
+	
+int SaveVariables::rowOfKey(string key) {
+	for (int i = 0; i < ui->tblVars->rowCount(); i++) {
+		string row = ui->tblVars->item(i, 0)->text().toStdString();
+		if (row == key) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+SaveVariables::AddVarCommand::AddVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk) {
+	m_parent = parent;
+	m_varName = name;
+	m_varVal = new unknown();
+	m_varVal->set(unk);
+}
+
+void SaveVariables::AddVarCommand::undo() {
+	int row = m_parent->rowOfKey(m_varName);
+	if (row != -1)
+		m_parent->removeVar(row); 
+}
+
+void SaveVariables::AddVarCommand::redo() {
+	m_parent->addVar(m_varName, m_varVal);
+}
+
+SaveVariables::RemoveVarCommand::RemoveVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk) {
+	m_parent = parent;
+	m_varName = name;
+	m_varVal = new unknown();
+	m_varVal->set(unk);
+}
+
+void SaveVariables::RemoveVarCommand::undo() {
+	if (m_varTblRow != -1)
+		m_parent->insertVar(m_varTblRow, m_varName, m_varVal);
+}
+
+void SaveVariables::RemoveVarCommand::redo() {
+	m_varTblRow = m_parent->rowOfKey(m_varName);
+	if (m_varTblRow != -1)
+		m_parent->removeVar(m_varTblRow);
 }

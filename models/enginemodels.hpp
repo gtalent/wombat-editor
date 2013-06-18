@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include <json/json.h>
+#include <jansson.h>
 #include "modelmakerdefs.hpp"
 
 
@@ -21,16 +21,14 @@ class CreatureType: public modelmaker::Model {
 
 		CreatureType();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, string > name;
+		map< string, string > name;
 		bool special;
-		vector<string > strongAgainst;
-		vector<string > weakAgainst;
+		vector< string > strongAgainst;
+		vector< string > weakAgainst;
 };
 
 }
@@ -44,11 +42,9 @@ class StatusEffect: public modelmaker::Model {
 
 		StatusEffect();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int attackerEffect;
 		int enemyEffect;
@@ -65,11 +61,9 @@ class Fraction: public modelmaker::Model {
 
 		Fraction();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int current;
 		int available;
@@ -86,11 +80,9 @@ class ModelFile: public modelmaker::Model {
 
 		ModelFile();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		string type;
 };
@@ -106,11 +98,9 @@ class Point: public modelmaker::Model {
 
 		Point();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int x;
 		int y;
@@ -127,11 +117,9 @@ class Size: public modelmaker::Model {
 
 		Size();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int width;
 		int height;
@@ -148,13 +136,11 @@ class CreatureMove: public modelmaker::Model {
 
 		CreatureMove();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, string > name;
+		map< string, string > name;
 		string type;
 		int power;
 		bool requiresRegarge;
@@ -177,11 +163,9 @@ class CreatureMoveInstance: public modelmaker::Model {
 
 		CreatureMoveInstance();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int creatureMove;
 		Fraction pP;
@@ -198,14 +182,12 @@ class Creature: public modelmaker::Model {
 
 		Creature();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int iD;
-		map<string, string > name;
+		map< string, string > name;
 		string creatureClass;
 		bool male;
 		int level;
@@ -218,7 +200,7 @@ class Creature: public modelmaker::Model {
 		bool frozen;
 		bool poisoned;
 		bool asleep;
-		vector<CreatureMoveInstance > moves;
+		vector< CreatureMoveInstance > moves;
 };
 
 }
@@ -232,11 +214,9 @@ class User: public modelmaker::Model {
 
 		User();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int personID;
 		string world;
@@ -257,11 +237,9 @@ class ZoneInstance: public modelmaker::Model {
 
 		ZoneInstance();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		string accessorID;
 		string path;
@@ -279,11 +257,9 @@ class Image: public modelmaker::Model {
 
 		Image();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		Size size;
 		string path;
@@ -300,11 +276,9 @@ class ZoneHeader: public modelmaker::Model {
 
 		ZoneHeader();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		string path;
 		Size size;
@@ -321,14 +295,12 @@ class Animation: public modelmaker::Model {
 
 		Animation();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int interval;
-		vector<Image > images;
+		vector< Image > images;
 };
 
 }
@@ -342,11 +314,9 @@ class AnimLayer: public modelmaker::Model {
 
 		AnimLayer();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		Point point;
 		Animation animation;
@@ -363,13 +333,11 @@ class SaveFile: public modelmaker::Model {
 
 		SaveFile();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, modelmaker::unknown > vars;
+		map< string, modelmaker::unknown > vars;
 		User user;
 };
 
@@ -384,18 +352,16 @@ class CreatureClass: public modelmaker::Model {
 
 		CreatureClass();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, string > name;
+		map< string, string > name;
 		string successor;
 		string predecessor;
-		vector<string > types;
-		vector<string > canLearn;
-		map<int, string > learnsAtLevel;
+		vector< string > types;
+		vector< string > canLearn;
+		map< int, string > learnsAtLevel;
 		Animation frontView;
 		Animation backView;
 };
@@ -411,16 +377,14 @@ class TileClass: public modelmaker::Model {
 
 		TileClass();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int terrainFlags;
 		string import;
-		vector<AnimLayer > lowerAnims;
-		vector<AnimLayer > upperAnims;
+		vector< AnimLayer > lowerAnims;
+		vector< AnimLayer > upperAnims;
 };
 
 }
@@ -434,16 +398,14 @@ class PersonClass: public modelmaker::Model {
 
 		PersonClass();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		int iD;
-		map<string, string > name;
-		vector<int > creatures;
-		vector<Animation > overhead;
+		map< string, string > name;
+		vector< int > creatures;
+		vector< Animation > overhead;
 		Animation frontView;
 		Animation backView;
 };
@@ -459,11 +421,9 @@ class Person: public modelmaker::Model {
 
 		Person();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		PersonClass personClass;
 };
@@ -479,13 +439,11 @@ class World: public modelmaker::Model {
 
 		World();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		vector<ZoneInstance > zones;
+		vector< ZoneInstance > zones;
 };
 
 }
@@ -499,13 +457,11 @@ class Sprite: public modelmaker::Model {
 
 		Sprite();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		vector<vector<AnimLayer > > animLayers;
+		vector< vector< AnimLayer > > animLayers;
 		int spriteType;
 		int personID;
 		int speed;
@@ -525,11 +481,9 @@ class Tile: public modelmaker::Model {
 
 		Tile();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
-
-		json_object* buildJsonObj();
+		json_t* buildJsonObj();
 
 		TileClass tileClass;
 		Sprite occupant;
@@ -546,14 +500,12 @@ class Zone: public modelmaker::Model {
 
 		Zone();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		vector<vector<vector<Tile > > > tiles;
-		vector<string > initScripts;
+		vector< vector< vector< Tile > > > tiles;
+		vector< string > initScripts;
 		Point location;
 };
 

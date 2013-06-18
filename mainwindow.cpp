@@ -11,7 +11,6 @@
 #include "newproject.hpp"
 #include "ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 	m_currentTab = 0;
@@ -25,14 +24,16 @@ MainWindow::~MainWindow() {
 
 void MainWindow::newMenu() {
 	NewMenu menu(this, "");
-	menu.exec();
-	QString nw = menu.newWhat();
-	if (nw == "Project") {
-		NewProject np(this);
-		np.exec();
-		QString p = np.projectDir();
-		if (p != "") {
-			openProject(p);
+	if (menu.exec()) {
+		QString nw = menu.newWhat();
+		if (nw == "Project") {
+			NewProject np(this);
+			if (np.exec()) {
+				QString p = np.projectDir();
+				if (p != "") {
+					openProject(p);
+				}
+			}
 		}
 	}
 }
@@ -83,13 +84,11 @@ void MainWindow::openFile(QModelIndex index) {
 
 void MainWindow::import() {
 	ImportMenu menu(this);
-	menu.exec();
-	QString iw = menu.importWhat();
+	if (menu.exec()) {
+		QString iw = menu.importWhat();
 
-	if (iw == "Image") {
-		NewProject np(this);
-		np.exec();
-		openProject(np.projectDir());
+		if (iw == "Image") {
+		}
 	}
 }
 
@@ -105,4 +104,14 @@ void MainWindow::fileSaved() {
 
 void MainWindow::fileChanged() {
 	ui->actionSave->setEnabled(true);
+}
+
+void MainWindow::undo() {
+	if (m_currentTab)
+		m_currentTab->undo();
+}
+
+void MainWindow::redo() {
+	if (m_currentTab)
+		m_currentTab->redo();
 }

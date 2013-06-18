@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include <json/json.h>
+#include <jansson.h>
 #include "modelmakerdefs.hpp"
 
 
@@ -21,13 +21,11 @@ class SaveVariables: public modelmaker::Model {
 
 		SaveVariables();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, modelmaker::unknown > vars;
+		map< string, modelmaker::unknown > vars;
 };
 
 }
@@ -41,13 +39,11 @@ class EditorSettings: public modelmaker::Model {
 
 		EditorSettings();
 
-		void load(string text);
+		bool load_json_t(json_t *obj);
 
-		bool load(json_object *obj);
+		json_t* buildJsonObj();
 
-		json_object* buildJsonObj();
-
-		map<string, modelmaker::unknown > settings;
+		map< string, modelmaker::unknown > settings;
 };
 
 }

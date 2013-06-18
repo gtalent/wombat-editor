@@ -24,7 +24,6 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
 
-	private:
 		void openProject(QString);
 
 	public slots:
@@ -33,6 +32,8 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		void openFile(QModelIndex);
 		void import();
 		void saveFile();
+		void undo();
+		void redo();
 
 		void fileSaved();
 		void fileChanged();

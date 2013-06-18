@@ -47,4 +47,4 @@ RESOURCES += \
     rsrc.qrc
 
 unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += json
+unix: PKGCONFIG += jansson

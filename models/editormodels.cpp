@@ -11,21 +11,23 @@ SaveVariables::SaveVariables() {
 EditorSettings::EditorSettings() {
 }
 
-bool SaveVariables::load(json_object *in) {
+bool SaveVariables::load_json_t(json_t *in) {
 	{
-		json_object *obj0 = json_object_object_get(in, "Vars");
-		if (obj0 != NULL) {
-			if (obj0 != NULL && json_object_get_type(obj0) == json_type_object) {
-				json_object_object_foreach(obj0, key, obj1) {
-					string i;
-					{
-						std::stringstream s;
-						s << key;
-						s >> i;
-					}
-					{
-						this->vars[i].load(obj1);
-					}
+		json_t *obj0 = json_object_get(in, "Vars");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
+			const char *key;
+			json_t *obj1;
+			json_object_foreach(obj0, key, obj1) {
+				string i;
+				{
+					std::stringstream s;
+					s << key;
+					s >> i;
+				}
+				modelmaker::unknown val;
+				this->vars.insert(make_pair(i, val));
+				{
+					this->vars[i].load_json_t(obj1);
 				}
 			}
 		}
@@ -33,21 +35,23 @@ bool SaveVariables::load(json_object *in) {
 	return true;
 }
 
-bool EditorSettings::load(json_object *in) {
+bool EditorSettings::load_json_t(json_t *in) {
 	{
-		json_object *obj0 = json_object_object_get(in, "Settings");
-		if (obj0 != NULL) {
-			if (obj0 != NULL && json_object_get_type(obj0) == json_type_object) {
-				json_object_object_foreach(obj0, key, obj1) {
-					string i;
-					{
-						std::stringstream s;
-						s << key;
-						s >> i;
-					}
-					{
-						this->settings[i].load(obj1);
-					}
+		json_t *obj0 = json_object_get(in, "Settings");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
+			const char *key;
+			json_t *obj1;
+			json_object_foreach(obj0, key, obj1) {
+				string i;
+				{
+					std::stringstream s;
+					s << key;
+					s >> i;
+				}
+				modelmaker::unknown val;
+				this->settings.insert(make_pair(i, val));
+				{
+					this->settings[i].load_json_t(obj1);
 				}
 			}
 		}
@@ -55,36 +59,40 @@ bool EditorSettings::load(json_object *in) {
 	return true;
 }
 
-json_object* SaveVariables::buildJsonObj() {
-	json_object *obj = json_object_new_object();
+json_t* SaveVariables::buildJsonObj() {
+	json_t *obj = json_object();
 	{
-		json_object *out1 = json_object_new_object();
-		for (map<string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); n++) {
+		json_t *out1 = json_object();
+		for (map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
 			std::stringstream s;
 			string key;
 			s << n->first;
 			s >> key;
-			json_object *out0 = this->vars[n->first].buildJsonObj();
-			json_object_object_add(out1, key.c_str(), out0);
+			json_t *out0 = this->vars[n->first].buildJsonObj();
+			json_object_set(out1, key.c_str(), out0);
+			json_decref(out0);
 		}
-		json_object_object_add(obj, "Vars", out1);
+		json_object_set(obj, "Vars", out1);
+		json_decref(out1);
 	}
 	return obj;
 }
 
-json_object* EditorSettings::buildJsonObj() {
-	json_object *obj = json_object_new_object();
+json_t* EditorSettings::buildJsonObj() {
+	json_t *obj = json_object();
 	{
-		json_object *out1 = json_object_new_object();
-		for (map<string, modelmaker::unknown >::iterator n = this->settings.begin(); n != this->settings.end(); n++) {
+		json_t *out1 = json_object();
+		for (map< string, modelmaker::unknown >::iterator n = this->settings.begin(); n != this->settings.end(); ++n) {
 			std::stringstream s;
 			string key;
 			s << n->first;
 			s >> key;
-			json_object *out0 = this->settings[n->first].buildJsonObj();
-			json_object_object_add(out1, key.c_str(), out0);
+			json_t *out0 = this->settings[n->first].buildJsonObj();
+			json_object_set(out1, key.c_str(), out0);
+			json_decref(out0);
 		}
-		json_object_object_add(obj, "Settings", out1);
+		json_object_set(obj, "Settings", out1);
+		json_decref(out1);
 	}
 	return obj;
 }
