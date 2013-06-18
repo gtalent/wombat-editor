@@ -48,8 +48,8 @@ class SaveVariables: public QWidget, public EditorTab {
 		class EditVarCommand: public QUndoCommand {
 			private:
 				string m_varName;
-				modelmaker::unknown *m_varVal;
-				int m_varTblRow;
+				modelmaker::unknown m_newVal;
+				modelmaker::unknown m_oldVal;
 				SaveVariables *m_parent;
 
 			public:

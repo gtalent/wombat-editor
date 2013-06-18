@@ -116,8 +116,8 @@ void SaveVariables::editCurrentVar() {
 			}
 			
 			if (!exists) {
-				setVar(row, nv.first, nv.second);
-				notifyFileChange();
+				notifyFileChange(new EditVarCommand(this, key.toStdString(), nv.second));
+				delete nv.second;
 				done = true;
 			} else {
 				QMessageBox alert;
@@ -213,4 +213,21 @@ void SaveVariables::RemoveVarCommand::redo() {
 	m_varTblRow = m_parent->rowOfKey(m_varName);
 	if (m_varTblRow != -1)
 		m_parent->removeVar(m_varTblRow);
+}
+
+SaveVariables::EditVarCommand::EditVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk) {
+	m_parent = parent;
+	m_varName = name;
+	m_newVal.set(unk);
+	m_oldVal.set(&(m_parent->m_file.vars[name]));
+}
+
+void SaveVariables::EditVarCommand::undo() {
+	int row = m_parent->rowOfKey(m_varName);
+	m_parent->setVar(row, m_varName, &m_oldVal);
+}
+
+void SaveVariables::EditVarCommand::redo() {
+	int row = m_parent->rowOfKey(m_varName);
+	m_parent->setVar(row, m_varName, &m_newVal);
 }
