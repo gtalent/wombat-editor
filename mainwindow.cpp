@@ -2,8 +2,6 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 
-#include <iostream>
-
 #include "mainwindow.hpp"
 #include "newmenu.hpp"
 #include "savevariables.hpp"

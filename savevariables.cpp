@@ -10,6 +10,7 @@
 #include "ui_savevariables.h"
 
 using modelmaker::unknown;
+using namespace std;
 
 SaveVariables::SaveVariables(QString path, QWidget *parent): QWidget(parent), EditorTab(parent), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
@@ -18,8 +19,7 @@ SaveVariables::SaveVariables(QString path, QWidget *parent): QWidget(parent), Ed
 	m_file.loadFile(path.toStdString());
 	for (map<string, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
 		//clone the mapped var because addVar re-sets the value in the map, and that causes wierdness
-		unknown unk(&m_file.vars[i->first]);
-		addVar(i->first, &unk);
+		tblInsertVar(ui->tblVars->rowCount(), i->first, &m_file.vars[i->first]);
 	}
 }
 
@@ -27,7 +27,7 @@ SaveVariables::~SaveVariables() {
 	delete ui;
 }
 
-void SaveVariables::insertVar(int row, string name, unknown *val) {
+void SaveVariables::tblInsertVar(int row, string name, unknown *val) {
 	string v = "N/A";
 	QString type = "N/A";
 	std::stringstream s;
@@ -50,13 +50,13 @@ void SaveVariables::insertVar(int row, string name, unknown *val) {
 		ui->tblVars->setItem(row, 2, new QTableWidgetItem(QString(v.c_str()) == "0" ? "False" : "True"));
 	else
 		ui->tblVars->setItem(row, 2, new QTableWidgetItem(QString(v.c_str())));
-	m_file.vars.erase(name);
-	m_file.vars.insert(make_pair(name, unknown()));
-	m_file.vars[name].set(val);
 }
 
 void SaveVariables::addVar(string name, unknown *val) {
-	insertVar(ui->tblVars->rowCount(), name, val);
+	tblInsertVar(ui->tblVars->rowCount(), name, val);
+	m_file.vars.erase(name);
+	m_file.vars.insert(make_pair(name, unknown()));
+	m_file.vars[name].set(val);
 }
 
 void SaveVariables::removeVar(int row) {
@@ -205,8 +205,12 @@ SaveVariables::RemoveVarCommand::RemoveVarCommand(SaveVariables *parent, string 
 }
 
 void SaveVariables::RemoveVarCommand::undo() {
-	if (m_varTblRow != -1)
-		m_parent->insertVar(m_varTblRow, m_varName, m_varVal);
+	if (m_varTblRow != -1) {
+		m_parent->tblInsertVar(m_varTblRow, m_varName, m_varVal);
+		m_parent->m_file.vars.erase(m_varName);
+		m_parent->m_file.vars.insert(make_pair(m_varName, unknown()));
+		m_parent->m_file.vars[m_varName].set(m_varVal);
+	}
 }
 
 void SaveVariables::RemoveVarCommand::redo() {

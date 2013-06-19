@@ -69,8 +69,9 @@ class SaveVariables: public QWidget, public EditorTab {
 
 	protected:
 		void addVar(string name, modelmaker::unknown *val);
-		void insertVar(int row, string name, modelmaker::unknown *val);
+		void tblInsertVar(int row, string name, modelmaker::unknown *val);
 		void setVar(int row, string name, modelmaker::unknown *val);
+		void removeVar(int row);
 
 	private:
 		int rowOfKey(string key);
@@ -79,7 +80,6 @@ class SaveVariables: public QWidget, public EditorTab {
 		bool saveFile();
 
 	protected slots:
-		void removeVar(int row);
 		void addClicked();
 		void editCurrentVar();
 		void removeClicked();
