@@ -1,4 +1,3 @@
-#include <iostream>
 #include <map>
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
