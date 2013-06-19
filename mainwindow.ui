@@ -76,7 +76,10 @@
    <addaction name="actionNewMenu"/>
    <addaction name="actionOpenProject"/>
    <addaction name="actionSave"/>
+   <addaction name="separator"/>
    <addaction name="actionImport"/>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -199,6 +202,9 @@
    </property>
   </action>
   <action name="actionUndo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Undo</string>
    </property>
@@ -207,6 +213,9 @@
    </property>
   </action>
   <action name="actionRedo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Redo</string>
    </property>

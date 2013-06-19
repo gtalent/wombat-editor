@@ -195,6 +195,5 @@
   <slot>removeClicked()</slot>
   <slot>tableClicked(QModelIndex)</slot>
   <slot>editCurrentVar()</slot>
-  <slot>tblDblClicked()</slot>
  </slots>
 </ui>

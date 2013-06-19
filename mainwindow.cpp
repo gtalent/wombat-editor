@@ -22,11 +22,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::newMenu() {
 	NewMenu menu(this, "");
-	if (menu.exec()) {
+	if (!menu.exec()) {
 		QString nw = menu.newWhat();
 		if (nw == "Project") {
 			NewProject np(this);
-			if (np.exec()) {
+			if (!np.exec()) {
 				QString p = np.projectDir();
 				if (p != "") {
 					openProject(p);
@@ -102,14 +102,22 @@ void MainWindow::fileSaved() {
 
 void MainWindow::fileChanged() {
 	ui->actionSave->setEnabled(true);
+	ui->actionUndo->setEnabled(m_currentTab->canUndo());
+	ui->actionRedo->setEnabled(m_currentTab->canRedo());
 }
 
 void MainWindow::undo() {
-	if (m_currentTab)
+	if (m_currentTab) {
 		m_currentTab->undo();
+		ui->actionUndo->setEnabled(m_currentTab->canUndo());
+		ui->actionRedo->setEnabled(m_currentTab->canRedo());
+	}
 }
 
 void MainWindow::redo() {
-	if (m_currentTab)
+	if (m_currentTab) {
 		m_currentTab->redo();
+		ui->actionUndo->setEnabled(m_currentTab->canUndo());
+		ui->actionRedo->setEnabled(m_currentTab->canRedo());
+	}
 }

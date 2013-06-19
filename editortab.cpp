@@ -1,7 +1,5 @@
 #include "editortab.hpp"
 
-using namespace std;
-
 EditorTab::EditorTab(QWidget *win) {
 	m_hasUnsavedChanges = false;
 	m_undoStack = new QUndoStack(win);
@@ -34,12 +32,13 @@ void EditorTab::updateListeners() {
 }
 
 void EditorTab::notifyFileChange(QUndoCommand *uc) {
+	if (uc) {
+		m_undoStack->push(uc);
+		m_lastCommand = m_undoStack->command(m_undoStack->index());
+	}
 	for (unsigned i = 0; i < m_listeners.size(); i++) {
 		m_listeners[i]->fileChanged();
 	}
-	if (uc)
-		m_undoStack->push(uc);
-	m_lastCommand = m_undoStack->command(m_undoStack->index());
 }
 
 void EditorTab::notifyFileSave() {
@@ -53,7 +52,7 @@ void EditorTab::undo() {
 	if (m_undoStack->canUndo()) {
 		m_undoStack->undo();
 		if (m_undoStack->canUndo()) {
-			m_lastCommand = m_undoStack->command(m_undoStack->index() - 1);
+			m_lastCommand = m_undoStack->command(m_undoStack->index());
 		} else {
 			//this is being used to signify the bottom of the stack
 			m_lastCommand = (QUndoCommand*) this;
@@ -69,7 +68,7 @@ void EditorTab::undo() {
 void EditorTab::redo() {
 	if (m_undoStack->canRedo()) {
 		m_undoStack->redo();
-		m_lastCommand = m_undoStack->command(m_undoStack->index() - 1);
+		m_lastCommand = m_undoStack->command(m_undoStack->index());
 
 		if (m_lastSavedCommand == m_lastCommand)
 			notifyFileSave();
@@ -79,9 +78,9 @@ void EditorTab::redo() {
 }
 
 bool EditorTab::canUndo() {
-	return m_undoStack->canUndo();
+	return (void*) m_lastCommand != (void*) this;
 }
 
 bool EditorTab::canRedo() {
-	return m_undoStack->canRedo();
+	return (void*) m_lastCommand != (void*) 0;
 }
