@@ -14,7 +14,7 @@ namespace Ui {
 	class SaveVariables;
 }
 
-class SaveVariables: public QWidget, public EditorTab {
+class SaveVariables: public EditorTab {
 	Q_OBJECT
 
 	private:
@@ -64,7 +64,7 @@ class SaveVariables: public QWidget, public EditorTab {
 		editormodels::SaveVariables m_file;
 	
 	public:
-		explicit SaveVariables(QString path, QWidget *parent = 0);
+		explicit SaveVariables(QWidget *parent, std::string path);
 		~SaveVariables();
 
 	protected:

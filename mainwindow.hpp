@@ -18,7 +18,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		Ui::MainWindow *ui;
 		EditorTab *m_currentTab;
 		QString m_projectDir;
-		std::map<QString, QWidget*> m_openTabs;
+		std::map<std::string, EditorTab*> m_openTabs;
 
 	public:
 		explicit MainWindow(QWidget *parent = 0);
@@ -34,6 +34,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		void saveFile();
 		void undo();
 		void redo();
+		void closeTab(int index);
 
 		void fileSaved();
 		void fileChanged();

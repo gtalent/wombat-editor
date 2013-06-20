@@ -388,6 +388,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>tabCloseRequested(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>closeTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>537</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newMenu()</slot>
@@ -397,5 +413,6 @@
   <slot>saveFile()</slot>
   <slot>undo()</slot>
   <slot>redo()</slot>
+  <slot>closeTab(int)</slot>
  </slots>
 </ui>

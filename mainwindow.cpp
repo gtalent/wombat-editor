@@ -1,13 +1,18 @@
+#include <map>
+
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>
 
 #include "mainwindow.hpp"
+#include "editortab.hpp"
 #include "newmenu.hpp"
 #include "savevariables.hpp"
 #include "importmenu.hpp"
 #include "newproject.hpp"
 #include "ui_mainwindow.h"
+
+using std::make_pair;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -68,14 +73,15 @@ void MainWindow::openProject(QString path) {
 
 void MainWindow::openFile(QModelIndex index) {
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	EditorTab *tab;
 	if (m_projectDir + "Misc/SaveVariables.json" == path) {
 		//open save variables tab
-		if (!m_openTabs[path]) {
-			SaveVariables *sv = new SaveVariables(path, ui->tabWidget);
-			sv->addListener(this);
-			ui->tabWidget->addTab(sv, "SaveVariables.json");
-			m_openTabs[path] = sv;
-			m_currentTab = sv;
+		if (!m_openTabs[path.toStdString()]) {
+			tab = new SaveVariables(ui->tabWidget, path.toStdString());
+			tab->addListener(this);
+			ui->tabWidget->addTab(tab, "SaveVariables.json");
+			m_openTabs[path.toStdString()] = tab;
+			m_currentTab = tab;
 		}
 	}
 }
@@ -88,22 +94,6 @@ void MainWindow::import() {
 		if (iw == "Image") {
 		}
 	}
-}
-
-void MainWindow::saveFile() {
-	EditorTab *t = m_currentTab;
-	if (t)
-		t->saveFile();
-}
-
-void MainWindow::fileSaved() {
-	ui->actionSave->setEnabled(false);
-}
-
-void MainWindow::fileChanged() {
-	ui->actionSave->setEnabled(true);
-	ui->actionUndo->setEnabled(m_currentTab->canUndo());
-	ui->actionRedo->setEnabled(m_currentTab->canRedo());
 }
 
 void MainWindow::undo() {
@@ -120,4 +110,30 @@ void MainWindow::redo() {
 		ui->actionUndo->setEnabled(m_currentTab->canUndo());
 		ui->actionRedo->setEnabled(m_currentTab->canRedo());
 	}
+}
+
+void MainWindow::closeTab(int index) {
+	EditorTab *t = (EditorTab*) ui->tabWidget->widget(index);
+	ui->actionUndo->setEnabled(false);
+	ui->actionRedo->setEnabled(false);
+	t->close();
+	m_openTabs[t->path()] = 0;
+	m_openTabs.erase(m_openTabs.find(t->path()));
+	delete t;
+}
+
+void MainWindow::saveFile() {
+	EditorTab *t = m_currentTab;
+	if (t)
+		t->saveFile();
+}
+
+void MainWindow::fileSaved() {
+	ui->actionSave->setEnabled(false);
+}
+
+void MainWindow::fileChanged() {
+	ui->actionSave->setEnabled(true);
+	ui->actionUndo->setEnabled(m_currentTab->canUndo());
+	ui->actionRedo->setEnabled(m_currentTab->canRedo());
 }
