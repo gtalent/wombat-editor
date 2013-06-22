@@ -58,7 +58,11 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTreeView" name="fileList"/>
+      <widget class="QTreeView" name="fileList">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -76,8 +80,8 @@
    <addaction name="actionNewMenu"/>
    <addaction name="actionOpenProject"/>
    <addaction name="actionSave"/>
-   <addaction name="separator"/>
    <addaction name="actionImport"/>
+   <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
   </widget>
@@ -414,5 +418,6 @@
   <slot>undo()</slot>
   <slot>redo()</slot>
   <slot>closeTab(int)</slot>
+  <slot>filePaneContextMenu(QPoint)</slot>
  </slots>
 </ui>

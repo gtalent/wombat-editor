@@ -1,8 +1,10 @@
+#include <iostream>
 #include <map>
 
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>
+#include <QMenu>
 
 #include "mainwindow.hpp"
 #include "editortab.hpp"
@@ -14,8 +16,32 @@
 
 using std::make_pair;
 
+string defaultPaths[] = {
+	"Animations",
+	"Creatures",
+	"Creatures/Classes",
+	"Creatures/Moves",
+	"Creatures/Types",
+	"Instances/Creatures",
+	"Instances/People",
+	"Items",
+	"Misc",
+	"Misc/SaveVariables.json",
+	"People",
+	"People/Classes",
+	"Resources",
+	"Resources/Images",
+	"Worlds",
+	"Worlds/Sprites",
+	"Worlds/TileClasses",
+	"Worlds/Worlds",
+	"Worlds/Zones"
+};
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
+	// for some reason this can't be done QtDesigner
+	connect(ui->fileList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filePaneContextMenu(QPoint)));
 	m_currentTab = 0;
 }
 
@@ -58,6 +84,7 @@ void MainWindow::openProject(QString path) {
 		delete ui->fileList->model();
 
 	QFileSystemModel *model = new QFileSystemModel();
+	m_fsModel = model;
 	ui->fileList->setModel(model);
 	ui->fileList->setHeaderHidden(true);
 	for (int i = 1; i < 4; i++) {
@@ -87,13 +114,7 @@ void MainWindow::openFile(QModelIndex index) {
 }
 
 void MainWindow::import() {
-	ImportMenu menu(this);
-	if (menu.exec()) {
-		QString iw = menu.importWhat();
-
-		if (iw == "Image") {
-		}
-	}
+	ImportMenu(this, m_projectDir).run();
 }
 
 void MainWindow::undo() {
@@ -120,6 +141,37 @@ void MainWindow::closeTab(int index) {
 	m_openTabs[t->path()] = 0;
 	m_openTabs.erase(m_openTabs.find(t->path()));
 	delete t;
+}
+
+void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
+	QModelIndex index = ui->fileList->currentIndex();
+	QPoint p = ui->fileList->mapToGlobal(itemPt);
+	QMenu m;
+
+	string path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath().toStdString();
+	string projectDir = m_projectDir.toStdString();
+
+	if (path != "") {
+		bool fileDeletable = true;
+		unsigned long size = sizeof(defaultPaths) / sizeof(string);
+		for (unsigned long i = 0; i < size; i++) {
+			if (path == projectDir + defaultPaths[i]) {
+				fileDeletable = false;
+				break;
+			}
+		}
+		if (fileDeletable) {
+			m.addAction("&Delete");
+			QAction *qaction = m.exec(p);
+
+			if (qaction) {
+				string action = qaction->text().toStdString();
+				if (action == "&Delete") {
+					QFile::remove(QString(path.c_str()));
+				}
+			}
+		}
+	}
 }
 
 void MainWindow::saveFile() {

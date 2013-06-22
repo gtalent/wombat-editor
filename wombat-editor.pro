@@ -48,3 +48,5 @@ RESOURCES += \
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += jansson
+
+OTHER_FILES +=

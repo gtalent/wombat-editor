@@ -15,17 +15,39 @@ using std::map;
 
 namespace editormodels {
 
-class SaveVariables: public modelmaker::Model {
+class Bounds: public modelmaker::Model {
 
 	public:
 
-		SaveVariables();
+		Bounds();
 
 		bool load_json_t(json_t *obj);
 
 		json_t* buildJsonObj();
 
-		map< string, modelmaker::unknown > vars;
+		int x;
+		int y;
+		int width;
+		int height;
+};
+
+}
+
+
+namespace editormodels {
+
+class DockSettings: public modelmaker::Model {
+
+	public:
+
+		DockSettings();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		bool docked;
+		Bounds undocked;
 };
 
 }
@@ -43,7 +65,25 @@ class EditorSettings: public modelmaker::Model {
 
 		json_t* buildJsonObj();
 
-		map< string, modelmaker::unknown > settings;
+		map< string, DockSettings > dockBounds;
+};
+
+}
+
+
+namespace editormodels {
+
+class SaveVariables: public modelmaker::Model {
+
+	public:
+
+		SaveVariables();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		map< string, modelmaker::unknown > vars;
 };
 
 }

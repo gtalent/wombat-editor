@@ -2,6 +2,7 @@
 #define IMPORTMENU_HPP
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 	class ImportMenu;
@@ -9,16 +10,16 @@ namespace Ui {
 
 class ImportMenu: public QDialog {
 	Q_OBJECT
-
-	public:
-		explicit ImportMenu(QWidget *parent = 0);
-		~ImportMenu();
-
-		QString importWhat();
 	private:
 		Ui::ImportMenu *ui;
 
-		QString strImportWhat;
+		QString m_projectDir;
+
+	public:
+		explicit ImportMenu(QWidget *parent, QString projectDir);
+		~ImportMenu();
+
+		void run();
 };
 
 #endif // IMPORTMENU_HPP

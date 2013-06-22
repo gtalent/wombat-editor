@@ -3,8 +3,10 @@
 
 #include <map>
 
+#include <QFileSystemModel>
 #include <QModelIndex>
 #include <QMainWindow>
+#include <QPoint>
 
 #include "editortab.hpp"
 
@@ -19,6 +21,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		EditorTab *m_currentTab;
 		QString m_projectDir;
 		std::map<std::string, EditorTab*> m_openTabs;
+		QFileSystemModel *m_fsModel;
 
 	public:
 		explicit MainWindow(QWidget *parent = 0);
@@ -35,6 +38,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		void undo();
 		void redo();
 		void closeTab(int index);
+		void filePaneContextMenu(const QPoint &p);
 
 		void fileSaved();
 		void fileChanged();

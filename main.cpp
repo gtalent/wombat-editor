@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+	w.openProject("/home/gary/WombatProject1");
     
     return a.exec();
 }

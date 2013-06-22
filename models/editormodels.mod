@@ -1,5 +1,15 @@
+Bounds
+	X		int
+	Y		int
+	Width	int
+	Height	int
+
+DockSettings
+	Docked		bool
+	Undocked	Bounds
+
 SaveVariables
 	Vars map[string]unknown
 
 EditorSettings
-	Settings map[string]unknown
+	DockBounds map[string]DockSettings

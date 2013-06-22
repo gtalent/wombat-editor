@@ -24,7 +24,7 @@
     <widget class="QListWidget" name="options">
      <item>
       <property name="text">
-       <string>Image</string>
+       <string>Images</string>
       </property>
      </item>
      <item>
@@ -77,6 +77,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>options</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ImportMenu</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>189</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>125</y>
     </hint>
    </hints>
   </connection>
