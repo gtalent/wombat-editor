@@ -52,16 +52,19 @@ void SaveVariableEditor::updateType(QString t) {
 		ui->cbValue->show();
 		ui->leValue->hide();
 		ui->sbValue->hide();
+		ui->lblValue->setBuddy(ui->cbValue);
 		ui->cbType->setCurrentText("Bool");
 	} else if (t == "String") {
 		ui->cbValue->hide();
 		ui->leValue->show();
 		ui->sbValue->hide();
+		ui->lblValue->setBuddy(ui->leValue);
 		ui->cbType->setCurrentText("String");
 	} else if (t == "Number") {
 		ui->cbValue->hide();
 		ui->leValue->hide();
 		ui->sbValue->show();
+		ui->lblValue->setBuddy(ui->sbValue);
 		ui->cbType->setCurrentText("Number");
 	}
 }
