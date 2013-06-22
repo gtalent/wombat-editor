@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     models/modelmakerdefs.cpp \
     models/enginemodels.cpp \
     models/editormodels.cpp \
-    savevariableeditor.cpp
+    savevariableeditor.cpp \
+    imagegallery.cpp
 
 HEADERS  += mainwindow.hpp \
     newmenu.hpp \
@@ -34,14 +35,16 @@ HEADERS  += mainwindow.hpp \
     models/modelmakerdefs.hpp \
     models/enginemodels.hpp \
     models/editormodels.hpp \
-    savevariableeditor.hpp
+    savevariableeditor.hpp \
+    imagegallery.hpp
 
 FORMS    += mainwindow.ui \
     newmenu.ui \
     newproject.ui \
     savevariables.ui \
     importmenu.ui \
-    savevariableeditor.ui
+    savevariableeditor.ui \
+    imagegallery.ui
 
 RESOURCES += \
     rsrc.qrc

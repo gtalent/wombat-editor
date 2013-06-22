@@ -105,7 +105,6 @@ void SaveVariables::editCurrentVar() {
 			bool exists = false;
 			if (key.toStdString() != nv.first) { // if a variable by this name already exists
 				// delete the old value from the list in case the name changed
-				m_file.vars.erase(key.toStdString());
 				for (map<string, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); ++i) {
 					if (i->first == nv.first) {
 						exists = true;
@@ -115,7 +114,7 @@ void SaveVariables::editCurrentVar() {
 			}
 			
 			if (!exists) {
-				notifyFileChange(new EditVarCommand(this, key.toStdString(), nv.second));
+				notifyFileChange(new EditVarCommand(this, key.toStdString(), nv.first, nv.second));
 				delete nv.second;
 				done = true;
 			} else {
@@ -145,7 +144,7 @@ void SaveVariables::setVar(int row, string name, unknown *val) {
 	string tmp;
 	s >> tmp;
 	QString valStr(tmp.c_str());
-	
+
 	ui->tblVars->setItem(row, 0, new QTableWidgetItem(QString(name.c_str())));
 	ui->tblVars->setItem(row, 1, new QTableWidgetItem(type));
 	ui->tblVars->setItem(row, 2, new QTableWidgetItem(valStr));
@@ -164,7 +163,7 @@ void SaveVariables::tableClicked(QModelIndex) {
 }
 
 bool SaveVariables::saveFile() {
-	m_file.writeFile(m_path.toStdString());
+	m_file.writeFile(m_path);
 	notifyFileSave();
 	return false;
 }
@@ -218,19 +217,28 @@ void SaveVariables::RemoveVarCommand::redo() {
 		m_parent->removeVar(m_varTblRow);
 }
 
-SaveVariables::EditVarCommand::EditVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk) {
+SaveVariables::EditVarCommand::EditVarCommand(SaveVariables *parent, string name, string newName, modelmaker::unknown *unk) {
 	m_parent = parent;
 	m_varName = name;
+	m_newVarName = newName;
 	m_newVal.set(unk);
 	m_oldVal.set(&(m_parent->m_file.vars[name]));
 }
 
 void SaveVariables::EditVarCommand::undo() {
-	int row = m_parent->rowOfKey(m_varName);
+	int row = m_parent->rowOfKey(m_newVarName);
+	if (m_varName != m_newVarName) { // if a variable by this name already exists
+		m_parent->m_file.vars.erase(m_newVarName);
+		m_parent->m_file.vars[m_varName] = unknown();
+	}
 	m_parent->setVar(row, m_varName, &m_oldVal);
 }
 
 void SaveVariables::EditVarCommand::redo() {
 	int row = m_parent->rowOfKey(m_varName);
-	m_parent->setVar(row, m_varName, &m_newVal);
+	if (m_varName != m_newVarName) { // if a variable by this name already exists
+		m_parent->m_file.vars.erase(m_varName);
+		m_parent->m_file.vars[m_newVarName] = unknown();
+	}
+	m_parent->setVar(row, m_newVarName, &m_newVal);
 }

@@ -48,19 +48,19 @@ class SaveVariables: public EditorTab {
 		class EditVarCommand: public QUndoCommand {
 			private:
 				string m_varName;
+				string m_newVarName;
 				modelmaker::unknown m_newVal;
 				modelmaker::unknown m_oldVal;
 				SaveVariables *m_parent;
 
 			public:
-				EditVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk);
+				EditVarCommand(SaveVariables *parent, string name, string newName, modelmaker::unknown *unk);
 				void undo();
 				void redo();
 		};
 
 	private:
 		Ui::SaveVariables *ui;
-		QString m_path;
 		editormodels::SaveVariables m_file;
 	
 	public:
