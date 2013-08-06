@@ -2,13 +2,14 @@
 #define SAVEVARIABLES_H
 
 #include <string>
+
 #include <QWidget>
 #include <QAbstractTableModel>
 #include <QTableWidgetItem>
 #include <QUndoCommand>
 
 #include "editortab.hpp"
-#include "models/editormodels.hpp"
+#include "models/enginemodels.hpp"
 
 namespace Ui {
 	class SaveVariables;
@@ -61,10 +62,10 @@ class SaveVariables: public EditorTab {
 
 	private:
 		Ui::SaveVariables *ui;
-		editormodels::SaveVariables m_file;
+		enginemodels::SaveVariables m_file;
 	
 	public:
-		explicit SaveVariables(QWidget *parent, std::string path);
+		explicit SaveVariables(QWidget *parent, QString path);
 		~SaveVariables();
 
 	protected:

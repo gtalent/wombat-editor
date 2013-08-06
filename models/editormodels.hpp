@@ -71,22 +71,4 @@ class EditorSettings: public modelmaker::Model {
 }
 
 
-namespace editormodels {
-
-class SaveVariables: public modelmaker::Model {
-
-	public:
-
-		SaveVariables();
-
-		bool load_json_t(json_t *obj);
-
-		json_t* buildJsonObj();
-
-		map< string, modelmaker::unknown > vars;
-};
-
-}
-
-
 #endif

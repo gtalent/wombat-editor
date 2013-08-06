@@ -7,6 +7,13 @@ EditorTab::EditorTab(QWidget *parent, std::string path): QWidget(parent) {
 	m_path = path;
 }
 
+EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
+	m_hasUnsavedChanges = false;
+	m_undoStack = new QUndoStack(parent);
+	m_lastCommand = m_lastSavedCommand = (QUndoCommand*) this;
+	m_path = path.toStdString();
+}
+
 EditorTab::~EditorTab() {
 	delete m_undoStack;
 }

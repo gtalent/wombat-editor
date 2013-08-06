@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 TARGET = WombatEditor
 TEMPLATE = app
@@ -23,9 +23,13 @@ SOURCES += main.cpp \
     models/enginemodels.cpp \
     models/editormodels.cpp \
     savevariableeditor.cpp \
-    imagegallery.cpp
+    animationeditor.cpp \
+    imageselector.cpp \
+    spritesheeteditor.cpp \
+    newspritesheet.cpp
 
 HEADERS  += mainwindow.hpp \
+    globs.hpp \
     newmenu.hpp \
     newproject.hpp \
     savevariables.hpp \
@@ -36,7 +40,10 @@ HEADERS  += mainwindow.hpp \
     models/enginemodels.hpp \
     models/editormodels.hpp \
     savevariableeditor.hpp \
-    imagegallery.hpp
+    animationeditor.hpp \
+    imageselector.hpp \
+    spritesheeteditor.hpp \
+    newspritesheet.hpp
 
 FORMS    += mainwindow.ui \
     newmenu.ui \
@@ -44,7 +51,10 @@ FORMS    += mainwindow.ui \
     savevariables.ui \
     importmenu.ui \
     savevariableeditor.ui \
-    imagegallery.ui
+    animationeditor.ui \
+    imageselector.ui \
+    spritesheeteditor.ui \
+    newspritesheet.ui
 
 RESOURCES += \
     rsrc.qrc

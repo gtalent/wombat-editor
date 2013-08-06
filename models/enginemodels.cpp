@@ -33,6 +33,24 @@ Size::Size() {
 	this->height = 0;
 }
 
+Bounds::Bounds() {
+	this->x = 0;
+	this->y = 0;
+	this->width = 0;
+	this->height = 0;
+}
+
+SaveVariables::SaveVariables() {
+}
+
+SpriteSheet::SpriteSheet() {
+	this->tilesWide = 0;
+	this->tilesHigh = 0;
+	this->tileWidth = 0;
+	this->tileHeight = 0;
+	this->src = "";
+}
+
 CreatureMove::CreatureMove() {
 	this->type = "";
 	this->power = 0;
@@ -74,11 +92,14 @@ ZoneInstance::ZoneInstance() {
 }
 
 Image::Image() {
-	this->path = "";
+	this->imgId = 0;
 }
 
-ZoneHeader::ZoneHeader() {
-	this->path = "";
+ImageSrc::ImageSrc() {
+	this->srcFile = "";
+}
+
+ImageMap::ImageMap() {
 }
 
 Animation::Animation() {
@@ -96,21 +117,6 @@ CreatureClass::CreatureClass() {
 	this->predecessor = "";
 }
 
-TileClass::TileClass() {
-	this->terrainFlags = 0;
-	this->import = "";
-}
-
-PersonClass::PersonClass() {
-	this->iD = 0;
-}
-
-Person::Person() {
-}
-
-World::World() {
-}
-
 Sprite::Sprite() {
 	this->spriteType = 0;
 	this->personID = 0;
@@ -120,7 +126,26 @@ Sprite::Sprite() {
 	this->scriptPath = "";
 }
 
+TileClass::TileClass() {
+	this->terrainFlags = 0;
+	this->import = "";
+}
+
+ZoneHeader::ZoneHeader() {
+	this->path = "";
+}
+
+PersonClass::PersonClass() {
+	this->iD = 0;
+}
+
+Person::Person() {
+}
+
 Tile::Tile() {
+}
+
+World::World() {
 }
 
 Zone::Zone() {
@@ -140,7 +165,7 @@ bool CreatureType::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->name.insert(make_pair(i, val));
+				this->name.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->name[i] = json_string_value(obj1);
@@ -195,7 +220,7 @@ bool StatusEffect::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "AttackerEffect");
 		{
 			if (json_is_integer(obj0)) {
-				this->attackerEffect = json_integer_value(obj0);
+				this->attackerEffect = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -203,7 +228,7 @@ bool StatusEffect::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "EnemyEffect");
 		{
 			if (json_is_integer(obj0)) {
-				this->enemyEffect = json_integer_value(obj0);
+				this->enemyEffect = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -215,7 +240,7 @@ bool Fraction::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Current");
 		{
 			if (json_is_integer(obj0)) {
-				this->current = json_integer_value(obj0);
+				this->current = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -223,7 +248,7 @@ bool Fraction::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Available");
 		{
 			if (json_is_integer(obj0)) {
-				this->available = json_integer_value(obj0);
+				this->available = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -247,7 +272,7 @@ bool Point::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "X");
 		{
 			if (json_is_integer(obj0)) {
-				this->x = json_integer_value(obj0);
+				this->x = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -255,7 +280,7 @@ bool Point::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Y");
 		{
 			if (json_is_integer(obj0)) {
-				this->y = json_integer_value(obj0);
+				this->y = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -267,7 +292,7 @@ bool Size::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Width");
 		{
 			if (json_is_integer(obj0)) {
-				this->width = json_integer_value(obj0);
+				this->width = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -275,7 +300,126 @@ bool Size::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Height");
 		{
 			if (json_is_integer(obj0)) {
-				this->height = json_integer_value(obj0);
+				this->height = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool Bounds::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "X");
+		{
+			if (json_is_integer(obj0)) {
+				this->x = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Y");
+		{
+			if (json_is_integer(obj0)) {
+				this->y = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Width");
+		{
+			if (json_is_integer(obj0)) {
+				this->width = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Height");
+		{
+			if (json_is_integer(obj0)) {
+				this->height = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool SaveVariables::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "Vars");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
+			const char *key;
+			json_t *obj1;
+			json_object_foreach(obj0, key, obj1) {
+				string i;
+				{
+					std::stringstream s;
+					s << key;
+					s >> i;
+				}
+				modelmaker::unknown val;
+				this->vars.insert(std::make_pair(i, val));
+				{
+					this->vars[i].load_json_t(obj1);
+				}
+			}
+		}
+	}
+	return true;
+}
+
+bool SpriteSheet::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "TilesWide");
+		{
+			if (json_is_integer(obj0)) {
+				this->tilesWide = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "TilesHigh");
+		{
+			if (json_is_integer(obj0)) {
+				this->tilesHigh = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "TileWidth");
+		{
+			if (json_is_integer(obj0)) {
+				this->tileWidth = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "TileHeight");
+		{
+			if (json_is_integer(obj0)) {
+				this->tileHeight = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Src");
+		{
+			if (json_is_string(obj0)) {
+				this->src = json_string_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Images");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
+			unsigned int size = json_array_size(obj0);
+			this->images.resize(size);
+			for (unsigned int i = 0; i < size; i++) {
+				json_t *obj1 = json_array_get(obj0, i);
+				{
+					if (json_is_object(obj1)) {
+						this->images[i].load_json_t(obj1);
+					}
+				}
 			}
 		}
 	}
@@ -296,7 +440,7 @@ bool CreatureMove::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->name.insert(make_pair(i, val));
+				this->name.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->name[i] = json_string_value(obj1);
@@ -317,7 +461,7 @@ bool CreatureMove::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Power");
 		{
 			if (json_is_integer(obj0)) {
-				this->power = json_integer_value(obj0);
+				this->power = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -385,7 +529,7 @@ bool CreatureMoveInstance::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "CreatureMove");
 		{
 			if (json_is_integer(obj0)) {
-				this->creatureMove = json_integer_value(obj0);
+				this->creatureMove = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -405,7 +549,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "ID");
 		{
 			if (json_is_integer(obj0)) {
-				this->iD = json_integer_value(obj0);
+				this->iD = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -422,7 +566,7 @@ bool Creature::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->name.insert(make_pair(i, val));
+				this->name.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->name[i] = json_string_value(obj1);
@@ -451,7 +595,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Level");
 		{
 			if (json_is_integer(obj0)) {
-				this->level = json_integer_value(obj0);
+				this->level = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -467,7 +611,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Attack");
 		{
 			if (json_is_integer(obj0)) {
-				this->attack = json_integer_value(obj0);
+				this->attack = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -475,7 +619,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "SpecAttack");
 		{
 			if (json_is_integer(obj0)) {
-				this->specAttack = json_integer_value(obj0);
+				this->specAttack = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -483,7 +627,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Defense");
 		{
 			if (json_is_integer(obj0)) {
-				this->defense = json_integer_value(obj0);
+				this->defense = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -491,7 +635,7 @@ bool Creature::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "SpecDefense");
 		{
 			if (json_is_integer(obj0)) {
-				this->specDefense = json_integer_value(obj0);
+				this->specDefense = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -550,7 +694,7 @@ bool User::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "PersonID");
 		{
 			if (json_is_integer(obj0)) {
-				this->personID = json_integer_value(obj0);
+				this->personID = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -574,7 +718,7 @@ bool User::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "XAddress");
 		{
 			if (json_is_integer(obj0)) {
-				this->xAddress = json_integer_value(obj0);
+				this->xAddress = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -582,7 +726,7 @@ bool User::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "YAddress");
 		{
 			if (json_is_integer(obj0)) {
-				this->yAddress = json_integer_value(obj0);
+				this->yAddress = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -590,7 +734,7 @@ bool User::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Layer");
 		{
 			if (json_is_integer(obj0)) {
-				this->layer = json_integer_value(obj0);
+				this->layer = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -627,38 +771,64 @@ bool ZoneInstance::load_json_t(json_t *in) {
 
 bool Image::load_json_t(json_t *in) {
 	{
-		json_t *obj0 = json_object_get(in, "Size");
+		json_t *obj0 = json_object_get(in, "ImgId");
 		{
-			if (json_is_object(obj0)) {
-				this->size.load_json_t(obj0);
+			if (json_is_integer(obj0)) {
+				this->imgId = (int) json_integer_value(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Path");
+		json_t *obj0 = json_object_get(in, "DefaultSize");
 		{
-			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
+			if (json_is_object(obj0)) {
+				this->defaultSize.load_json_t(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool ZoneHeader::load_json_t(json_t *in) {
+bool ImageSrc::load_json_t(json_t *in) {
 	{
-		json_t *obj0 = json_object_get(in, "Path");
+		json_t *obj0 = json_object_get(in, "SrcFile");
 		{
 			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
+				this->srcFile = json_string_value(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Size");
+		json_t *obj0 = json_object_get(in, "Bounds");
 		{
 			if (json_is_object(obj0)) {
-				this->size.load_json_t(obj0);
+				this->bounds.load_json_t(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool ImageMap::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "Images");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
+			const char *key;
+			json_t *obj1;
+			json_object_foreach(obj0, key, obj1) {
+				int i;
+				{
+					std::stringstream s;
+					s << key;
+					s >> i;
+				}
+				ImageSrc val;
+				this->images.insert(std::make_pair(i, val));
+				{
+					if (json_is_object(obj1)) {
+						this->images[i].load_json_t(obj1);
+					}
+				}
 			}
 		}
 	}
@@ -670,7 +840,7 @@ bool Animation::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Interval");
 		{
 			if (json_is_integer(obj0)) {
-				this->interval = json_integer_value(obj0);
+				this->interval = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -726,7 +896,7 @@ bool SaveFile::load_json_t(json_t *in) {
 					s >> i;
 				}
 				modelmaker::unknown val;
-				this->vars.insert(make_pair(i, val));
+				this->vars.insert(std::make_pair(i, val));
 				{
 					this->vars[i].load_json_t(obj1);
 				}
@@ -758,7 +928,7 @@ bool CreatureClass::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->name.insert(make_pair(i, val));
+				this->name.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->name[i] = json_string_value(obj1);
@@ -826,7 +996,7 @@ bool CreatureClass::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->learnsAtLevel.insert(make_pair(i, val));
+				this->learnsAtLevel.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->learnsAtLevel[i] = json_string_value(obj1);
@@ -854,12 +1024,86 @@ bool CreatureClass::load_json_t(json_t *in) {
 	return true;
 }
 
+bool Sprite::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "AnimLayers");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
+			unsigned int size = json_array_size(obj0);
+			this->animLayers.resize(size);
+			for (unsigned int i = 0; i < size; i++) {
+				json_t *obj1 = json_array_get(obj0, i);
+				if (obj1 != NULL && json_typeof(obj1) == JSON_ARRAY) {
+					unsigned int size = json_array_size(obj1);
+					this->animLayers[i].resize(size);
+					for (unsigned int ii = 0; ii < size; ii++) {
+						json_t *obj2 = json_array_get(obj1, ii);
+						{
+							if (json_is_object(obj2)) {
+								this->animLayers[i][ii].load_json_t(obj2);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "SpriteType");
+		{
+			if (json_is_integer(obj0)) {
+				this->spriteType = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "PersonID");
+		{
+			if (json_is_integer(obj0)) {
+				this->personID = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Speed");
+		{
+			if (json_is_integer(obj0)) {
+				this->speed = (int) json_integer_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Name");
+		{
+			if (json_is_string(obj0)) {
+				this->name = json_string_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Path");
+		{
+			if (json_is_string(obj0)) {
+				this->path = json_string_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "ScriptPath");
+		{
+			if (json_is_string(obj0)) {
+				this->scriptPath = json_string_value(obj0);
+			}
+		}
+	}
+	return true;
+}
+
 bool TileClass::load_json_t(json_t *in) {
 	{
 		json_t *obj0 = json_object_get(in, "TerrainFlags");
 		{
 			if (json_is_integer(obj0)) {
-				this->terrainFlags = json_integer_value(obj0);
+				this->terrainFlags = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -904,12 +1148,32 @@ bool TileClass::load_json_t(json_t *in) {
 	return true;
 }
 
+bool ZoneHeader::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "Path");
+		{
+			if (json_is_string(obj0)) {
+				this->path = json_string_value(obj0);
+			}
+		}
+	}
+	{
+		json_t *obj0 = json_object_get(in, "Size");
+		{
+			if (json_is_object(obj0)) {
+				this->size.load_json_t(obj0);
+			}
+		}
+	}
+	return true;
+}
+
 bool PersonClass::load_json_t(json_t *in) {
 	{
 		json_t *obj0 = json_object_get(in, "ID");
 		{
 			if (json_is_integer(obj0)) {
-				this->iD = json_integer_value(obj0);
+				this->iD = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -926,7 +1190,7 @@ bool PersonClass::load_json_t(json_t *in) {
 					s >> i;
 				}
 				string val;
-				this->name.insert(make_pair(i, val));
+				this->name.insert(std::make_pair(i, val));
 				{
 					if (json_is_string(obj1)) {
 						this->name[i] = json_string_value(obj1);
@@ -944,7 +1208,7 @@ bool PersonClass::load_json_t(json_t *in) {
 				json_t *obj1 = json_array_get(obj0, i);
 				{
 					if (json_is_integer(obj1)) {
-						this->creatures[i] = json_integer_value(obj1);
+						this->creatures[i] = (int) json_integer_value(obj1);
 					}
 				}
 			}
@@ -996,99 +1260,6 @@ bool Person::load_json_t(json_t *in) {
 	return true;
 }
 
-bool World::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "Zones");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
-			this->zones.resize(size);
-			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
-				{
-					if (json_is_object(obj1)) {
-						this->zones[i].load_json_t(obj1);
-					}
-				}
-			}
-		}
-	}
-	return true;
-}
-
-bool Sprite::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "AnimLayers");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
-			this->animLayers.resize(size);
-			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
-				if (obj1 != NULL && json_typeof(obj1) == JSON_ARRAY) {
-					unsigned int size = json_array_size(obj1);
-					this->animLayers[i].resize(size);
-					for (unsigned int ii = 0; ii < size; ii++) {
-						json_t *obj2 = json_array_get(obj1, ii);
-						{
-							if (json_is_object(obj2)) {
-								this->animLayers[i][ii].load_json_t(obj2);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "SpriteType");
-		{
-			if (json_is_integer(obj0)) {
-				this->spriteType = json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "PersonID");
-		{
-			if (json_is_integer(obj0)) {
-				this->personID = json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Speed");
-		{
-			if (json_is_integer(obj0)) {
-				this->speed = json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Name");
-		{
-			if (json_is_string(obj0)) {
-				this->name = json_string_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Path");
-		{
-			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "ScriptPath");
-		{
-			if (json_is_string(obj0)) {
-				this->scriptPath = json_string_value(obj0);
-			}
-		}
-	}
-	return true;
-}
-
 bool Tile::load_json_t(json_t *in) {
 	{
 		json_t *obj0 = json_object_get(in, "TileClass");
@@ -1103,6 +1274,25 @@ bool Tile::load_json_t(json_t *in) {
 		{
 			if (json_is_object(obj0)) {
 				this->occupant.load_json_t(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool World::load_json_t(json_t *in) {
+	{
+		json_t *obj0 = json_object_get(in, "Zones");
+		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
+			unsigned int size = json_array_size(obj0);
+			this->zones.resize(size);
+			for (unsigned int i = 0; i < size; i++) {
+				json_t *obj1 = json_array_get(obj0, i);
+				{
+					if (json_is_object(obj1)) {
+						this->zones[i].load_json_t(obj1);
+					}
+				}
 			}
 		}
 	}
@@ -1275,6 +1465,90 @@ json_t* Size::buildJsonObj() {
 		json_t *out0 = json_integer(this->height);
 		json_object_set(obj, "Height", out0);
 		json_decref(out0);
+	}
+	return obj;
+}
+
+json_t* Bounds::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out0 = json_integer(this->x);
+		json_object_set(obj, "X", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->y);
+		json_object_set(obj, "Y", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->width);
+		json_object_set(obj, "Width", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->height);
+		json_object_set(obj, "Height", out0);
+		json_decref(out0);
+	}
+	return obj;
+}
+
+json_t* SaveVariables::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out1 = json_object();
+		for (map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
+			std::stringstream s;
+			string key;
+			s << n->first;
+			s >> key;
+			json_t *out0 = this->vars[n->first].buildJsonObj();
+			json_object_set(out1, key.c_str(), out0);
+			json_decref(out0);
+		}
+		json_object_set(obj, "Vars", out1);
+		json_decref(out1);
+	}
+	return obj;
+}
+
+json_t* SpriteSheet::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out0 = json_integer(this->tilesWide);
+		json_object_set(obj, "TilesWide", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->tilesHigh);
+		json_object_set(obj, "TilesHigh", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->tileWidth);
+		json_object_set(obj, "TileWidth", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->tileHeight);
+		json_object_set(obj, "TileHeight", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_string(this->src.c_str());
+		json_object_set(obj, "Src", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out1 = json_array();
+		for (unsigned int i = 0; i < this->images.size(); i++) {
+			json_t *out0 = this->images[i].buildJsonObj();
+			json_array_append(out1, out0);
+			json_decref(out0);
+		}
+		json_object_set(obj, "Images", out1);
+		json_decref(out1);
 	}
 	return obj;
 }
@@ -1510,29 +1784,48 @@ json_t* ZoneInstance::buildJsonObj() {
 json_t* Image::buildJsonObj() {
 	json_t *obj = json_object();
 	{
-		json_t *out0 = this->size.buildJsonObj();
-		json_object_set(obj, "Size", out0);
+		json_t *out0 = json_integer(this->imgId);
+		json_object_set(obj, "ImgId", out0);
 		json_decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
+		json_t *out0 = this->defaultSize.buildJsonObj();
+		json_object_set(obj, "DefaultSize", out0);
 		json_decref(out0);
 	}
 	return obj;
 }
 
-json_t* ZoneHeader::buildJsonObj() {
+json_t* ImageSrc::buildJsonObj() {
 	json_t *obj = json_object();
 	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
+		json_t *out0 = json_string(this->srcFile.c_str());
+		json_object_set(obj, "SrcFile", out0);
 		json_decref(out0);
 	}
 	{
-		json_t *out0 = this->size.buildJsonObj();
-		json_object_set(obj, "Size", out0);
+		json_t *out0 = this->bounds.buildJsonObj();
+		json_object_set(obj, "Bounds", out0);
 		json_decref(out0);
+	}
+	return obj;
+}
+
+json_t* ImageMap::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out1 = json_object();
+		for (map< int, ImageSrc >::iterator n = this->images.begin(); n != this->images.end(); ++n) {
+			std::stringstream s;
+			string key;
+			s << n->first;
+			s >> key;
+			json_t *out0 = this->images[n->first].buildJsonObj();
+			json_object_set(out1, key.c_str(), out0);
+			json_decref(out0);
+		}
+		json_object_set(obj, "Images", out1);
+		json_decref(out1);
 	}
 	return obj;
 }
@@ -1669,6 +1962,56 @@ json_t* CreatureClass::buildJsonObj() {
 	return obj;
 }
 
+json_t* Sprite::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out2 = json_array();
+		for (unsigned int i = 0; i < this->animLayers.size(); i++) {
+			json_t *out1 = json_array();
+			for (unsigned int ii = 0; ii < this->animLayers[i].size(); ii++) {
+				json_t *out0 = this->animLayers[i][ii].buildJsonObj();
+				json_array_append(out1, out0);
+				json_decref(out0);
+			}
+			json_array_append(out2, out1);
+			json_decref(out1);
+		}
+		json_object_set(obj, "AnimLayers", out2);
+		json_decref(out2);
+	}
+	{
+		json_t *out0 = json_integer(this->spriteType);
+		json_object_set(obj, "SpriteType", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->personID);
+		json_object_set(obj, "PersonID", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_integer(this->speed);
+		json_object_set(obj, "Speed", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_string(this->name.c_str());
+		json_object_set(obj, "Name", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_string(this->path.c_str());
+		json_object_set(obj, "Path", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = json_string(this->scriptPath.c_str());
+		json_object_set(obj, "ScriptPath", out0);
+		json_decref(out0);
+	}
+	return obj;
+}
+
 json_t* TileClass::buildJsonObj() {
 	json_t *obj = json_object();
 	{
@@ -1700,6 +2043,21 @@ json_t* TileClass::buildJsonObj() {
 		}
 		json_object_set(obj, "UpperAnims", out1);
 		json_decref(out1);
+	}
+	return obj;
+}
+
+json_t* ZoneHeader::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out0 = json_string(this->path.c_str());
+		json_object_set(obj, "Path", out0);
+		json_decref(out0);
+	}
+	{
+		json_t *out0 = this->size.buildJsonObj();
+		json_object_set(obj, "Size", out0);
+		json_decref(out0);
 	}
 	return obj;
 }
@@ -1768,71 +2126,6 @@ json_t* Person::buildJsonObj() {
 	return obj;
 }
 
-json_t* World::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out1 = json_array();
-		for (unsigned int i = 0; i < this->zones.size(); i++) {
-			json_t *out0 = this->zones[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
-		}
-		json_object_set(obj, "Zones", out1);
-		json_decref(out1);
-	}
-	return obj;
-}
-
-json_t* Sprite::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out2 = json_array();
-		for (unsigned int i = 0; i < this->animLayers.size(); i++) {
-			json_t *out1 = json_array();
-			for (unsigned int ii = 0; ii < this->animLayers[i].size(); ii++) {
-				json_t *out0 = this->animLayers[i][ii].buildJsonObj();
-				json_array_append(out1, out0);
-				json_decref(out0);
-			}
-			json_array_append(out2, out1);
-			json_decref(out1);
-		}
-		json_object_set(obj, "AnimLayers", out2);
-		json_decref(out2);
-	}
-	{
-		json_t *out0 = json_integer(this->spriteType);
-		json_object_set(obj, "SpriteType", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->personID);
-		json_object_set(obj, "PersonID", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->speed);
-		json_object_set(obj, "Speed", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_string(this->name.c_str());
-		json_object_set(obj, "Name", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_string(this->scriptPath.c_str());
-		json_object_set(obj, "ScriptPath", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
 json_t* Tile::buildJsonObj() {
 	json_t *obj = json_object();
 	{
@@ -1844,6 +2137,21 @@ json_t* Tile::buildJsonObj() {
 		json_t *out0 = this->occupant.buildJsonObj();
 		json_object_set(obj, "Occupant", out0);
 		json_decref(out0);
+	}
+	return obj;
+}
+
+json_t* World::buildJsonObj() {
+	json_t *obj = json_object();
+	{
+		json_t *out1 = json_array();
+		for (unsigned int i = 0; i < this->zones.size(); i++) {
+			json_t *out0 = this->zones[i].buildJsonObj();
+			json_array_append(out1, out0);
+			json_decref(out0);
+		}
+		json_object_set(obj, "Zones", out1);
+		json_decref(out1);
 	}
 	return obj;
 }

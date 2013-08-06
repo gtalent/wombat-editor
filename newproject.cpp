@@ -6,7 +6,7 @@
 #include "newproject.hpp"
 #include "ui_newproject.h"
 
-NewProject::NewProject(QWidget *parent) : QDialog(parent), ui(new Ui::NewProject) {
+NewProject::NewProject(QWidget *parent): QDialog(parent), ui(new Ui::NewProject) {
 	ui->setupUi(this);
     ui->lePath->setText(QDir::homePath());
 }
@@ -34,7 +34,7 @@ void NewProject::accept() {
 	this->strProjectDir = path;
 	QDir().mkpath(path);
 	QDir().mkpath(path + "/Animations");
-	QDir().mkpath(path + "/Resources/Images");
+	QDir().mkpath(path + "/Resources/SpriteSheets");
 	QDir().mkpath(path + "/Creatures/Types");
 	QDir().mkpath(path + "/Creatures/Classes");
 	QDir().mkpath(path + "/Creatures/Moves");
@@ -53,6 +53,11 @@ void NewProject::accept() {
     QTextStream out(&f);
     out << "{}\n";
 	f.close();
+	QFile imgMap(path + "/Resources/ImageMap.json");
+	imgMap.open(QIODevice::WriteOnly);
+    QTextStream imgOut(&imgMap);
+    imgOut << "{}\n";
+	imgMap.close();
 	this->close();
 	this->parentWidget()->activateWindow();
 }

@@ -23,6 +23,7 @@ class EditorTab: public QWidget {
 
 	public:
 		EditorTab(QWidget *win, std::string path);
+		EditorTab(QWidget *win, QString path);
 		~EditorTab();
 		void updateListeners();
 		void addListener(EditorTabListener *l);

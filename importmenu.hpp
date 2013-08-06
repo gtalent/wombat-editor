@@ -12,7 +12,6 @@ class ImportMenu: public QDialog {
 	Q_OBJECT
 	private:
 		Ui::ImportMenu *ui;
-
 		QString m_projectDir;
 
 	public:

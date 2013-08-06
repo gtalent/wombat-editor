@@ -19,15 +19,12 @@ DockSettings::DockSettings() {
 EditorSettings::EditorSettings() {
 }
 
-SaveVariables::SaveVariables() {
-}
-
 bool Bounds::load_json_t(json_t *in) {
 	{
 		json_t *obj0 = json_object_get(in, "X");
 		{
 			if (json_is_integer(obj0)) {
-				this->x = json_integer_value(obj0);
+				this->x = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -35,7 +32,7 @@ bool Bounds::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Y");
 		{
 			if (json_is_integer(obj0)) {
-				this->y = json_integer_value(obj0);
+				this->y = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -43,7 +40,7 @@ bool Bounds::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Width");
 		{
 			if (json_is_integer(obj0)) {
-				this->width = json_integer_value(obj0);
+				this->width = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -51,7 +48,7 @@ bool Bounds::load_json_t(json_t *in) {
 		json_t *obj0 = json_object_get(in, "Height");
 		{
 			if (json_is_integer(obj0)) {
-				this->height = json_integer_value(obj0);
+				this->height = (int) json_integer_value(obj0);
 			}
 		}
 	}
@@ -92,35 +89,11 @@ bool EditorSettings::load_json_t(json_t *in) {
 					s >> i;
 				}
 				DockSettings val;
-				this->dockBounds.insert(make_pair(i, val));
+				this->dockBounds.insert(std::make_pair(i, val));
 				{
 					if (json_is_object(obj1)) {
 						this->dockBounds[i].load_json_t(obj1);
 					}
-				}
-			}
-		}
-	}
-	return true;
-}
-
-bool SaveVariables::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "Vars");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
-				string i;
-				{
-					std::stringstream s;
-					s << key;
-					s >> i;
-				}
-				modelmaker::unknown val;
-				this->vars.insert(make_pair(i, val));
-				{
-					this->vars[i].load_json_t(obj1);
 				}
 			}
 		}
@@ -182,25 +155,6 @@ json_t* EditorSettings::buildJsonObj() {
 			json_decref(out0);
 		}
 		json_object_set(obj, "DockBounds", out1);
-		json_decref(out1);
-	}
-	return obj;
-}
-
-json_t* SaveVariables::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out1 = json_object();
-		for (map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
-			std::stringstream s;
-			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = this->vars[n->first].buildJsonObj();
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
-		}
-		json_object_set(obj, "Vars", out1);
 		json_decref(out1);
 	}
 	return obj;

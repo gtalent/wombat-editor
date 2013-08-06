@@ -19,7 +19,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 	private:
 		Ui::MainWindow *ui;
 		EditorTab *m_currentTab;
-		QString m_projectDir;
+		QString m_projectPath;
 		std::map<std::string, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
 

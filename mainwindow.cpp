@@ -6,12 +6,15 @@
 #include <QFileSystemModel>
 #include <QMenu>
 
+#include "globs.hpp"
 #include "mainwindow.hpp"
 #include "editortab.hpp"
 #include "newmenu.hpp"
 #include "savevariables.hpp"
+#include "spritesheeteditor.hpp"
 #include "importmenu.hpp"
 #include "newproject.hpp"
+#include "newspritesheet.hpp"
 #include "ui_mainwindow.h"
 
 using std::make_pair;
@@ -22,6 +25,7 @@ string defaultPaths[] = {
 	"Creatures/Classes",
 	"Creatures/Moves",
 	"Creatures/Types",
+	"Instances",
 	"Instances/Creatures",
 	"Instances/People",
 	"Items",
@@ -30,7 +34,7 @@ string defaultPaths[] = {
 	"People",
 	"People/Classes",
 	"Resources",
-	"Resources/Images",
+	"Resources/SpriteSheets",
 	"Worlds",
 	"Worlds/Sprites",
 	"Worlds/TileClasses",
@@ -42,6 +46,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 	ui->setupUi(this);
 	// for some reason this can't be done QtDesigner
 	connect(ui->fileList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filePaneContextMenu(QPoint)));
+
+	ui->actionAnimationEditor->setEnabled(false);
+	ui->dockAnimationEditor->setVisible(false);
+	mainWin = ui;
 	m_currentTab = 0;
 }
 
@@ -63,6 +71,10 @@ void MainWindow::newMenu() {
 					openProject(p);
 				}
 			}
+		} else if (nw == "Sprite Sheet") {
+			NewSpriteSheet np(m_projectPath, this);
+			if (!np.exec()) {
+			}
 		}
 	}
 }
@@ -77,7 +89,7 @@ void MainWindow::openProject() {
 void MainWindow::openProject(QString path) {
 	if (!path.endsWith("/"))
 		path += "/";
-	m_projectDir = path;
+	m_projectPath = path;
 	setWindowTitle("Wombat Editor - " + path.mid(0, path.length() - 1));
 
 	if (ui->fileList->model())
@@ -101,12 +113,21 @@ void MainWindow::openProject(QString path) {
 void MainWindow::openFile(QModelIndex index) {
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
 	EditorTab *tab;
-	if (m_projectDir + "Misc/SaveVariables.json" == path) {
-		//open save variables tab
-		if (!m_openTabs[path.toStdString()]) {
-			tab = new SaveVariables(ui->tabWidget, path.toStdString());
+	if (!m_openTabs[path.toStdString()]) {
+		if (m_projectPath + "Misc/SaveVariables.json" == path) {
+			//open save variables tab
+			tab = new SaveVariables(ui->tabWidget, path);
 			tab->addListener(this);
 			ui->tabWidget->addTab(tab, "SaveVariables.json");
+			m_openTabs[path.toStdString()] = tab;
+			m_currentTab = tab;
+		} else if (path.startsWith(m_projectPath + "Resources/SpriteSheets/")) {
+			QStringList list = path.split("/");
+			QString tabName = list[list.size() - 1];
+
+			tab = new SpriteSheetEditor(ui->tabWidget, m_projectPath, path);
+			tab->addListener(this);
+			ui->tabWidget->addTab(tab, tabName);
 			m_openTabs[path.toStdString()] = tab;
 			m_currentTab = tab;
 		}
@@ -114,7 +135,7 @@ void MainWindow::openFile(QModelIndex index) {
 }
 
 void MainWindow::import() {
-	ImportMenu(this, m_projectDir).run();
+	ImportMenu(this, m_projectPath).run();
 }
 
 void MainWindow::undo() {
@@ -141,6 +162,7 @@ void MainWindow::closeTab(int index) {
 	m_openTabs[t->path()] = 0;
 	m_openTabs.erase(m_openTabs.find(t->path()));
 	delete t;
+	m_currentTab = (EditorTab*) ui->tabWidget->currentWidget();
 }
 
 void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
@@ -149,7 +171,7 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	QMenu m;
 
 	string path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath().toStdString();
-	string projectDir = m_projectDir.toStdString();
+	string projectDir = m_projectPath.toStdString();
 
 	if (path != "") {
 		bool fileDeletable = true;

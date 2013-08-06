@@ -64,11 +64,18 @@ Fraction
 	Available	int
 
 Image
-	Size	Size
-	Path	string
+	ImgId		int
+	DefaultSize	Size
+
+ImageSrc
+	SrcFile	string
+	Bounds	Bounds
+
+ImageMap
+	Images map[int]ImageSrc
 
 ModelFile
-	Type	string
+	Type string
 
 PersonClass
 	ID			int
@@ -88,6 +95,23 @@ Point
 Size
 	Width	int
 	Height	int
+
+Bounds
+	X		int
+	Y		int
+	Width	int
+	Height	int
+
+SaveVariables
+	Vars map[string]unknown
+
+SpriteSheet
+	TilesWide	int
+	TilesHigh	int
+	TileWidth	int
+	TileHeight	int
+	Src			string
+	Images		[]Bounds
 
 Sprite
 	AnimLayers	[][]AnimLayer

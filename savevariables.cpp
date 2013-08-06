@@ -12,10 +12,10 @@
 using modelmaker::unknown;
 using namespace std;
 
-SaveVariables::SaveVariables(QWidget *parent, string path): EditorTab(parent, path), ui(new Ui::SaveVariables) {
+SaveVariables::SaveVariables(QWidget *parent, QString path): EditorTab(parent, path), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_file.loadFile(path);
+	m_file.loadFile(path.toStdString());
 	for (map<string, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
 		//clone the mapped var because addVar re-sets the value in the map, and that causes wierdness
 		tblInsertVar(ui->tblVars->rowCount(), i->first, &m_file.vars[i->first]);

@@ -130,6 +130,68 @@ class Size: public modelmaker::Model {
 
 namespace enginemodels {
 
+class Bounds: public modelmaker::Model {
+
+	public:
+
+		Bounds();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		int x;
+		int y;
+		int width;
+		int height;
+};
+
+}
+
+
+namespace enginemodels {
+
+class SaveVariables: public modelmaker::Model {
+
+	public:
+
+		SaveVariables();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		map< string, modelmaker::unknown > vars;
+};
+
+}
+
+
+namespace enginemodels {
+
+class SpriteSheet: public modelmaker::Model {
+
+	public:
+
+		SpriteSheet();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		int tilesWide;
+		int tilesHigh;
+		int tileWidth;
+		int tileHeight;
+		string src;
+		vector< Bounds > images;
+};
+
+}
+
+
+namespace enginemodels {
+
 class CreatureMove: public modelmaker::Model {
 
 	public:
@@ -261,8 +323,8 @@ class Image: public modelmaker::Model {
 
 		json_t* buildJsonObj();
 
-		Size size;
-		string path;
+		int imgId;
+		Size defaultSize;
 };
 
 }
@@ -270,18 +332,36 @@ class Image: public modelmaker::Model {
 
 namespace enginemodels {
 
-class ZoneHeader: public modelmaker::Model {
+class ImageSrc: public modelmaker::Model {
 
 	public:
 
-		ZoneHeader();
+		ImageSrc();
 
 		bool load_json_t(json_t *obj);
 
 		json_t* buildJsonObj();
 
-		string path;
-		Size size;
+		string srcFile;
+		Bounds bounds;
+};
+
+}
+
+
+namespace enginemodels {
+
+class ImageMap: public modelmaker::Model {
+
+	public:
+
+		ImageMap();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		map< int, ImageSrc > images;
 };
 
 }
@@ -371,6 +451,30 @@ class CreatureClass: public modelmaker::Model {
 
 namespace enginemodels {
 
+class Sprite: public modelmaker::Model {
+
+	public:
+
+		Sprite();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		vector< vector< AnimLayer > > animLayers;
+		int spriteType;
+		int personID;
+		int speed;
+		string name;
+		string path;
+		string scriptPath;
+};
+
+}
+
+
+namespace enginemodels {
+
 class TileClass: public modelmaker::Model {
 
 	public:
@@ -385,6 +489,25 @@ class TileClass: public modelmaker::Model {
 		string import;
 		vector< AnimLayer > lowerAnims;
 		vector< AnimLayer > upperAnims;
+};
+
+}
+
+
+namespace enginemodels {
+
+class ZoneHeader: public modelmaker::Model {
+
+	public:
+
+		ZoneHeader();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		string path;
+		Size size;
 };
 
 }
@@ -433,48 +556,6 @@ class Person: public modelmaker::Model {
 
 namespace enginemodels {
 
-class World: public modelmaker::Model {
-
-	public:
-
-		World();
-
-		bool load_json_t(json_t *obj);
-
-		json_t* buildJsonObj();
-
-		vector< ZoneInstance > zones;
-};
-
-}
-
-
-namespace enginemodels {
-
-class Sprite: public modelmaker::Model {
-
-	public:
-
-		Sprite();
-
-		bool load_json_t(json_t *obj);
-
-		json_t* buildJsonObj();
-
-		vector< vector< AnimLayer > > animLayers;
-		int spriteType;
-		int personID;
-		int speed;
-		string name;
-		string path;
-		string scriptPath;
-};
-
-}
-
-
-namespace enginemodels {
-
 class Tile: public modelmaker::Model {
 
 	public:
@@ -487,6 +568,24 @@ class Tile: public modelmaker::Model {
 
 		TileClass tileClass;
 		Sprite occupant;
+};
+
+}
+
+
+namespace enginemodels {
+
+class World: public modelmaker::Model {
+
+	public:
+
+		World();
+
+		bool load_json_t(json_t *obj);
+
+		json_t* buildJsonObj();
+
+		vector< ZoneInstance > zones;
 };
 
 }
