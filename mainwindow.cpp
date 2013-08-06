@@ -112,24 +112,25 @@ void MainWindow::openProject(QString path) {
 
 void MainWindow::openFile(QModelIndex index) {
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
-	EditorTab *tab;
+	EditorTab *tab = 0;
 	if (!m_openTabs[path.toStdString()]) {
+		QString tabName = "";
 		if (m_projectPath + "Misc/SaveVariables.json" == path) {
 			//open save variables tab
 			tab = new SaveVariables(ui->tabWidget, path);
-			tab->addListener(this);
-			ui->tabWidget->addTab(tab, "SaveVariables.json");
-			m_openTabs[path.toStdString()] = tab;
-			m_currentTab = tab;
 		} else if (path.startsWith(m_projectPath + "Resources/SpriteSheets/")) {
-			QStringList list = path.split("/");
-			QString tabName = list[list.size() - 1];
-
 			tab = new SpriteSheetEditor(ui->tabWidget, m_projectPath, path);
+		}
+
+		QStringList list = path.split("/");
+		tabName = list[list.size() - 1];
+
+		if (tab) {
 			tab->addListener(this);
-			ui->tabWidget->addTab(tab, tabName);
+			ui->tabWidget->setCurrentWidget(tab);
 			m_openTabs[path.toStdString()] = tab;
 			m_currentTab = tab;
+			ui->tabWidget->addTab(tab, tabName);
 		}
 	}
 }
