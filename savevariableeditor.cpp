@@ -19,7 +19,7 @@ void SaveVariableEditor::updateValue(unknown *v) {
 		ui->cbValue->setCurrentText(v->toBool() ? "True" : "False");
 		updateType("Bool");
 	} else if (v->isString()) {
-		ui->leValue->setText(QString(v->toString().c_str()));
+		ui->leValue->setText(v->toString());
 		updateType("String");
 	} else if (v->isInt()) {
 		ui->sbValue->setValue(v->toInt());
@@ -35,14 +35,14 @@ unknown* SaveVariableEditor::getValue() {
 	} else if (t == "Number") {
 		v->set(ui->sbValue->value());
 	} else if (t == "String") {
-		v->set(ui->leValue->text().toStdString());
+		v->set(ui->leValue->text());
 	}
 	return v;
 }
 
-std::pair<string, unknown*> SaveVariableEditor::getVar() {
-	std::pair<string, unknown*> out;
-	out.first = ui->leName->text().toStdString();
+std::pair<QString, unknown*> SaveVariableEditor::getVar() {
+	std::pair<QString, unknown*> out;
+	out.first = ui->leName->text();
 	out.second = getValue();
 	return out;
 }

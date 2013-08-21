@@ -1,5 +1,198 @@
 //Generated Code
 
+
+
+#include <fstream>
+#include "enginemodels.hpp"
+
+using namespace enginemodels;
+using namespace enginemodels::modelmaker;
+
+bool Model::loadFile(string path) {
+	std::ifstream in;
+	in.open(modelmaker::toCString(path));
+	std::string json;
+	if (in.is_open()) {
+		while (in.good()) {
+			std::string s;
+			in >> s;
+			json += s;
+		}
+		in.close();
+		load(modelmaker::toString(json));
+		return true;
+	}
+	return false;
+}
+
+void Model::writeFile(string path) {
+	std::ofstream out;
+	out.open(modelmaker::toCString(path));
+	std::string json = modelmaker::toStdString(write());
+	out << json << "\n";
+	out.close();
+}
+
+void Model::load(string json) {
+	modelmaker::JsonValOut obj = modelmaker::read(modelmaker::toCString(json));
+	loadJsonObj(obj);
+	modelmaker::decref(obj);
+}
+
+string Model::write() {
+	modelmaker::JsonValOut val = buildJsonObj();
+	modelmaker::JsonObjOut obj = modelmaker::toObj(val);
+	return modelmaker::write(obj);
+}
+
+unknown::unknown() {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+}
+
+unknown::unknown(Model *v) {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+	set(v);
+}
+
+unknown::unknown(bool v) {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+	set(v);
+}
+
+unknown::unknown(int v) {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+	set(v);
+}
+
+unknown::unknown(double v) {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+	set(v);
+}
+
+unknown::unknown(string v) {
+#ifndef USING_QT
+	m_obj = 0;
+#endif
+	set(v);
+}
+
+unknown::~unknown() {
+	modelmaker::decref(m_obj);
+}
+
+bool unknown::loadJsonObj(modelmaker::JsonVal obj) {
+#ifdef USING_JANSSON
+	m_obj = modelmaker::incref(obj);
+#else
+	m_obj = obj;
+#endif
+	return !modelmaker::isNull(obj);
+}
+
+modelmaker::JsonValOut unknown::buildJsonObj() {
+#ifdef USING_JANSSON
+	return modelmaker::incref(m_obj);
+#else
+	return m_obj;
+#endif
+}
+
+bool unknown::loaded() {
+	return !modelmaker::isNull(m_obj);
+}
+
+bool unknown::isBool() {
+	return !modelmaker::isNull(m_obj) && modelmaker::isBool(m_obj);
+}
+
+bool unknown::isInt() {
+	return !modelmaker::isNull(m_obj) && modelmaker::isInt(m_obj);
+}
+
+bool unknown::isDouble() {
+	return !modelmaker::isNull(m_obj) && modelmaker::isDouble(m_obj);
+}
+
+bool unknown::isString() {
+	return !modelmaker::isNull(m_obj) && modelmaker::isString(m_obj);
+}
+
+bool unknown::isObject() {
+	return !modelmaker::isNull(m_obj) && modelmaker::isObj(m_obj);
+}
+
+bool unknown::toBool() {
+	return modelmaker::toBool(m_obj);
+}
+
+int unknown::toInt() {
+	return modelmaker::toInt(m_obj);
+}
+
+double unknown::toDouble() {
+	return modelmaker::toDouble(m_obj);
+}
+
+string unknown::toString() {
+	return modelmaker::toString(m_obj);
+}
+
+void unknown::set(Model *v) {
+	modelmaker::JsonValOut obj = v->buildJsonObj();
+	modelmaker::JsonVal old = m_obj;
+	m_obj = obj;
+	if (!modelmaker::isNull(old)) {
+		modelmaker::decref(old);
+	}
+}
+
+void unknown::set(bool v) {
+	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
+	modelmaker::JsonVal old = m_obj;
+	m_obj = obj;
+	if (!modelmaker::isNull(old)) {
+		modelmaker::decref(old);
+	}
+}
+
+void unknown::set(int v) {
+	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
+	modelmaker::JsonVal old = m_obj;
+	m_obj = obj;
+	if (!modelmaker::isNull(old)) {
+		modelmaker::decref(old);
+	}
+}
+
+void unknown::set(double v) {
+	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
+	modelmaker::JsonVal old = m_obj;
+	m_obj = obj;
+	if (!modelmaker::isNull(old)) {
+		modelmaker::decref(old);
+	}
+}
+
+void unknown::set(string v) {
+	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
+	modelmaker::JsonVal old = m_obj;
+	m_obj = obj;
+	if (!modelmaker::isNull(old)) {
+		modelmaker::decref(old);
+	}
+}
+
+
 #include "enginemodels.hpp"
 
 using namespace enginemodels;
@@ -151,62 +344,66 @@ World::World() {
 Zone::Zone() {
 }
 
-bool CreatureType::load_json_t(json_t *in) {
+bool CreatureType::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Name");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				string val;
-				this->name.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->name[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->name[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Special");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Special");
 		{
-			if (json_is_boolean(obj0)) {
-				this->special = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->special = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "StrongAgainst");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "StrongAgainst");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->strongAgainst.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_string(obj1)) {
-						this->strongAgainst[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->strongAgainst[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "WeakAgainst");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "WeakAgainst");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->weakAgainst.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_string(obj1)) {
-						this->weakAgainst[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->weakAgainst[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
@@ -215,151 +412,159 @@ bool CreatureType::load_json_t(json_t *in) {
 	return true;
 }
 
-bool StatusEffect::load_json_t(json_t *in) {
+bool StatusEffect::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "AttackerEffect");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "AttackerEffect");
 		{
-			if (json_is_integer(obj0)) {
-				this->attackerEffect = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->attackerEffect = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "EnemyEffect");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "EnemyEffect");
 		{
-			if (json_is_integer(obj0)) {
-				this->enemyEffect = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool Fraction::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "Current");
-		{
-			if (json_is_integer(obj0)) {
-				this->current = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Available");
-		{
-			if (json_is_integer(obj0)) {
-				this->available = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->enemyEffect = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool ModelFile::load_json_t(json_t *in) {
+bool Fraction::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Type");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Current");
 		{
-			if (json_is_string(obj0)) {
-				this->type = json_string_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->current = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Available");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->available = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Point::load_json_t(json_t *in) {
+bool ModelFile::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "X");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Type");
 		{
-			if (json_is_integer(obj0)) {
-				this->x = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Y");
-		{
-			if (json_is_integer(obj0)) {
-				this->y = (int) json_integer_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->type = modelmaker::toString(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Size::load_json_t(json_t *in) {
+bool Point::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Width");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "X");
 		{
-			if (json_is_integer(obj0)) {
-				this->width = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->x = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Height");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Y");
 		{
-			if (json_is_integer(obj0)) {
-				this->height = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool Bounds::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "X");
-		{
-			if (json_is_integer(obj0)) {
-				this->x = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Y");
-		{
-			if (json_is_integer(obj0)) {
-				this->y = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Width");
-		{
-			if (json_is_integer(obj0)) {
-				this->width = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Height");
-		{
-			if (json_is_integer(obj0)) {
-				this->height = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->y = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool SaveVariables::load_json_t(json_t *in) {
+bool Size::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Vars");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Width");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->width = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Height");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->height = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool Bounds::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "X");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->x = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Y");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->y = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Width");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->width = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Height");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->height = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool SaveVariables::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Vars");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				modelmaker::unknown val;
-				this->vars.insert(std::make_pair(i, val));
 				{
-					this->vars[i].load_json_t(obj1);
+					this->vars[i].loadJsonObj(obj1);
 				}
 			}
 		}
@@ -367,57 +572,60 @@ bool SaveVariables::load_json_t(json_t *in) {
 	return true;
 }
 
-bool SpriteSheet::load_json_t(json_t *in) {
+bool SpriteSheet::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "TilesWide");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TilesWide");
 		{
-			if (json_is_integer(obj0)) {
-				this->tilesWide = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->tilesWide = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "TilesHigh");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TilesHigh");
 		{
-			if (json_is_integer(obj0)) {
-				this->tilesHigh = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->tilesHigh = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "TileWidth");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TileWidth");
 		{
-			if (json_is_integer(obj0)) {
-				this->tileWidth = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->tileWidth = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "TileHeight");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TileHeight");
 		{
-			if (json_is_integer(obj0)) {
-				this->tileHeight = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->tileHeight = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Src");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Src");
 		{
-			if (json_is_string(obj0)) {
-				this->src = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->src = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Images");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Images");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->images.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->images[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->images[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -426,261 +634,275 @@ bool SpriteSheet::load_json_t(json_t *in) {
 	return true;
 }
 
-bool CreatureMove::load_json_t(json_t *in) {
+bool CreatureMove::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Name");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				string val;
-				this->name.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->name[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->name[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Type");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Type");
 		{
-			if (json_is_string(obj0)) {
-				this->type = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->type = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Power");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Power");
 		{
-			if (json_is_integer(obj0)) {
-				this->power = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->power = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "RequiresRegarge");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "RequiresRegarge");
 		{
-			if (json_is_boolean(obj0)) {
-				this->requiresRegarge = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->requiresRegarge = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Script");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Script");
 		{
-			if (json_is_string(obj0)) {
-				this->script = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->script = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Burn");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Burn");
 		{
-			if (json_is_object(obj0)) {
-				this->burn.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->burn.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Freeze");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Freeze");
 		{
-			if (json_is_object(obj0)) {
-				this->freeze.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->freeze.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Paralyze");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Paralyze");
 		{
-			if (json_is_object(obj0)) {
-				this->paralyze.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->paralyze.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Poison");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Poison");
 		{
-			if (json_is_object(obj0)) {
-				this->poison.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->poison.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Sleep");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Sleep");
 		{
-			if (json_is_object(obj0)) {
-				this->sleep.load_json_t(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool CreatureMoveInstance::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "CreatureMove");
-		{
-			if (json_is_integer(obj0)) {
-				this->creatureMove = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "PP");
-		{
-			if (json_is_object(obj0)) {
-				this->pP.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->sleep.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Creature::load_json_t(json_t *in) {
+bool CreatureMoveInstance::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "ID");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "CreatureMove");
 		{
-			if (json_is_integer(obj0)) {
-				this->iD = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->creatureMove = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Name");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "PP");
+		{
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->pP.loadJsonObj(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool Creature::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "ID");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->iD = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				string val;
-				this->name.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->name[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->name[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "CreatureClass");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "CreatureClass");
 		{
-			if (json_is_string(obj0)) {
-				this->creatureClass = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->creatureClass = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Male");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Male");
 		{
-			if (json_is_boolean(obj0)) {
-				this->male = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->male = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Level");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Level");
 		{
-			if (json_is_integer(obj0)) {
-				this->level = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->level = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Health");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Health");
 		{
-			if (json_is_object(obj0)) {
-				this->health.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->health.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Attack");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Attack");
 		{
-			if (json_is_integer(obj0)) {
-				this->attack = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->attack = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "SpecAttack");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "SpecAttack");
 		{
-			if (json_is_integer(obj0)) {
-				this->specAttack = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->specAttack = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Defense");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Defense");
 		{
-			if (json_is_integer(obj0)) {
-				this->defense = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->defense = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "SpecDefense");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "SpecDefense");
 		{
-			if (json_is_integer(obj0)) {
-				this->specDefense = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->specDefense = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Burned");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Burned");
 		{
-			if (json_is_boolean(obj0)) {
-				this->burned = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->burned = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Frozen");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Frozen");
 		{
-			if (json_is_boolean(obj0)) {
-				this->frozen = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->frozen = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Poisoned");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Poisoned");
 		{
-			if (json_is_boolean(obj0)) {
-				this->poisoned = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->poisoned = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Asleep");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Asleep");
 		{
-			if (json_is_boolean(obj0)) {
-				this->asleep = json_is_true(obj0);
+			if (modelmaker::isBool(obj0)) {
+				this->asleep = modelmaker::toBool(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Moves");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Moves");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->moves.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->moves[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->moves[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -689,144 +911,152 @@ bool Creature::load_json_t(json_t *in) {
 	return true;
 }
 
-bool User::load_json_t(json_t *in) {
+bool User::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "PersonID");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "PersonID");
 		{
-			if (json_is_integer(obj0)) {
-				this->personID = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->personID = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "World");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "World");
 		{
-			if (json_is_string(obj0)) {
-				this->world = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->world = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Zone");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Zone");
 		{
-			if (json_is_string(obj0)) {
-				this->zone = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->zone = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "XAddress");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "XAddress");
 		{
-			if (json_is_integer(obj0)) {
-				this->xAddress = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->xAddress = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "YAddress");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "YAddress");
 		{
-			if (json_is_integer(obj0)) {
-				this->yAddress = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->yAddress = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Layer");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Layer");
 		{
-			if (json_is_integer(obj0)) {
-				this->layer = (int) json_integer_value(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool ZoneInstance::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "AccessorID");
-		{
-			if (json_is_string(obj0)) {
-				this->accessorID = json_string_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Path");
-		{
-			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Location");
-		{
-			if (json_is_object(obj0)) {
-				this->location.load_json_t(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->layer = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Image::load_json_t(json_t *in) {
+bool ZoneInstance::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "ImgId");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "AccessorID");
 		{
-			if (json_is_integer(obj0)) {
-				this->imgId = (int) json_integer_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->accessorID = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "DefaultSize");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Path");
 		{
-			if (json_is_object(obj0)) {
-				this->defaultSize.load_json_t(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool ImageSrc::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "SrcFile");
-		{
-			if (json_is_string(obj0)) {
-				this->srcFile = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->path = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Bounds");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Location");
 		{
-			if (json_is_object(obj0)) {
-				this->bounds.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->location.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool ImageMap::load_json_t(json_t *in) {
+bool Image::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Images");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "ImgId");
+		{
+			if (modelmaker::isInt(obj0)) {
+				this->imgId = modelmaker::toInt(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "DefaultSize");
+		{
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->defaultSize.loadJsonObj(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool ImageSrc::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "SrcFile");
+		{
+			if (modelmaker::isString(obj0)) {
+				this->srcFile = modelmaker::toString(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Bounds");
+		{
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->bounds.loadJsonObj(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool ImageMap::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Images");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				int i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
 					std::stringstream s;
 					s << key;
 					s >> i;
 				}
-				ImageSrc val;
-				this->images.insert(std::make_pair(i, val));
 				{
-					if (json_is_object(obj1)) {
-						this->images[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->images[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -835,25 +1065,28 @@ bool ImageMap::load_json_t(json_t *in) {
 	return true;
 }
 
-bool Animation::load_json_t(json_t *in) {
+bool Animation::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Interval");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Interval");
 		{
-			if (json_is_integer(obj0)) {
-				this->interval = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->interval = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Images");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Images");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->images.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->images[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->images[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -862,184 +1095,199 @@ bool Animation::load_json_t(json_t *in) {
 	return true;
 }
 
-bool AnimLayer::load_json_t(json_t *in) {
+bool AnimLayer::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Point");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Point");
 		{
-			if (json_is_object(obj0)) {
-				this->point.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->point.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Animation");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Animation");
 		{
-			if (json_is_object(obj0)) {
-				this->animation.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->animation.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool SaveFile::load_json_t(json_t *in) {
+bool SaveFile::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Vars");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Vars");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				modelmaker::unknown val;
-				this->vars.insert(std::make_pair(i, val));
 				{
-					this->vars[i].load_json_t(obj1);
+					this->vars[i].loadJsonObj(obj1);
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "User");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "User");
 		{
-			if (json_is_object(obj0)) {
-				this->user.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->user.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool CreatureClass::load_json_t(json_t *in) {
+bool CreatureClass::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Name");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				string val;
-				this->name.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->name[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->name[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Successor");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Successor");
 		{
-			if (json_is_string(obj0)) {
-				this->successor = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->successor = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Predecessor");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Predecessor");
 		{
-			if (json_is_string(obj0)) {
-				this->predecessor = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->predecessor = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Types");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Types");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->types.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_string(obj1)) {
-						this->types[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->types[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "CanLearn");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "CanLearn");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->canLearn.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_string(obj1)) {
-						this->canLearn[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->canLearn[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "LearnsAtLevel");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "LearnsAtLevel");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				int i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
 					std::stringstream s;
 					s << key;
 					s >> i;
 				}
-				string val;
-				this->learnsAtLevel.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->learnsAtLevel[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->learnsAtLevel[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "FrontView");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "FrontView");
 		{
-			if (json_is_object(obj0)) {
-				this->frontView.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->frontView.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "BackView");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "BackView");
 		{
-			if (json_is_object(obj0)) {
-				this->backView.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->backView.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Sprite::load_json_t(json_t *in) {
+bool Sprite::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "AnimLayers");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "AnimLayers");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->animLayers.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
-				if (obj1 != NULL && json_typeof(obj1) == JSON_ARRAY) {
-					unsigned int size = json_array_size(obj1);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
+				if (!modelmaker::isNull(obj1) && modelmaker::isArray(obj1)) {
+					modelmaker::JsonArrayOut array1 = modelmaker::toArray(obj1);
+					unsigned int size = modelmaker::arraySize(array1);
 					this->animLayers[i].resize(size);
 					for (unsigned int ii = 0; ii < size; ii++) {
-						json_t *obj2 = json_array_get(obj1, ii);
+						modelmaker::JsonValOut obj2 = modelmaker::arrayRead(array1, ii);
 						{
-							if (json_is_object(obj2)) {
-								this->animLayers[i][ii].load_json_t(obj2);
+							modelmaker::JsonValOut finalObj = modelmaker::toObj(obj2);
+							if (modelmaker::isObj(finalObj)) {
+								this->animLayers[i][ii].loadJsonObj(obj2);
 							}
 						}
 					}
@@ -1048,98 +1296,103 @@ bool Sprite::load_json_t(json_t *in) {
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "SpriteType");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "SpriteType");
 		{
-			if (json_is_integer(obj0)) {
-				this->spriteType = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->spriteType = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "PersonID");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "PersonID");
 		{
-			if (json_is_integer(obj0)) {
-				this->personID = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->personID = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Speed");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Speed");
 		{
-			if (json_is_integer(obj0)) {
-				this->speed = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->speed = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Name");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
 		{
-			if (json_is_string(obj0)) {
-				this->name = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->name = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Path");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Path");
 		{
-			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->path = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "ScriptPath");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "ScriptPath");
 		{
-			if (json_is_string(obj0)) {
-				this->scriptPath = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->scriptPath = modelmaker::toString(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool TileClass::load_json_t(json_t *in) {
+bool TileClass::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "TerrainFlags");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TerrainFlags");
 		{
-			if (json_is_integer(obj0)) {
-				this->terrainFlags = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->terrainFlags = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Import");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Import");
 		{
-			if (json_is_string(obj0)) {
-				this->import = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->import = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "LowerAnims");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "LowerAnims");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->lowerAnims.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->lowerAnims[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->lowerAnims[i].loadJsonObj(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "UpperAnims");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "UpperAnims");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->upperAnims.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->upperAnims[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->upperAnims[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -1148,149 +1401,166 @@ bool TileClass::load_json_t(json_t *in) {
 	return true;
 }
 
-bool ZoneHeader::load_json_t(json_t *in) {
+bool ZoneHeader::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Path");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Path");
 		{
-			if (json_is_string(obj0)) {
-				this->path = json_string_value(obj0);
+			if (modelmaker::isString(obj0)) {
+				this->path = modelmaker::toString(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Size");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Size");
 		{
-			if (json_is_object(obj0)) {
-				this->size.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->size.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool PersonClass::load_json_t(json_t *in) {
+bool PersonClass::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "ID");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "ID");
 		{
-			if (json_is_integer(obj0)) {
-				this->iD = (int) json_integer_value(obj0);
+			if (modelmaker::isInt(obj0)) {
+				this->iD = modelmaker::toInt(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Name");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_OBJECT) {
-			const char *key;
-			json_t *obj1;
-			json_object_foreach(obj0, key, obj1) {
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Name");
+		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
+			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
+			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
 				string i;
+				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
 				{
+					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string o;
 					std::stringstream s;
 					s << key;
-					s >> i;
+					s >> o;
+					i = o.c_str();
 				}
-				string val;
-				this->name.insert(std::make_pair(i, val));
 				{
-					if (json_is_string(obj1)) {
-						this->name[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->name[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Creatures");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Creatures");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->creatures.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_integer(obj1)) {
-						this->creatures[i] = (int) json_integer_value(obj1);
+					if (modelmaker::isInt(obj1)) {
+						this->creatures[i] = modelmaker::toInt(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Overhead");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Overhead");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->overhead.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->overhead[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->overhead[i].loadJsonObj(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "FrontView");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "FrontView");
 		{
-			if (json_is_object(obj0)) {
-				this->frontView.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->frontView.loadJsonObj(obj0);
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "BackView");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "BackView");
 		{
-			if (json_is_object(obj0)) {
-				this->backView.load_json_t(obj0);
-			}
-		}
-	}
-	return true;
-}
-
-bool Person::load_json_t(json_t *in) {
-	{
-		json_t *obj0 = json_object_get(in, "PersonClass");
-		{
-			if (json_is_object(obj0)) {
-				this->personClass.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->backView.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool Tile::load_json_t(json_t *in) {
+bool Person::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "TileClass");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "PersonClass");
 		{
-			if (json_is_object(obj0)) {
-				this->tileClass.load_json_t(obj0);
-			}
-		}
-	}
-	{
-		json_t *obj0 = json_object_get(in, "Occupant");
-		{
-			if (json_is_object(obj0)) {
-				this->occupant.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->personClass.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool World::load_json_t(json_t *in) {
+bool Tile::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Zones");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "TileClass");
+		{
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->tileClass.loadJsonObj(obj0);
+			}
+		}
+	}
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Occupant");
+		{
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->occupant.loadJsonObj(obj0);
+			}
+		}
+	}
+	return true;
+}
+
+bool World::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+	{
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Zones");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->zones.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_object(obj1)) {
-						this->zones[i].load_json_t(obj1);
+					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
+					if (modelmaker::isObj(finalObj)) {
+						this->zones[i].loadJsonObj(obj1);
 					}
 				}
 			}
@@ -1299,27 +1569,32 @@ bool World::load_json_t(json_t *in) {
 	return true;
 }
 
-bool Zone::load_json_t(json_t *in) {
+bool Zone::loadJsonObj(modelmaker::JsonVal in) {
+	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
 	{
-		json_t *obj0 = json_object_get(in, "Tiles");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Tiles");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->tiles.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
-				if (obj1 != NULL && json_typeof(obj1) == JSON_ARRAY) {
-					unsigned int size = json_array_size(obj1);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
+				if (!modelmaker::isNull(obj1) && modelmaker::isArray(obj1)) {
+					modelmaker::JsonArrayOut array1 = modelmaker::toArray(obj1);
+					unsigned int size = modelmaker::arraySize(array1);
 					this->tiles[i].resize(size);
 					for (unsigned int ii = 0; ii < size; ii++) {
-						json_t *obj2 = json_array_get(obj1, ii);
-						if (obj2 != NULL && json_typeof(obj2) == JSON_ARRAY) {
-							unsigned int size = json_array_size(obj2);
+						modelmaker::JsonValOut obj2 = modelmaker::arrayRead(array1, ii);
+						if (!modelmaker::isNull(obj2) && modelmaker::isArray(obj2)) {
+							modelmaker::JsonArrayOut array2 = modelmaker::toArray(obj2);
+							unsigned int size = modelmaker::arraySize(array2);
 							this->tiles[i][ii].resize(size);
 							for (unsigned int iii = 0; iii < size; iii++) {
-								json_t *obj3 = json_array_get(obj2, iii);
+								modelmaker::JsonValOut obj3 = modelmaker::arrayRead(array2, iii);
 								{
-									if (json_is_object(obj3)) {
-										this->tiles[i][ii][iii].load_json_t(obj3);
+									modelmaker::JsonValOut finalObj = modelmaker::toObj(obj3);
+									if (modelmaker::isObj(finalObj)) {
+										this->tiles[i][ii][iii].loadJsonObj(obj3);
 									}
 								}
 							}
@@ -1330,868 +1605,922 @@ bool Zone::load_json_t(json_t *in) {
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "InitScripts");
-		if (obj0 != NULL && json_typeof(obj0) == JSON_ARRAY) {
-			unsigned int size = json_array_size(obj0);
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "InitScripts");
+		if (!modelmaker::isNull(obj0) && modelmaker::isArray(obj0)) {
+			modelmaker::JsonArrayOut array0 = modelmaker::toArray(obj0);
+			unsigned int size = modelmaker::arraySize(array0);
 			this->initScripts.resize(size);
 			for (unsigned int i = 0; i < size; i++) {
-				json_t *obj1 = json_array_get(obj0, i);
+				modelmaker::JsonValOut obj1 = modelmaker::arrayRead(array0, i);
 				{
-					if (json_is_string(obj1)) {
-						this->initScripts[i] = json_string_value(obj1);
+					if (modelmaker::isString(obj1)) {
+						this->initScripts[i] = modelmaker::toString(obj1);
 					}
 				}
 			}
 		}
 	}
 	{
-		json_t *obj0 = json_object_get(in, "Location");
+		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Location");
 		{
-			if (json_is_object(obj0)) {
-				this->location.load_json_t(obj0);
+			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
+			if (modelmaker::isObj(finalObj)) {
+				this->location.loadJsonObj(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-json_t* CreatureType::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut CreatureType::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->name[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Name", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Name", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = json_boolean(this->special);
-		json_object_set(obj, "Special", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->special);
+		modelmaker::objSet(obj, "Special", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->strongAgainst.size(); i++) {
-			json_t *out0 = json_string(this->strongAgainst[i].c_str());
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->strongAgainst[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "StrongAgainst", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "StrongAgainst", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->weakAgainst.size(); i++) {
-			json_t *out0 = json_string(this->weakAgainst[i].c_str());
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->weakAgainst[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "WeakAgainst", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "WeakAgainst", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* StatusEffect::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut StatusEffect::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->attackerEffect);
-		json_object_set(obj, "AttackerEffect", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->attackerEffect);
+		modelmaker::objSet(obj, "AttackerEffect", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->enemyEffect);
-		json_object_set(obj, "EnemyEffect", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* Fraction::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = json_integer(this->current);
-		json_object_set(obj, "Current", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->available);
-		json_object_set(obj, "Available", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->enemyEffect);
+		modelmaker::objSet(obj, "EnemyEffect", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* ModelFile::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Fraction::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_string(this->type.c_str());
-		json_object_set(obj, "Type", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->current);
+		modelmaker::objSet(obj, "Current", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->available);
+		modelmaker::objSet(obj, "Available", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Point::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut ModelFile::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->x);
-		json_object_set(obj, "X", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->y);
-		json_object_set(obj, "Y", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->type);
+		modelmaker::objSet(obj, "Type", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Size::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Point::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->width);
-		json_object_set(obj, "Width", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->x);
+		modelmaker::objSet(obj, "X", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->height);
-		json_object_set(obj, "Height", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* Bounds::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = json_integer(this->x);
-		json_object_set(obj, "X", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->y);
-		json_object_set(obj, "Y", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->width);
-		json_object_set(obj, "Width", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_integer(this->height);
-		json_object_set(obj, "Height", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->y);
+		modelmaker::objSet(obj, "Y", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* SaveVariables::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Size::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->width);
+		modelmaker::objSet(obj, "Width", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->height);
+		modelmaker::objSet(obj, "Height", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut Bounds::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->x);
+		modelmaker::objSet(obj, "X", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->y);
+		modelmaker::objSet(obj, "Y", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->width);
+		modelmaker::objSet(obj, "Width", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->height);
+		modelmaker::objSet(obj, "Height", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut SaveVariables::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = this->vars[n->first].buildJsonObj();
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut obj0 = this->vars[n->first].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Vars", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Vars", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* SpriteSheet::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut SpriteSheet::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->tilesWide);
-		json_object_set(obj, "TilesWide", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->tilesWide);
+		modelmaker::objSet(obj, "TilesWide", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->tilesHigh);
-		json_object_set(obj, "TilesHigh", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->tilesHigh);
+		modelmaker::objSet(obj, "TilesHigh", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->tileWidth);
-		json_object_set(obj, "TileWidth", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->tileWidth);
+		modelmaker::objSet(obj, "TileWidth", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->tileHeight);
-		json_object_set(obj, "TileHeight", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->tileHeight);
+		modelmaker::objSet(obj, "TileHeight", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->src.c_str());
-		json_object_set(obj, "Src", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->src);
+		modelmaker::objSet(obj, "Src", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->images.size(); i++) {
-			json_t *out0 = this->images[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->images[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Images", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Images", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* CreatureMove::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut CreatureMove::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->name[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Name", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Name", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = json_string(this->type.c_str());
-		json_object_set(obj, "Type", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->type);
+		modelmaker::objSet(obj, "Type", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->power);
-		json_object_set(obj, "Power", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->power);
+		modelmaker::objSet(obj, "Power", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->requiresRegarge);
-		json_object_set(obj, "RequiresRegarge", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->requiresRegarge);
+		modelmaker::objSet(obj, "RequiresRegarge", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->script.c_str());
-		json_object_set(obj, "Script", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->script);
+		modelmaker::objSet(obj, "Script", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->burn.buildJsonObj();
-		json_object_set(obj, "Burn", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->burn.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Burn", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->freeze.buildJsonObj();
-		json_object_set(obj, "Freeze", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->freeze.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Freeze", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->paralyze.buildJsonObj();
-		json_object_set(obj, "Paralyze", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->paralyze.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Paralyze", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->poison.buildJsonObj();
-		json_object_set(obj, "Poison", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->poison.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Poison", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->sleep.buildJsonObj();
-		json_object_set(obj, "Sleep", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* CreatureMoveInstance::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = json_integer(this->creatureMove);
-		json_object_set(obj, "CreatureMove", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = this->pP.buildJsonObj();
-		json_object_set(obj, "PP", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->sleep.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Sleep", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Creature::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut CreatureMoveInstance::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->iD);
-		json_object_set(obj, "ID", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->creatureMove);
+		modelmaker::objSet(obj, "CreatureMove", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_object();
-		for (map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		modelmaker::JsonValOut obj0 = this->pP.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "PP", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut Creature::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->iD);
+		modelmaker::objSet(obj, "ID", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->name[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Name", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Name", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = json_string(this->creatureClass.c_str());
-		json_object_set(obj, "CreatureClass", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->creatureClass);
+		modelmaker::objSet(obj, "CreatureClass", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->male);
-		json_object_set(obj, "Male", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->male);
+		modelmaker::objSet(obj, "Male", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->level);
-		json_object_set(obj, "Level", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->level);
+		modelmaker::objSet(obj, "Level", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->health.buildJsonObj();
-		json_object_set(obj, "Health", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->health.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Health", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->attack);
-		json_object_set(obj, "Attack", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->attack);
+		modelmaker::objSet(obj, "Attack", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->specAttack);
-		json_object_set(obj, "SpecAttack", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->specAttack);
+		modelmaker::objSet(obj, "SpecAttack", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->defense);
-		json_object_set(obj, "Defense", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->defense);
+		modelmaker::objSet(obj, "Defense", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->specDefense);
-		json_object_set(obj, "SpecDefense", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->specDefense);
+		modelmaker::objSet(obj, "SpecDefense", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->burned);
-		json_object_set(obj, "Burned", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->burned);
+		modelmaker::objSet(obj, "Burned", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->frozen);
-		json_object_set(obj, "Frozen", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->frozen);
+		modelmaker::objSet(obj, "Frozen", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->poisoned);
-		json_object_set(obj, "Poisoned", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->poisoned);
+		modelmaker::objSet(obj, "Poisoned", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_boolean(this->asleep);
-		json_object_set(obj, "Asleep", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->asleep);
+		modelmaker::objSet(obj, "Asleep", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->moves.size(); i++) {
-			json_t *out0 = this->moves[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->moves[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Moves", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Moves", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* User::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut User::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->personID);
-		json_object_set(obj, "PersonID", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->personID);
+		modelmaker::objSet(obj, "PersonID", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->world.c_str());
-		json_object_set(obj, "World", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->world);
+		modelmaker::objSet(obj, "World", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->zone.c_str());
-		json_object_set(obj, "Zone", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->zone);
+		modelmaker::objSet(obj, "Zone", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->xAddress);
-		json_object_set(obj, "XAddress", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->xAddress);
+		modelmaker::objSet(obj, "XAddress", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->yAddress);
-		json_object_set(obj, "YAddress", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->yAddress);
+		modelmaker::objSet(obj, "YAddress", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->layer);
-		json_object_set(obj, "Layer", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* ZoneInstance::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = json_string(this->accessorID.c_str());
-		json_object_set(obj, "AccessorID", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = this->location.buildJsonObj();
-		json_object_set(obj, "Location", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->layer);
+		modelmaker::objSet(obj, "Layer", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Image::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut ZoneInstance::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->imgId);
-		json_object_set(obj, "ImgId", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->accessorID);
+		modelmaker::objSet(obj, "AccessorID", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->defaultSize.buildJsonObj();
-		json_object_set(obj, "DefaultSize", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* ImageSrc::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = json_string(this->srcFile.c_str());
-		json_object_set(obj, "SrcFile", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->path);
+		modelmaker::objSet(obj, "Path", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->bounds.buildJsonObj();
-		json_object_set(obj, "Bounds", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->location.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Location", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* ImageMap::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Image::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< int, ImageSrc >::iterator n = this->images.begin(); n != this->images.end(); ++n) {
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->imgId);
+		modelmaker::objSet(obj, "ImgId", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut obj0 = this->defaultSize.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "DefaultSize", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut ImageSrc::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->srcFile);
+		modelmaker::objSet(obj, "SrcFile", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut obj0 = this->bounds.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Bounds", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut ImageMap::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< int, ImageSrc >::iterator n = this->images.begin(); n != this->images.end(); ++n) {
 			std::stringstream s;
 			string key;
+			std::string tmp;
 			s << n->first;
-			s >> key;
-			json_t *out0 = this->images[n->first].buildJsonObj();
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut obj0 = this->images[n->first].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Images", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Images", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* Animation::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Animation::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->interval);
-		json_object_set(obj, "Interval", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->interval);
+		modelmaker::objSet(obj, "Interval", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->images.size(); i++) {
-			json_t *out0 = this->images[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->images[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Images", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Images", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* AnimLayer::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut AnimLayer::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = this->point.buildJsonObj();
-		json_object_set(obj, "Point", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->point.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Point", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->animation.buildJsonObj();
-		json_object_set(obj, "Animation", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->animation.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Animation", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* SaveFile::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut SaveFile::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, modelmaker::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = this->vars[n->first].buildJsonObj();
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut obj0 = this->vars[n->first].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Vars", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Vars", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = this->user.buildJsonObj();
-		json_object_set(obj, "User", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->user.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "User", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* CreatureClass::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut CreatureClass::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_object();
-		for (map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->name[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Name", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Name", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = json_string(this->successor.c_str());
-		json_object_set(obj, "Successor", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->successor);
+		modelmaker::objSet(obj, "Successor", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->predecessor.c_str());
-		json_object_set(obj, "Predecessor", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->predecessor);
+		modelmaker::objSet(obj, "Predecessor", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->types.size(); i++) {
-			json_t *out0 = json_string(this->types[i].c_str());
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->types[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Types", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Types", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->canLearn.size(); i++) {
-			json_t *out0 = json_string(this->canLearn[i].c_str());
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->canLearn[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "CanLearn", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "CanLearn", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_object();
-		for (map< int, string >::iterator n = this->learnsAtLevel.begin(); n != this->learnsAtLevel.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< int, string >::iterator n = this->learnsAtLevel.begin(); n != this->learnsAtLevel.end(); ++n) {
 			std::stringstream s;
 			string key;
+			std::string tmp;
 			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->learnsAtLevel[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->learnsAtLevel[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "LearnsAtLevel", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "LearnsAtLevel", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = this->frontView.buildJsonObj();
-		json_object_set(obj, "FrontView", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->frontView.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "FrontView", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->backView.buildJsonObj();
-		json_object_set(obj, "BackView", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->backView.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "BackView", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Sprite::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Sprite::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out2 = json_array();
+		modelmaker::JsonArrayOut out2 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->animLayers.size(); i++) {
-			json_t *out1 = json_array();
+			modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 			for (unsigned int ii = 0; ii < this->animLayers[i].size(); ii++) {
-				json_t *out0 = this->animLayers[i][ii].buildJsonObj();
-				json_array_append(out1, out0);
-				json_decref(out0);
+				modelmaker::JsonValOut obj0 = this->animLayers[i][ii].buildJsonObj();
+				modelmaker::JsonValOut out0 = obj0;
+				modelmaker::arrayAdd(out1, out0);
+				modelmaker::decref(out0);
 			}
-			json_array_append(out2, out1);
-			json_decref(out1);
+			modelmaker::arrayAdd(out2, out1);
+			modelmaker::decref(out1);
 		}
-		json_object_set(obj, "AnimLayers", out2);
-		json_decref(out2);
+		modelmaker::objSet(obj, "AnimLayers", out2);
+		modelmaker::decref(out2);
 	}
 	{
-		json_t *out0 = json_integer(this->spriteType);
-		json_object_set(obj, "SpriteType", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->spriteType);
+		modelmaker::objSet(obj, "SpriteType", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->personID);
-		json_object_set(obj, "PersonID", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->personID);
+		modelmaker::objSet(obj, "PersonID", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_integer(this->speed);
-		json_object_set(obj, "Speed", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->speed);
+		modelmaker::objSet(obj, "Speed", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->name.c_str());
-		json_object_set(obj, "Name", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name);
+		modelmaker::objSet(obj, "Name", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->path);
+		modelmaker::objSet(obj, "Path", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->scriptPath.c_str());
-		json_object_set(obj, "ScriptPath", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->scriptPath);
+		modelmaker::objSet(obj, "ScriptPath", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* TileClass::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut TileClass::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->terrainFlags);
-		json_object_set(obj, "TerrainFlags", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->terrainFlags);
+		modelmaker::objSet(obj, "TerrainFlags", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = json_string(this->import.c_str());
-		json_object_set(obj, "Import", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->import);
+		modelmaker::objSet(obj, "Import", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->lowerAnims.size(); i++) {
-			json_t *out0 = this->lowerAnims[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->lowerAnims[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "LowerAnims", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "LowerAnims", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->upperAnims.size(); i++) {
-			json_t *out0 = this->upperAnims[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->upperAnims[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "UpperAnims", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "UpperAnims", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* ZoneHeader::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut ZoneHeader::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_string(this->path.c_str());
-		json_object_set(obj, "Path", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->path);
+		modelmaker::objSet(obj, "Path", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->size.buildJsonObj();
-		json_object_set(obj, "Size", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->size.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Size", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* PersonClass::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut PersonClass::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = json_integer(this->iD);
-		json_object_set(obj, "ID", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->iD);
+		modelmaker::objSet(obj, "ID", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out1 = json_object();
-		for (map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
-			s << n->first;
-			s >> key;
-			json_t *out0 = json_string(this->name[n->first].c_str());
-			json_object_set(out1, key.c_str(), out0);
-			json_decref(out0);
+			std::string tmp;
+			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s >> tmp;
+			key = modelmaker::toString(tmp);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->name[n->first]);
+			modelmaker::objSet(out1, key, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Name", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Name", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->creatures.size(); i++) {
-			json_t *out0 = json_integer(this->creatures[i]);
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->creatures[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Creatures", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Creatures", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->overhead.size(); i++) {
-			json_t *out0 = this->overhead[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->overhead[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Overhead", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Overhead", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = this->frontView.buildJsonObj();
-		json_object_set(obj, "FrontView", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->frontView.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "FrontView", out0);
+		modelmaker::decref(out0);
 	}
 	{
-		json_t *out0 = this->backView.buildJsonObj();
-		json_object_set(obj, "BackView", out0);
-		json_decref(out0);
-	}
-	return obj;
-}
-
-json_t* Person::buildJsonObj() {
-	json_t *obj = json_object();
-	{
-		json_t *out0 = this->personClass.buildJsonObj();
-		json_object_set(obj, "PersonClass", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->backView.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "BackView", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* Tile::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Person::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out0 = this->tileClass.buildJsonObj();
-		json_object_set(obj, "TileClass", out0);
-		json_decref(out0);
-	}
-	{
-		json_t *out0 = this->occupant.buildJsonObj();
-		json_object_set(obj, "Occupant", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->personClass.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "PersonClass", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }
 
-json_t* World::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Tile::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonValOut obj0 = this->tileClass.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "TileClass", out0);
+		modelmaker::decref(out0);
+	}
+	{
+		modelmaker::JsonValOut obj0 = this->occupant.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Occupant", out0);
+		modelmaker::decref(out0);
+	}
+	return obj;
+}
+
+modelmaker::JsonValOut World::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+	{
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->zones.size(); i++) {
-			json_t *out0 = this->zones[i].buildJsonObj();
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut obj0 = this->zones[i].buildJsonObj();
+			modelmaker::JsonValOut out0 = obj0;
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "Zones", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "Zones", out1);
+		modelmaker::decref(out1);
 	}
 	return obj;
 }
 
-json_t* Zone::buildJsonObj() {
-	json_t *obj = json_object();
+modelmaker::JsonValOut Zone::buildJsonObj() {
+	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
 	{
-		json_t *out3 = json_array();
+		modelmaker::JsonArrayOut out3 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->tiles.size(); i++) {
-			json_t *out2 = json_array();
+			modelmaker::JsonArrayOut out2 = modelmaker::newJsonArray();
 			for (unsigned int ii = 0; ii < this->tiles[i].size(); ii++) {
-				json_t *out1 = json_array();
+				modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 				for (unsigned int iii = 0; iii < this->tiles[i][ii].size(); iii++) {
-					json_t *out0 = this->tiles[i][ii][iii].buildJsonObj();
-					json_array_append(out1, out0);
-					json_decref(out0);
+					modelmaker::JsonValOut obj0 = this->tiles[i][ii][iii].buildJsonObj();
+					modelmaker::JsonValOut out0 = obj0;
+					modelmaker::arrayAdd(out1, out0);
+					modelmaker::decref(out0);
 				}
-				json_array_append(out2, out1);
-				json_decref(out1);
+				modelmaker::arrayAdd(out2, out1);
+				modelmaker::decref(out1);
 			}
-			json_array_append(out3, out2);
-			json_decref(out2);
+			modelmaker::arrayAdd(out3, out2);
+			modelmaker::decref(out2);
 		}
-		json_object_set(obj, "Tiles", out3);
-		json_decref(out3);
+		modelmaker::objSet(obj, "Tiles", out3);
+		modelmaker::decref(out3);
 	}
 	{
-		json_t *out1 = json_array();
+		modelmaker::JsonArrayOut out1 = modelmaker::newJsonArray();
 		for (unsigned int i = 0; i < this->initScripts.size(); i++) {
-			json_t *out0 = json_string(this->initScripts[i].c_str());
-			json_array_append(out1, out0);
-			json_decref(out0);
+			modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->initScripts[i]);
+			modelmaker::arrayAdd(out1, out0);
+			modelmaker::decref(out0);
 		}
-		json_object_set(obj, "InitScripts", out1);
-		json_decref(out1);
+		modelmaker::objSet(obj, "InitScripts", out1);
+		modelmaker::decref(out1);
 	}
 	{
-		json_t *out0 = this->location.buildJsonObj();
-		json_object_set(obj, "Location", out0);
-		json_decref(out0);
+		modelmaker::JsonValOut obj0 = this->location.buildJsonObj();
+		modelmaker::JsonValOut out0 = obj0;
+		modelmaker::objSet(obj, "Location", out0);
+		modelmaker::decref(out0);
 	}
 	return obj;
 }

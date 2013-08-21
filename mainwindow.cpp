@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QMenu>
+#include <QString>
 
 #include "globs.hpp"
 #include "mainwindow.hpp"
@@ -19,7 +20,7 @@
 
 using std::make_pair;
 
-string defaultPaths[] = {
+QString defaultPaths[] = {
 	"Animations",
 	"Creatures",
 	"Creatures/Classes",
@@ -113,7 +114,7 @@ void MainWindow::openProject(QString path) {
 void MainWindow::openFile(QModelIndex index) {
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
 	EditorTab *tab = 0;
-	if (!m_openTabs[path.toStdString()]) {
+	if (!m_openTabs[path]) {
 		QString tabName = "";
 		if (m_projectPath + "Misc/SaveVariables.json" == path) {
 			//open save variables tab
@@ -127,10 +128,10 @@ void MainWindow::openFile(QModelIndex index) {
 
 		if (tab) {
 			tab->addListener(this);
-			ui->tabWidget->setCurrentWidget(tab);
-			m_openTabs[path.toStdString()] = tab;
-			m_currentTab = tab;
+			m_openTabs[path] = tab;
 			ui->tabWidget->addTab(tab, tabName);
+			ui->tabWidget->setCurrentWidget(tab);
+			m_currentTab = tab;
 		}
 	}
 }
@@ -171,12 +172,12 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	QPoint p = ui->fileList->mapToGlobal(itemPt);
 	QMenu m;
 
-	string path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath().toStdString();
-	string projectDir = m_projectPath.toStdString();
+	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	QString projectDir = m_projectPath;
 
 	if (path != "") {
 		bool fileDeletable = true;
-		unsigned long size = sizeof(defaultPaths) / sizeof(string);
+		unsigned long size = sizeof(defaultPaths) / sizeof(QString);
 		for (unsigned long i = 0; i < size; i++) {
 			if (path == projectDir + defaultPaths[i]) {
 				fileDeletable = false;
@@ -188,9 +189,9 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 			QAction *qaction = m.exec(p);
 
 			if (qaction) {
-				string action = qaction->text().toStdString();
+				QString action = qaction->text();
 				if (action == "&Delete") {
-					QFile::remove(QString(path.c_str()));
+					QFile::remove(path);
 				}
 			}
 		}

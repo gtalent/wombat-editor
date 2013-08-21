@@ -7,6 +7,7 @@
 #include <QModelIndex>
 #include <QMainWindow>
 #include <QPoint>
+#include <QString>
 
 #include "editortab.hpp"
 
@@ -20,7 +21,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		Ui::MainWindow *ui;
 		EditorTab *m_currentTab;
 		QString m_projectPath;
-		std::map<std::string, EditorTab*> m_openTabs;
+		std::map<QString, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
 
 	public:

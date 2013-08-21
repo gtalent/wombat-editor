@@ -4,8 +4,8 @@
 #include <QApplication>
 
 using namespace std;
-using namespace modelmaker;
 using namespace enginemodels;
+using namespace modelmaker;
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

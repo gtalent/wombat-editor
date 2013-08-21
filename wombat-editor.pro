@@ -19,7 +19,6 @@ SOURCES += main.cpp \
     savevariables.cpp \
     importmenu.cpp \
     editortab.cpp \
-    models/modelmakerdefs.cpp \
     models/enginemodels.cpp \
     models/editormodels.cpp \
     savevariableeditor.cpp \
@@ -36,7 +35,6 @@ HEADERS  += mainwindow.hpp \
     importmenu.hpp \
     editortab.hpp \
     editortablistener.hpp \
-    models/modelmakerdefs.hpp \
     models/enginemodels.hpp \
     models/editormodels.hpp \
     savevariableeditor.hpp \

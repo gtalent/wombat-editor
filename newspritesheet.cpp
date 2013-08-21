@@ -25,9 +25,7 @@ void NewSpriteSheet::accept() {
 		model.tilesWide = ss[0].toInt();
 		model.tilesHigh = ss[1].toInt();
 
-		std::cout << model.write() << std::endl;
-
-		model.writeFile(m_projectPath.toStdString() + "/Resources/SpriteSheets/" + ui->leName->text().toStdString() + ".json");
+		model.writeFile(m_projectPath + "/Resources/SpriteSheets/" + ui->leName->text() + ".json");
 		this->close();
 		this->parentWidget()->activateWindow();
 	}

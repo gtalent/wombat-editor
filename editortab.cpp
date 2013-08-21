@@ -4,14 +4,14 @@ EditorTab::EditorTab(QWidget *parent, std::string path): QWidget(parent) {
 	m_hasUnsavedChanges = false;
 	m_undoStack = new QUndoStack(parent);
 	m_lastCommand = m_lastSavedCommand = (QUndoCommand*) this;
-	m_path = path;
+	m_path = QString(path.c_str());
 }
 
 EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
 	m_hasUnsavedChanges = false;
 	m_undoStack = new QUndoStack(parent);
 	m_lastCommand = m_lastSavedCommand = (QUndoCommand*) this;
-	m_path = path.toStdString();
+	m_path = path;
 }
 
 EditorTab::~EditorTab() {
@@ -93,7 +93,7 @@ bool EditorTab::canRedo() {
 	return (void*) m_lastCommand != (void*) 0;
 }
 
-std::string EditorTab::path() {
+QString EditorTab::path() {
 	return m_path;
 }
 

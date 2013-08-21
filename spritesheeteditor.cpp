@@ -24,7 +24,7 @@ class AnimationTreeModel: public QAbstractItemModel {
 SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QString path): EditorTab(parent, path), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
 	m_projectDir = projectDir;
-	m_model.loadFile(path.toStdString());
+	m_model.loadFile(path);
 	m_imgs = new Image**[m_model.tilesWide];
 	for (int i = 0; i < m_model.tilesWide; i++) {
 		m_imgs[i] = new Image*[m_model.tilesHigh];
@@ -99,7 +99,8 @@ void SpriteSheetEditor::draw() {
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene->clear();
-	m_scene->setSceneRect(-(width / 2), -(height / 2), m_model.tilesWide * m_model.tileWidth, m_model.tilesHigh * m_model.tileHeight);
+	m_scene->setSceneRect(0, 0, width, height);
+	printf("width: %d\n", width);
 	for (int x = 0; x < m_model.tilesWide; x++) {
 		for (int y = 0; y < m_model.tilesHigh; y++) {
 			if (m_imgs[x][y]) {
@@ -107,5 +108,6 @@ void SpriteSheetEditor::draw() {
 			}
 		}
 	}
+	ui->canvas->translate((width / 2), -(height / 2));
 	ui->canvas->show();
 }

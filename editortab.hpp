@@ -19,7 +19,7 @@ class EditorTab: public QWidget {
 		const QUndoCommand *m_lastSavedCommand;
 
 	protected:
-		std::string m_path;
+		QString m_path;
 
 	public:
 		EditorTab(QWidget *win, std::string path);
@@ -32,7 +32,7 @@ class EditorTab: public QWidget {
 		void redo();
 		bool canUndo();
 		bool canRedo();
-		std::string path();
+		QString path();
 		virtual void closeTab();
 		virtual bool saveFile() = 0;
 

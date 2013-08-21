@@ -1,7 +1,7 @@
 #ifndef SAVEVARIABLES_H
 #define SAVEVARIABLES_H
 
-#include <string>
+#include <QString>
 
 #include <QWidget>
 #include <QAbstractTableModel>
@@ -23,39 +23,39 @@ class SaveVariables: public EditorTab {
 		//COMMANDS
 		class AddVarCommand: public QUndoCommand {
 			private:
-				string m_varName;
-				modelmaker::unknown *m_varVal;
+				QString m_varName;
+				enginemodels::modelmaker::unknown *m_varVal;
 				SaveVariables *m_parent;
 
 			public:
-				AddVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk);
+				AddVarCommand(SaveVariables *parent, QString name, enginemodels::modelmaker::unknown *unk);
 				void undo();
 				void redo();
 		};
 
 		class RemoveVarCommand: public QUndoCommand {
 			private:
-				string m_varName;
-				modelmaker::unknown *m_varVal;
+				QString m_varName;
+				enginemodels::modelmaker::unknown *m_varVal;
 				int m_varTblRow;
 				SaveVariables *m_parent;
 
 			public:
-				RemoveVarCommand(SaveVariables *parent, string name, modelmaker::unknown *unk);
+				RemoveVarCommand(SaveVariables *parent, QString name, enginemodels::modelmaker::unknown *unk);
 				void undo();
 				void redo();
 		};
 
 		class EditVarCommand: public QUndoCommand {
 			private:
-				string m_varName;
-				string m_newVarName;
-				modelmaker::unknown m_newVal;
-				modelmaker::unknown m_oldVal;
+				QString m_varName;
+				QString m_newVarName;
+				enginemodels::modelmaker::unknown m_newVal;
+				enginemodels::modelmaker::unknown m_oldVal;
 				SaveVariables *m_parent;
 
 			public:
-				EditVarCommand(SaveVariables *parent, string name, string newName, modelmaker::unknown *unk);
+				EditVarCommand(SaveVariables *parent, QString name, QString newName, enginemodels::modelmaker::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -69,13 +69,13 @@ class SaveVariables: public EditorTab {
 		~SaveVariables();
 
 	protected:
-		void addVar(string name, modelmaker::unknown *val);
-		void tblInsertVar(int row, string name, modelmaker::unknown *val);
-		void setVar(int row, string name, modelmaker::unknown *val);
+		void addVar(QString name, enginemodels::modelmaker::unknown *val);
+		void tblInsertVar(int row, QString name, enginemodels::modelmaker::unknown *val);
+		void setVar(int row, QString name, enginemodels::modelmaker::unknown *val);
 		void removeVar(int row);
 
 	private:
-		int rowOfKey(string key);
+		int rowOfKey(QString key);
 
 	public slots:
 		bool saveFile();
