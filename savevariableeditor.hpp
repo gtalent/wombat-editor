@@ -10,7 +10,7 @@ namespace Ui {
 class SaveVariableEditor;
 }
 
-using enginemodels::modelmaker::unknown;
+using enginemodels::cyborgbear::unknown;
 
 class SaveVariableEditor: public QDialog {
 	Q_OBJECT

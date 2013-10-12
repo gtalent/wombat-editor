@@ -1,16 +1,14 @@
 //Generated Code
 
-
-
 #include <fstream>
 #include "editormodels.hpp"
 
 using namespace editormodels;
-using namespace editormodels::modelmaker;
+using namespace editormodels::cyborgbear;
 
-bool Model::loadFile(string path) {
+bool Model::loadJsonFile(string path) {
 	std::ifstream in;
-	in.open(modelmaker::toCString(path));
+	in.open(cyborgbear::toCString(path));
 	std::string json;
 	if (in.is_open()) {
 		while (in.good()) {
@@ -19,180 +17,181 @@ bool Model::loadFile(string path) {
 			json += s;
 		}
 		in.close();
-		load(modelmaker::toString(json));
+		fromJson(cyborgbear::toString(json));
 		return true;
 	}
 	return false;
 }
 
-void Model::writeFile(string path) {
+void Model::writeJsonFile(string path, cyborgbear::JsonSerializationSettings sttngs) {
 	std::ofstream out;
-	out.open(modelmaker::toCString(path));
-	std::string json = modelmaker::toStdString(write());
+	out.open(cyborgbear::toCString(path));
+	std::string json = cyborgbear::toStdString(toJson(sttngs));
 	out << json << "\n";
 	out.close();
 }
 
-void Model::load(string json) {
-	modelmaker::JsonValOut obj = modelmaker::read(modelmaker::toCString(json));
+void Model::fromJson(string json) {
+	cyborgbear::JsonValOut obj = cyborgbear::read(cyborgbear::toCString(json));
 	loadJsonObj(obj);
-	modelmaker::decref(obj);
+	cyborgbear::decref(obj);
 }
 
-string Model::write() {
-	modelmaker::JsonValOut val = buildJsonObj();
-	modelmaker::JsonObjOut obj = modelmaker::toObj(val);
-	return modelmaker::write(obj);
+string Model::toJson(cyborgbear::JsonSerializationSettings sttngs) {
+	cyborgbear::JsonValOut val = buildJsonObj();
+	cyborgbear::JsonObjOut obj = cyborgbear::toObj(val);
+	return cyborgbear::write(obj, sttngs);
 }
 
 unknown::unknown() {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 }
 
 unknown::unknown(Model *v) {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 	set(v);
 }
 
 unknown::unknown(bool v) {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 	set(v);
 }
 
 unknown::unknown(int v) {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 	set(v);
 }
 
 unknown::unknown(double v) {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 	set(v);
 }
 
 unknown::unknown(string v) {
-#ifndef USING_QT
+#ifndef CYBORGBEAR_USING_QT
 	m_obj = 0;
 #endif
 	set(v);
 }
 
 unknown::~unknown() {
-	modelmaker::decref(m_obj);
+	cyborgbear::decref(m_obj);
 }
 
-bool unknown::loadJsonObj(modelmaker::JsonVal obj) {
-#ifdef USING_JANSSON
-	m_obj = modelmaker::incref(obj);
+bool unknown::loadJsonObj(cyborgbear::JsonVal obj) {
+#ifdef CYBORGBEAR_USING_JANSSON
+	m_obj = cyborgbear::incref(obj);
 #else
 	m_obj = obj;
 #endif
-	return !modelmaker::isNull(obj);
+	return !cyborgbear::isNull(obj);
 }
 
-modelmaker::JsonValOut unknown::buildJsonObj() {
-#ifdef USING_JANSSON
-	return modelmaker::incref(m_obj);
+cyborgbear::JsonValOut unknown::buildJsonObj() {
+#ifdef CYBORGBEAR_USING_JANSSON
+	return cyborgbear::incref(m_obj);
 #else
 	return m_obj;
 #endif
 }
 
 bool unknown::loaded() {
-	return !modelmaker::isNull(m_obj);
+	return !cyborgbear::isNull(m_obj);
 }
 
 bool unknown::isBool() {
-	return !modelmaker::isNull(m_obj) && modelmaker::isBool(m_obj);
+	return !cyborgbear::isNull(m_obj) && cyborgbear::isBool(m_obj);
 }
 
 bool unknown::isInt() {
-	return !modelmaker::isNull(m_obj) && modelmaker::isInt(m_obj);
+	return !cyborgbear::isNull(m_obj) && cyborgbear::isInt(m_obj);
 }
 
 bool unknown::isDouble() {
-	return !modelmaker::isNull(m_obj) && modelmaker::isDouble(m_obj);
+	return !cyborgbear::isNull(m_obj) && cyborgbear::isDouble(m_obj);
 }
 
 bool unknown::isString() {
-	return !modelmaker::isNull(m_obj) && modelmaker::isString(m_obj);
+	return !cyborgbear::isNull(m_obj) && cyborgbear::isString(m_obj);
 }
 
 bool unknown::isObject() {
-	return !modelmaker::isNull(m_obj) && modelmaker::isObj(m_obj);
+	return !cyborgbear::isNull(m_obj) && cyborgbear::isObj(m_obj);
 }
 
 bool unknown::toBool() {
-	return modelmaker::toBool(m_obj);
+	return cyborgbear::toBool(m_obj);
 }
 
 int unknown::toInt() {
-	return modelmaker::toInt(m_obj);
+	return cyborgbear::toInt(m_obj);
 }
 
 double unknown::toDouble() {
-	return modelmaker::toDouble(m_obj);
+	return cyborgbear::toDouble(m_obj);
 }
 
 string unknown::toString() {
-	return modelmaker::toString(m_obj);
+	return cyborgbear::toString(m_obj);
 }
 
 void unknown::set(Model *v) {
-	modelmaker::JsonValOut obj = v->buildJsonObj();
-	modelmaker::JsonVal old = m_obj;
+	cyborgbear::JsonValOut obj = v->buildJsonObj();
+	cyborgbear::JsonVal old = m_obj;
 	m_obj = obj;
-	if (!modelmaker::isNull(old)) {
-		modelmaker::decref(old);
+	if (!cyborgbear::isNull(old)) {
+		cyborgbear::decref(old);
 	}
 }
 
 void unknown::set(bool v) {
-	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
-	modelmaker::JsonVal old = m_obj;
+	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
+	cyborgbear::JsonVal old = m_obj;
 	m_obj = obj;
-	if (!modelmaker::isNull(old)) {
-		modelmaker::decref(old);
+	if (!cyborgbear::isNull(old)) {
+		cyborgbear::decref(old);
 	}
 }
 
 void unknown::set(int v) {
-	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
-	modelmaker::JsonVal old = m_obj;
+	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
+	cyborgbear::JsonVal old = m_obj;
 	m_obj = obj;
-	if (!modelmaker::isNull(old)) {
-		modelmaker::decref(old);
+	if (!cyborgbear::isNull(old)) {
+		cyborgbear::decref(old);
 	}
 }
 
 void unknown::set(double v) {
-	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
-	modelmaker::JsonVal old = m_obj;
+	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
+	cyborgbear::JsonVal old = m_obj;
 	m_obj = obj;
-	if (!modelmaker::isNull(old)) {
-		modelmaker::decref(old);
+	if (!cyborgbear::isNull(old)) {
+		cyborgbear::decref(old);
 	}
 }
 
 void unknown::set(string v) {
-	modelmaker::JsonValOut obj = modelmaker::toJsonVal(v);
-	modelmaker::JsonVal old = m_obj;
+	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
+	cyborgbear::JsonVal old = m_obj;
 	m_obj = obj;
-	if (!modelmaker::isNull(old)) {
-		modelmaker::decref(old);
+	if (!cyborgbear::isNull(old)) {
+		cyborgbear::decref(old);
 	}
 }
 
 
+#include "string.h"
 #include "editormodels.hpp"
 
 using namespace editormodels;
@@ -212,58 +211,58 @@ DockSettings::DockSettings() {
 EditorSettings::EditorSettings() {
 }
 
-bool Bounds::loadJsonObj(modelmaker::JsonVal in) {
-	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+bool Bounds::loadJsonObj(cyborgbear::JsonVal in) {
+	cyborgbear::JsonObjOut inObj = cyborgbear::toObj(in);
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "X");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "X");
 		{
-			if (modelmaker::isInt(obj0)) {
-				this->x = modelmaker::toInt(obj0);
+			if (cyborgbear::isInt(obj0)) {
+				this->x = cyborgbear::toInt(obj0);
 			}
 		}
 	}
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Y");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Y");
 		{
-			if (modelmaker::isInt(obj0)) {
-				this->y = modelmaker::toInt(obj0);
+			if (cyborgbear::isInt(obj0)) {
+				this->y = cyborgbear::toInt(obj0);
 			}
 		}
 	}
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Width");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Width");
 		{
-			if (modelmaker::isInt(obj0)) {
-				this->width = modelmaker::toInt(obj0);
+			if (cyborgbear::isInt(obj0)) {
+				this->width = cyborgbear::toInt(obj0);
 			}
 		}
 	}
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Height");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Height");
 		{
-			if (modelmaker::isInt(obj0)) {
-				this->height = modelmaker::toInt(obj0);
+			if (cyborgbear::isInt(obj0)) {
+				this->height = cyborgbear::toInt(obj0);
 			}
 		}
 	}
 	return true;
 }
 
-bool DockSettings::loadJsonObj(modelmaker::JsonVal in) {
-	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+bool DockSettings::loadJsonObj(cyborgbear::JsonVal in) {
+	cyborgbear::JsonObjOut inObj = cyborgbear::toObj(in);
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Docked");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Docked");
 		{
-			if (modelmaker::isBool(obj0)) {
-				this->docked = modelmaker::toBool(obj0);
+			if (cyborgbear::isBool(obj0)) {
+				this->docked = cyborgbear::toBool(obj0);
 			}
 		}
 	}
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "Undocked");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Undocked");
 		{
-			modelmaker::JsonValOut finalObj = modelmaker::toObj(obj0);
-			if (modelmaker::isObj(finalObj)) {
+			cyborgbear::JsonValOut finalObj = cyborgbear::toObj(obj0);
+			if (cyborgbear::isObj(finalObj)) {
 				this->undocked.loadJsonObj(obj0);
 			}
 		}
@@ -271,17 +270,17 @@ bool DockSettings::loadJsonObj(modelmaker::JsonVal in) {
 	return true;
 }
 
-bool EditorSettings::loadJsonObj(modelmaker::JsonVal in) {
-	modelmaker::JsonObjOut inObj = modelmaker::toObj(in);
+bool EditorSettings::loadJsonObj(cyborgbear::JsonVal in) {
+	cyborgbear::JsonObjOut inObj = cyborgbear::toObj(in);
 	{
-		modelmaker::JsonValOut obj0 = modelmaker::objRead(inObj, "DockBounds");
-		if (!modelmaker::isNull(obj0) && modelmaker::isObj(obj0)) {
-			modelmaker::JsonObjOut map0 = modelmaker::toObj(obj0);
-			for (modelmaker::JsonObjIterator it1 = modelmaker::iterator(map0); !modelmaker::iteratorAtEnd(it1, map0); it1 = modelmaker::iteratorNext(map0,  it1)) {
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "DockBounds");
+		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
+			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
 				string i;
-				modelmaker::JsonValOut obj1 = modelmaker::iteratorValue(it1);
+				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = modelmaker::toStdString(modelmaker::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -289,8 +288,8 @@ bool EditorSettings::loadJsonObj(modelmaker::JsonVal in) {
 					i = o.c_str();
 				}
 				{
-					modelmaker::JsonValOut finalObj = modelmaker::toObj(obj1);
-					if (modelmaker::isObj(finalObj)) {
+					cyborgbear::JsonValOut finalObj = cyborgbear::toObj(obj1);
+					if (cyborgbear::isObj(finalObj)) {
 						this->dockBounds[i].loadJsonObj(obj1);
 					}
 				}
@@ -300,65 +299,65 @@ bool EditorSettings::loadJsonObj(modelmaker::JsonVal in) {
 	return true;
 }
 
-modelmaker::JsonValOut Bounds::buildJsonObj() {
-	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+cyborgbear::JsonValOut Bounds::buildJsonObj() {
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
-		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->x);
-		modelmaker::objSet(obj, "X", out0);
-		modelmaker::decref(out0);
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->x);
+		cyborgbear::objSet(obj, "X", out0);
+		cyborgbear::decref(out0);
 	}
 	{
-		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->y);
-		modelmaker::objSet(obj, "Y", out0);
-		modelmaker::decref(out0);
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->y);
+		cyborgbear::objSet(obj, "Y", out0);
+		cyborgbear::decref(out0);
 	}
 	{
-		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->width);
-		modelmaker::objSet(obj, "Width", out0);
-		modelmaker::decref(out0);
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->width);
+		cyborgbear::objSet(obj, "Width", out0);
+		cyborgbear::decref(out0);
 	}
 	{
-		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->height);
-		modelmaker::objSet(obj, "Height", out0);
-		modelmaker::decref(out0);
-	}
-	return obj;
-}
-
-modelmaker::JsonValOut DockSettings::buildJsonObj() {
-	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
-	{
-		modelmaker::JsonValOut out0 = modelmaker::toJsonVal(this->docked);
-		modelmaker::objSet(obj, "Docked", out0);
-		modelmaker::decref(out0);
-	}
-	{
-		modelmaker::JsonValOut obj0 = this->undocked.buildJsonObj();
-		modelmaker::JsonValOut out0 = obj0;
-		modelmaker::objSet(obj, "Undocked", out0);
-		modelmaker::decref(out0);
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->height);
+		cyborgbear::objSet(obj, "Height", out0);
+		cyborgbear::decref(out0);
 	}
 	return obj;
 }
 
-modelmaker::JsonValOut EditorSettings::buildJsonObj() {
-	modelmaker::JsonObjOut obj = modelmaker::newJsonObj();
+cyborgbear::JsonValOut DockSettings::buildJsonObj() {
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
-		modelmaker::JsonObjOut out1 = modelmaker::newJsonObj();
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->docked);
+		cyborgbear::objSet(obj, "Docked", out0);
+		cyborgbear::decref(out0);
+	}
+	{
+		cyborgbear::JsonValOut obj0 = this->undocked.buildJsonObj();
+		cyborgbear::JsonValOut out0 = obj0;
+		cyborgbear::objSet(obj, "Undocked", out0);
+		cyborgbear::decref(out0);
+	}
+	return obj;
+}
+
+cyborgbear::JsonValOut EditorSettings::buildJsonObj() {
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	{
+		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
 		for (std::map< string, DockSettings >::iterator n = this->dockBounds.begin(); n != this->dockBounds.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << modelmaker::toStdString(modelmaker::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
 			s >> tmp;
-			key = modelmaker::toString(tmp);
-			modelmaker::JsonValOut obj0 = this->dockBounds[n->first].buildJsonObj();
-			modelmaker::JsonValOut out0 = obj0;
-			modelmaker::objSet(out1, key, out0);
-			modelmaker::decref(out0);
+			key = cyborgbear::toString(tmp);
+			cyborgbear::JsonValOut obj0 = this->dockBounds[n->first].buildJsonObj();
+			cyborgbear::JsonValOut out0 = obj0;
+			cyborgbear::objSet(out1, key, out0);
+			cyborgbear::decref(out0);
 		}
-		modelmaker::objSet(obj, "DockBounds", out1);
-		modelmaker::decref(out1);
+		cyborgbear::objSet(obj, "DockBounds", out1);
+		cyborgbear::decref(out1);
 	}
 	return obj;
 }

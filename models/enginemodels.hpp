@@ -1,19 +1,18 @@
 //Generated Code
+
 #ifndef ENGINEMODELS_HPP
 #define ENGINEMODELS_HPP
 #include <string>
 #include <sstream>
 
-//Generated Code
-
-#define USING_QT
+#define CYBORGBEAR_USING_QT
 
 #include <string>
 
 #include <vector>
 #include <map>
 
-#ifdef USING_QT
+#ifdef CYBORGBEAR_USING_QT
 #include <QString>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -28,9 +27,14 @@
 
 namespace enginemodels {
 
-namespace modelmaker {
+namespace cyborgbear {
 
-#ifdef USING_QT
+enum JsonSerializationSettings {
+	Compact = 0,
+	Readable = 1
+};
+
+#ifdef CYBORGBEAR_USING_QT
 typedef QJsonObject& JsonObj;
 typedef QJsonValue&  JsonVal;
 typedef QJsonArray&  JsonArray;
@@ -135,7 +139,7 @@ inline string toString(string str) {
 }
 
 
-#ifdef USING_QT
+#ifdef CYBORGBEAR_USING_QT
 
 //string conversions
 inline std::string toStdString(string str) {
@@ -317,12 +321,12 @@ inline JsonArrayOut newJsonArray() {
 }
 
 inline void arrayAdd(JsonArray a, JsonArray v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	a.append(tmp);
 }
 
 inline void arrayAdd(JsonArray a, JsonObj v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	a.append(tmp);
 }
 
@@ -345,12 +349,12 @@ inline JsonObjOut newJsonObj() {
 }
 
 inline void objSet(JsonObj o, string k, JsonArray v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	o.insert(k, tmp);
 }
 
 inline void objSet(JsonObj o, string k, JsonObj v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	o.insert(k, tmp);
 }
 
@@ -383,9 +387,9 @@ inline JsonObjIteratorVal iteratorValue(JsonObjIterator i) {
 	return i.value();
 }
 
-inline string write(JsonObj obj) {
+inline string write(JsonObj obj, JsonSerializationSettings sttngs) {
 	QJsonDocument doc(obj);
-	return doc.toJson();
+	return doc.toJson(sttngs == Compact ? QJsonDocument::Compact : QJsonDocument::Indented);
 }
 
 #else
@@ -403,13 +407,13 @@ inline JsonObjOut read(const char *json) {
 	return json_loads(json, 0, NULL);
 }
 
-inline string write(JsonObj obj) {
-	char *tmp = json_dumps(obj, JSON_COMPACT);
+inline string write(JsonObj obj, JsonSerializationSettings sttngs) {
+	char *tmp = json_dumps(obj, sttngs == Compact ? JSON_COMPACT : JSON_INDENT(3));
 	if (!tmp)
 		return "{}";
 	string out = tmp;
 	free(tmp);
-	modelmaker::decref(obj);
+	cyborgbear::decref(obj);
 	return out;
 }
 
@@ -557,21 +561,37 @@ class unknown;
 class Model {
 	friend class unknown;
 	public:
-		bool loadFile(string path);
-		void writeFile(string path);
-		void load(string json);
-		string write();
-#ifdef USING_QT
-		bool loadJsonObj(modelmaker::JsonObjIteratorVal &obj) { return loadJsonObj(obj); };
+		/**
+		 * Loads fields of this Model from file of the given path.
+		 */
+		bool loadJsonFile(string path);
+
+		/**
+		 * Writes JSON representation of this Model to JSON file of the given path.
+		 */
+		void writeJsonFile(string path, cyborgbear::JsonSerializationSettings sttngs = Compact);
+
+		/**
+		 * Loads fields of this Model from file of the given path.
+		 */
+		void fromJson(string json);
+
+		/**
+		 * Returns JSON representation of this Model.
+		 */
+		string toJson(cyborgbear::JsonSerializationSettings sttngs = Compact);
+
+#ifdef CYBORGBEAR_USING_QT
+		bool loadJsonObj(cyborgbear::JsonObjIteratorVal &obj) { return loadJsonObj(obj); };
 #endif
 	protected:
-		virtual modelmaker::JsonValOut buildJsonObj() = 0;
-		virtual bool loadJsonObj(modelmaker::JsonVal obj) = 0;
+		virtual cyborgbear::JsonValOut buildJsonObj() = 0;
+		virtual bool loadJsonObj(cyborgbear::JsonVal obj) = 0;
 };
 
 class unknown: public Model {
 	private:
-		modelmaker::JsonValOut m_obj;
+		cyborgbear::JsonValOut m_obj;
 	public:
 		unknown();
 		unknown(Model *v);
@@ -582,14 +602,14 @@ class unknown: public Model {
 		virtual ~unknown();
 
 		bool loaded();
-		bool loadJsonObj(modelmaker::JsonVal obj);
-		modelmaker::JsonValOut buildJsonObj();
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+		cyborgbear::JsonValOut buildJsonObj();
 
 		bool toBool();
 		int toInt();
 		double toDouble();
 		string toString();
-		
+
 		bool isBool();
 		bool isInt();
 		bool isDouble();
@@ -612,17 +632,17 @@ class unknown: public Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class CreatureType: public modelmaker::Model {
+class CreatureType: public cyborgbear::Model {
 
 	public:
 
 		CreatureType();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::map< string, string > name;
 		bool special;
@@ -635,17 +655,17 @@ class CreatureType: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class StatusEffect: public modelmaker::Model {
+class StatusEffect: public cyborgbear::Model {
 
 	public:
 
 		StatusEffect();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int attackerEffect;
 		int enemyEffect;
@@ -656,17 +676,17 @@ class StatusEffect: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Fraction: public modelmaker::Model {
+class Fraction: public cyborgbear::Model {
 
 	public:
 
 		Fraction();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int current;
 		int available;
@@ -677,17 +697,17 @@ class Fraction: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class ModelFile: public modelmaker::Model {
+class ModelFile: public cyborgbear::Model {
 
 	public:
 
 		ModelFile();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		string type;
 };
@@ -697,17 +717,17 @@ class ModelFile: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Point: public modelmaker::Model {
+class Point: public cyborgbear::Model {
 
 	public:
 
 		Point();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int x;
 		int y;
@@ -718,17 +738,17 @@ class Point: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Size: public modelmaker::Model {
+class Size: public cyborgbear::Model {
 
 	public:
 
 		Size();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int width;
 		int height;
@@ -739,17 +759,17 @@ class Size: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Bounds: public modelmaker::Model {
+class Bounds: public cyborgbear::Model {
 
 	public:
 
 		Bounds();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int x;
 		int y;
@@ -762,19 +782,19 @@ class Bounds: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class SaveVariables: public modelmaker::Model {
+class SaveVariables: public cyborgbear::Model {
 
 	public:
 
 		SaveVariables();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, modelmaker::unknown > vars;
+		std::map< string, cyborgbear::unknown > vars;
 };
 
 }
@@ -782,17 +802,17 @@ class SaveVariables: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class SpriteSheet: public modelmaker::Model {
+class SpriteSheet: public cyborgbear::Model {
 
 	public:
 
 		SpriteSheet();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int tilesWide;
 		int tilesHigh;
@@ -807,17 +827,17 @@ class SpriteSheet: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class CreatureMove: public modelmaker::Model {
+class CreatureMove: public cyborgbear::Model {
 
 	public:
 
 		CreatureMove();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::map< string, string > name;
 		string type;
@@ -836,17 +856,17 @@ class CreatureMove: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class CreatureMoveInstance: public modelmaker::Model {
+class CreatureMoveInstance: public cyborgbear::Model {
 
 	public:
 
 		CreatureMoveInstance();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int creatureMove;
 		Fraction pP;
@@ -857,17 +877,17 @@ class CreatureMoveInstance: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Creature: public modelmaker::Model {
+class Creature: public cyborgbear::Model {
 
 	public:
 
 		Creature();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int iD;
 		std::map< string, string > name;
@@ -891,17 +911,17 @@ class Creature: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class User: public modelmaker::Model {
+class User: public cyborgbear::Model {
 
 	public:
 
 		User();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int personID;
 		string world;
@@ -916,17 +936,17 @@ class User: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class ZoneInstance: public modelmaker::Model {
+class ZoneInstance: public cyborgbear::Model {
 
 	public:
 
 		ZoneInstance();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		string accessorID;
 		string path;
@@ -938,17 +958,17 @@ class ZoneInstance: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Image: public modelmaker::Model {
+class Image: public cyborgbear::Model {
 
 	public:
 
 		Image();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int imgId;
 		Size defaultSize;
@@ -959,17 +979,17 @@ class Image: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class ImageSrc: public modelmaker::Model {
+class ImageSrc: public cyborgbear::Model {
 
 	public:
 
 		ImageSrc();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		string srcFile;
 		Bounds bounds;
@@ -980,17 +1000,17 @@ class ImageSrc: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class ImageMap: public modelmaker::Model {
+class ImageMap: public cyborgbear::Model {
 
 	public:
 
 		ImageMap();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::map< int, ImageSrc > images;
 };
@@ -1000,17 +1020,17 @@ class ImageMap: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Animation: public modelmaker::Model {
+class Animation: public cyborgbear::Model {
 
 	public:
 
 		Animation();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int interval;
 		std::vector< Image > images;
@@ -1021,17 +1041,17 @@ class Animation: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class AnimLayer: public modelmaker::Model {
+class AnimLayer: public cyborgbear::Model {
 
 	public:
 
 		AnimLayer();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		Point point;
 		Animation animation;
@@ -1042,19 +1062,19 @@ class AnimLayer: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class SaveFile: public modelmaker::Model {
+class SaveFile: public cyborgbear::Model {
 
 	public:
 
 		SaveFile();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, modelmaker::unknown > vars;
+		std::map< string, cyborgbear::unknown > vars;
 		User user;
 };
 
@@ -1063,17 +1083,17 @@ class SaveFile: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class CreatureClass: public modelmaker::Model {
+class CreatureClass: public cyborgbear::Model {
 
 	public:
 
 		CreatureClass();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::map< string, string > name;
 		string successor;
@@ -1090,17 +1110,17 @@ class CreatureClass: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Sprite: public modelmaker::Model {
+class Sprite: public cyborgbear::Model {
 
 	public:
 
 		Sprite();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::vector< std::vector< AnimLayer > > animLayers;
 		int spriteType;
@@ -1116,17 +1136,17 @@ class Sprite: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class TileClass: public modelmaker::Model {
+class TileClass: public cyborgbear::Model {
 
 	public:
 
 		TileClass();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int terrainFlags;
 		string import;
@@ -1139,17 +1159,17 @@ class TileClass: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class ZoneHeader: public modelmaker::Model {
+class ZoneHeader: public cyborgbear::Model {
 
 	public:
 
 		ZoneHeader();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		string path;
 		Size size;
@@ -1160,17 +1180,17 @@ class ZoneHeader: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class PersonClass: public modelmaker::Model {
+class PersonClass: public cyborgbear::Model {
 
 	public:
 
 		PersonClass();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int iD;
 		std::map< string, string > name;
@@ -1185,17 +1205,17 @@ class PersonClass: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Person: public modelmaker::Model {
+class Person: public cyborgbear::Model {
 
 	public:
 
 		Person();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		PersonClass personClass;
 };
@@ -1205,17 +1225,17 @@ class Person: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Tile: public modelmaker::Model {
+class Tile: public cyborgbear::Model {
 
 	public:
 
 		Tile();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		TileClass tileClass;
 		Sprite occupant;
@@ -1226,17 +1246,17 @@ class Tile: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class World: public modelmaker::Model {
+class World: public cyborgbear::Model {
 
 	public:
 
 		World();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::vector< ZoneInstance > zones;
 };
@@ -1246,17 +1266,17 @@ class World: public modelmaker::Model {
 
 namespace enginemodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Zone: public modelmaker::Model {
+class Zone: public cyborgbear::Model {
 
 	public:
 
 		Zone();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::vector< std::vector< std::vector< Tile > > > tiles;
 		std::vector< string > initScripts;
