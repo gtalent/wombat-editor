@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     animationeditor.cpp \
     imageselector.cpp \
     spritesheeteditor.cpp \
-    newspritesheet.cpp
+    newspritesheet.cpp \
+    globs.cpp
 
 HEADERS  += mainwindow.hpp \
     globs.hpp \

@@ -9,16 +9,18 @@
 #include <QPoint>
 #include <QString>
 
+#include "globs.hpp"
 #include "editortab.hpp"
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow: public QMainWindow, public EditorTabListener {
+class MainWindow: public QMainWindow, public EditorTabListener, public DebugLogger {
 	Q_OBJECT
-	private:
+	public:
 		Ui::MainWindow *ui;
+	private:
 		EditorTab *m_currentTab;
 		QString m_projectPath;
 		std::map<QString, EditorTab*> m_openTabs;
@@ -29,6 +31,7 @@ class MainWindow: public QMainWindow, public EditorTabListener {
 		~MainWindow();
 
 		void openProject(QString);
+		virtual void logDebug(QString msg);
 
 	public slots:
 		void newMenu();

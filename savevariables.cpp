@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QMessageBox>
 
+#include "globs.hpp"
 #include "savevariableeditor.hpp"
 #include "savevariables.hpp"
 #include "ui_savevariables.h"
@@ -16,6 +17,7 @@ using namespace std;
 SaveVariables::SaveVariables(QWidget *parent, QString path): EditorTab(parent, path), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	logDebug("path: " + path);
 	m_file.loadFile(path);
 	for (map<QString, unknown>::iterator i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
 		//clone the mapped var because addVar re-sets the value in the map, and that causes wierdness
@@ -164,7 +166,7 @@ void SaveVariables::tableClicked(QModelIndex) {
 }
 
 bool SaveVariables::saveFile() {
-	m_file.writeFile(m_path);
+	m_file.writeFile(QString(m_path).replace("/", "/"));
 	notifyFileSave();
 	return false;
 }
