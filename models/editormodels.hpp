@@ -1,19 +1,18 @@
 //Generated Code
+
 #ifndef EDITORMODELS_HPP
 #define EDITORMODELS_HPP
 #include <string>
 #include <sstream>
 
-//Generated Code
-
-#define USING_QT
+#define CYBORGBEAR_USING_QT
 
 #include <string>
 
 #include <vector>
 #include <map>
 
-#ifdef USING_QT
+#ifdef CYBORGBEAR_USING_QT
 #include <QString>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -28,9 +27,14 @@
 
 namespace editormodels {
 
-namespace modelmaker {
+namespace cyborgbear {
 
-#ifdef USING_QT
+enum JsonSerializationSettings {
+	Compact = 0,
+	Readable = 1
+};
+
+#ifdef CYBORGBEAR_USING_QT
 typedef QJsonObject& JsonObj;
 typedef QJsonValue&  JsonVal;
 typedef QJsonArray&  JsonArray;
@@ -135,7 +139,7 @@ inline string toString(string str) {
 }
 
 
-#ifdef USING_QT
+#ifdef CYBORGBEAR_USING_QT
 
 //string conversions
 inline std::string toStdString(string str) {
@@ -317,12 +321,12 @@ inline JsonArrayOut newJsonArray() {
 }
 
 inline void arrayAdd(JsonArray a, JsonArray v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	a.append(tmp);
 }
 
 inline void arrayAdd(JsonArray a, JsonObj v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	a.append(tmp);
 }
 
@@ -345,12 +349,12 @@ inline JsonObjOut newJsonObj() {
 }
 
 inline void objSet(JsonObj o, string k, JsonArray v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	o.insert(k, tmp);
 }
 
 inline void objSet(JsonObj o, string k, JsonObj v) {
-	JsonValOut tmp = modelmaker::toJsonVal(v);
+	JsonValOut tmp = cyborgbear::toJsonVal(v);
 	o.insert(k, tmp);
 }
 
@@ -383,9 +387,9 @@ inline JsonObjIteratorVal iteratorValue(JsonObjIterator i) {
 	return i.value();
 }
 
-inline string write(JsonObj obj) {
+inline string write(JsonObj obj, JsonSerializationSettings sttngs) {
 	QJsonDocument doc(obj);
-	return doc.toJson();
+	return doc.toJson(sttngs == Compact ? QJsonDocument::Compact : QJsonDocument::Indented);
 }
 
 #else
@@ -403,13 +407,13 @@ inline JsonObjOut read(const char *json) {
 	return json_loads(json, 0, NULL);
 }
 
-inline string write(JsonObj obj) {
-	char *tmp = json_dumps(obj, JSON_COMPACT);
+inline string write(JsonObj obj, JsonSerializationSettings sttngs) {
+	char *tmp = json_dumps(obj, sttngs == Compact ? JSON_COMPACT : JSON_INDENT(3));
 	if (!tmp)
 		return "{}";
 	string out = tmp;
 	free(tmp);
-	modelmaker::decref(obj);
+	cyborgbear::decref(obj);
 	return out;
 }
 
@@ -557,21 +561,37 @@ class unknown;
 class Model {
 	friend class unknown;
 	public:
-		bool loadFile(string path);
-		void writeFile(string path);
-		void load(string json);
-		string write();
-#ifdef USING_QT
-		bool loadJsonObj(modelmaker::JsonObjIteratorVal &obj) { return loadJsonObj(obj); };
+		/**
+		 * Loads fields of this Model from file of the given path.
+		 */
+		bool loadJsonFile(string path);
+
+		/**
+		 * Writes JSON representation of this Model to JSON file of the given path.
+		 */
+		void writeJsonFile(string path, cyborgbear::JsonSerializationSettings sttngs = Compact);
+
+		/**
+		 * Loads fields of this Model from file of the given path.
+		 */
+		void fromJson(string json);
+
+		/**
+		 * Returns JSON representation of this Model.
+		 */
+		string toJson(cyborgbear::JsonSerializationSettings sttngs = Compact);
+
+#ifdef CYBORGBEAR_USING_QT
+		bool loadJsonObj(cyborgbear::JsonObjIteratorVal &obj) { return loadJsonObj(obj); };
 #endif
 	protected:
-		virtual modelmaker::JsonValOut buildJsonObj() = 0;
-		virtual bool loadJsonObj(modelmaker::JsonVal obj) = 0;
+		virtual cyborgbear::JsonValOut buildJsonObj() = 0;
+		virtual bool loadJsonObj(cyborgbear::JsonVal obj) = 0;
 };
 
 class unknown: public Model {
 	private:
-		modelmaker::JsonValOut m_obj;
+		cyborgbear::JsonValOut m_obj;
 	public:
 		unknown();
 		unknown(Model *v);
@@ -582,14 +602,14 @@ class unknown: public Model {
 		virtual ~unknown();
 
 		bool loaded();
-		bool loadJsonObj(modelmaker::JsonVal obj);
-		modelmaker::JsonValOut buildJsonObj();
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+		cyborgbear::JsonValOut buildJsonObj();
 
 		bool toBool();
 		int toInt();
 		double toDouble();
 		string toString();
-		
+
 		bool isBool();
 		bool isInt();
 		bool isDouble();
@@ -612,17 +632,17 @@ class unknown: public Model {
 
 namespace editormodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class Bounds: public modelmaker::Model {
+class Bounds: public cyborgbear::Model {
 
 	public:
 
 		Bounds();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		int x;
 		int y;
@@ -635,17 +655,17 @@ class Bounds: public modelmaker::Model {
 
 namespace editormodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class DockSettings: public modelmaker::Model {
+class DockSettings: public cyborgbear::Model {
 
 	public:
 
 		DockSettings();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		bool docked;
 		Bounds undocked;
@@ -656,17 +676,17 @@ class DockSettings: public modelmaker::Model {
 
 namespace editormodels {
 
-using modelmaker::string;
+using cyborgbear::string;
 
-class EditorSettings: public modelmaker::Model {
+class EditorSettings: public cyborgbear::Model {
 
 	public:
 
 		EditorSettings();
 
-		bool loadJsonObj(modelmaker::JsonVal obj);
+		bool loadJsonObj(cyborgbear::JsonVal obj);
 
-		modelmaker::JsonValOut buildJsonObj();
+		cyborgbear::JsonValOut buildJsonObj();
 
 		std::map< string, DockSettings > dockBounds;
 };

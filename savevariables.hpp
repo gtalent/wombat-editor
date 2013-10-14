@@ -24,11 +24,11 @@ class SaveVariables: public EditorTab {
 		class AddVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				enginemodels::modelmaker::unknown *m_varVal;
+				enginemodels::cyborgbear::unknown *m_varVal;
 				SaveVariables *m_parent;
 
 			public:
-				AddVarCommand(SaveVariables *parent, QString name, enginemodels::modelmaker::unknown *unk);
+				AddVarCommand(SaveVariables *parent, QString name, enginemodels::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -36,12 +36,12 @@ class SaveVariables: public EditorTab {
 		class RemoveVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				enginemodels::modelmaker::unknown *m_varVal;
+				enginemodels::cyborgbear::unknown *m_varVal;
 				int m_varTblRow;
 				SaveVariables *m_parent;
 
 			public:
-				RemoveVarCommand(SaveVariables *parent, QString name, enginemodels::modelmaker::unknown *unk);
+				RemoveVarCommand(SaveVariables *parent, QString name, enginemodels::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -50,12 +50,12 @@ class SaveVariables: public EditorTab {
 			private:
 				QString m_varName;
 				QString m_newVarName;
-				enginemodels::modelmaker::unknown m_newVal;
-				enginemodels::modelmaker::unknown m_oldVal;
+				enginemodels::cyborgbear::unknown m_newVal;
+				enginemodels::cyborgbear::unknown m_oldVal;
 				SaveVariables *m_parent;
 
 			public:
-				EditVarCommand(SaveVariables *parent, QString name, QString newName, enginemodels::modelmaker::unknown *unk);
+				EditVarCommand(SaveVariables *parent, QString name, QString newName, enginemodels::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -69,9 +69,9 @@ class SaveVariables: public EditorTab {
 		~SaveVariables();
 
 	protected:
-		void addVar(QString name, enginemodels::modelmaker::unknown *val);
-		void tblInsertVar(int row, QString name, enginemodels::modelmaker::unknown *val);
-		void setVar(int row, QString name, enginemodels::modelmaker::unknown *val);
+		void addVar(QString name, enginemodels::cyborgbear::unknown *val);
+		void tblInsertVar(int row, QString name, enginemodels::cyborgbear::unknown *val);
+		void setVar(int row, QString name, enginemodels::cyborgbear::unknown *val);
 		void removeVar(int row);
 
 	private:
