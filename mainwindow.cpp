@@ -50,6 +50,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 	ui->actionAnimationEditor->setEnabled(false);
 	ui->dockAnimationEditor->setVisible(false);
+
+	ui->dockDebug->setVisible(false);
+#ifdef WIN32
+	//turn the debug log on by default in Windows, because Windows stdout sucks
+	ui->actionDebugLog->toggle();
+#endif
 	m_currentTab = 0;
 }
 

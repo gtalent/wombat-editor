@@ -1,11 +1,11 @@
 #include <map>
 #include "globs.hpp"
 #include "mainwindow.hpp"
-#include "models/enginemodels.hpp"
+#include "models/models.hpp"
 #include <QApplication>
 
 using namespace std;
-using namespace enginemodels;
+using namespace models;
 using namespace cyborgbear;
 
 int main(int argc, char *argv[]) {

@@ -5,7 +5,6 @@
 #include <QVector>
 #include <QGraphicsScene>
 
-#include "models/editormodels.hpp"
 #include "models/models.hpp"
 
 #include "editortab.hpp"
