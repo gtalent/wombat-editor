@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 	ui->actionAnimationEditor->setEnabled(false);
 	ui->dockAnimationEditor->setVisible(false);
-	ui->actionDebugLog->toggle();
 	m_currentTab = 0;
 }
 
@@ -116,9 +115,6 @@ void MainWindow::openFile(QModelIndex index) {
 	EditorTab *tab = 0;
 	if (!m_openTabs[path]) {
 		QString tabName = "";
-		logDebug("path: " + path);
-		logDebug("m_projectPath: " + m_projectPath);
-		logDebug("checking against: " + m_projectPath + "Misc/SaveVariables.json");
 		if (m_projectPath + "Misc/SaveVariables.json" == path) {
 			//open save variables tab
 			tab = new SaveVariables(ui->tabWidget, path);
