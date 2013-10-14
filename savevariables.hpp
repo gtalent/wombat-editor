@@ -9,7 +9,7 @@
 #include <QUndoCommand>
 
 #include "editortab.hpp"
-#include "models/enginemodels.hpp"
+#include "models/models.hpp"
 
 namespace Ui {
 	class SaveVariables;
@@ -24,11 +24,11 @@ class SaveVariables: public EditorTab {
 		class AddVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				enginemodels::cyborgbear::unknown *m_varVal;
+				models::cyborgbear::unknown *m_varVal;
 				SaveVariables *m_parent;
 
 			public:
-				AddVarCommand(SaveVariables *parent, QString name, enginemodels::cyborgbear::unknown *unk);
+				AddVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -36,12 +36,12 @@ class SaveVariables: public EditorTab {
 		class RemoveVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				enginemodels::cyborgbear::unknown *m_varVal;
+				models::cyborgbear::unknown *m_varVal;
 				int m_varTblRow;
 				SaveVariables *m_parent;
 
 			public:
-				RemoveVarCommand(SaveVariables *parent, QString name, enginemodels::cyborgbear::unknown *unk);
+				RemoveVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
@@ -50,28 +50,28 @@ class SaveVariables: public EditorTab {
 			private:
 				QString m_varName;
 				QString m_newVarName;
-				enginemodels::cyborgbear::unknown m_newVal;
-				enginemodels::cyborgbear::unknown m_oldVal;
+				models::cyborgbear::unknown m_newVal;
+				models::cyborgbear::unknown m_oldVal;
 				SaveVariables *m_parent;
 
 			public:
-				EditVarCommand(SaveVariables *parent, QString name, QString newName, enginemodels::cyborgbear::unknown *unk);
+				EditVarCommand(SaveVariables *parent, QString name, QString newName, models::cyborgbear::unknown *unk);
 				void undo();
 				void redo();
 		};
 
 	private:
 		Ui::SaveVariables *ui;
-		enginemodels::SaveVariables m_file;
+		models::SaveVariables m_file;
 	
 	public:
 		explicit SaveVariables(QWidget *parent, QString path);
 		~SaveVariables();
 
 	protected:
-		void addVar(QString name, enginemodels::cyborgbear::unknown *val);
-		void tblInsertVar(int row, QString name, enginemodels::cyborgbear::unknown *val);
-		void setVar(int row, QString name, enginemodels::cyborgbear::unknown *val);
+		void addVar(QString name, models::cyborgbear::unknown *val);
+		void tblInsertVar(int row, QString name, models::cyborgbear::unknown *val);
+		void setVar(int row, QString name, models::cyborgbear::unknown *val);
 		void removeVar(int row);
 
 	private:

@@ -1,14 +1,12 @@
 #ifndef SPRITESHEETEDITOR_HPP
 #define SPRITESHEETEDITOR_HPP
 
-#include <string>
-
 #include <QString>
 #include <QVector>
 #include <QGraphicsScene>
 
 #include "models/editormodels.hpp"
-#include "models/enginemodels.hpp"
+#include "models/models.hpp"
 
 #include "editortab.hpp"
 
@@ -24,20 +22,23 @@ class SpriteSheetEditor: public EditorTab {
 		class Image {
 			public:
 				QPixmap img;
-				enginemodels::Bounds srcBnds;
+				models::Bounds srcBnds;
+				int imgId;
+				// The location of the image on the sprite sheet
+				int x, y;
 		};
 
 		Ui::SpriteSheetEditor *ui;
 		QString m_projectDir;
-		enginemodels::SpriteSheet m_model;
+		models::SpriteSheet m_model;
 		QGraphicsScene *m_scene;
-		enginemodels::Point m_sheetIdx;
-		Image ***m_imgs;
+		models::Point m_sheetIdx;
+		QVector<Image *> m_imgs;
 
 	public:
 		explicit SpriteSheetEditor(QWidget *parent, QString projectDir, QString path);
 		~SpriteSheetEditor();
-		QPixmap buildImage(QImage*, enginemodels::Bounds);
+		QPixmap buildImage(QImage*, models::Bounds);
 		virtual bool saveFile();
 		
 	public slots:

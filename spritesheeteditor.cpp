@@ -11,7 +11,7 @@
 #include "ui_spritesheeteditor.h"
 
 using std::string;
-using enginemodels::Bounds;
+using models::Bounds;
 
 class AnimationTreeModel: public QAbstractItemModel {
 	Q_OBJECT
@@ -25,13 +25,6 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 	ui->setupUi(this);
 	m_projectDir = projectDir;
 	m_model.loadJsonFile(path);
-	m_imgs = new Image**[m_model.tilesWide];
-	for (int i = 0; i < m_model.tilesWide; i++) {
-		m_imgs[i] = new Image*[m_model.tilesHigh];
-		for (int ii = 0; ii < m_model.tilesWide; ii++) {
-			m_imgs[i][ii] = 0;
-		}
-	}
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);
@@ -43,14 +36,11 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 
 SpriteSheetEditor::~SpriteSheetEditor() {
 	delete ui;
-	for (int i = 0; i < m_model.tilesWide; i++) {
-		delete m_imgs[i];
-	}
-	delete m_imgs;
 	delete m_scene;
 }
 
 bool SpriteSheetEditor::saveFile() {
+	notifyFileSave();
 	return true;
 }
 
@@ -75,12 +65,15 @@ int SpriteSheetEditor::addImages() {
 		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
 			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
 				Image *img = new Image();
+				img->x = m_sheetIdx.x * m_model.tileWidth;
+				img->y = m_sheetIdx.y * m_model.tileHeight;
 				img->srcBnds.x = ii;
 				img->srcBnds.y = i;
 				img->srcBnds.width = m_model.tileWidth;
 				img->srcBnds.height = m_model.tileHeight;
+				models::SpriteSheetImage imgModel;
+				imgModel.bounds = img->srcBnds;
 				img->img = buildImage(&src, img->srcBnds);
-				m_imgs[m_sheetIdx.x][m_sheetIdx.y] = img;
 				m_sheetIdx.x++;
 				if (m_model.tilesHigh <= m_sheetIdx.y) {
 					m_sheetIdx.x = 0;
@@ -90,10 +83,12 @@ int SpriteSheetEditor::addImages() {
 						return 1;
 					}
 				}
+				m_imgs.push_back(img);
 			}
 		}
 	}
 	draw();
+	notifyFileChange();
 	return 0;
 }
 
@@ -105,13 +100,11 @@ void SpriteSheetEditor::draw() {
 	m_scene->clear();
 	m_scene->setSceneRect(0, 0, width, height);
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
-	for (int x = 0; x < m_model.tilesWide; x++) {
-		for (int y = 0; y < m_model.tilesHigh; y++) {
-			if (m_imgs[x][y]) {
-				m_scene->addPixmap(m_imgs[x][y]->img)->setPos(m_model.tileWidth * x, m_model.tileHeight * y);
-			}
-		}
+
+	for (int i = 0; i < m_imgs.size(); i++) {
+		m_scene->addPixmap(m_imgs[i]->img)->setPos(m_imgs[i]->x, m_imgs[i]->y);
 	}
+
 	ui->canvas->centerOn(0, 0);
 	ui->canvas->show();
 }

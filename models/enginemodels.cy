@@ -63,6 +63,10 @@ Fraction
 	Current		int
 	Available	int
 
+GlobalImageData
+	ImageIdIterator		int
+	RecycledImageIds	int
+
 Image
 	ImgId		int
 	DefaultSize	Size
@@ -105,13 +109,17 @@ Bounds
 SaveVariables
 	Vars map[string]unknown
 
+SpriteSheetImage
+	ImageId	int
+	Bounds	Bounds
+
 SpriteSheet
 	TilesWide	int
 	TilesHigh	int
 	TileWidth	int
 	TileHeight	int
 	Src			string
-	Images		[]Bounds
+	Images		[]SpriteSheetImage
 
 Sprite
 	AnimLayers	[][]AnimLayer

@@ -4,13 +4,13 @@
 #include <QString>
 #include <QDialog>
 
-#include "models/enginemodels.hpp"
+#include "models/models.hpp"
 
 namespace Ui {
 class SaveVariableEditor;
 }
 
-using enginemodels::cyborgbear::unknown;
+using models::cyborgbear::unknown;
 
 class SaveVariableEditor: public QDialog {
 	Q_OBJECT

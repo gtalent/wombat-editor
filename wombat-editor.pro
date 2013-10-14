@@ -19,8 +19,7 @@ SOURCES += main.cpp \
     savevariables.cpp \
     importmenu.cpp \
     editortab.cpp \
-    models/enginemodels.cpp \
-    models/editormodels.cpp \
+    models/models.cpp \
     savevariableeditor.cpp \
     animationeditor.cpp \
     imageselector.cpp \
@@ -35,8 +34,7 @@ HEADERS  += mainwindow.hpp \
     importmenu.hpp \
     editortab.hpp \
     editortablistener.hpp \
-    models/enginemodels.hpp \
-    models/editormodels.hpp \
+    models/models.hpp \
     savevariableeditor.hpp \
     animationeditor.hpp \
     imageselector.hpp \
@@ -46,13 +44,13 @@ HEADERS  += mainwindow.hpp \
 FORMS    += mainwindow.ui \
     newmenu.ui \
     newproject.ui \
-    savevariables.ui \
     importmenu.ui \
     savevariableeditor.ui \
     animationeditor.ui \
     imageselector.ui \
     spritesheeteditor.ui \
-    newspritesheet.ui
+    newspritesheet.ui \
+    savevariables.ui
 
 RESOURCES += \
     rsrc.qrc

@@ -10,7 +10,7 @@
 #include "savevariables.hpp"
 #include "ui_savevariables.h"
 
-using enginemodels::cyborgbear::unknown;
+using models::cyborgbear::unknown;
 using namespace std;
 
 SaveVariables::SaveVariables(QWidget *parent, QString path): EditorTab(parent, path), ui(new Ui::SaveVariables) {
@@ -164,7 +164,7 @@ void SaveVariables::tableClicked(QModelIndex) {
 }
 
 bool SaveVariables::saveFile() {
-	m_file.writeJsonFile(m_path);
+	m_file.writeJsonFile(m_path, models::cyborgbear::Readable);
 	notifyFileSave();
 	return false;
 }
