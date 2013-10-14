@@ -1,9 +1,10 @@
-generate: editormodels.hpp enginemodels.hpp
+generate: models.hpp
 
 clean:
-	rm -f enginemodels.cpp enginemodels.hpp editormodels.cpp editormodels.hpp
+	rm -f models.cpp models.hpp models.cy
 
-editormodels.hpp: editormodels.mod
-	cyborgbear -i editormodels.mod -o editormodels -n editormodels -t cpp-qt
-enginemodels.hpp: enginemodels.mod
-	cyborgbear -i enginemodels.mod -o enginemodels -n enginemodels -t cpp-qt
+models.cy: enginemodels.cy editormodels.cy
+	cat enginemodels.cy editormodels.cy > models.cy
+models.hpp: models.cy
+	cyborgbear -i models.cy -o models -n models -t cpp-qt
+	rm -f models.cy
