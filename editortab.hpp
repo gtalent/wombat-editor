@@ -2,7 +2,6 @@
 #define EDITORTAB_HPP
 
 #include <string>
-#include <vector>
 
 #include <QWidget>
 #include <QUndoStack>
@@ -11,7 +10,7 @@
 
 class EditorTab: public QWidget {
 	private:
-		std::vector<EditorTabListener*> m_listeners;
+		QVector<EditorTabListener*> m_listeners;
 		bool m_hasUnsavedChanges;
 		QUndoStack *m_undoStack;
 
@@ -22,7 +21,6 @@ class EditorTab: public QWidget {
 		QString m_path;
 
 	public:
-		EditorTab(QWidget *win, std::string path);
 		EditorTab(QWidget *win, QString path);
 		~EditorTab();
 		void updateListeners();
