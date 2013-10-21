@@ -53,11 +53,6 @@ void NewProject::accept() {
     QTextStream out(&f);
     out << "{}\n";
 	f.close();
-	QFile imgMap(path + "/Resources/ImageMap.json");
-	imgMap.open(QIODevice::WriteOnly);
-    QTextStream imgOut(&imgMap);
-    imgOut << "{}\n";
-	imgMap.close();
 	this->close();
 	this->parentWidget()->activateWindow();
 }

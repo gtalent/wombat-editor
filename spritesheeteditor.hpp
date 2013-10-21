@@ -2,7 +2,7 @@
 #define SPRITESHEETEDITOR_HPP
 
 #include <QString>
-#include <QVector>
+#include <QMap>
 #include <QGraphicsScene>
 
 #include "models/models.hpp"
@@ -18,6 +18,14 @@ class SpriteSheetEditor: public EditorTab {
 
 	private:
 
+		//COMMANDS
+		class AddImageCommand: public QUndoCommand {
+			public:
+				AddImageCommand();
+				void undo();
+				void redo();
+		};
+
 		class Image {
 			public:
 				QPixmap img;
@@ -32,7 +40,7 @@ class SpriteSheetEditor: public EditorTab {
 		models::SpriteSheet m_model;
 		QGraphicsScene *m_scene;
 		models::Point m_sheetIdx;
-		QVector<Image *> m_imgs;
+		QMap<int, Image *> m_imgs;
 
 	public:
 		explicit SpriteSheetEditor(QWidget *parent, QString projectDir, QString path);
@@ -44,7 +52,9 @@ class SpriteSheetEditor: public EditorTab {
 		int addImages();
 
 	private:
+		int load(QString path);
 		void draw();
+		int newImageId();
 };
 
 #endif // SPRITESHEETEDITOR_HPP

@@ -699,27 +699,6 @@ namespace models {
 
 using cyborgbear::string;
 
-class GlobalImageData: public cyborgbear::Model {
-
-	public:
-
-		GlobalImageData();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		int imageIdIterator;
-		int recycledImageIds;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
 class ModelFile: public cyborgbear::Model {
 
 	public:
@@ -835,8 +814,7 @@ class SpriteSheetImage: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		int imageId;
-		Bounds bounds;
+		Bounds srcBounds;
 };
 
 }
@@ -860,8 +838,102 @@ class SpriteSheet: public cyborgbear::Model {
 		int tilesHigh;
 		int tileWidth;
 		int tileHeight;
-		string src;
-		std::vector< SpriteSheetImage > images;
+		string srcFile;
+		std::map< int, SpriteSheetImage > images;
+		int imageIdIterator;
+		std::vector< int > recycledImageIds;
+		Point sheetIdx;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class Image: public cyborgbear::Model {
+
+	public:
+
+		Image();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		string spriteSheet;
+		int imgId;
+		Size defaultSize;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class Animation: public cyborgbear::Model {
+
+	public:
+
+		Animation();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		int interval;
+		std::vector< Image > images;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class AnimLayer: public cyborgbear::Model {
+
+	public:
+
+		AnimLayer();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		Point point;
+		Animation animation;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class CreatureClass: public cyborgbear::Model {
+
+	public:
+
+		CreatureClass();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		std::map< string, string > name;
+		string successor;
+		string predecessor;
+		std::vector< string > types;
+		std::vector< string > canLearn;
+		std::map< int, string > learnsAtLevel;
+		Animation frontView;
+		Animation backView;
 };
 
 }
@@ -1002,168 +1074,20 @@ namespace models {
 
 using cyborgbear::string;
 
-class Image: public cyborgbear::Model {
+class PersonClass: public cyborgbear::Model {
 
 	public:
 
-		Image();
+		PersonClass();
 
 		bool loadJsonObj(cyborgbear::JsonVal obj);
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		int imgId;
-		Size defaultSize;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class ImageSrc: public cyborgbear::Model {
-
-	public:
-
-		ImageSrc();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		string srcFile;
-		Bounds bounds;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class ImageMap: public cyborgbear::Model {
-
-	public:
-
-		ImageMap();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		std::map< int, ImageSrc > images;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class ZoneInstance: public cyborgbear::Model {
-
-	public:
-
-		ZoneInstance();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		string accessorID;
-		string path;
-		Point location;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class Animation: public cyborgbear::Model {
-
-	public:
-
-		Animation();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		int interval;
-		std::vector< Image > images;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class AnimLayer: public cyborgbear::Model {
-
-	public:
-
-		AnimLayer();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		Point point;
-		Animation animation;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class EditorSettings: public cyborgbear::Model {
-
-	public:
-
-		EditorSettings();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		std::map< string, EditorDockSettings > dockBounds;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class CreatureClass: public cyborgbear::Model {
-
-	public:
-
-		CreatureClass();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
+		int iD;
 		std::map< string, string > name;
-		string successor;
-		string predecessor;
-		std::vector< string > types;
-		std::vector< string > canLearn;
-		std::map< int, string > learnsAtLevel;
+		std::vector< int > creatures;
+		std::vector< Animation > overhead;
 		Animation frontView;
 		Animation backView;
 };
@@ -1224,6 +1148,26 @@ namespace models {
 
 using cyborgbear::string;
 
+class EditorSettings: public cyborgbear::Model {
+
+	public:
+
+		EditorSettings();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		std::map< string, EditorDockSettings > dockBounds;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
 class Tile: public cyborgbear::Model {
 
 	public:
@@ -1245,22 +1189,19 @@ namespace models {
 
 using cyborgbear::string;
 
-class PersonClass: public cyborgbear::Model {
+class Zone: public cyborgbear::Model {
 
 	public:
 
-		PersonClass();
+		Zone();
 
 		bool loadJsonObj(cyborgbear::JsonVal obj);
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		int iD;
-		std::map< string, string > name;
-		std::vector< int > creatures;
-		std::vector< Animation > overhead;
-		Animation frontView;
-		Animation backView;
+		std::vector< std::vector< std::vector< Tile > > > tiles;
+		std::vector< string > initScripts;
+		Point location;
 };
 
 }
@@ -1281,47 +1222,6 @@ class Person: public cyborgbear::Model {
 		cyborgbear::JsonValOut buildJsonObj();
 
 		PersonClass personClass;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class ZoneHeader: public cyborgbear::Model {
-
-	public:
-
-		ZoneHeader();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		string path;
-		Size size;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class World: public cyborgbear::Model {
-
-	public:
-
-		World();
-
-		bool loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-
-		std::vector< ZoneInstance > zones;
 };
 
 }
@@ -1352,19 +1252,60 @@ namespace models {
 
 using cyborgbear::string;
 
-class Zone: public cyborgbear::Model {
+class ZoneInstance: public cyborgbear::Model {
 
 	public:
 
-		Zone();
+		ZoneInstance();
 
 		bool loadJsonObj(cyborgbear::JsonVal obj);
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::vector< std::vector< std::vector< Tile > > > tiles;
-		std::vector< string > initScripts;
+		string accessorID;
+		string path;
 		Point location;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class World: public cyborgbear::Model {
+
+	public:
+
+		World();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		std::vector< ZoneInstance > zones;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class ZoneHeader: public cyborgbear::Model {
+
+	public:
+
+		ZoneHeader();
+
+		bool loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+
+		string path;
+		Size size;
 };
 
 }

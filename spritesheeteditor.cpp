@@ -1,4 +1,3 @@
-#include "stdio.h"
 #include <iostream>
 #include <QDir>
 #include <QFile>
@@ -7,6 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 
+#include "globs.hpp"
 #include "spritesheeteditor.hpp"
 #include "ui_spritesheeteditor.h"
 
@@ -24,7 +24,7 @@ class AnimationTreeModel: public QAbstractItemModel {
 SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QString path): EditorTab(parent, path), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
 	m_projectDir = projectDir;
-	m_model.loadJsonFile(path);
+	load(path);
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);
@@ -32,6 +32,7 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 	ui->canvas->setScene(m_scene);
 	ui->canvas->setStyleSheet("background-color: transparent");
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
+	draw();
 }
 
 SpriteSheetEditor::~SpriteSheetEditor() {
@@ -41,6 +42,22 @@ SpriteSheetEditor::~SpriteSheetEditor() {
 
 bool SpriteSheetEditor::saveFile() {
 	notifyFileSave();
+	m_model.writeJsonFile(m_path, models::cyborgbear::Readable);
+
+	int width = m_model.tilesWide * m_model.tileWidth;
+	int height = m_model.tilesHigh * m_model.tileHeight;
+
+	QImage imgOut(width, height, QImage::Format_ARGB32);
+
+	for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
+		QImage src = m_imgs[i->first]->img.toImage();
+		for (int x = 0; x < i->second.srcBounds.width; x++)
+			for (int y = 0; y < i->second.srcBounds.height; y++)
+				imgOut.setPixel(i->second.srcBounds.x + x, i->second.srcBounds.y + y, src.pixel(x, y));
+	}
+
+	imgOut.save(m_model.srcFile);
+
 	return true;
 }
 
@@ -58,37 +75,73 @@ QPixmap SpriteSheetEditor::buildImage(QImage *src, Bounds bnds) {
 	return QPixmap::fromImage(sprt);
 }
 
+int SpriteSheetEditor::newImageId() {
+	int retval;
+	if (m_model.recycledImageIds.empty()) {
+		retval = m_model.imageIdIterator++;
+	} else {
+		retval = m_model.recycledImageIds.back();
+		m_model.recycledImageIds.pop_back();
+	}
+	return retval;
+}
+
 int SpriteSheetEditor::addImages() {
 	QStringList files = QFileDialog::getOpenFileNames(parentWidget(), "Choose images to import...", QDir::homePath());
 	for (int n = 0; n < files.size(); n++) {
 		QImage src(files[n]);
 		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
 			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
-				Image *img = new Image();
-				img->x = m_sheetIdx.x * m_model.tileWidth;
-				img->y = m_sheetIdx.y * m_model.tileHeight;
-				img->srcBnds.x = ii;
-				img->srcBnds.y = i;
-				img->srcBnds.width = m_model.tileWidth;
-				img->srcBnds.height = m_model.tileHeight;
+				int imgId = newImageId();
 				models::SpriteSheetImage imgModel;
-				imgModel.bounds = img->srcBnds;
-				img->img = buildImage(&src, img->srcBnds);
-				m_sheetIdx.x++;
-				if (m_model.tilesHigh <= m_sheetIdx.y) {
-					m_sheetIdx.x = 0;
-					m_sheetIdx.y++;
-					if (m_model.tilesHigh <= m_sheetIdx.y) {
+				imgModel.srcBounds.x = m_model.sheetIdx.x * m_model.tileWidth;
+				imgModel.srcBounds.y = m_model.sheetIdx.y * m_model.tileHeight;
+				imgModel.srcBounds.width = m_model.tileWidth;
+				imgModel.srcBounds.height = m_model.tileHeight;
+				m_model.images[imgId] = imgModel;
+
+				Image *img = new Image();
+				img->x = imgModel.srcBounds.x;
+				img->y = imgModel.srcBounds.y;
+				img->imgId = imgId;
+
+				models::Bounds srcBnds;
+				srcBnds.x = ii;
+				srcBnds.y = i;
+				srcBnds.width = m_model.tileWidth;
+				srcBnds.height = m_model.tileHeight;
+				img->img = buildImage(&src, srcBnds);
+
+				m_model.sheetIdx.x++;
+				if (m_model.tilesHigh <= m_model.sheetIdx.y) {
+					m_model.sheetIdx.x = 0;
+					m_model.sheetIdx.y++;
+					if (m_model.tilesHigh <= m_model.sheetIdx.y) {
 						delete img;
 						return 1;
 					}
 				}
-				m_imgs.push_back(img);
+				m_imgs[imgId] = img;
 			}
 		}
 	}
 	draw();
 	notifyFileChange();
+	return 0;
+}
+
+int SpriteSheetEditor::load(QString path) {
+	m_model.loadJsonFile(path);
+	QImage src(m_model.srcFile);
+	if (!src.isNull()) {
+		for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
+			Image *img = new Image();
+			img->x = i->second.srcBounds.x;
+			img->y = i->second.srcBounds.y;
+			img->img = buildImage(&src, i->second.srcBounds);
+			m_imgs[i->first] = img;
+		}
+	}
 	return 0;
 }
 
@@ -101,8 +154,8 @@ void SpriteSheetEditor::draw() {
 	m_scene->setSceneRect(0, 0, width, height);
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
 
-	for (int i = 0; i < m_imgs.size(); i++) {
-		m_scene->addPixmap(m_imgs[i]->img)->setPos(m_imgs[i]->x, m_imgs[i]->y);
+	for (auto i = m_imgs.begin(); i != m_imgs.end(); ++i) {
+		m_scene->addPixmap(i.value()->img)->setPos(i.value()->x, i.value()->y);
 	}
 
 	ui->canvas->centerOn(0, 0);

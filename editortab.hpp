@@ -11,8 +11,8 @@
 class EditorTab: public QWidget {
 	private:
 		QVector<EditorTabListener*> m_listeners;
-		bool m_hasUnsavedChanges;
 		QUndoStack *m_undoStack;
+		bool m_hasUnsavedChanges;
 
 		const QUndoCommand *m_lastCommand;
 		const QUndoCommand *m_lastSavedCommand;
@@ -37,7 +37,6 @@ class EditorTab: public QWidget {
 	protected:
 		void notifyFileChange(QUndoCommand *c = 0);
 		void notifyFileSave();
-	protected slots:
 };
 
 #endif

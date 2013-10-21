@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 TARGET = WombatEditor
 TEMPLATE = app
 
-
 SOURCES += main.cpp \
     mainwindow.cpp \
     newmenu.cpp \
@@ -55,6 +54,8 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     rsrc.qrc
+
+QMAKE_CXXFLAGS = -std=c++11
 
 unix: CONFIG += link_pkgconfig
 

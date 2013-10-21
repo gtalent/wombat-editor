@@ -16,7 +16,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow: public QMainWindow, public EditorTabListener, public DebugLogger {
+class MainWindow: public QMainWindow, public EditorTabListener, public wombat::editor::DebugLogger {
 	Q_OBJECT
 	public:
 		Ui::MainWindow *ui;

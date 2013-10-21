@@ -1,7 +1,10 @@
 #ifndef GLOBS_HPP
 #define GLOBS_HPP
 
-#include <QString>
+#include "models/models.hpp"
+
+namespace wombat {
+namespace editor {
 
 class DebugLogger {
 	public:
@@ -11,5 +14,8 @@ class DebugLogger {
 void addDebugLogger(DebugLogger *logger);
 
 void logDebug(QString str);
+
+}
+}
 
 #endif // GLOBS_HPP

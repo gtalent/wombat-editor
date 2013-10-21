@@ -1,12 +1,9 @@
-#include <map>
 #include "globs.hpp"
 #include "mainwindow.hpp"
 #include "models/models.hpp"
 #include <QApplication>
 
-using namespace std;
-using namespace models;
-using namespace cyborgbear;
+using namespace wombat::editor;
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

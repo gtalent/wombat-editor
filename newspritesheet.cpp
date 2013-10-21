@@ -1,5 +1,5 @@
 #include <QFile>
-#include <iostream>
+#include <QImage>
 #include "newspritesheet.hpp"
 #include "models/models.hpp"
 #include "ui_newspritesheet.h"
@@ -15,7 +15,10 @@ NewSpriteSheet::~NewSpriteSheet() {
 
 void NewSpriteSheet::accept() {
 	if (!QFile::exists(ui->leName->text() + ".json")) {
+		//setup JSON file
 		models::SpriteSheet model;
+
+		model.srcFile = m_projectPath + "/Resources/SpriteSheets/" + ui->leName->text() + ".png";
 
 		QStringList ts = ui->cbTileSize->currentText().split("x");
 		model.tileWidth = ts[0].toInt();
@@ -26,6 +29,12 @@ void NewSpriteSheet::accept() {
 		model.tilesHigh = ss[1].toInt();
 
 		model.writeJsonFile(m_projectPath + "/Resources/SpriteSheets/" + ui->leName->text() + ".json", models::cyborgbear::Readable);
+
+
+		//setup image file
+		QImage sprt(model.tilesWide * model.tileWidth, model.tilesHigh * model.tileHeight, QImage::Format_ARGB32);
+		sprt.save(model.srcFile);
+
 		this->close();
 		this->parentWidget()->activateWindow();
 	}

@@ -63,21 +63,6 @@ Fraction
 	Current		int
 	Available	int
 
-GlobalImageData
-	ImageIdIterator		int
-	RecycledImageIds	int
-
-Image
-	ImgId		int
-	DefaultSize	Size
-
-ImageSrc
-	SrcFile	string
-	Bounds	Bounds
-
-ImageMap
-	Images map[int]ImageSrc
-
 ModelFile
 	Type string
 
@@ -110,16 +95,24 @@ SaveVariables
 	Vars map[string]unknown
 
 SpriteSheetImage
-	ImageId	int
-	Bounds	Bounds
+	SrcBounds	Bounds
 
 SpriteSheet
-	TilesWide	int
-	TilesHigh	int
-	TileWidth	int
-	TileHeight	int
-	Src			string
-	Images		[]SpriteSheetImage
+	TilesWide			int
+	TilesHigh			int
+	TileWidth			int
+	TileHeight			int
+	SrcFile				string
+	Images				map[int]SpriteSheetImage
+	ImageIdIterator		int
+	RecycledImageIds	[]int
+	SheetIdx			Point
+
+Image
+	# Path to the sprite sheet the image is from
+	SpriteSheet	string
+	ImgId		int
+	DefaultSize	Size
 
 Sprite
 	AnimLayers	[][]AnimLayer
