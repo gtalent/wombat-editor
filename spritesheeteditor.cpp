@@ -1,4 +1,3 @@
-#include <iostream>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
@@ -50,18 +49,18 @@ bool SpriteSheetEditor::saveFile() {
 	QImage imgOut(width, height, QImage::Format_ARGB32);
 
 	for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
-		QImage src = m_imgs[i->first]->img.toImage();
+		QImage &src = m_imgs[i->first]->img;
 		for (int x = 0; x < i->second.srcBounds.width; x++)
 			for (int y = 0; y < i->second.srcBounds.height; y++)
 				imgOut.setPixel(i->second.srcBounds.x + x, i->second.srcBounds.y + y, src.pixel(x, y));
 	}
 
-	imgOut.save(m_model.srcFile);
+	imgOut.save(m_model.srcFile, "png", 100);
 
 	return true;
 }
 
-QPixmap SpriteSheetEditor::buildImage(QImage *src, Bounds bnds) {
+QImage SpriteSheetEditor::buildImage(QImage *src, Bounds bnds) {
 	int w = m_model.tileWidth;
 	int h = m_model.tileHeight;
 	QImage sprt(w, h, QImage::Format_ARGB32);
@@ -72,7 +71,7 @@ QPixmap SpriteSheetEditor::buildImage(QImage *src, Bounds bnds) {
 			sprt.setPixel(i, ii, src->pixel(i + bnds.x, ii + bnds.y));
 		}
 	}
-	return QPixmap::fromImage(sprt);
+	return sprt;
 }
 
 int SpriteSheetEditor::newImageId() {
@@ -111,9 +110,10 @@ int SpriteSheetEditor::addImages() {
 				srcBnds.width = m_model.tileWidth;
 				srcBnds.height = m_model.tileHeight;
 				img->img = buildImage(&src, srcBnds);
+				img->pxMap = QPixmap::fromImage(img->img);
 
 				m_model.sheetIdx.x++;
-				if (m_model.tilesHigh <= m_model.sheetIdx.y) {
+				if (m_model.tilesWide <= m_model.sheetIdx.x) {
 					m_model.sheetIdx.x = 0;
 					m_model.sheetIdx.y++;
 					if (m_model.tilesHigh <= m_model.sheetIdx.y) {
@@ -131,7 +131,9 @@ int SpriteSheetEditor::addImages() {
 }
 
 int SpriteSheetEditor::load(QString path) {
-	m_model.loadJsonFile(path);
+	if (!m_model.loadJsonFile(path))
+		return 1;
+
 	QImage src(m_model.srcFile);
 	if (!src.isNull()) {
 		for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
@@ -139,6 +141,7 @@ int SpriteSheetEditor::load(QString path) {
 			img->x = i->second.srcBounds.x;
 			img->y = i->second.srcBounds.y;
 			img->img = buildImage(&src, i->second.srcBounds);
+			img->pxMap = QPixmap::fromImage(img->img);
 			m_imgs[i->first] = img;
 		}
 	}
@@ -155,7 +158,7 @@ void SpriteSheetEditor::draw() {
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
 
 	for (auto i = m_imgs.begin(); i != m_imgs.end(); ++i) {
-		m_scene->addPixmap(i.value()->img)->setPos(i.value()->x, i.value()->y);
+		m_scene->addPixmap(i.value()->pxMap)->setPos(i.value()->x, i.value()->y);
 	}
 
 	ui->canvas->centerOn(0, 0);

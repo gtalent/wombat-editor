@@ -28,7 +28,8 @@ class SpriteSheetEditor: public EditorTab {
 
 		class Image {
 			public:
-				QPixmap img;
+				QPixmap pxMap;
+				QImage img;
 				models::Bounds srcBnds;
 				int imgId;
 				// The location of the image on the sprite sheet
@@ -45,7 +46,7 @@ class SpriteSheetEditor: public EditorTab {
 	public:
 		explicit SpriteSheetEditor(QWidget *parent, QString projectDir, QString path);
 		~SpriteSheetEditor();
-		QPixmap buildImage(QImage*, models::Bounds);
+		QImage buildImage(QImage*, models::Bounds);
 		virtual bool saveFile();
 		
 	public slots:
