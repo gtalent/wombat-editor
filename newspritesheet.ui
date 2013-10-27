@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>146</height>
+    <height>160</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,6 +121,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leName</tabstop>
+  <tabstop>cbTileSize</tabstop>
+  <tabstop>cbSheetSize</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
