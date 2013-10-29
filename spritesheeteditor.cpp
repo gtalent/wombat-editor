@@ -49,7 +49,7 @@ bool SpriteSheetEditor::saveFile() {
 	QImage imgOut(width, height, QImage::Format_ARGB32);
 
 	for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
-		QImage &src = m_imgs[i->first]->img;
+		QImage &src = m_imgs[i->first].img;
 		for (int x = 0; x < i->second.srcBounds.width; x++)
 			for (int y = 0; y < i->second.srcBounds.height; y++)
 				imgOut.setPixel(i->second.srcBounds.x + x, i->second.srcBounds.y + y, src.pixel(x, y));
@@ -85,48 +85,54 @@ int SpriteSheetEditor::newImageId() {
 	return retval;
 }
 
+void SpriteSheetEditor::recycleImageId(int imgId) {
+	m_model.recycledImageIds.push_back(imgId);
+}
+
 int SpriteSheetEditor::addImages() {
+	auto before = m_model;
+	auto after = m_model;
 	QStringList files = QFileDialog::getOpenFileNames(parentWidget(), "Choose images to import...", QDir::homePath());
+	QVector<Image> imgs;
 	for (int n = 0; n < files.size(); n++) {
 		QImage src(files[n]);
-		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
-			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
+		for (int i = 0; i < files.size(); i += after.tileHeight) {
+			for (int ii = 0; ii < files.size(); ii += after.tileWidth) {
 				int imgId = newImageId();
 				models::SpriteSheetImage imgModel;
-				imgModel.srcBounds.x = m_model.sheetIdx.x * m_model.tileWidth;
-				imgModel.srcBounds.y = m_model.sheetIdx.y * m_model.tileHeight;
-				imgModel.srcBounds.width = m_model.tileWidth;
-				imgModel.srcBounds.height = m_model.tileHeight;
-				m_model.images[imgId] = imgModel;
+				imgModel.srcBounds.x = after.sheetIdx.x * after.tileWidth;
+				imgModel.srcBounds.y = after.sheetIdx.y * after.tileHeight;
+				imgModel.srcBounds.width = after.tileWidth;
+				imgModel.srcBounds.height = after.tileHeight;
+				after.images[imgId] = imgModel;
 
-				Image *img = new Image();
-				img->x = imgModel.srcBounds.x;
-				img->y = imgModel.srcBounds.y;
-				img->imgId = imgId;
+				Image img;
+				img.x = imgModel.srcBounds.x;
+				img.y = imgModel.srcBounds.y;
+				img.imgId = imgId;
 
 				models::Bounds srcBnds;
 				srcBnds.x = ii;
 				srcBnds.y = i;
-				srcBnds.width = m_model.tileWidth;
-				srcBnds.height = m_model.tileHeight;
-				img->img = buildImage(&src, srcBnds);
-				img->pxMap = QPixmap::fromImage(img->img);
+				srcBnds.width = after.tileWidth;
+				srcBnds.height = after.tileHeight;
+				img.img = buildImage(&src, srcBnds);
+				img.pxMap = QPixmap::fromImage(img.img);
 
-				m_model.sheetIdx.x++;
-				if (m_model.tilesWide <= m_model.sheetIdx.x) {
-					m_model.sheetIdx.x = 0;
-					m_model.sheetIdx.y++;
-					if (m_model.tilesHigh <= m_model.sheetIdx.y) {
-						delete img;
+				after.sheetIdx.x++;
+				if (after.tilesWide <= after.sheetIdx.x) {
+					after.sheetIdx.x = 0;
+					after.sheetIdx.y++;
+					if (after.tilesHigh <= after.sheetIdx.y) {
 						return 1;
 					}
 				}
 				m_imgs[imgId] = img;
+				imgs.push_back(img);
 			}
 		}
 	}
-	draw();
-	notifyFileChange();
+	notifyFileChange(new AddImageCommand(this, imgs, before, after));
 	return 0;
 }
 
@@ -137,11 +143,11 @@ int SpriteSheetEditor::load(QString path) {
 	QImage src(m_model.srcFile);
 	if (!src.isNull()) {
 		for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
-			Image *img = new Image();
-			img->x = i->second.srcBounds.x;
-			img->y = i->second.srcBounds.y;
-			img->img = buildImage(&src, i->second.srcBounds);
-			img->pxMap = QPixmap::fromImage(img->img);
+			Image img;
+			img.x = i->second.srcBounds.x;
+			img.y = i->second.srcBounds.y;
+			img.img = buildImage(&src, i->second.srcBounds);
+			img.pxMap = QPixmap::fromImage(img.img);
 			m_imgs[i->first] = img;
 		}
 	}
@@ -158,9 +164,32 @@ void SpriteSheetEditor::draw() {
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
 
 	for (auto i = m_imgs.begin(); i != m_imgs.end(); ++i) {
-		m_scene->addPixmap(i.value()->pxMap)->setPos(i.value()->x, i.value()->y);
+		m_scene->addPixmap(i.value().pxMap)->setPos(i.value().x, i.value().y);
 	}
 
 	ui->canvas->centerOn(0, 0);
 	ui->canvas->show();
+}
+
+SpriteSheetEditor::AddImageCommand::AddImageCommand(SpriteSheetEditor *parent, QVector<SpriteSheetEditor::Image> imgs, models::SpriteSheet before, models::SpriteSheet after) {
+	m_parent = parent;
+	m_newImages = imgs;
+	m_before = before;
+	m_after = after;
+}
+
+void SpriteSheetEditor::AddImageCommand::redo() {
+	for (auto img : m_newImages) {
+		m_parent->m_imgs[img.imgId] = img;
+	}
+	m_parent->m_model = m_after;
+	m_parent->draw();
+}
+
+void SpriteSheetEditor::AddImageCommand::undo() {
+	for (auto img : m_newImages) {
+		m_parent->m_imgs.remove(img.imgId);
+	}
+	m_parent->m_model = m_before;
+	m_parent->draw();
 }

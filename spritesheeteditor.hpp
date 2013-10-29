@@ -18,14 +18,6 @@ class SpriteSheetEditor: public EditorTab {
 
 	private:
 
-		//COMMANDS
-		class AddImageCommand: public QUndoCommand {
-			public:
-				AddImageCommand();
-				void undo();
-				void redo();
-		};
-
 		class Image {
 			public:
 				QPixmap pxMap;
@@ -36,12 +28,26 @@ class SpriteSheetEditor: public EditorTab {
 				int x, y;
 		};
 
+		//COMMANDS
+		class AddImageCommand: public QUndoCommand {
+			private:
+				QVector<Image> m_newImages;
+				SpriteSheetEditor *m_parent;
+				models::SpriteSheet m_before;
+				models::SpriteSheet m_after;
+			public:
+				AddImageCommand(SpriteSheetEditor *parent, QVector<Image> imgs,
+									 models::SpriteSheet before, models::SpriteSheet after);
+				void undo();
+				void redo();
+		};
+
 		Ui::SpriteSheetEditor *ui;
 		QString m_projectDir;
 		models::SpriteSheet m_model;
 		QGraphicsScene *m_scene;
 		models::Point m_sheetIdx;
-		QMap<int, Image *> m_imgs;
+		QMap<int, Image> m_imgs;
 
 	public:
 		explicit SpriteSheetEditor(QWidget *parent, QString projectDir, QString path);
@@ -56,6 +62,7 @@ class SpriteSheetEditor: public EditorTab {
 		int load(QString path);
 		void draw();
 		int newImageId();
+		void recycleImageId(int imgId);
 };
 
 #endif // SPRITESHEETEDITOR_HPP

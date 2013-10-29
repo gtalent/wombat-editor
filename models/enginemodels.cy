@@ -104,9 +104,9 @@ SpriteSheet
 	TileHeight			int
 	SrcFile				string
 	Images				map[int]SpriteSheetImage
-	ImageIdIterator		int
+	ImageIdIterator	int
 	RecycledImageIds	[]int
-	SheetIdx			Point
+	SheetIdx				Point
 
 Image
 	# Path to the sprite sheet the image is from
@@ -117,10 +117,10 @@ Image
 Sprite
 	AnimLayers	[][]AnimLayer
 	SpriteType	int
-	PersonID	int
-	Speed		int
-	Name		string
-	Path		string
+	PersonID		int
+	Speed			int
+	Name			string
+	Path			string
 	ScriptPath	string
 
 TileClass
