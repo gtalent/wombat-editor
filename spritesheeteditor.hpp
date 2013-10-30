@@ -43,10 +43,10 @@ class SpriteSheetEditor: public EditorTab {
 		};
 
 		Ui::SpriteSheetEditor *ui;
-		QString m_projectDir;
 		models::SpriteSheet m_model;
-		QGraphicsScene *m_scene;
 		models::Point m_sheetIdx;
+		QString m_projectDir;
+		QGraphicsScene *m_scene;
 		QMap<int, Image> m_imgs;
 
 	public:

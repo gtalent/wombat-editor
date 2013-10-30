@@ -91,20 +91,19 @@ void SpriteSheetEditor::recycleImageId(int imgId) {
 
 int SpriteSheetEditor::addImages() {
 	auto before = m_model;
-	auto after = m_model;
 	QStringList files = QFileDialog::getOpenFileNames(parentWidget(), "Choose images to import...", QDir::homePath());
 	QVector<Image> imgs;
 	for (int n = 0; n < files.size(); n++) {
 		QImage src(files[n]);
-		for (int i = 0; i < files.size(); i += after.tileHeight) {
-			for (int ii = 0; ii < files.size(); ii += after.tileWidth) {
+		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
+			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
 				int imgId = newImageId();
 				models::SpriteSheetImage imgModel;
-				imgModel.srcBounds.x = after.sheetIdx.x * after.tileWidth;
-				imgModel.srcBounds.y = after.sheetIdx.y * after.tileHeight;
-				imgModel.srcBounds.width = after.tileWidth;
-				imgModel.srcBounds.height = after.tileHeight;
-				after.images[imgId] = imgModel;
+				imgModel.srcBounds.x = m_model.sheetIdx.x * m_model.tileWidth;
+				imgModel.srcBounds.y = m_model.sheetIdx.y * m_model.tileHeight;
+				imgModel.srcBounds.width = m_model.tileWidth;
+				imgModel.srcBounds.height = m_model.tileHeight;
+				m_model.images[imgId] = imgModel;
 
 				Image img;
 				img.x = imgModel.srcBounds.x;
@@ -114,16 +113,16 @@ int SpriteSheetEditor::addImages() {
 				models::Bounds srcBnds;
 				srcBnds.x = ii;
 				srcBnds.y = i;
-				srcBnds.width = after.tileWidth;
-				srcBnds.height = after.tileHeight;
+				srcBnds.width = m_model.tileWidth;
+				srcBnds.height = m_model.tileHeight;
 				img.img = buildImage(&src, srcBnds);
 				img.pxMap = QPixmap::fromImage(img.img);
 
-				after.sheetIdx.x++;
-				if (after.tilesWide <= after.sheetIdx.x) {
-					after.sheetIdx.x = 0;
-					after.sheetIdx.y++;
-					if (after.tilesHigh <= after.sheetIdx.y) {
+				m_model.sheetIdx.x++;
+				if (m_model.tilesWide <= m_model.sheetIdx.x) {
+					m_model.sheetIdx.x = 0;
+					m_model.sheetIdx.y++;
+					if (m_model.tilesHigh <= m_model.sheetIdx.y) {
 						return 1;
 					}
 				}
@@ -132,7 +131,7 @@ int SpriteSheetEditor::addImages() {
 			}
 		}
 	}
-	notifyFileChange(new AddImageCommand(this, imgs, before, after));
+	notifyFileChange(new AddImageCommand(this, imgs, before, m_model));
 	return 0;
 }
 
