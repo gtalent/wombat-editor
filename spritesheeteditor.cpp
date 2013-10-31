@@ -49,10 +49,10 @@ bool SpriteSheetEditor::saveFile() {
 	QImage imgOut(width, height, QImage::Format_ARGB32);
 
 	for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
-		QImage &src = m_imgs[i->first].img;
-		for (int x = 0; x < i->second.srcBounds.width; x++)
-			for (int y = 0; y < i->second.srcBounds.height; y++)
-				imgOut.setPixel(i->second.srcBounds.x + x, i->second.srcBounds.y + y, src.pixel(x, y));
+		QImage &src = m_imgs[i.key()].img;
+		for (int x = 0; x < i.value().srcBounds.width; x++)
+			for (int y = 0; y < i.value().srcBounds.height; y++)
+				imgOut.setPixel(i.value().srcBounds.x + x, i.value().srcBounds.y + y, src.pixel(x, y));
 	}
 
 	imgOut.save(m_model.srcFile, "png", 100);
@@ -143,11 +143,11 @@ int SpriteSheetEditor::load(QString path) {
 	if (!src.isNull()) {
 		for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
 			Image img;
-			img.x = i->second.srcBounds.x;
-			img.y = i->second.srcBounds.y;
-			img.img = buildImage(&src, i->second.srcBounds);
+			img.x = i.value().srcBounds.x;
+			img.y = i.value().srcBounds.y;
+			img.img = buildImage(&src, i.value().srcBounds);
 			img.pxMap = QPixmap::fromImage(img.img);
-			m_imgs[i->first] = img;
+			m_imgs[i.key()] = img;
 		}
 	}
 	return 0;

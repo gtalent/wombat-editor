@@ -355,11 +355,11 @@ bool CreatureType::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Name");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -557,11 +557,11 @@ bool SaveVariables::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Vars");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -637,11 +637,11 @@ bool SpriteSheet::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Images");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				int i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::stringstream s;
 					s << key;
 					s >> i;
@@ -780,11 +780,11 @@ bool CreatureClass::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Name");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -851,11 +851,11 @@ bool CreatureClass::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "LearnsAtLevel");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				int i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::stringstream s;
 					s << key;
 					s >> i;
@@ -895,11 +895,11 @@ bool CreatureMove::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Name");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -1030,11 +1030,11 @@ bool Creature::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Name");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -1263,11 +1263,11 @@ bool PersonClass::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Name");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -1475,11 +1475,11 @@ bool EditorSettings::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "DockBounds");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -1604,11 +1604,11 @@ bool SaveFile::loadJsonObj(cyborgbear::JsonVal in) {
 		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Vars");
 		if (!cyborgbear::isNull(obj0) && cyborgbear::isObj(obj0)) {
 			cyborgbear::JsonObjOut map0 = cyborgbear::toObj(obj0);
-			for (cyborgbear::JsonObjIterator it1 = cyborgbear::iterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::iteratorNext(map0,  it1)) {
+			for (cyborgbear::JsonObjIterator it1 = cyborgbear::jsonObjIterator(map0); !cyborgbear::iteratorAtEnd(it1, map0); it1 = cyborgbear::jsonObjIteratorNext(map0,  it1)) {
 				string i;
 				cyborgbear::JsonValOut obj1 = cyborgbear::iteratorValue(it1);
 				{
-					std::string key = cyborgbear::toStdString(cyborgbear::iteratorKey(it1));
+					std::string key = cyborgbear::toStdString(cyborgbear::jsonObjIteratorKey(it1));
 					std::string o;
 					std::stringstream s;
 					s << key;
@@ -1711,14 +1711,14 @@ cyborgbear::JsonValOut CreatureType::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		for (QMap< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -1732,7 +1732,7 @@ cyborgbear::JsonValOut CreatureType::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->strongAgainst.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->strongAgainst.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->strongAgainst[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -1742,7 +1742,7 @@ cyborgbear::JsonValOut CreatureType::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->weakAgainst.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->weakAgainst.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->weakAgainst[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -1852,14 +1852,14 @@ cyborgbear::JsonValOut SaveVariables::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, cyborgbear::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
+		for (QMap< string, cyborgbear::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut obj0 = this->vars[n->first].buildJsonObj();
+			cyborgbear::JsonValOut obj0 = this->vars[n.key()].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
@@ -1910,14 +1910,14 @@ cyborgbear::JsonValOut SpriteSheet::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< int, SpriteSheetImage >::iterator n = this->images.begin(); n != this->images.end(); ++n) {
+		for (QMap< int, SpriteSheetImage >::iterator n = this->images.begin(); n != this->images.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << n->first;
+			s << n.key();
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut obj0 = this->images[n->first].buildJsonObj();
+			cyborgbear::JsonValOut obj0 = this->images[n.key()].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
@@ -1932,7 +1932,7 @@ cyborgbear::JsonValOut SpriteSheet::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->recycledImageIds.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->recycledImageIds.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->recycledImageIds[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -1979,7 +1979,7 @@ cyborgbear::JsonValOut Animation::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->images.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->images.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->images[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);
@@ -2012,14 +2012,14 @@ cyborgbear::JsonValOut CreatureClass::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		for (QMap< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -2038,7 +2038,7 @@ cyborgbear::JsonValOut CreatureClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->types.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->types.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->types[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -2048,7 +2048,7 @@ cyborgbear::JsonValOut CreatureClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->canLearn.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->canLearn.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->canLearn[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -2058,14 +2058,14 @@ cyborgbear::JsonValOut CreatureClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< int, string >::iterator n = this->learnsAtLevel.begin(); n != this->learnsAtLevel.end(); ++n) {
+		for (QMap< int, string >::iterator n = this->learnsAtLevel.begin(); n != this->learnsAtLevel.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << n->first;
+			s << n.key();
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->learnsAtLevel[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->learnsAtLevel[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -2091,14 +2091,14 @@ cyborgbear::JsonValOut CreatureMove::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		for (QMap< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -2183,14 +2183,14 @@ cyborgbear::JsonValOut Creature::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		for (QMap< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -2260,7 +2260,7 @@ cyborgbear::JsonValOut Creature::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->moves.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->moves.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->moves[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);
@@ -2337,14 +2337,14 @@ cyborgbear::JsonValOut PersonClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
+		for (QMap< string, string >::iterator n = this->name.begin(); n != this->name.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n->first]);
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->name[n.key()]);
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
 		}
@@ -2353,7 +2353,7 @@ cyborgbear::JsonValOut PersonClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->creatures.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->creatures.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->creatures[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -2363,7 +2363,7 @@ cyborgbear::JsonValOut PersonClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->overhead.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->overhead.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->overhead[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);
@@ -2391,9 +2391,9 @@ cyborgbear::JsonValOut Sprite::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonArrayOut out2 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->animLayers.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->animLayers.size(); i++) {
 			cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-			for (unsigned int ii = 0; ii < this->animLayers[i].size(); ii++) {
+			for (cyborgbear::VectorIterator ii = 0; ii < this->animLayers[i].size(); ii++) {
 				cyborgbear::JsonValOut obj0 = this->animLayers[i][ii].buildJsonObj();
 				cyborgbear::JsonValOut out0 = obj0;
 				cyborgbear::arrayAdd(out1, out0);
@@ -2452,7 +2452,7 @@ cyborgbear::JsonValOut TileClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->lowerAnims.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->lowerAnims.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->lowerAnims[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);
@@ -2463,7 +2463,7 @@ cyborgbear::JsonValOut TileClass::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->upperAnims.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->upperAnims.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->upperAnims[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);
@@ -2479,14 +2479,14 @@ cyborgbear::JsonValOut EditorSettings::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, EditorDockSettings >::iterator n = this->dockBounds.begin(); n != this->dockBounds.end(); ++n) {
+		for (QMap< string, EditorDockSettings >::iterator n = this->dockBounds.begin(); n != this->dockBounds.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut obj0 = this->dockBounds[n->first].buildJsonObj();
+			cyborgbear::JsonValOut obj0 = this->dockBounds[n.key()].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
@@ -2518,11 +2518,11 @@ cyborgbear::JsonValOut Zone::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonArrayOut out3 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->tiles.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->tiles.size(); i++) {
 			cyborgbear::JsonArrayOut out2 = cyborgbear::newJsonArray();
-			for (unsigned int ii = 0; ii < this->tiles[i].size(); ii++) {
+			for (cyborgbear::VectorIterator ii = 0; ii < this->tiles[i].size(); ii++) {
 				cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-				for (unsigned int iii = 0; iii < this->tiles[i][ii].size(); iii++) {
+				for (cyborgbear::VectorIterator iii = 0; iii < this->tiles[i][ii].size(); iii++) {
 					cyborgbear::JsonValOut obj0 = this->tiles[i][ii][iii].buildJsonObj();
 					cyborgbear::JsonValOut out0 = obj0;
 					cyborgbear::arrayAdd(out1, out0);
@@ -2539,7 +2539,7 @@ cyborgbear::JsonValOut Zone::buildJsonObj() {
 	}
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->initScripts.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->initScripts.size(); i++) {
 			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->initScripts[i]);
 			cyborgbear::arrayAdd(out1, out0);
 			cyborgbear::decref(out0);
@@ -2571,14 +2571,14 @@ cyborgbear::JsonValOut SaveFile::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonObjOut out1 = cyborgbear::newJsonObj();
-		for (std::map< string, cyborgbear::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
+		for (QMap< string, cyborgbear::unknown >::iterator n = this->vars.begin(); n != this->vars.end(); ++n) {
 			std::stringstream s;
 			string key;
 			std::string tmp;
-			s << cyborgbear::toStdString(cyborgbear::toString(n->first));
+			s << cyborgbear::toStdString(cyborgbear::toString(n.key()));
 			s >> tmp;
 			key = cyborgbear::toString(tmp);
-			cyborgbear::JsonValOut obj0 = this->vars[n->first].buildJsonObj();
+			cyborgbear::JsonValOut obj0 = this->vars[n.key()].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::objSet(out1, key, out0);
 			cyborgbear::decref(out0);
@@ -2620,7 +2620,7 @@ cyborgbear::JsonValOut World::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
-		for (unsigned int i = 0; i < this->zones.size(); i++) {
+		for (cyborgbear::VectorIterator i = 0; i < this->zones.size(); i++) {
 			cyborgbear::JsonValOut obj0 = this->zones[i].buildJsonObj();
 			cyborgbear::JsonValOut out0 = obj0;
 			cyborgbear::arrayAdd(out1, out0);

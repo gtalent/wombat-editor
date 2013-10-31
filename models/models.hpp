@@ -7,10 +7,6 @@
 
 #define CYBORGBEAR_USING_QT
 
-#include <string>
-
-#include <vector>
-#include <map>
 
 #ifdef CYBORGBEAR_USING_QT
 #include <QString>
@@ -21,6 +17,8 @@
 #include <QMap>
 #include <QVector>
 #else
+#include <vector>
+#include <map>
 #include <string>
 #include <jansson.h>
 #endif
@@ -49,6 +47,8 @@ typedef QJsonValueRef         JsonObjIteratorVal;
 
 typedef QString string;
 
+typedef int VectorIterator;
+
 #else
 
 typedef json_t* JsonObj;
@@ -64,6 +64,8 @@ typedef const char* JsonObjIteratorKey;
 typedef json_t*     JsonObjIteratorVal;
 
 typedef std::string string;
+
+typedef unsigned VectorIterator;
 #endif
 
 //string ops
@@ -126,9 +128,9 @@ void objSet(JsonObj, string, JsonArray);
 JsonValOut objRead(JsonObj, string);
 
 
-JsonObjIterator iterator(JsonObj);
-JsonObjIterator iteratorNext(JsonObj, JsonObjIterator);
-JsonObjIteratorKey iteratorKey(JsonObjIterator);
+JsonObjIterator jsonObjIterator(JsonObj);
+JsonObjIterator jsonObjIteratorNext(JsonObj, JsonObjIterator);
+JsonObjIteratorKey jsonObjIteratorKey(JsonObjIterator);
 JsonObjIteratorVal iteratorValue(JsonObjIterator);
 bool iteratorAtEnd(JsonObjIterator, JsonObj);
 
@@ -367,15 +369,15 @@ inline JsonValOut objRead(JsonObj o, string k) {
 	return o[k];
 }
 
-inline JsonObjIterator iterator(JsonObj o) {
+inline JsonObjIterator jsonObjIterator(JsonObj o) {
 	return o.begin();
 }
 
-inline JsonObjIterator iteratorNext(JsonObj, JsonObjIterator i) {
+inline JsonObjIterator jsonObjIteratorNext(JsonObj, JsonObjIterator i) {
 	return i + 1;
 }
 
-inline JsonObjIteratorKey iteratorKey(JsonObjIterator i) {
+inline JsonObjIteratorKey jsonObjIteratorKey(JsonObjIterator i) {
 	return i.key();
 }
 
@@ -534,15 +536,15 @@ inline JsonVal objRead(JsonObj o, string k) {
 }
 
 
-inline JsonObjIterator iterator(JsonObj o) {
+inline JsonObjIterator jsonObjIterator(JsonObj o) {
 	return json_object_iter_key(json_object_iter(o));
 }
 
-inline JsonObjIterator iteratorNext(JsonObj o, JsonObjIterator i) {
+inline JsonObjIterator jsonObjIteratorNext(JsonObj o, JsonObjIterator i) {
 	return json_object_iter_key(json_object_iter_next(o, json_object_key_to_iter(i)));
 }
 
-inline JsonObjIteratorKey iteratorKey(JsonObjIterator i) {
+inline JsonObjIteratorKey jsonObjIteratorKey(JsonObjIterator i) {
 	return i;
 }
 
@@ -644,10 +646,10 @@ class CreatureType: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, string > name;
+		QMap< string, string > name;
 		bool special;
-		std::vector< string > strongAgainst;
-		std::vector< string > weakAgainst;
+		QVector< string > strongAgainst;
+		QVector< string > weakAgainst;
 };
 
 }
@@ -794,7 +796,7 @@ class SaveVariables: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, cyborgbear::unknown > vars;
+		QMap< string, cyborgbear::unknown > vars;
 };
 
 }
@@ -839,9 +841,9 @@ class SpriteSheet: public cyborgbear::Model {
 		int tileWidth;
 		int tileHeight;
 		string srcFile;
-		std::map< int, SpriteSheetImage > images;
+		QMap< int, SpriteSheetImage > images;
 		int imageIdIterator;
-		std::vector< int > recycledImageIds;
+		QVector< int > recycledImageIds;
 		Point sheetIdx;
 };
 
@@ -885,7 +887,7 @@ class Animation: public cyborgbear::Model {
 		cyborgbear::JsonValOut buildJsonObj();
 
 		int interval;
-		std::vector< Image > images;
+		QVector< Image > images;
 };
 
 }
@@ -926,12 +928,12 @@ class CreatureClass: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, string > name;
+		QMap< string, string > name;
 		string successor;
 		string predecessor;
-		std::vector< string > types;
-		std::vector< string > canLearn;
-		std::map< int, string > learnsAtLevel;
+		QVector< string > types;
+		QVector< string > canLearn;
+		QMap< int, string > learnsAtLevel;
 		Animation frontView;
 		Animation backView;
 };
@@ -953,7 +955,7 @@ class CreatureMove: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, string > name;
+		QMap< string, string > name;
 		string type;
 		int power;
 		bool requiresRegarge;
@@ -1004,7 +1006,7 @@ class Creature: public cyborgbear::Model {
 		cyborgbear::JsonValOut buildJsonObj();
 
 		int iD;
-		std::map< string, string > name;
+		QMap< string, string > name;
 		string creatureClass;
 		bool male;
 		int level;
@@ -1017,7 +1019,7 @@ class Creature: public cyborgbear::Model {
 		bool frozen;
 		bool poisoned;
 		bool asleep;
-		std::vector< CreatureMoveInstance > moves;
+		QVector< CreatureMoveInstance > moves;
 };
 
 }
@@ -1085,9 +1087,9 @@ class PersonClass: public cyborgbear::Model {
 		cyborgbear::JsonValOut buildJsonObj();
 
 		int iD;
-		std::map< string, string > name;
-		std::vector< int > creatures;
-		std::vector< Animation > overhead;
+		QMap< string, string > name;
+		QVector< int > creatures;
+		QVector< Animation > overhead;
 		Animation frontView;
 		Animation backView;
 };
@@ -1109,7 +1111,7 @@ class Sprite: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::vector< std::vector< AnimLayer > > animLayers;
+		QVector< QVector< AnimLayer > > animLayers;
 		int spriteType;
 		int personID;
 		int speed;
@@ -1137,8 +1139,8 @@ class TileClass: public cyborgbear::Model {
 
 		int terrainFlags;
 		string import;
-		std::vector< AnimLayer > lowerAnims;
-		std::vector< AnimLayer > upperAnims;
+		QVector< AnimLayer > lowerAnims;
+		QVector< AnimLayer > upperAnims;
 };
 
 }
@@ -1158,7 +1160,7 @@ class EditorSettings: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, EditorDockSettings > dockBounds;
+		QMap< string, EditorDockSettings > dockBounds;
 };
 
 }
@@ -1199,8 +1201,8 @@ class Zone: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::vector< std::vector< std::vector< Tile > > > tiles;
-		std::vector< string > initScripts;
+		QVector< QVector< QVector< Tile > > > tiles;
+		QVector< string > initScripts;
 		Point location;
 };
 
@@ -1241,7 +1243,7 @@ class SaveFile: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::map< string, cyborgbear::unknown > vars;
+		QMap< string, cyborgbear::unknown > vars;
 		User user;
 };
 
@@ -1284,7 +1286,7 @@ class World: public cyborgbear::Model {
 
 		cyborgbear::JsonValOut buildJsonObj();
 
-		std::vector< ZoneInstance > zones;
+		QVector< ZoneInstance > zones;
 };
 
 }
