@@ -105,7 +105,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -542,6 +542,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeTab()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>537</x>
+     <y>198</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newMenu()</slot>
@@ -554,5 +570,6 @@
   <slot>closeTab(int)</slot>
   <slot>filePaneContextMenu(QPoint)</slot>
   <slot>closeCurrentTab()</slot>
+  <slot>changeTab()</slot>
  </slots>
 </ui>

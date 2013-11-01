@@ -21,7 +21,6 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 	public:
 		Ui::MainWindow *ui;
 	private:
-		EditorTab *m_currentTab;
 		QString m_projectPath;
 		std::map<QString, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
@@ -33,6 +32,9 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		void openProject(QString);
 		virtual void logDebug(QString msg);
 
+	private:
+		EditorTab *currentTab();
+
 	public slots:
 		void newMenu();
 		void openProject();
@@ -41,11 +43,13 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		void saveFile();
 		void undo();
 		void redo();
+		void changeTab();
 		void closeTab(int index);
 		void filePaneContextMenu(const QPoint &p);
 
 		void fileSaved();
 		void fileChanged();
+
 };
 
 #endif // MAINWINDOW_HPP

@@ -1,9 +1,8 @@
 #include "editortab.hpp"
 
 EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
-	m_hasUnsavedChanges = false;
 	m_undoStack = new QUndoStack(parent);
-	m_lastCommand = m_lastSavedCommand = (QUndoCommand*) this;
+	m_lastCommand = m_lastSavedCommand = -1;
 	m_path = path;
 }
 
@@ -24,18 +23,14 @@ void EditorTab::removeListener(EditorTabListener *l) {
 	}
 }
 
-void EditorTab::updateListeners() {
-	if (m_hasUnsavedChanges) {
-		notifyFileChange();
-	} else {
-		notifyFileSave();
-	}
+bool EditorTab::currentStateSaved() {
+	return m_lastSavedCommand == m_lastCommand;
 }
 
 void EditorTab::notifyFileChange(QUndoCommand *uc) {
 	if (uc) {
 		m_undoStack->push(uc);
-		m_lastCommand = m_undoStack->command(m_undoStack->index());
+		m_lastCommand = m_undoStack->index();
 	}
 	for (int i = 0; i < m_listeners.size(); i++) {
 		m_listeners[i]->fileChanged();
@@ -52,14 +47,9 @@ void EditorTab::notifyFileSave() {
 void EditorTab::undo() {
 	if (m_undoStack->canUndo()) {
 		m_undoStack->undo();
-		if (m_undoStack->canUndo()) {
-			m_lastCommand = m_undoStack->command(m_undoStack->index());
-		} else {
-			//this is being used to signify the bottom of the stack
-			m_lastCommand = (QUndoCommand*) this;
-		}
+		m_lastCommand = m_undoStack->index();
 
-		if (m_lastSavedCommand == m_lastCommand)
+		if (currentStateSaved())
 			notifyFileSave();
 		else
 			notifyFileChange();
@@ -69,9 +59,9 @@ void EditorTab::undo() {
 void EditorTab::redo() {
 	if (m_undoStack->canRedo()) {
 		m_undoStack->redo();
-		m_lastCommand = m_undoStack->command(m_undoStack->index());
+		m_lastCommand = m_undoStack->index();
 
-		if (m_lastSavedCommand == m_lastCommand)
+		if (currentStateSaved())
 			notifyFileSave();
 		else
 			notifyFileChange();
@@ -79,11 +69,11 @@ void EditorTab::redo() {
 }
 
 bool EditorTab::canUndo() {
-	return (void*) m_lastCommand != (void*) this;
+	return m_undoStack->canUndo();
 }
 
 bool EditorTab::canRedo() {
-	return (void*) m_lastCommand != (void*) 0;
+	return m_undoStack->canRedo();
 }
 
 QString EditorTab::path() {

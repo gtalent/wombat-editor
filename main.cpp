@@ -6,11 +6,11 @@
 using namespace wombat::editor;
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    MainWindow w;
+	QApplication a(argc, argv);
+	MainWindow w;
 	addDebugLogger(&w);
-    w.show();
+	w.show();
 	w.openProject("/home/gary/WombatProject1");
 
-    return a.exec();
+	return a.exec();
 }

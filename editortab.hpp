@@ -1,8 +1,6 @@
 #ifndef EDITORTAB_HPP
 #define EDITORTAB_HPP
 
-#include <string>
-
 #include <QWidget>
 #include <QUndoStack>
 
@@ -14,8 +12,8 @@ class EditorTab: public QWidget {
 		QUndoStack *m_undoStack;
 		bool m_hasUnsavedChanges;
 
-		const QUndoCommand *m_lastCommand;
-		const QUndoCommand *m_lastSavedCommand;
+		int m_lastCommand;
+		int m_lastSavedCommand;
 
 	protected:
 		QString m_path;
@@ -23,9 +21,9 @@ class EditorTab: public QWidget {
 	public:
 		EditorTab(QWidget *win, QString path);
 		~EditorTab();
-		void updateListeners();
 		void addListener(EditorTabListener *l);
 		void removeListener(EditorTabListener *l);
+		bool currentStateSaved();
 		void undo();
 		void redo();
 		bool canUndo();
