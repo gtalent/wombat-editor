@@ -41,7 +41,7 @@ SpriteSheetEditor::~SpriteSheetEditor() {
 
 bool SpriteSheetEditor::saveFile() {
 	notifyFileSave();
-	m_model.writeJsonFile(m_path, models::cyborgbear::Readable);
+	m_model.writeJsonFile(path(), models::cyborgbear::Readable);
 
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;

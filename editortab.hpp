@@ -10,12 +10,10 @@ class EditorTab: public QWidget {
 	private:
 		QVector<EditorTabListener*> m_listeners;
 		QUndoStack *m_undoStack;
-		bool m_hasUnsavedChanges;
 
 		int m_lastCommand;
 		int m_lastSavedCommand;
 
-	protected:
 		QString m_path;
 
 	public:
