@@ -24,10 +24,10 @@ SOURCES += main.cpp \
     imageselector.cpp \
     spritesheeteditor.cpp \
     newspritesheet.cpp \
+	 wombatcanvas.cpp \
     globs.cpp
 
-HEADERS  += mainwindow.hpp \
-    globs.hpp \
+HEADERS += mainwindow.hpp \
     newmenu.hpp \
     newproject.hpp \
     savevariables.hpp \
@@ -39,9 +39,11 @@ HEADERS  += mainwindow.hpp \
     animationeditor.hpp \
     imageselector.hpp \
     spritesheeteditor.hpp \
-    newspritesheet.hpp
+    newspritesheet.hpp \
+	 wombatcanvas.cpp \
+    globs.hpp
 
-FORMS    += mainwindow.ui \
+FORMS   += mainwindow.ui \
     newmenu.ui \
     newproject.ui \
     importmenu.ui \

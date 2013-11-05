@@ -15,6 +15,8 @@ void addDebugLogger(DebugLogger *logger);
 
 void logDebug(QString str);
 
+void writeModel(QString, models::cyborgbear::Model&);
+
 }
 }
 
