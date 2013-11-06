@@ -22,7 +22,7 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		Ui::MainWindow *ui;
 	private:
 		QString m_projectPath;
-		std::map<QString, EditorTab*> m_openTabs;
+		QMap<QString, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
 
 	public:
