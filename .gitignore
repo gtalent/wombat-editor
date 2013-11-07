@@ -6,3 +6,4 @@ moc_*
 ui_*
 qrc_*
 Makefile
+editor_settings.json

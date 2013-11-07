@@ -51,9 +51,32 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 	//turn the debug log on by default in Windows, because Windows stdout sucks
 	ui->actionDebugLog->toggle();
 #endif
+
+	models::EditorSettings settings;
+	settings.readJsonFile("editor_settings.json");
+
+	openProject(settings.openProject);
+
+	for (auto i : settings.openFiles) {
+		openFile(i);
+	}
+	ui->tabWidget->setCurrentIndex(settings.openTab);
 }
 
 MainWindow::~MainWindow() {
+	models::EditorSettings settings;
+
+	settings.openProject = m_projectPath;
+	for (int i = 0; i < ui->tabWidget->count(); i++) {
+		auto t = dynamic_cast<EditorTab*>(ui->tabWidget->widget(i));
+		if (t) {
+			settings.openFiles.push_back(t->path());
+		}
+	}
+	settings.openTab = ui->tabWidget->currentIndex();
+
+	settings.writeJsonFile("editor_settings.json", models::cyborgbear::Readable);
+
 	if (ui->fileList->model())
 		delete ui->fileList->model();
 	delete ui;
@@ -112,6 +135,10 @@ void MainWindow::openProject(QString path) {
 
 void MainWindow::openFile(QModelIndex index) {
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	openFile(path);
+}
+
+void MainWindow::openFile(QString path) {
 	EditorTab *tab = m_openTabs[path];
 	if (!tab) {
 		QString tabName = "";

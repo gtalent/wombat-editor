@@ -6,7 +6,7 @@
 using namespace models;
 using namespace models::cyborgbear;
 
-bool Model::loadJsonFile(string path) {
+bool Model::readJsonFile(string path) {
 	std::ifstream in;
 	in.open(cyborgbear::toCString(path));
 	std::string json;
@@ -323,6 +323,8 @@ TileClass::TileClass() {
 }
 
 EditorSettings::EditorSettings() {
+	this->openProject = "";
+	this->openTab = 0;
 }
 
 Tile::Tile() {
@@ -1495,6 +1497,38 @@ bool EditorSettings::loadJsonObj(cyborgbear::JsonVal in) {
 			}
 		}
 	}
+	{
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "OpenProject");
+		{
+			if (cyborgbear::isString(obj0)) {
+				this->openProject = cyborgbear::toString(obj0);
+			}
+		}
+	}
+	{
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "OpenFiles");
+		if (!cyborgbear::isNull(obj0) && cyborgbear::isArray(obj0)) {
+			cyborgbear::JsonArrayOut array0 = cyborgbear::toArray(obj0);
+			unsigned int size = cyborgbear::arraySize(array0);
+			this->openFiles.resize(size);
+			for (unsigned int i = 0; i < size; i++) {
+				cyborgbear::JsonValOut obj1 = cyborgbear::arrayRead(array0, i);
+				{
+					if (cyborgbear::isString(obj1)) {
+						this->openFiles[i] = cyborgbear::toString(obj1);
+					}
+				}
+			}
+		}
+	}
+	{
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "OpenTab");
+		{
+			if (cyborgbear::isInt(obj0)) {
+				this->openTab = cyborgbear::toInt(obj0);
+			}
+		}
+	}
 	return true;
 }
 
@@ -2493,6 +2527,26 @@ cyborgbear::JsonValOut EditorSettings::buildJsonObj() {
 		}
 		cyborgbear::objSet(obj, "DockBounds", out1);
 		cyborgbear::decref(out1);
+	}
+	{
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->openProject);
+		cyborgbear::objSet(obj, "OpenProject", out0);
+		cyborgbear::decref(out0);
+	}
+	{
+		cyborgbear::JsonArrayOut out1 = cyborgbear::newJsonArray();
+		for (cyborgbear::VectorIterator i = 0; i < this->openFiles.size(); i++) {
+			cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->openFiles[i]);
+			cyborgbear::arrayAdd(out1, out0);
+			cyborgbear::decref(out0);
+		}
+		cyborgbear::objSet(obj, "OpenFiles", out1);
+		cyborgbear::decref(out1);
+	}
+	{
+		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->openTab);
+		cyborgbear::objSet(obj, "OpenTab", out0);
+		cyborgbear::decref(out0);
 	}
 	return obj;
 }

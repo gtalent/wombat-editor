@@ -136,7 +136,7 @@ int SpriteSheetEditor::addImages() {
 }
 
 int SpriteSheetEditor::load(QString path) {
-	if (!m_model.loadJsonFile(path))
+	if (!m_model.readJsonFile(path))
 		return 1;
 
 	QImage src(m_model.srcFile);

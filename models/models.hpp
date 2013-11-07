@@ -564,9 +564,9 @@ class Model {
 	friend class unknown;
 	public:
 		/**
-		 * Loads fields of this Model from file of the given path.
+		 * Reads fields of this Model from file of the given path.
 		 */
-		bool loadJsonFile(string path);
+		bool readJsonFile(string path);
 
 		/**
 		 * Writes JSON representation of this Model to JSON file of the given path.
@@ -1161,6 +1161,9 @@ class EditorSettings: public cyborgbear::Model {
 		cyborgbear::JsonValOut buildJsonObj();
 
 		QMap< string, EditorDockSettings > dockBounds;
+		string openProject;
+		QVector< string > openFiles;
+		int openTab;
 };
 
 }
@@ -1313,4 +1316,250 @@ class ZoneHeader: public cyborgbear::Model {
 }
 
 
+#ifdef CYBORGBEAR_BOOST_ENABLED
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
+namespace boost {
+namespace serialization {
+
+template<class Archive>
+void serialize(Archive &ar, models::CreatureType &model, const unsigned int) {
+	ar & model.name;
+	ar & model.special;
+	ar & model.strongAgainst;
+	ar & model.weakAgainst;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::StatusEffect &model, const unsigned int) {
+	ar & model.attackerEffect;
+	ar & model.enemyEffect;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Fraction &model, const unsigned int) {
+	ar & model.current;
+	ar & model.available;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::ModelFile &model, const unsigned int) {
+	ar & model.type;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Point &model, const unsigned int) {
+	ar & model.x;
+	ar & model.y;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Size &model, const unsigned int) {
+	ar & model.width;
+	ar & model.height;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Bounds &model, const unsigned int) {
+	ar & model.x;
+	ar & model.y;
+	ar & model.width;
+	ar & model.height;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::SaveVariables &model, const unsigned int) {
+	ar & model.vars;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::SpriteSheetImage &model, const unsigned int) {
+	ar & model.srcBounds;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::SpriteSheet &model, const unsigned int) {
+	ar & model.tilesWide;
+	ar & model.tilesHigh;
+	ar & model.tileWidth;
+	ar & model.tileHeight;
+	ar & model.srcFile;
+	ar & model.images;
+	ar & model.imageIdIterator;
+	ar & model.recycledImageIds;
+	ar & model.sheetIdx;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Image &model, const unsigned int) {
+	ar & model.spriteSheet;
+	ar & model.imgId;
+	ar & model.defaultSize;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Animation &model, const unsigned int) {
+	ar & model.interval;
+	ar & model.images;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::AnimLayer &model, const unsigned int) {
+	ar & model.point;
+	ar & model.animation;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::CreatureClass &model, const unsigned int) {
+	ar & model.name;
+	ar & model.successor;
+	ar & model.predecessor;
+	ar & model.types;
+	ar & model.canLearn;
+	ar & model.learnsAtLevel;
+	ar & model.frontView;
+	ar & model.backView;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::CreatureMove &model, const unsigned int) {
+	ar & model.name;
+	ar & model.type;
+	ar & model.power;
+	ar & model.requiresRegarge;
+	ar & model.script;
+	ar & model.burn;
+	ar & model.freeze;
+	ar & model.paralyze;
+	ar & model.poison;
+	ar & model.sleep;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::CreatureMoveInstance &model, const unsigned int) {
+	ar & model.creatureMove;
+	ar & model.pP;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Creature &model, const unsigned int) {
+	ar & model.iD;
+	ar & model.name;
+	ar & model.creatureClass;
+	ar & model.male;
+	ar & model.level;
+	ar & model.health;
+	ar & model.attack;
+	ar & model.specAttack;
+	ar & model.defense;
+	ar & model.specDefense;
+	ar & model.burned;
+	ar & model.frozen;
+	ar & model.poisoned;
+	ar & model.asleep;
+	ar & model.moves;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::EditorDockSettings &model, const unsigned int) {
+	ar & model.docked;
+	ar & model.visible;
+	ar & model.undocked;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::User &model, const unsigned int) {
+	ar & model.personID;
+	ar & model.world;
+	ar & model.zone;
+	ar & model.xAddress;
+	ar & model.yAddress;
+	ar & model.layer;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::PersonClass &model, const unsigned int) {
+	ar & model.iD;
+	ar & model.name;
+	ar & model.creatures;
+	ar & model.overhead;
+	ar & model.frontView;
+	ar & model.backView;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Sprite &model, const unsigned int) {
+	ar & model.animLayers;
+	ar & model.spriteType;
+	ar & model.personID;
+	ar & model.speed;
+	ar & model.name;
+	ar & model.path;
+	ar & model.scriptPath;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::TileClass &model, const unsigned int) {
+	ar & model.terrainFlags;
+	ar & model.import;
+	ar & model.lowerAnims;
+	ar & model.upperAnims;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::EditorSettings &model, const unsigned int) {
+	ar & model.dockBounds;
+	ar & model.openProject;
+	ar & model.openFiles;
+	ar & model.openTab;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Tile &model, const unsigned int) {
+	ar & model.tileClass;
+	ar & model.occupant;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Zone &model, const unsigned int) {
+	ar & model.tiles;
+	ar & model.initScripts;
+	ar & model.location;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::Person &model, const unsigned int) {
+	ar & model.personClass;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::SaveFile &model, const unsigned int) {
+	ar & model.vars;
+	ar & model.user;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::ZoneInstance &model, const unsigned int) {
+	ar & model.accessorID;
+	ar & model.path;
+	ar & model.location;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::World &model, const unsigned int) {
+	ar & model.zones;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::ZoneHeader &model, const unsigned int) {
+	ar & model.path;
+	ar & model.size;
+}
+
+}
+}
+#endif
 #endif

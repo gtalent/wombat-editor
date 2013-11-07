@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
 	MainWindow w;
 	addDebugLogger(&w);
 	w.show();
-	w.openProject("/home/gary/WombatProject1");
 
 	return a.exec();
 }

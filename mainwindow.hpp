@@ -39,6 +39,7 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		void newMenu();
 		void openProject();
 		void openFile(QModelIndex);
+		void openFile(QString);
 		void import();
 		void saveFile();
 		void undo();
