@@ -17,8 +17,9 @@ void NewSpriteSheet::accept() {
 	if (!QFile::exists(ui->leName->text() + ".json")) {
 		//setup JSON file
 		models::SpriteSheet model;
+		m_path = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".json";
 
-		model.srcFile = m_projectPath + "/Resources/SpriteSheets/" + ui->leName->text() + ".png";
+		model.srcFile = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".png";
 
 		QStringList ts = ui->cbTileSize->currentText().split("x");
 		model.tileWidth = ts[0].toInt();
@@ -28,7 +29,7 @@ void NewSpriteSheet::accept() {
 		model.tilesWide = ss[0].toInt();
 		model.tilesHigh = ss[1].toInt();
 
-		model.writeJsonFile(m_projectPath + "/Resources/SpriteSheets/" + ui->leName->text() + ".json", models::cyborgbear::Readable);
+		model.writeJsonFile(m_path, models::cyborgbear::Readable);
 
 
 		//setup image file
@@ -38,4 +39,8 @@ void NewSpriteSheet::accept() {
 		this->close();
 		this->parentWidget()->activateWindow();
 	}
+}
+
+QString NewSpriteSheet::path() {
+	return m_path;
 }

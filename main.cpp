@@ -6,6 +6,7 @@
 using namespace wombat::editor;
 
 int main(int argc, char *argv[]) {
+	QApplication::setApplicationName("Wombat Editor");
 	QApplication a(argc, argv);
 	MainWindow w;
 	addDebugLogger(&w);

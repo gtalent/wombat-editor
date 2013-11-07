@@ -46,6 +46,7 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		void redo();
 		void changeTab();
 		void closeTab(int index);
+		void closeTab(EditorTab *tab);
 		void filePaneContextMenu(const QPoint &p);
 
 		void fileSaved();

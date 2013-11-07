@@ -47,10 +47,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 	ui->dockAnimationEditor->setVisible(false);
 
 	ui->dockDebug->setVisible(false);
-#ifdef _WIN32
-	//turn the debug log on by default in Windows, because Windows stdout sucks
-	ui->actionDebugLog->toggle();
-#endif
 
 	models::EditorSettings settings;
 	settings.readJsonFile("editor_settings.json");
@@ -88,7 +84,7 @@ void MainWindow::newMenu() {
 		QString nw = menu.newWhat();
 		if (nw == "Project") {
 			NewProject np(this);
-			if (!np.exec()) {
+			if (np.exec() == 0) {
 				QString p = np.projectDir();
 				if (p != "") {
 					openProject(p);
@@ -96,7 +92,8 @@ void MainWindow::newMenu() {
 			}
 		} else if (nw == "Sprite Sheet") {
 			NewSpriteSheet np(m_projectPath, this);
-			if (!np.exec()) {
+			if (np.exec() == 0) {
+				openFile(np.path());
 			}
 		}
 	}
@@ -186,14 +183,19 @@ void MainWindow::redo() {
 	}
 }
 
+void MainWindow::closeTab(EditorTab *tab) {
+	if (tab) {
+		ui->actionUndo->setEnabled(false);
+		ui->actionRedo->setEnabled(false);
+		tab->close();
+		m_openTabs[tab->path()] = 0;
+		m_openTabs.erase(m_openTabs.find(tab->path()));
+		delete tab;
+	}
+}
+
 void MainWindow::closeTab(int index) {
-	EditorTab *t = dynamic_cast<EditorTab*>(ui->tabWidget->widget(index));
-	ui->actionUndo->setEnabled(false);
-	ui->actionRedo->setEnabled(false);
-	t->close();
-	m_openTabs[t->path()] = 0;
-	m_openTabs.erase(m_openTabs.find(t->path()));
-	delete t;
+	closeTab(dynamic_cast<EditorTab*>(ui->tabWidget->widget(index)));
 }
 
 void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
@@ -223,6 +225,7 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 					QFile::remove(path);
 				}
 			}
+			closeTab(m_openTabs[path]);
 		}
 	}
 }
