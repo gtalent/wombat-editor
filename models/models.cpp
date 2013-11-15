@@ -44,151 +44,170 @@ string Model::toJson(cyborgbear::JsonSerializationSettings sttngs) {
 }
 
 unknown::unknown() {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 }
 
 unknown::unknown(Model *v) {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 	set(v);
 }
 
 unknown::unknown(bool v) {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 	set(v);
 }
 
 unknown::unknown(int v) {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 	set(v);
 }
 
 unknown::unknown(double v) {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 	set(v);
 }
 
 unknown::unknown(string v) {
-#ifndef CYBORGBEAR_USING_QT
-	m_obj = 0;
-#endif
 	set(v);
 }
 
 unknown::~unknown() {
-	cyborgbear::decref(m_obj);
 }
 
 bool unknown::loadJsonObj(cyborgbear::JsonVal obj) {
-#ifdef CYBORGBEAR_USING_JANSSON
-	m_obj = cyborgbear::incref(obj);
-#else
-	m_obj = obj;
-#endif
+	cyborgbear::JsonObjOut wrapper = cyborgbear::newJsonObj();
+	cyborgbear::objSet(wrapper, "Value", obj);
+	m_data = cyborgbear::write(wrapper, cyborgbear::Compact);
+	if (cyborgbear::isBool(obj)) {
+		m_type = cyborgbear::Bool;
+	} else if (cyborgbear::isInt(obj)) {
+		m_type = cyborgbear::Integer;
+	} else if (cyborgbear::isDouble(obj)) {
+		m_type = cyborgbear::Double;
+	} else if (cyborgbear::isString(obj)) {
+		m_type = cyborgbear::String;
+	} else if (cyborgbear::isObj(obj)) {
+		m_type = cyborgbear::Object;
+	}
+
 	return !cyborgbear::isNull(obj);
 }
 
 cyborgbear::JsonValOut unknown::buildJsonObj() {
-#ifdef CYBORGBEAR_USING_JANSSON
-	return cyborgbear::incref(m_obj);
+	cyborgbear::JsonObjOut obj = cyborgbear::read(m_data);
+#ifdef CYBORGBEAR_USING_QT
+	cyborgbear::JsonValOut val = cyborgbear::objRead(obj, "Value");
 #else
-	return m_obj;
+	cyborgbear::JsonValOut val = cyborgbear::incref(cyborgbear::objRead(obj, "Value"));
 #endif
+	cyborgbear::decref(obj);
+	return val;
 }
 
 bool unknown::loaded() {
-	return !cyborgbear::isNull(m_obj);
+	return m_data != "";
 }
 
 bool unknown::isBool() {
-	return !cyborgbear::isNull(m_obj) && cyborgbear::isBool(m_obj);
+	return m_type == cyborgbear::Bool;
 }
 
 bool unknown::isInt() {
-	return !cyborgbear::isNull(m_obj) && cyborgbear::isInt(m_obj);
+	return m_type == cyborgbear::Integer;
 }
 
 bool unknown::isDouble() {
-	return !cyborgbear::isNull(m_obj) && cyborgbear::isDouble(m_obj);
+	return m_type == cyborgbear::Double;
 }
 
 bool unknown::isString() {
-	return !cyborgbear::isNull(m_obj) && cyborgbear::isString(m_obj);
+	return m_type == cyborgbear::String;
 }
 
 bool unknown::isObject() {
-	return !cyborgbear::isNull(m_obj) && cyborgbear::isObj(m_obj);
+	return m_type == cyborgbear::Object;
 }
 
 bool unknown::toBool() {
-	return cyborgbear::toBool(m_obj);
+	cyborgbear::JsonValOut out = buildJsonObj();
+	return cyborgbear::toBool(out);
 }
 
 int unknown::toInt() {
-	return cyborgbear::toInt(m_obj);
+	cyborgbear::JsonValOut out = buildJsonObj();
+	return cyborgbear::toInt(out);
 }
 
 double unknown::toDouble() {
-	return cyborgbear::toDouble(m_obj);
+	cyborgbear::JsonValOut out = buildJsonObj();
+	return cyborgbear::toDouble(out);
 }
 
 string unknown::toString() {
-	return cyborgbear::toString(m_obj);
+	cyborgbear::JsonValOut out = buildJsonObj();
+	return cyborgbear::toString(out);
 }
 
 void unknown::set(Model *v) {
-	cyborgbear::JsonValOut obj = v->buildJsonObj();
-	cyborgbear::JsonVal old = m_obj;
-	m_obj = obj;
-	if (!cyborgbear::isNull(old)) {
-		cyborgbear::decref(old);
-	}
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	cyborgbear::JsonValOut val = v->buildJsonObj();
+	cyborgbear::objSet(obj, "Value", val);
+	m_type = cyborgbear::Object;
+	m_data = cyborgbear::write(obj, cyborgbear::Compact);
+	cyborgbear::decref(obj);
 }
 
 void unknown::set(bool v) {
-	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
-	cyborgbear::JsonVal old = m_obj;
-	m_obj = obj;
-	if (!cyborgbear::isNull(old)) {
-		cyborgbear::decref(old);
-	}
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	cyborgbear::JsonValOut val = cyborgbear::toJsonVal(v);
+	cyborgbear::objSet(obj, "Value", val);
+	m_type = cyborgbear::Bool;
+	m_data = cyborgbear::write(obj, cyborgbear::Compact);
+	cyborgbear::decref(obj);
 }
 
 void unknown::set(int v) {
-	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
-	cyborgbear::JsonVal old = m_obj;
-	m_obj = obj;
-	if (!cyborgbear::isNull(old)) {
-		cyborgbear::decref(old);
-	}
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	cyborgbear::JsonValOut val = cyborgbear::toJsonVal(v);
+	cyborgbear::objSet(obj, "Value", val);
+	m_type = cyborgbear::Integer;
+	m_data = cyborgbear::write(obj, cyborgbear::Compact);
+	cyborgbear::decref(obj);
 }
 
 void unknown::set(double v) {
-	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
-	cyborgbear::JsonVal old = m_obj;
-	m_obj = obj;
-	if (!cyborgbear::isNull(old)) {
-		cyborgbear::decref(old);
-	}
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	cyborgbear::JsonValOut val = cyborgbear::toJsonVal(v);
+	cyborgbear::objSet(obj, "Value", val);
+	m_type = cyborgbear::Double;
+	m_data = cyborgbear::write(obj, cyborgbear::Compact);
+	cyborgbear::decref(obj);
 }
 
 void unknown::set(string v) {
-	cyborgbear::JsonValOut obj = cyborgbear::toJsonVal(v);
-	cyborgbear::JsonVal old = m_obj;
-	m_obj = obj;
-	if (!cyborgbear::isNull(old)) {
-		cyborgbear::decref(old);
-	}
+	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
+	cyborgbear::JsonValOut val = cyborgbear::toJsonVal(v);
+	cyborgbear::objSet(obj, "Value", val);
+	m_type = cyborgbear::String;
+	m_data = cyborgbear::write(obj, cyborgbear::Compact);
+	cyborgbear::decref(obj);
 }
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+
+void unknown::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string unknown::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+	string str;
+	while (out.good())
+		str += out.get();
+	return str;
+}
+#endif
 
 
 #include "string.h"
@@ -2700,4 +2719,724 @@ cyborgbear::JsonValOut ZoneHeader::buildJsonObj() {
 		cyborgbear::decref(out0);
 	}
 	return obj;
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void CreatureType::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string CreatureType::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void StatusEffect::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string StatusEffect::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Fraction::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Fraction::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void ModelFile::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string ModelFile::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Point::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Point::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Size::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Size::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Bounds::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Bounds::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void SaveVariables::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string SaveVariables::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void SpriteSheetImage::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string SpriteSheetImage::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void SpriteSheet::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string SpriteSheet::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Image::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Image::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Animation::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Animation::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void AnimLayer::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string AnimLayer::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void CreatureClass::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string CreatureClass::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void CreatureMove::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string CreatureMove::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void CreatureMoveInstance::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string CreatureMoveInstance::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Creature::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Creature::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void EditorDockSettings::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string EditorDockSettings::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void User::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string User::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void PersonClass::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string PersonClass::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Sprite::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Sprite::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void TileClass::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string TileClass::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void EditorSettings::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string EditorSettings::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Tile::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Tile::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Zone::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Zone::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void Person::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string Person::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void SaveFile::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string SaveFile::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void ZoneInstance::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string ZoneInstance::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void World::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string World::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
+}
+ namespace models {
+
+#ifdef CYBORGBEAR_BOOST_ENABLED
+void ZoneHeader::fromBoostBinary(string dat) {
+	std::stringstream in(dat);
+	boost::archive::binary_iarchive ia(in);
+	ia >> *this;
+}
+
+string ZoneHeader::toBoostBinary() {
+	std::stringstream out;
+	{
+		boost::archive::binary_oarchive oa(out);
+		oa << *this;
+	}
+
+	string str;
+	while (out.good())
+		str += out.get();
+
+	return str;
+}
+#endif
 }

@@ -10,7 +10,6 @@
 #include "ui_spritesheeteditor.h"
 
 using std::string;
-using models::Bounds;
 
 class AnimationTreeModel: public QAbstractItemModel {
 	Q_OBJECT
@@ -60,7 +59,7 @@ bool SpriteSheetEditor::saveFile() {
 	return true;
 }
 
-QImage SpriteSheetEditor::buildImage(QImage *src, Bounds bnds) {
+QImage SpriteSheetEditor::buildImage(QImage *src, models::Bounds bnds) {
 	int w = m_model.tileWidth;
 	int h = m_model.tileHeight;
 	QImage sprt(w, h, QImage::Format_ARGB32);

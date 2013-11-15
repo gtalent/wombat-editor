@@ -6,5 +6,5 @@ clean:
 models.cy: enginemodels.cy editormodels.cy
 	cat enginemodels.cy editormodels.cy > models.cy
 models.hpp: models.cy
-	cyborgbear -i models.cy -o models -n models -t cpp-qt
+	cyborgbear -i models.cy -o models -n models -t cpp-qt -lc
 	rm -f models.cy
