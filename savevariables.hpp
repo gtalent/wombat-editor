@@ -24,11 +24,11 @@ class SaveVariables: public EditorTab {
 		class AddVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				models::cyborgbear::unknown *m_varVal;
+				models::cyborgbear::unknown m_varVal;
 				SaveVariables *m_parent;
 
 			public:
-				AddVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown *unk);
+				AddVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown unk);
 				void undo();
 				void redo();
 		};
@@ -36,12 +36,12 @@ class SaveVariables: public EditorTab {
 		class RemoveVarCommand: public QUndoCommand {
 			private:
 				QString m_varName;
-				models::cyborgbear::unknown *m_varVal;
+				models::cyborgbear::unknown m_varVal;
 				int m_varTblRow;
 				SaveVariables *m_parent;
 
 			public:
-				RemoveVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown *unk);
+				RemoveVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown unk);
 				void undo();
 				void redo();
 		};
@@ -55,7 +55,7 @@ class SaveVariables: public EditorTab {
 				SaveVariables *m_parent;
 
 			public:
-				EditVarCommand(SaveVariables *parent, QString name, QString newName, models::cyborgbear::unknown *unk);
+				EditVarCommand(SaveVariables *parent, QString name, QString newName, models::cyborgbear::unknown unk);
 				void undo();
 				void redo();
 		};
@@ -69,9 +69,9 @@ class SaveVariables: public EditorTab {
 		~SaveVariables();
 
 	protected:
-		void addVar(QString name, models::cyborgbear::unknown *val);
-		void tblInsertVar(int row, QString name, models::cyborgbear::unknown *val);
-		void setVar(int row, QString name, models::cyborgbear::unknown *val);
+		void addVar(QString name, models::cyborgbear::unknown val);
+		void tblInsertVar(int row, QString name, models::cyborgbear::unknown val);
+		void setVar(int row, QString name, models::cyborgbear::unknown val);
 		void removeVar(int row);
 
 	private:

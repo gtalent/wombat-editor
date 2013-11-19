@@ -20,14 +20,14 @@ class SaveVariableEditor: public QDialog {
 		Ui::SaveVariableEditor *ui;
 
 	public:
-		explicit SaveVariableEditor(QWidget *parent, QString key = "", unknown *val = 0);
+		explicit SaveVariableEditor(QWidget *parent, QString key, unknown val);
 		~SaveVariableEditor();
-		std::pair<QString, unknown*> getVar();
+		std::pair<QString, unknown> getVar();
 
 	public slots:
 		void updateType(QString);
-		void updateValue(unknown*);
-		unknown* getValue();
+		void updateValue(unknown);
+		unknown getValue();
 };
 
 #endif // SAVEVARIABLEEDITOR_HPP
