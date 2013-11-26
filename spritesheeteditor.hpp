@@ -7,6 +7,7 @@
 
 #include "models/models.hpp"
 
+#include "wombatcanvas.hpp"
 #include "editortab.hpp"
 
 namespace Ui {
@@ -42,6 +43,20 @@ class SpriteSheetEditor: public EditorTab {
 				void redo();
 		};
 
+		class RemoveImageCommand: public QUndoCommand {
+			private:
+				QVector<Image> m_newImages;
+				SpriteSheetEditor *m_parent;
+				models::SpriteSheet m_before;
+				models::SpriteSheet m_after;
+			public:
+				RemoveImageCommand(SpriteSheetEditor *parent, QVector<Image> imgs,
+										 models::SpriteSheet before, models::SpriteSheet after);
+				virtual ~RemoveImageCommand();
+				void undo();
+				void redo();
+		};
+
 		Ui::SpriteSheetEditor *ui;
 		models::SpriteSheet m_model;
 		models::Point m_sheetIdx;
@@ -55,8 +70,10 @@ class SpriteSheetEditor: public EditorTab {
 		QImage buildImage(QImage*, models::Bounds);
 		virtual bool saveFile();
 		
-	public slots:
+	private slots:
 		int addImages();
+		int removeImage();
+		void sceneSelection();
 
 	private:
 		int load(QString path);

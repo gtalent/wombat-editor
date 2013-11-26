@@ -1,12 +1,12 @@
 #include <QString>
 #include <QMap>
-#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QMouseEvent>
 
-class WombatCanvas: public QGraphicsScene {
+class WombatCanvas: public QGraphicsView {
 	private:
-		std::function<void(QGraphicsSceneMouseEvent*)> m_clickListener;
+		std::function<void(QMouseEvent*)> m_clickListener;
 	public:
-		WombatCanvas(std::function<void(QGraphicsSceneMouseEvent*)> click);
-		virtual void mousePressEvent(QGraphicsSceneMouseEvent *e);
+		WombatCanvas(QWidget *w, std::function<void(QMouseEvent*)> click);
+		virtual void mousePressEvent(QMouseEvent *e);
 };

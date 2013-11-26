@@ -1,12 +1,9 @@
 #include "wombatcanvas.hpp"
 
-WombatCanvas::WombatCanvas(std::function<void(QGraphicsSceneMouseEvent*)> click) {
+WombatCanvas::WombatCanvas(QWidget *w, std::function<void(QMouseEvent*)> click): QGraphicsView(w) {
 	m_clickListener = click;
 }
 
-void WombatCanvas::mousePressEvent(QGraphicsSceneMouseEvent *e) {
-	auto click = m_clickListener;
-	if (click) {
-		click(e);
-	}
+void WombatCanvas::mousePressEvent(QMouseEvent *e) {
+	m_clickListener(e);
 }

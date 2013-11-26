@@ -2,7 +2,7 @@
 
 EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
 	m_undoStack = new QUndoStack(parent);
-	m_lastCommand = m_lastSavedCommand = -1;
+	m_lastCommand = m_lastSavedCommand = 0;
 	m_path = path;
 }
 
