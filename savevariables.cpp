@@ -19,7 +19,6 @@ SaveVariables::SaveVariables(QWidget *parent, QString path): EditorTab(parent, p
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_file.readJsonFile(path);
 	for (auto i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
-		//clone the mapped var because addVar re-sets the value in the map, and that causes wierdness
 		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.vars[i.key()]);
 	}
 }
@@ -99,8 +98,6 @@ void SaveVariables::addClicked() {
 void SaveVariables::editCurrentVar() {
 	int row = ui->tblVars->currentItem()->row();
 	QString key = ui->tblVars->item(row, 0)->text();
-	printf("Name: %s\n", key.toStdString().c_str());
-	printf("JSON: %s\n", m_file.vars[key].toJson().toStdString().c_str());
 	SaveVariableEditor editor(this, key, m_file.vars[key]);
 	editor.setWindowTitle("Edit Variable...");
 	for (bool done = false; !done;) {
