@@ -98,9 +98,14 @@ int SpriteSheetEditor::addImages() {
 		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
 			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
 				int imgId = newImageId();
+				if (imgId >= m_model.tilesHigh * m_model.tilesWide) {
+					return 1;
+				}
+
 				models::SpriteSheetImage imgModel;
-				imgModel.srcBounds.x = m_model.sheetIdx.x * m_model.tileWidth;
-				imgModel.srcBounds.y = m_model.sheetIdx.y * m_model.tileHeight;
+				models::Point pt = indexPoint(imgId);
+				imgModel.srcBounds.x = pt.x * m_model.tileWidth;
+				imgModel.srcBounds.y = pt.y * m_model.tileHeight;
 				imgModel.srcBounds.width = m_model.tileWidth;
 				imgModel.srcBounds.height = m_model.tileHeight;
 				m_model.images[imgId] = imgModel;
@@ -118,14 +123,6 @@ int SpriteSheetEditor::addImages() {
 				img.img = buildImage(&src, srcBnds);
 				img.pxMap = QPixmap::fromImage(img.img);
 
-				m_model.sheetIdx.x++;
-				if (m_model.tilesWide <= m_model.sheetIdx.x) {
-					m_model.sheetIdx.x = 0;
-					m_model.sheetIdx.y++;
-					if (m_model.tilesHigh <= m_model.sheetIdx.y) {
-						return 1;
-					}
-				}
 				m_imgs[imgId] = img;
 				imgs.push_back(img);
 			}
@@ -133,6 +130,13 @@ int SpriteSheetEditor::addImages() {
 	}
 	notifyFileChange(new AddImageCommand(this, imgs, before, m_model));
 	return 0;
+}
+
+models::Point SpriteSheetEditor::indexPoint(int i) {
+	models::Point p;
+	p.x = i % m_model.tilesWide;
+	p.y = i / m_model.tilesWide;
+	return p;
 }
 
 int SpriteSheetEditor::load(QString path) {
@@ -156,7 +160,7 @@ int SpriteSheetEditor::load(QString path) {
 
 void SpriteSheetEditor::sceneSelection() {
 	ui->btnRemove->setEnabled(false);
-	//if a selected item is found, enable the Remove button
+	// if a selected item is found, enable the Remove button
 	auto items = m_scene->selectedItems();
 	for (auto i : items) {
 		if (i->isSelected()) {

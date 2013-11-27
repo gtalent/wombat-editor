@@ -76,6 +76,10 @@ class SpriteSheetEditor: public EditorTab {
 		void sceneSelection();
 
 	private:
+		/**
+		 * Returns point associated with the given index.
+		 */
+		models::Point indexPoint(int i);
 		int load(QString path);
 		void draw();
 		int newImageId();
