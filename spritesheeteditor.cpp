@@ -35,6 +35,7 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 }
 
 SpriteSheetEditor::~SpriteSheetEditor() {
+	disconnect(m_scene, SIGNAL(selectionChanged()), this, SLOT(sceneSelection()));
 	delete ui;
 	delete m_scene;
 }
