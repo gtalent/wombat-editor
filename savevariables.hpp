@@ -9,7 +9,7 @@
 #include <QUndoCommand>
 
 #include "editortab.hpp"
-#include "models/models.hpp"
+#include "models/editormodels.hpp"
 
 namespace Ui {
 	class SaveVariables;

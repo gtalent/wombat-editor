@@ -1,7 +1,7 @@
 #ifndef GLOBS_HPP
 #define GLOBS_HPP
 
-#include "models/models.hpp"
+#include "models/editormodels.hpp"
 
 namespace wombat {
 namespace editor {

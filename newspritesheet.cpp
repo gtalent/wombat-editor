@@ -1,7 +1,7 @@
 #include <QFile>
 #include <QImage>
 #include "newspritesheet.hpp"
-#include "models/models.hpp"
+#include "models/editormodels.hpp"
 #include "ui_newspritesheet.h"
 
 NewSpriteSheet::NewSpriteSheet(QString projectPath, QWidget *parent): QDialog(parent), ui(new Ui::NewSpriteSheet) {

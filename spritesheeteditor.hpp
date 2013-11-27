@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QGraphicsScene>
 
-#include "models/models.hpp"
+#include "models/editormodels.hpp"
 
 #include "wombatcanvas.hpp"
 #include "editortab.hpp"

@@ -1,6 +1,6 @@
 #include "globs.hpp"
 #include "mainwindow.hpp"
-#include "models/models.hpp"
+#include "models/editormodels.hpp"
 #include <QApplication>
 
 using namespace wombat::editor;

@@ -12,7 +12,7 @@ SOURCES += main.cpp \
 	savevariables.cpp \
 	importmenu.cpp \
 	editortab.cpp \
-	models/models.cpp \
+	models/editormodels.cpp \
 	savevariableeditor.cpp \
 	animationeditor.cpp \
 	imageselector.cpp \
@@ -28,7 +28,7 @@ HEADERS += mainwindow.hpp \
 	importmenu.hpp \
 	editortab.hpp \
 	editortablistener.hpp \
-	models/models.hpp \
+	models/editormodels.hpp \
 	savevariableeditor.hpp \
 	animationeditor.hpp \
 	imageselector.hpp \
