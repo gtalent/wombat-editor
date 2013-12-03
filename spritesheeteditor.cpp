@@ -141,7 +141,7 @@ models::Point SpriteSheetEditor::indexPoint(int i) {
 }
 
 int SpriteSheetEditor::load(QString path) {
-	if (!m_model.readJsonFile(path))
+	if (m_model.readJsonFile(path))
 		return 1;
 
 	QImage src(m_model.srcFile);
