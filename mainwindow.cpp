@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>
@@ -71,6 +73,7 @@ MainWindow::~MainWindow() {
 	}
 	settings.openTab = ui->tabWidget->currentIndex();
 
+	std::cout << "editor_settings.json" << std::endl;
 	settings.writeJsonFile("editor_settings.json", models::cyborgbear::Readable);
 
 	if (ui->fileList->model())

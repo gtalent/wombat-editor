@@ -51,5 +51,5 @@ FORMS   += mainwindow.ui \
 RESOURCES += \
     rsrc.qrc
 
-QMAKE_CXXFLAGS = -std=c++11
-
+QMAKE_CXXFLAGS = -std=c++11 -stdlib=libc++
+CONFIG += c++11
