@@ -8,7 +8,7 @@ namespace Ui {
 	class NewProject;
 }
 
-class NewProject : public QDialog {
+class NewProject: public QDialog {
 	Q_OBJECT
 		
 	private:

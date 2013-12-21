@@ -8,7 +8,7 @@
 
 NewProject::NewProject(QWidget *parent): QDialog(parent), ui(new Ui::NewProject) {
 	ui->setupUi(this);
-    ui->lePath->setText(QDir::homePath());
+	ui->lePath->setText(QDir::homePath());
 }
 
 NewProject::~NewProject() {
