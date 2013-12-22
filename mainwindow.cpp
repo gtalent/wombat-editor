@@ -50,8 +50,22 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 	ui->dockDebug->setVisible(false);
 
+	readSettings("editor_settings.json");
+}
+
+MainWindow::~MainWindow() {
+	writeSettings("editor_settings.json");
+
+	if (ui->fileList->model())
+		delete ui->fileList->model();
+	delete ui;
+}
+
+int MainWindow::readSettings(QString path) {
+	int retval = 0;
+
 	models::EditorSettings settings;
-	settings.readJsonFile("editor_settings.json");
+	retval = settings.readJsonFile(path);
 
 	openProject(settings.openProject);
 
@@ -59,9 +73,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 		openFile(i);
 	}
 	ui->tabWidget->setCurrentIndex(settings.openTab);
+
+	return retval;
 }
 
-MainWindow::~MainWindow() {
+int MainWindow::writeSettings(QString path) {
 	models::EditorSettings settings;
 
 	settings.openProject = m_projectPath;
@@ -73,11 +89,9 @@ MainWindow::~MainWindow() {
 	}
 	settings.openTab = ui->tabWidget->currentIndex();
 
-	settings.writeJsonFile("editor_settings.json", models::cyborgbear::Readable);
+	settings.writeJsonFile(path, models::cyborgbear::Readable);
 
-	if (ui->fileList->model())
-		delete ui->fileList->model();
-	delete ui;
+	return 0;
 }
 
 void MainWindow::newMenu() {

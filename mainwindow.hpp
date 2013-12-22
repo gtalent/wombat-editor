@@ -34,6 +34,8 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 
 	private:
 		EditorTab *currentTab();
+		int readSettings(QString path);
+		int writeSettings(QString path);
 
 	public slots:
 		void newMenu();
