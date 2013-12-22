@@ -73,7 +73,6 @@ MainWindow::~MainWindow() {
 	}
 	settings.openTab = ui->tabWidget->currentIndex();
 
-	std::cout << "editor_settings.json" << std::endl;
 	settings.writeJsonFile("editor_settings.json", models::cyborgbear::Readable);
 
 	if (ui->fileList->model())
@@ -103,7 +102,7 @@ void MainWindow::newMenu() {
 }
 
 void MainWindow::openProject() {
-	QString p = QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath());
+    QString p = QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath());
 	if (p != "") {
 		openProject(p);
 	}
