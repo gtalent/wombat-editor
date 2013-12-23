@@ -155,6 +155,9 @@ void MainWindow::openFile(QString path) {
 	EditorTab *tab = m_openTabs[path];
 	if (!tab) {
 		QString tabName = "";
+		QStringList list = path.split("/");
+		tabName = list[list.size() - 1];
+
 		if (m_projectPath + "Misc/SaveVariables.json" == path) {
 			//open save variables tab
 			tab = new SaveVariables(ui->tabWidget, path);
@@ -164,12 +167,11 @@ void MainWindow::openFile(QString path) {
 
 
 		if (tab) {
-			QStringList list = path.split("/");
-			tabName = list[list.size() - 1];
-
 			tab->addListener(this);
+			tab->title(tabName);
 			m_openTabs[path] = tab;
-			ui->tabWidget->addTab(tab, tabName);
+			ui->tabWidget->addTab(tab, tab->title());
+
 			ui->tabWidget->setCurrentWidget(tab);
 		}
 	} else {
@@ -263,6 +265,9 @@ void MainWindow::saveFile() {
 
 void MainWindow::fileSaved() {
 	ui->actionSave->setEnabled(false);
+	auto tab = currentTab();
+	auto tabIdx = ui->tabWidget->indexOf(tab);
+	ui->tabWidget->setTabText(tabIdx, tab->title());
 }
 
 void MainWindow::fileChanged() {
@@ -271,6 +276,10 @@ void MainWindow::fileChanged() {
 		ui->actionSave->setEnabled(true);
 		ui->actionUndo->setEnabled(tab->canUndo());
 		ui->actionRedo->setEnabled(tab->canRedo());
+
+		auto tab = currentTab();
+		auto tabIdx = ui->tabWidget->indexOf(tab);
+		ui->tabWidget->setTabText(tabIdx, "* " + tab->title());
 	}
 }
 
