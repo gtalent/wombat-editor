@@ -5,37 +5,39 @@ greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 TARGET = WombatEditor
 TEMPLATE = app
 
-SOURCES += main.cpp \
+SOURCES += editorcore/editormanager.cpp \
+	editorcore/editortab.cpp \
+	editorcore/misc.cpp \
+	models/editormodels.cpp \
+	main.cpp \
 	mainwindow.cpp \
 	newmenu.cpp \
 	newproject.cpp \
 	savevariables.cpp \
 	importmenu.cpp \
-	editortab.cpp \
-	models/editormodels.cpp \
 	savevariableeditor.cpp \
 	animationeditor.cpp \
 	imageselector.cpp \
 	spritesheeteditor.cpp \
 	newspritesheet.cpp \
-	wombatcanvas.cpp \
-	globs.cpp
+	wombatcanvas.cpp
 
-HEADERS += mainwindow.hpp \
+HEADERS += editorcore/editormanager.hpp \
+	editorcore/editortablistener.hpp \
+	editorcore/editortab.hpp \
+	editorcore/misc.hpp \
+	models/editormodels.hpp \
+	mainwindow.hpp \
 	newmenu.hpp \
 	newproject.hpp \
 	savevariables.hpp \
 	importmenu.hpp \
-	editortab.hpp \
-	editortablistener.hpp \
-	models/editormodels.hpp \
 	savevariableeditor.hpp \
 	animationeditor.hpp \
 	imageselector.hpp \
 	spritesheeteditor.hpp \
 	newspritesheet.hpp \
-	wombatcanvas.cpp \
-	globs.hpp
+	wombatcanvas.hpp
 
 FORMS   += mainwindow.ui \
 	newmenu.ui \

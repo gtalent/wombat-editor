@@ -6,9 +6,7 @@
 #include <QGraphicsScene>
 
 #include "models/editormodels.hpp"
-
-#include "wombatcanvas.hpp"
-#include "editortab.hpp"
+#include "editorcore/editortab.hpp"
 
 namespace Ui {
 class SpriteSheetEditor;

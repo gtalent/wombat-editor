@@ -8,7 +8,7 @@
 #include <QTableWidgetItem>
 #include <QUndoCommand>
 
-#include "editortab.hpp"
+#include "editorcore/editortab.hpp"
 #include "models/editormodels.hpp"
 
 namespace Ui {

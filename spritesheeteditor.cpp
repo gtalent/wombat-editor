@@ -5,7 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 
-#include "globs.hpp"
+#include "editorcore/misc.hpp"
 #include "spritesheeteditor.hpp"
 #include "ui_spritesheeteditor.h"
 

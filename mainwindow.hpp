@@ -9,8 +9,8 @@
 #include <QPoint>
 #include <QString>
 
-#include "globs.hpp"
-#include "editortab.hpp"
+#include "editorcore/misc.hpp"
+#include "editorcore/editortab.hpp"
 
 namespace Ui {
 class MainWindow;

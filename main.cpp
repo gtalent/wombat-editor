@@ -1,4 +1,4 @@
-#include "globs.hpp"
+#include "editorcore/misc.hpp"
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
 #include <QApplication>

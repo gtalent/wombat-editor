@@ -6,9 +6,9 @@
 #include <QMenu>
 #include <QString>
 
-#include "globs.hpp"
+#include "editorcore/misc.hpp"
 #include "mainwindow.hpp"
-#include "editortab.hpp"
+#include "editorcore/editortab.hpp"
 #include "newmenu.hpp"
 #include "savevariables.hpp"
 #include "spritesheeteditor.hpp"
