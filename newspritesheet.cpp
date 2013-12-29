@@ -4,7 +4,9 @@
 #include "models/editormodels.hpp"
 #include "ui_newspritesheet.h"
 
-NewSpriteSheet::NewSpriteSheet(QString projectPath, QWidget *parent): QDialog(parent), ui(new Ui::NewSpriteSheet) {
+using namespace wombat::editor;
+
+NewSpriteSheet::NewSpriteSheet(QString projectPath, QWidget *parent): NewFileMenu(parent), ui(new Ui::NewSpriteSheet) {
 	ui->setupUi(this);
 	m_projectPath = projectPath;
 }

@@ -6,7 +6,9 @@
 #include "newproject.hpp"
 #include "ui_newproject.h"
 
-NewProject::NewProject(QWidget *parent): QDialog(parent), ui(new Ui::NewProject) {
+using namespace wombat::editor;
+
+NewProject::NewProject(QWidget *parent): NewFileMenu(parent), ui(new Ui::NewProject) {
 	ui->setupUi(this);
 	ui->lePath->setText(QDir::homePath());
 }
@@ -50,14 +52,14 @@ void NewProject::accept() {
 
 	QFile f(path + "/Misc/SaveVariables.json");
 	f.open(QIODevice::WriteOnly);
-    QTextStream out(&f);
-    out << "{}\n";
+	QTextStream out(&f);
+	out << "{}\n";
 	f.close();
 	this->close();
 	this->parentWidget()->activateWindow();
 }
 
-QString NewProject::projectDir() {
+QString NewProject::path() {
 	return this->strProjectDir;
 }
 

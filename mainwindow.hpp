@@ -11,6 +11,7 @@
 
 #include "editorcore/misc.hpp"
 #include "editorcore/editortab.hpp"
+#include "editorcore/editorprofile.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,7 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		QString m_projectPath;
 		QMap<QString, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
+		wombat::editor::EditorProfile m_profile;
 
 	public:
 		explicit MainWindow(QWidget *parent = 0);

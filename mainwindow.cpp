@@ -101,7 +101,7 @@ void MainWindow::newMenu() {
 		if (nw == "Project") {
 			NewProject np(this);
 			if (np.exec() == 0) {
-				QString p = np.projectDir();
+				QString p = np.path();
 				if (p != "") {
 					openProject(p);
 				}
@@ -116,7 +116,7 @@ void MainWindow::newMenu() {
 }
 
 void MainWindow::openProject() {
-    QString p = QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath());
+	QString p = QFileDialog::getExistingDirectory(this, tr("Open Project Directory..."), QDir::homePath());
 	if (p != "") {
 		openProject(p);
 	}
@@ -164,7 +164,6 @@ void MainWindow::openFile(QString path) {
 		} else if (path.startsWith(m_projectPath + "Resources/SpriteSheets/")) {
 			tab = new SpriteSheetEditor(ui->tabWidget, m_projectPath, path);
 		}
-
 
 		if (tab) {
 			tab->addListener(this);

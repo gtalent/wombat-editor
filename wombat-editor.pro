@@ -5,10 +5,13 @@ greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 TARGET = WombatEditor
 TEMPLATE = app
 
-SOURCES += editorcore/editormanager.cpp \
+SOURCES += \
+	editorcore/editorprofile.cpp \
 	editorcore/editortab.cpp \
+	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
 	models/editormodels.cpp \
+	wombatprofile.cpp \
 	main.cpp \
 	mainwindow.cpp \
 	newmenu.cpp \
@@ -22,11 +25,14 @@ SOURCES += editorcore/editormanager.cpp \
 	newspritesheet.cpp \
 	wombatcanvas.cpp
 
-HEADERS += editorcore/editormanager.hpp \
+HEADERS += \
+	editorcore/editorprofile.hpp \
 	editorcore/editortablistener.hpp \
 	editorcore/editortab.hpp \
+	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \
 	models/editormodels.hpp \
+	wombatprofile.hpp \
 	mainwindow.hpp \
 	newmenu.hpp \
 	newproject.hpp \
@@ -39,7 +45,8 @@ HEADERS += editorcore/editormanager.hpp \
 	newspritesheet.hpp \
 	wombatcanvas.hpp
 
-FORMS   += mainwindow.ui \
+FORMS += \
+	mainwindow.ui \
 	newmenu.ui \
 	newproject.ui \
 	importmenu.ui \
@@ -53,5 +60,5 @@ FORMS   += mainwindow.ui \
 RESOURCES += \
     rsrc.qrc
 
-QMAKE_CXXFLAGS = -std=c++11 -stdlib=libc++
+;QMAKE_CXXFLAGS = -std=c++11 -stdlib=libc++
 CONFIG += c++11

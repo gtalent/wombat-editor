@@ -27,7 +27,7 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);
 	connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(sceneSelection()));
-	ui->canvas->setAlignment(Qt::AlignLeft | Qt::AlignTop);	
+	ui->canvas->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	ui->canvas->setScene(m_scene);
 	ui->canvas->setStyleSheet("background-color: transparent");
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
