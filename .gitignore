@@ -1,5 +1,8 @@
 tags
 WombatEditor
+WombatEditor.app
+WombatEditor.exe
+.qmake.stash
 *.o
 wombat-editor.pro.user*
 moc_*
