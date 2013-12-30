@@ -1,5 +1,3 @@
-#include "wombatprofile.hpp"
-
 #include "spritesheeteditor.hpp"
 #include "newspritesheet.hpp"
 

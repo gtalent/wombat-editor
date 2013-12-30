@@ -3,7 +3,6 @@
 
 #include <map>
 
-#include <QFileSystemModel>
 #include <QModelIndex>
 #include <QMainWindow>
 #include <QPoint>
@@ -24,11 +23,10 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 	private:
 		QString m_projectPath;
 		QMap<QString, EditorTab*> m_openTabs;
-		QFileSystemModel *m_fsModel;
-		wombat::editor::EditorProfile m_profile;
+		wombat::editor::EditorProfile *m_profile;
 
 	public:
-		explicit MainWindow(QWidget *parent = 0);
+		explicit MainWindow(wombat::editor::EditorProfile *profile = 0, QWidget *parent = 0);
 		~MainWindow();
 
 		void openProject(QString);

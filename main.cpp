@@ -1,4 +1,5 @@
 #include "editorcore/misc.hpp"
+#include "wombatprofile.hpp"
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
 #include <QApplication>
@@ -8,7 +9,9 @@ using namespace wombat::editor;
 int main(int argc, char *argv[]) {
 	QApplication::setApplicationName("Wombat Editor");
 	QApplication a(argc, argv);
-	MainWindow w;
+	wombat::editor::EditorProfile profile;
+	wombat::editor::setupWombatProfile(profile);
+	MainWindow w(&profile);
 	addDebugLogger(&w);
 	w.show();
 

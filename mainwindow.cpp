@@ -40,7 +40,9 @@ QString defaultPaths[] = {
 	"Worlds/Zones"
 };
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
+using namespace wombat::editor;
+
+MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 	// for some reason this can't be done QtDesigner
 	connect(ui->fileList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filePaneContextMenu(QPoint)));
@@ -49,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 	ui->dockAnimationEditor->setVisible(false);
 
 	ui->dockDebug->setVisible(false);
+
+	m_profile = profile;
 
 	readSettings("editor_settings.json");
 }
@@ -132,7 +136,6 @@ void MainWindow::openProject(QString path) {
 		delete ui->fileList->model();
 
 	QFileSystemModel *model = new QFileSystemModel();
-	m_fsModel = model;
 	ui->fileList->setModel(model);
 	ui->fileList->setHeaderHidden(true);
 	for (int i = 1; i < 4; i++) {
@@ -225,9 +228,9 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 
 	if (path != "") {
 		bool fileDeletable = true;
-		unsigned long size = sizeof(defaultPaths) / sizeof(QString);
-		for (unsigned long i = 0; i < size; i++) {
-			if (path == projectDir + defaultPaths[i]) {
+		auto defaultPaths = m_profile->defaultPaths();
+		for (auto path : defaultPaths) {
+			if (path == projectDir + path) {
 				fileDeletable = false;
 				break;
 			}
