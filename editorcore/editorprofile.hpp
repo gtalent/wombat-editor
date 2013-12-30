@@ -32,12 +32,16 @@ class EditorProfile {
 
 		QVector<EditorTabMaker> m_editorTabMakers;
 
+		QVector<QString> m_fileTypes;
+
 		QVector<QString> m_defaultPaths;
 
 	public:
 		NewFileMenu *newFileMenu(NewFileMenuParams);
 
 		EditorTab *editorTab(EditorTabParams);
+
+		QVector<QString> defaultPaths();
 
 		void addNewFileMenuMaker(QString, NewFileMenuMaker);
 

@@ -20,7 +20,21 @@ EditorTab *EditorProfile::editorTab(EditorTabParams args) {
 	return 0;
 }
 
+QVector<QString> EditorProfile::defaultPaths() {
+	return m_defaultPaths;
+}
+
 void EditorProfile::addNewFileMenuMaker(QString fileType, NewFileMenuMaker mkr) {
+	bool addToFileTypes = true;
+	for (auto t : m_fileTypes) {
+		if (t == fileType) {
+			addToFileTypes = false;
+		}
+	}
+
+	if (addToFileTypes) {
+		m_fileTypes.push_back(fileType);
+	}
 	m_newFileMenuMakers[fileType] = mkr;
 }
 
