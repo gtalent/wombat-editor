@@ -1,12 +1,14 @@
+#include <iostream>
+
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QMenu>
 #include <QString>
 
-#include "globs.hpp"
+#include "editorcore/misc.hpp"
 #include "mainwindow.hpp"
-#include "editortab.hpp"
+#include "editorcore/editortab.hpp"
 #include "newmenu.hpp"
 #include "savevariables.hpp"
 #include "spritesheeteditor.hpp"
@@ -48,8 +50,22 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 	ui->dockDebug->setVisible(false);
 
+	readSettings("editor_settings.json");
+}
+
+MainWindow::~MainWindow() {
+	writeSettings("editor_settings.json");
+
+	if (ui->fileList->model())
+		delete ui->fileList->model();
+	delete ui;
+}
+
+int MainWindow::readSettings(QString path) {
+	int retval = 0;
+
 	models::EditorSettings settings;
-	settings.readJsonFile("editor_settings.json");
+	retval = settings.readJsonFile(path);
 
 	openProject(settings.openProject);
 
@@ -57,9 +73,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 		openFile(i);
 	}
 	ui->tabWidget->setCurrentIndex(settings.openTab);
+
+	return retval;
 }
 
-MainWindow::~MainWindow() {
+int MainWindow::writeSettings(QString path) {
 	models::EditorSettings settings;
 
 	settings.openProject = m_projectPath;
@@ -71,11 +89,9 @@ MainWindow::~MainWindow() {
 	}
 	settings.openTab = ui->tabWidget->currentIndex();
 
-	settings.writeJsonFile("editor_settings.json", models::cyborgbear::Readable);
+	settings.writeJsonFile(path, models::cyborgbear::Readable);
 
-	if (ui->fileList->model())
-		delete ui->fileList->model();
-	delete ui;
+	return 0;
 }
 
 void MainWindow::newMenu() {
@@ -85,7 +101,7 @@ void MainWindow::newMenu() {
 		if (nw == "Project") {
 			NewProject np(this);
 			if (np.exec() == 0) {
-				QString p = np.projectDir();
+				QString p = np.path();
 				if (p != "") {
 					openProject(p);
 				}
@@ -139,6 +155,9 @@ void MainWindow::openFile(QString path) {
 	EditorTab *tab = m_openTabs[path];
 	if (!tab) {
 		QString tabName = "";
+		QStringList list = path.split("/");
+		tabName = list[list.size() - 1];
+
 		if (m_projectPath + "Misc/SaveVariables.json" == path) {
 			//open save variables tab
 			tab = new SaveVariables(ui->tabWidget, path);
@@ -146,14 +165,12 @@ void MainWindow::openFile(QString path) {
 			tab = new SpriteSheetEditor(ui->tabWidget, m_projectPath, path);
 		}
 
-
 		if (tab) {
-			QStringList list = path.split("/");
-			tabName = list[list.size() - 1];
-
 			tab->addListener(this);
+			tab->title(tabName);
 			m_openTabs[path] = tab;
-			ui->tabWidget->addTab(tab, tabName);
+			ui->tabWidget->addTab(tab, tab->title());
+
 			ui->tabWidget->setCurrentWidget(tab);
 		}
 	} else {
@@ -247,6 +264,9 @@ void MainWindow::saveFile() {
 
 void MainWindow::fileSaved() {
 	ui->actionSave->setEnabled(false);
+	auto tab = currentTab();
+	auto tabIdx = ui->tabWidget->indexOf(tab);
+	ui->tabWidget->setTabText(tabIdx, tab->title());
 }
 
 void MainWindow::fileChanged() {
@@ -255,6 +275,10 @@ void MainWindow::fileChanged() {
 		ui->actionSave->setEnabled(true);
 		ui->actionUndo->setEnabled(tab->canUndo());
 		ui->actionRedo->setEnabled(tab->canRedo());
+
+		auto tab = currentTab();
+		auto tabIdx = ui->tabWidget->indexOf(tab);
+		ui->tabWidget->setTabText(tabIdx, "* " + tab->title());
 	}
 }
 

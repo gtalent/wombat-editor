@@ -14,6 +14,7 @@ class EditorTab: public QWidget {
 		int m_lastCommand;
 		int m_lastSavedCommand;
 
+		QString m_title;
 		QString m_path;
 
 	public:
@@ -22,6 +23,8 @@ class EditorTab: public QWidget {
 		void addListener(EditorTabListener *l);
 		void removeListener(EditorTabListener *l);
 		bool currentStateSaved();
+		QString title();
+		void title(QString);
 		void undo();
 		void redo();
 		bool canUndo();

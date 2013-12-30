@@ -1,14 +1,13 @@
 #ifndef NEWSPRITESHEET_HPP
 #define NEWSPRITESHEET_HPP
 
-#include <QDialog>
-#include <QString>
+#include "editorcore/newfilemenu.hpp"
 
 namespace Ui {
 class NewSpriteSheet;
 }
 
-class NewSpriteSheet: public QDialog {
+class NewSpriteSheet: public wombat::editor::NewFileMenu {
 	Q_OBJECT
 		
 	private:

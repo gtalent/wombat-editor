@@ -6,8 +6,8 @@
  */
 class EditorTabListener {
 	public:
-		virtual void fileSaved() = 0;
-		virtual void fileChanged() = 0;
+        virtual void fileSaved() {}
+        virtual void fileChanged() {}
 };
 
 #endif

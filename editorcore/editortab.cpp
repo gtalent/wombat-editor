@@ -27,6 +27,14 @@ bool EditorTab::currentStateSaved() {
 	return m_lastSavedCommand == m_lastCommand;
 }
 
+QString EditorTab::title() {
+	return m_title;
+}
+
+void EditorTab::title(QString title) {
+	m_title = title;
+}
+
 void EditorTab::notifyFileChange(QUndoCommand *uc) {
 	if (uc) {
 		m_undoStack->push(uc);
@@ -49,10 +57,11 @@ void EditorTab::undo() {
 		m_undoStack->undo();
 		m_lastCommand = m_undoStack->index();
 
-		if (currentStateSaved())
+		if (currentStateSaved()) {
 			notifyFileSave();
-		else
+		} else {
 			notifyFileChange();
+		}
 	}
 }
 
@@ -61,10 +70,11 @@ void EditorTab::redo() {
 		m_undoStack->redo();
 		m_lastCommand = m_undoStack->index();
 
-		if (currentStateSaved())
+		if (currentStateSaved()) {
 			notifyFileSave();
-		else
+		} else {
 			notifyFileChange();
+		}
 	}
 }
 

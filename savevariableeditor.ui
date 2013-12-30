@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>135</height>
+    <height>175</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Variable Editor</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
+  <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="lblName">
      <property name="text">
@@ -97,7 +97,7 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="1">
+   <item row="3" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -111,7 +111,6 @@
  </widget>
  <tabstops>
   <tabstop>leName</tabstop>
-  <tabstop>cbType</tabstop>
   <tabstop>cbValue</tabstop>
   <tabstop>sbValue</tabstop>
   <tabstop>leValue</tabstop>

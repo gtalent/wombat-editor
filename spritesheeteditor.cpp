@@ -5,7 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 
-#include "globs.hpp"
+#include "editorcore/misc.hpp"
 #include "spritesheeteditor.hpp"
 #include "ui_spritesheeteditor.h"
 
@@ -27,7 +27,7 @@ SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QStrin
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);
 	connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(sceneSelection()));
-	ui->canvas->setAlignment(Qt::AlignLeft | Qt::AlignTop);	
+	ui->canvas->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	ui->canvas->setScene(m_scene);
 	ui->canvas->setStyleSheet("background-color: transparent");
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
@@ -93,43 +93,45 @@ void SpriteSheetEditor::recycleImageId(int imgId) {
 int SpriteSheetEditor::addImages() {
 	auto before = m_model;
 	QStringList files = QFileDialog::getOpenFileNames(parentWidget(), "Choose images to import...", QDir::homePath());
-	QVector<Image> imgs;
-	for (int n = 0; n < files.size(); n++) {
-		QImage src(files[n]);
-		for (int i = 0; i < files.size(); i += m_model.tileHeight) {
-			for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
-				int imgId = newImageId();
-				if (imgId >= m_model.tilesHigh * m_model.tilesWide) {
-					return 1;
+	if (files.size()) {
+		QVector<Image> imgs;
+		for (int n = 0; n < files.size(); n++) {
+			QImage src(files[n]);
+			for (int i = 0; i < files.size(); i += m_model.tileHeight) {
+				for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
+					int imgId = newImageId();
+					if (imgId >= m_model.tilesHigh * m_model.tilesWide) {
+						return 1;
+					}
+
+					models::SpriteSheetImage imgModel;
+					models::Point pt = indexPoint(imgId);
+					imgModel.srcBounds.x = pt.x * m_model.tileWidth;
+					imgModel.srcBounds.y = pt.y * m_model.tileHeight;
+					imgModel.srcBounds.width = m_model.tileWidth;
+					imgModel.srcBounds.height = m_model.tileHeight;
+					m_model.images[imgId] = imgModel;
+
+					Image img;
+					img.x = imgModel.srcBounds.x;
+					img.y = imgModel.srcBounds.y;
+					img.imgId = imgId;
+
+					models::Bounds srcBnds;
+					srcBnds.x = ii;
+					srcBnds.y = i;
+					srcBnds.width = m_model.tileWidth;
+					srcBnds.height = m_model.tileHeight;
+					img.img = buildImage(&src, srcBnds);
+					img.pxMap = QPixmap::fromImage(img.img);
+
+					m_imgs[imgId] = img;
+					imgs.push_back(img);
 				}
-
-				models::SpriteSheetImage imgModel;
-				models::Point pt = indexPoint(imgId);
-				imgModel.srcBounds.x = pt.x * m_model.tileWidth;
-				imgModel.srcBounds.y = pt.y * m_model.tileHeight;
-				imgModel.srcBounds.width = m_model.tileWidth;
-				imgModel.srcBounds.height = m_model.tileHeight;
-				m_model.images[imgId] = imgModel;
-
-				Image img;
-				img.x = imgModel.srcBounds.x;
-				img.y = imgModel.srcBounds.y;
-				img.imgId = imgId;
-
-				models::Bounds srcBnds;
-				srcBnds.x = ii;
-				srcBnds.y = i;
-				srcBnds.width = m_model.tileWidth;
-				srcBnds.height = m_model.tileHeight;
-				img.img = buildImage(&src, srcBnds);
-				img.pxMap = QPixmap::fromImage(img.img);
-
-				m_imgs[imgId] = img;
-				imgs.push_back(img);
 			}
 		}
+		notifyFileChange(new AddImageCommand(this, imgs, before, m_model));
 	}
-	notifyFileChange(new AddImageCommand(this, imgs, before, m_model));
 	return 0;
 }
 

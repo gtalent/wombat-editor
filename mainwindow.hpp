@@ -9,8 +9,9 @@
 #include <QPoint>
 #include <QString>
 
-#include "globs.hpp"
-#include "editortab.hpp"
+#include "editorcore/misc.hpp"
+#include "editorcore/editortab.hpp"
+#include "editorcore/editorprofile.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,7 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 		QString m_projectPath;
 		QMap<QString, EditorTab*> m_openTabs;
 		QFileSystemModel *m_fsModel;
+		wombat::editor::EditorProfile m_profile;
 
 	public:
 		explicit MainWindow(QWidget *parent = 0);
@@ -34,6 +36,8 @@ class MainWindow: public QMainWindow, public EditorTabListener, public wombat::e
 
 	private:
 		EditorTab *currentTab();
+		int readSettings(QString path);
+		int writeSettings(QString path);
 
 	public slots:
 		void newMenu();
