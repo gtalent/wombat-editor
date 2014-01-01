@@ -16,7 +16,7 @@ class ModelIoManager {
 
 	public:
 		QString read(QString path);
-		void write(QString path, QString value);
+		int write(QString path, QString value);
 
 	private:
 		void updateListeners(QString path, QString value);

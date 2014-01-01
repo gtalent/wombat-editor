@@ -20,7 +20,7 @@ class AnimationTreeModel: public QAbstractItemModel {
  		QVariant headerData(int, Qt::Orientation, int role = Qt::DisplayRole) const;
 };
 
-SpriteSheetEditor::SpriteSheetEditor(EditorTabParams args): EditorTab(args.parent, args.filePath), ui(new Ui::SpriteSheetEditor) {
+SpriteSheetEditor::SpriteSheetEditor(EditorTabParams args): EditorTab(args), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
 	m_projectDir = args.projectPath;
 	load(args.filePath);
@@ -43,7 +43,8 @@ SpriteSheetEditor::~SpriteSheetEditor() {
 
 bool SpriteSheetEditor::saveFile() {
 	notifyFileSave();
-	m_model.writeJsonFile(path(), models::cyborgbear::Readable);
+	auto out = m_model.toJson(models::cyborgbear::Readable);
+	modelIoManager()->write(path(), out);
 
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
@@ -144,8 +145,7 @@ models::Point SpriteSheetEditor::indexPoint(int i) {
 }
 
 int SpriteSheetEditor::load(QString path) {
-	if (m_model.readJsonFile(path))
-		return 1;
+	m_model.fromJson(modelIoManager()->read(path));
 
 	QImage src(m_model.srcFile);
 	if (!src.isNull()) {

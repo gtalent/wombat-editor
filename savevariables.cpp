@@ -166,7 +166,8 @@ void SaveVariables::tableClicked(QModelIndex) {
 }
 
 bool SaveVariables::saveFile() {
-	m_file.writeJsonFile(path(), models::cyborgbear::Readable);
+	auto out = m_file.toJson(models::cyborgbear::Readable);
+	modelIoManager()->write(path(), out);
 	notifyFileSave();
 	return false;
 }

@@ -7,20 +7,27 @@
 #include "models/editormodels.hpp"
 
 #include "editorcore/editortab.hpp"
+#include "editorcore/editortabparams.hpp"
 
 namespace Ui {
 class AnimationEditor;
 }
 
-class AnimationEditor: public wombat::editor::EditorTab {
+namespace wombat {
+namespace editor {
+
+class AnimationEditor: public EditorTab {
 	Q_OBJECT
 
 	public:
-		explicit AnimationEditor(QWidget *parent, QString path);
+		explicit AnimationEditor(EditorTabParams);
 		~AnimationEditor();
 
 	private:
 		Ui::AnimationEditor *ui;
 };
+
+}
+}
 
 #endif // ANIMATIONEDITOR_HPP

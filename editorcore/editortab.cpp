@@ -10,13 +10,6 @@ EditorTab::EditorTab(EditorTabParams args): QWidget(args.parent) {
 	m_models = args.models;
 }
 
-EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
-	m_undoStack = new QUndoStack(parent);
-	m_lastCommand = m_lastSavedCommand = 0;
-	m_path = path;
-	m_models = 0;
-}
-
 EditorTab::~EditorTab() {
 	delete m_undoStack;
 }

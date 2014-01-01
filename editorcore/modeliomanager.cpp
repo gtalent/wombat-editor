@@ -21,12 +21,15 @@ QString ModelIoManager::read(QString path) {
 	}
 }
 
-void ModelIoManager::write(QString path, QString value) {
+int ModelIoManager::write(QString path, QString value) {
 	QFile file(path);
 	file.open(QIODevice::WriteOnly);
 	QTextStream(&file) << value;
 	file.close();
+
 	updateListeners(path, value);
+
+	return 0;
 }
 
 void ModelIoManager::updateListeners(QString path, QString value) {

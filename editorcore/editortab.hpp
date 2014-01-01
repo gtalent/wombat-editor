@@ -29,7 +29,6 @@ class EditorTab: public QWidget {
 
 	public:
 		EditorTab(EditorTabParams);
-		EditorTab(QWidget *win, QString path);
 		~EditorTab();
 		void addListener(EditorTabListener *l);
 		void removeListener(EditorTabListener *l);
