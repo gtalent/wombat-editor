@@ -10,6 +10,7 @@
 #include "ui_spritesheeteditor.h"
 
 using std::string;
+using namespace wombat::editor;
 
 class AnimationTreeModel: public QAbstractItemModel {
 	Q_OBJECT
@@ -19,10 +20,10 @@ class AnimationTreeModel: public QAbstractItemModel {
  		QVariant headerData(int, Qt::Orientation, int role = Qt::DisplayRole) const;
 };
 
-SpriteSheetEditor::SpriteSheetEditor(QWidget *parent, QString projectDir, QString path): EditorTab(parent, path), ui(new Ui::SpriteSheetEditor) {
+SpriteSheetEditor::SpriteSheetEditor(EditorTabParams args): EditorTab(args.parent, args.filePath), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
-	m_projectDir = projectDir;
-	load(path);
+	m_projectDir = args.projectPath;
+	load(args.filePath);
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);

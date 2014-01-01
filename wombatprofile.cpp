@@ -12,7 +12,7 @@ void setupWombatProfile(EditorProfile &p) {
 	// setup sprite sheets
 	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
 		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
-			return new SpriteSheetEditor(args.parent, args.projectPath, args.filePath);
+			return new SpriteSheetEditor(args);
 		}
 		return 0;
 	});
@@ -29,7 +29,7 @@ void setupWombatProfile(EditorProfile &p) {
 		EditorTab *tab = 0;
 		if (args.projectPath + "Misc/SaveVariables.json" == args.filePath) {
 			//open save variables tab
-			tab = new SaveVariables(args.parent, args.filePath);
+			tab = new SaveVariables(args);
 		}
 		return tab;
 	});

@@ -15,7 +15,7 @@ namespace Ui {
 	class SaveVariables;
 }
 
-class SaveVariables: public EditorTab {
+class SaveVariables: public wombat::editor::EditorTab {
 	Q_OBJECT
 
 	private:
@@ -65,7 +65,7 @@ class SaveVariables: public EditorTab {
 		models::SaveVariables m_file;
 	
 	public:
-		explicit SaveVariables(QWidget *parent, QString path);
+		explicit SaveVariables(wombat::editor::EditorTabParams);
 		~SaveVariables();
 
 	protected:

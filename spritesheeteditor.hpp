@@ -7,12 +7,13 @@
 
 #include "models/editormodels.hpp"
 #include "editorcore/editortab.hpp"
+#include "editorcore/editortabparams.hpp"
 
 namespace Ui {
 class SpriteSheetEditor;
 }
 
-class SpriteSheetEditor: public EditorTab {
+class SpriteSheetEditor: public wombat::editor::EditorTab {
 	Q_OBJECT
 
 	private:
@@ -63,7 +64,7 @@ class SpriteSheetEditor: public EditorTab {
 		QMap<int, Image> m_imgs;
 
 	public:
-		explicit SpriteSheetEditor(QWidget *parent, QString projectDir, QString path);
+		explicit SpriteSheetEditor(wombat::editor::EditorTabParams);
 		~SpriteSheetEditor();
 		QImage buildImage(QImage*, models::Bounds);
 		virtual bool saveFile();

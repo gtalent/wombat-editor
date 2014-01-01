@@ -12,12 +12,13 @@
 #include "ui_savevariables.h"
 
 using models::cyborgbear::unknown;
+using namespace wombat::editor;
 using namespace std;
 
-SaveVariables::SaveVariables(QWidget *parent, QString path): EditorTab(parent, path), ui(new Ui::SaveVariables) {
+SaveVariables::SaveVariables(EditorTabParams args): EditorTab(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_file.readJsonFile(path);
+	m_file.fromJson(modelIoManager()->read(args.filePath));
 	for (auto i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
 		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.vars[i.key()]);
 	}

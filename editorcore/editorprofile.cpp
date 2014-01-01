@@ -14,6 +14,7 @@ EditorTab *EditorProfile::editorTab(EditorTabParams args) {
 	for (auto f : m_editorTabMakers) {
 		auto retval = f(args);
 		if (retval) {
+			retval->modelIoManager(&m_models);
 			return retval;
 		}
 	}

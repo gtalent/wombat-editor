@@ -4,10 +4,20 @@
 #include <QWidget>
 #include <QUndoStack>
 
+#include "modeliomanager.hpp"
 #include "editortablistener.hpp"
+#include "editortabparams.hpp"
+
+namespace wombat {
+namespace editor {
+
+class EditorProfile;
 
 class EditorTab: public QWidget {
+	friend EditorProfile;
 	private:
+		ModelIoManager *m_models;
+
 		QVector<EditorTabListener*> m_listeners;
 		QUndoStack *m_undoStack;
 
@@ -18,6 +28,7 @@ class EditorTab: public QWidget {
 		QString m_path;
 
 	public:
+		EditorTab(EditorTabParams);
 		EditorTab(QWidget *win, QString path);
 		~EditorTab();
 		void addListener(EditorTabListener *l);
@@ -34,8 +45,13 @@ class EditorTab: public QWidget {
 		virtual bool saveFile() = 0;
 
 	protected:
+		void modelIoManager(ModelIoManager*);
+		ModelIoManager *modelIoManager();
 		void notifyFileChange(QUndoCommand *c = 0);
 		void notifyFileSave();
 };
+
+}
+}
 
 #endif

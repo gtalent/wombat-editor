@@ -4,17 +4,12 @@
 #include <functional>
 #include <QVector>
 #include <QMap>
+#include "modeliomanager.hpp"
 #include "editortab.hpp"
 #include "newfilemenu.hpp"
 
 namespace wombat {
 namespace editor {
-
-struct EditorTabParams {
-	QString projectPath;
-	QString filePath;
-	QWidget *parent;
-};
 
 struct NewFileMenuParams {
 	QString projectPath;
@@ -35,6 +30,8 @@ class EditorProfile {
 		QVector<QString> m_fileTypes;
 
 		QVector<QString> m_defaultPaths;
+
+		ModelIoManager m_models;
 
 	public:
 		NewFileMenu *newFileMenu(NewFileMenuParams);

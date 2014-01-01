@@ -12,7 +12,7 @@ namespace Ui {
 class AnimationEditor;
 }
 
-class AnimationEditor: public EditorTab {
+class AnimationEditor: public wombat::editor::EditorTab {
 	Q_OBJECT
 
 	public:

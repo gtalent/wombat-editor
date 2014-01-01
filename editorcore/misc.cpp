@@ -15,9 +15,5 @@ void logDebug(QString str) {
 		l->logDebug(str);
 }
 
-void writeModel(QString path, models::cyborgbear::Model &model) {
-	model.writeJsonFile(path + ".json");
-}
-
 }
 }

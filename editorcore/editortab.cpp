@@ -1,9 +1,20 @@
 #include "editortab.hpp"
 
+namespace wombat {
+namespace editor {
+
+EditorTab::EditorTab(EditorTabParams args): QWidget(args.parent) {
+	m_undoStack = new QUndoStack(args.parent);
+	m_lastCommand = m_lastSavedCommand = 0;
+	m_path = args.filePath;
+	m_models = args.models;
+}
+
 EditorTab::EditorTab(QWidget *parent, QString path): QWidget(parent) {
 	m_undoStack = new QUndoStack(parent);
 	m_lastCommand = m_lastSavedCommand = 0;
 	m_path = path;
+	m_models = 0;
 }
 
 EditorTab::~EditorTab() {
@@ -43,6 +54,14 @@ void EditorTab::notifyFileChange(QUndoCommand *uc) {
 	for (int i = 0; i < m_listeners.size(); i++) {
 		m_listeners[i]->fileChanged();
 	}
+}
+
+void EditorTab::modelIoManager(ModelIoManager *models) {
+	m_models = models;
+}
+
+ModelIoManager *EditorTab::modelIoManager() {
+	return m_models;
 }
 
 void EditorTab::notifyFileSave() {
@@ -91,4 +110,7 @@ QString EditorTab::path() {
 }
 
 void EditorTab::closeTab() {
+}
+
+}
 }

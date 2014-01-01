@@ -161,12 +161,13 @@ void MainWindow::openFile(QString path) {
 		QStringList list = path.split("/");
 		tabName = list[list.size() - 1];
 
-		if (m_projectPath + "Misc/SaveVariables.json" == path) {
-			//open save variables tab
-			tab = new SaveVariables(ui->tabWidget, path);
-		} else if (path.startsWith(m_projectPath + "Resources/SpriteSheets/")) {
-			tab = new SpriteSheetEditor(ui->tabWidget, m_projectPath, path);
-		}
+		// setup tab
+		EditorTabParams args;
+		args.projectPath = m_projectPath;
+		args.filePath = path;
+		args.parent = ui->tabWidget;
+		args.models = &m_models;
+		tab = m_profile->editorTab(args);
 
 		if (tab) {
 			tab->addListener(this);

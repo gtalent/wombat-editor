@@ -10,6 +10,7 @@ SOURCES += \
 	editorcore/editortab.cpp \
 	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
+	editorcore/modeliomanager.cpp \
 	models/editormodels.cpp \
 	wombatprofile.cpp \
 	main.cpp \
@@ -29,8 +30,10 @@ HEADERS += \
 	editorcore/editorprofile.hpp \
 	editorcore/editortablistener.hpp \
 	editorcore/editortab.hpp \
+	editorcore/editortabparams.hpp \
 	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \
+	editorcore/modeliomanager.hpp \
 	models/editormodels.hpp \
 	wombatprofile.hpp \
 	mainwindow.hpp \
