@@ -1,10 +1,11 @@
 #ifndef NEWPROJECT_HPP
 #define NEWPROJECT_HPP
 
+#include <QVector>
 #include "editorcore/newfilemenu.hpp"
 
 namespace Ui {
-	class NewProject;
+class NewProject;
 }
 
 class NewProject: public wombat::editor::NewFileMenu {
@@ -12,10 +13,11 @@ class NewProject: public wombat::editor::NewFileMenu {
 		
 	private:
 		Ui::NewProject *ui;
-		QString strProjectDir;
+		QString m_strProjectDir;
+		QVector<QString> m_defaultPaths;
 
 	public:
-		explicit NewProject(QWidget *parent = 0);
+		explicit NewProject(QWidget *parent, QVector<QString> defaultPaths);
 		~NewProject();
 
 		QString path();

@@ -3,7 +3,7 @@
 namespace wombat {
 namespace editor {
 
-NewFileMenu::NewFileMenu() {
+NewFileMenu::NewFileMenu(NewFileMenuParams args): QDialog(args.parent) {
 }
 
 NewFileMenu::NewFileMenu(QWidget *parent): QDialog(parent) {

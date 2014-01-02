@@ -3,13 +3,14 @@
 
 #include <QDialog>
 #include <QString>
+#include "newfilemenuparams.hpp"
 
 namespace wombat {
 namespace editor {
 
 class NewFileMenu: public QDialog {
 	public:
-		NewFileMenu();
+		NewFileMenu(NewFileMenuParams);
 		NewFileMenu(QWidget *parent);
 		virtual QString path() = 0;
 };

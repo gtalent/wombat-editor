@@ -16,7 +16,7 @@ class NewSpriteSheet: public wombat::editor::NewFileMenu {
 		QString m_path;
 
 	public:
-		explicit NewSpriteSheet(QString projectPath, QWidget *parent = 0);
+		explicit NewSpriteSheet(wombat::editor::NewFileMenuParams);
 		~NewSpriteSheet();
 
 		/**

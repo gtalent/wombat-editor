@@ -6,9 +6,9 @@
 
 using namespace wombat::editor;
 
-NewSpriteSheet::NewSpriteSheet(QString projectPath, QWidget *parent): NewFileMenu(parent), ui(new Ui::NewSpriteSheet) {
+NewSpriteSheet::NewSpriteSheet(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewSpriteSheet) {
 	ui->setupUi(this);
-	m_projectPath = projectPath;
+	m_projectPath = args.projectPath;
 }
 
 NewSpriteSheet::~NewSpriteSheet() {

@@ -18,22 +18,21 @@ void setupWombatProfile(EditorProfile &p) {
 	});
 	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) -> NewFileMenu* {
 		if (args.fileType == "Sprite Sheet") {
-			return new NewSpriteSheet(args.projectPath, args.parent);
+			return new NewSpriteSheet(args);
 		}
 		return 0;
 	});
-	p.addDefaultPath("Resources/SpriteSheets");
+	p.addDefaultPath("Resources/SpriteSheets/");
 
 	// setup save variables
-	p.addEditorTabMaker([](EditorTabParams args) {
-		EditorTab *tab = 0;
+	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
 		if (args.projectPath + "Misc/SaveVariables.json" == args.filePath) {
 			//open save variables tab
-			tab = new SaveVariables(args);
+			return new SaveVariables(args);
 		}
-		return tab;
+		return 0;
 	});
-	p.addDefaultPath("Misc");
+	p.addDefaultPath("Misc/");
 	p.addDefaultPath("Misc/SaveVariables.json");
 }
 

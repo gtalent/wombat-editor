@@ -31,6 +31,7 @@ HEADERS += \
 	editorcore/editortablistener.hpp \
 	editorcore/editortab.hpp \
 	editorcore/editortabparams.hpp \
+	editorcore/newfilemenuparams.hpp \
 	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \
 	editorcore/modeliomanager.hpp \

@@ -11,12 +11,6 @@
 namespace wombat {
 namespace editor {
 
-struct NewFileMenuParams {
-	QString projectPath;
-	QString fileType;
-	QWidget *parent;
-};
-
 typedef std::function<EditorTab*(EditorTabParams)> EditorTabMaker;
 
 typedef std::function<NewFileMenu*(NewFileMenuParams)> NewFileMenuMaker;

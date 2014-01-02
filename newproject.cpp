@@ -8,9 +8,10 @@
 
 using namespace wombat::editor;
 
-NewProject::NewProject(QWidget *parent): NewFileMenu(parent), ui(new Ui::NewProject) {
+NewProject::NewProject(QWidget *parent, QVector<QString> defaultPaths): NewFileMenu(parent), ui(new Ui::NewProject) {
 	ui->setupUi(this);
 	ui->lePath->setText(QDir::homePath());
+	m_defaultPaths = defaultPaths;
 }
 
 NewProject::~NewProject() {
@@ -33,34 +34,30 @@ void NewProject::accept() {
 		b.exec();
 		return;
 	}
-	this->strProjectDir = path;
+	m_strProjectDir = path;
 	QDir().mkpath(path);
-	QDir().mkpath(path + "/Animations");
-	QDir().mkpath(path + "/Resources/SpriteSheets");
-	QDir().mkpath(path + "/Creatures/Types");
-	QDir().mkpath(path + "/Creatures/Classes");
-	QDir().mkpath(path + "/Creatures/Moves");
-	QDir().mkpath(path + "/Items");
-	QDir().mkpath(path + "/Misc");
-	QDir().mkpath(path + "/People/Classes");
-	QDir().mkpath(path + "/Instances/Creatures");
-	QDir().mkpath(path + "/Instances/People");
-	QDir().mkpath(path + "/Worlds/Sprites");
-	QDir().mkpath(path + "/Worlds/TileClasses");
-	QDir().mkpath(path + "/Worlds/Worlds");
-	QDir().mkpath(path + "/Worlds/Zones");
 
-	QFile f(path + "/Misc/SaveVariables.json");
-	f.open(QIODevice::WriteOnly);
-	QTextStream out(&f);
-	out << "{}\n";
-	f.close();
+	// create directories
+	for (auto p : m_defaultPaths) {
+		if (p.endsWith("/")) {
+			QDir().mkpath(path + "/" + p);
+		} else {
+			QFile f(path + "/Misc/SaveVariables.json");
+			f.open(QIODevice::WriteOnly);
+			QTextStream out(&f);
+			if (p.endsWith(".json")) {
+				out << "{}\n";
+			}
+			f.close();
+		}
+	}
+
 	this->close();
 	this->parentWidget()->activateWindow();
 }
 
 QString NewProject::path() {
-	return this->strProjectDir;
+	return m_strProjectDir;
 }
 
 void NewProject::browse() {

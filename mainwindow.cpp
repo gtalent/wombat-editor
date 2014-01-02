@@ -71,7 +71,9 @@ int MainWindow::readSettings(QString path) {
 	models::EditorSettings settings;
 	retval = settings.readJsonFile(path);
 
-	openProject(settings.openProject);
+	if (settings.openProject != "") {
+		openProject(settings.openProject);
+	}
 
 	for (auto i : settings.openFiles) {
 		openFile(i);
@@ -103,18 +105,23 @@ void MainWindow::newMenu() {
 	if (!menu.exec()) {
 		QString nw = menu.newWhat();
 		if (nw == "Project") {
-			NewProject np(this);
+			NewProject np(this, m_profile->defaultPaths());
 			if (np.exec() == 0) {
 				QString p = np.path();
 				if (p != "") {
 					openProject(p);
 				}
 			}
-		} else if (nw == "Sprite Sheet") {
-			NewSpriteSheet np(m_projectPath, this);
-			if (np.exec() == 0) {
-				openFile(np.path());
+		} else {
+			wombat::editor::NewFileMenuParams args;
+			args.projectPath = m_projectPath;
+			args.fileType = nw;
+			args.parent = this;
+			auto nm = m_profile->newFileMenu(args);
+			if (nm && nm->exec() == 0) {
+				openFile(nm->path());
 			}
+			delete nm;
 		}
 	}
 }
