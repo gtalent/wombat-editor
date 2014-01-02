@@ -101,7 +101,7 @@ int MainWindow::writeSettings(QString path) {
 }
 
 void MainWindow::newMenu() {
-	NewMenu menu(this, "");
+	NewMenu menu(this, m_projectPath, m_profile->fileTypes());
 	if (!menu.exec()) {
 		QString nw = menu.newWhat();
 		if (nw == "Project") {

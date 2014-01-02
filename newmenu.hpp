@@ -12,7 +12,7 @@ class NewMenu : public QDialog {
 	Q_OBJECT
 
 	public:
-		explicit NewMenu(QWidget *parent = 0, QString projectDir = "");
+		explicit NewMenu(QWidget *parent, QString projectDir, QVector<QString> itemTypes);
 		~NewMenu();
 
 		/**

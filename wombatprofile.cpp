@@ -9,6 +9,22 @@ namespace wombat {
 namespace editor {
 
 void setupWombatProfile(EditorProfile &p) {
+	// setup animations
+	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
+		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
+			return new SpriteSheetEditor(args);
+		}
+		return 0;
+	});
+	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
+		if (args.fileType == "Animation") {
+			return 0;
+		}
+		return 0;
+	});
+	p.addDefaultPath("Animations/");
+
+
 	// setup sprite sheets
 	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
 		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
@@ -23,6 +39,7 @@ void setupWombatProfile(EditorProfile &p) {
 		return 0;
 	});
 	p.addDefaultPath("Resources/SpriteSheets/");
+
 
 	// setup save variables
 	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {

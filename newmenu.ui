@@ -21,18 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QListWidget" name="options">
-     <item>
-      <property name="text">
-       <string>Project</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Sprite Sheet</string>
-      </property>
-     </item>
-    </widget>
+    <widget class="QListWidget" name="options"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

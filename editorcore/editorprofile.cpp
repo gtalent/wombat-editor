@@ -25,6 +25,10 @@ QVector<QString> EditorProfile::defaultPaths() {
 	return m_defaultPaths;
 }
 
+QVector<QString> EditorProfile::fileTypes() {
+	return m_fileTypes;
+}
+
 void EditorProfile::addNewFileMenuMaker(QString fileType, NewFileMenuMaker mkr) {
 	bool addToFileTypes = true;
 	for (auto t : m_fileTypes) {

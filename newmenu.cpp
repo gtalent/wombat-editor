@@ -1,11 +1,13 @@
 #include "newmenu.hpp"
 #include "ui_newmenu.h"
 
-NewMenu::NewMenu(QWidget *parent, QString projectDir) :
-	QDialog(parent), ui(new Ui::NewMenu) {
+NewMenu::NewMenu(QWidget *parent, QString projectDir, QVector<QString> itemTypes): QDialog(parent), ui(new Ui::NewMenu) {
 	this->ui->setupUi(this);
+	this->ui->options->addItem("Project");
 	if (projectDir != "") {
-		this->ui->options->addItem("Animation");
+		for (auto t : itemTypes) {
+			this->ui->options->addItem(t);
+		}
 	}
 }
 
