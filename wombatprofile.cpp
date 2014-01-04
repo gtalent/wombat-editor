@@ -40,6 +40,7 @@ void setupWombatProfile(EditorProfile &p) {
 		}
 		return 0;
 	});
+	p.addDefaultPath("Resources/");
 	p.addDefaultPath("Resources/SpriteSheets/");
 
 

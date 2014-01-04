@@ -1,5 +1,5 @@
+#include <QFile>
 #include "ui_newanimation.h"
-
 #include "models/editormodels.hpp"
 #include "newanimation.hpp"
 
@@ -16,12 +16,18 @@ NewAnimation::~NewAnimation() {
 }
 
 QString NewAnimation::path() {
-	return ui->leName->text();;
+	return m_path;
 }
 
 void NewAnimation::accept() {
-	models::Animation model;
-	model.writeJsonFile(m_projectPath + "/Animations/" + path() + ".json");
+	auto path = m_projectPath + "Animations/" + ui->leName->text() + ".json";
+	if (!QFile::exists(path)) {
+		models::Animation model;
+		model.writeJsonFile(path);
+		m_path = path;
+		this->close();
+		this->parentWidget()->activateWindow();
+	}
 }
 
 }

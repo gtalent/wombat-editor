@@ -17,6 +17,7 @@ class NewAnimation: public NewFileMenu {
 	private:
 		Ui::NewAnimation *ui;
 		QString m_projectPath;
+		QString m_path;
 
 	public:
 		explicit NewAnimation(NewFileMenuParams);

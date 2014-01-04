@@ -119,6 +119,7 @@ void MainWindow::newMenu() {
 			args.parent = this;
 			auto nm = m_profile->newFileMenu(args);
 			if (nm && nm->exec() == 0) {
+				wombat::editor::logDebug(nm->path());
 				openFile(nm->path());
 			}
 			delete nm;
@@ -232,13 +233,17 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	QMenu m;
 
 	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	if (QFileInfo(path).isDir()) {
+		path += "/";
+	}
 	QString projectDir = m_projectPath;
 
 	if (path != "") {
 		bool fileDeletable = true;
 		auto defaultPaths = m_profile->defaultPaths();
-		for (auto path : defaultPaths) {
-			if (path == projectDir + path) {
+		for (auto p : defaultPaths) {
+			wombat::editor::logDebug(m_projectPath + p + " == " + path);
+			if (m_projectPath + p == path) {
 				fileDeletable = false;
 				break;
 			}

@@ -1,8 +1,8 @@
 #include <QFile>
 #include <QImage>
+#include "ui_newspritesheet.h"
 #include "newspritesheet.hpp"
 #include "models/editormodels.hpp"
-#include "ui_newspritesheet.h"
 
 using namespace wombat::editor;
 
@@ -16,10 +16,10 @@ NewSpriteSheet::~NewSpriteSheet() {
 }
 
 void NewSpriteSheet::accept() {
-	if (!QFile::exists(ui->leName->text() + ".json")) {
+	m_path = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".json";
+	if (!QFile::exists(m_path)) {
 		//setup JSON file
 		models::SpriteSheet model;
-		m_path = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".json";
 
 		model.srcFile = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".png";
 
