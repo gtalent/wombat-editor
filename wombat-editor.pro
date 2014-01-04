@@ -24,7 +24,8 @@ SOURCES += \
 	imageselector.cpp \
 	spritesheeteditor.cpp \
 	newspritesheet.cpp \
-	wombatcanvas.cpp
+	wombatcanvas.cpp \
+	newanimation.cpp
 
 HEADERS += \
 	editorcore/editorprofile.hpp \
@@ -47,7 +48,8 @@ HEADERS += \
 	imageselector.hpp \
 	spritesheeteditor.hpp \
 	newspritesheet.hpp \
-	wombatcanvas.hpp
+	wombatcanvas.hpp \
+	newanimation.hpp
 
 FORMS += \
 	mainwindow.ui \
@@ -59,10 +61,10 @@ FORMS += \
 	imageselector.ui \
 	spritesheeteditor.ui \
 	newspritesheet.ui \
-	savevariables.ui
+	savevariables.ui \
+	newanimation.ui
 
 RESOURCES += \
-    rsrc.qrc
+	rsrc.qrc
 
-;QMAKE_CXXFLAGS = -std=c++11 -stdlib=libc++
 CONFIG += c++11

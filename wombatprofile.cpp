@@ -1,5 +1,7 @@
 #include "spritesheeteditor.hpp"
+#include "animationeditor.hpp"
 #include "newspritesheet.hpp"
+#include "newanimation.hpp"
 
 #include "savevariables.hpp"
 
@@ -11,14 +13,14 @@ namespace editor {
 void setupWombatProfile(EditorProfile &p) {
 	// setup animations
 	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
-		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
-			return new SpriteSheetEditor(args);
+		if (args.filePath.startsWith(args.projectPath + "Animations/")) {
+			return new AnimationEditor(args);
 		}
 		return 0;
 	});
 	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
 		if (args.fileType == "Animation") {
-			return 0;
+			return new NewAnimation(args);
 		}
 		return 0;
 	});

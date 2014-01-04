@@ -80,31 +80,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QListWidget" name="listWidget"/>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Slide View</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGraphicsView" name="gfxSlideView"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblAnimationPreview">
-           <property name="text">
-            <string>Animation Preview</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGraphicsView" name="gfxAnimationPreview"/>
-         </item>
-        </layout>
+        <widget class="QListView" name="listView"/>
        </item>
       </layout>
      </item>

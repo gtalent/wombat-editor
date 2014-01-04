@@ -22,6 +22,7 @@ class AnimationEditor: public EditorTab {
 	public:
 		explicit AnimationEditor(EditorTabParams);
 		~AnimationEditor();
+		bool saveFile();
 
 	private:
 		Ui::AnimationEditor *ui;

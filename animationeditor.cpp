@@ -12,5 +12,9 @@ AnimationEditor::~AnimationEditor() {
 	delete ui;
 }
 
+bool AnimationEditor::saveFile() {
+	return 0;
+}
+
 }
 }
