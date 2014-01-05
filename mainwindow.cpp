@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>
@@ -9,10 +7,9 @@
 #include "editorcore/misc.hpp"
 #include "editorcore/editortab.hpp"
 #include "newmenu.hpp"
-#include "importmenu.hpp"
 #include "newproject.hpp"
-#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
+#include "mainwindow.hpp"
 
 QString defaultPaths[] = {
 	"Animations",
@@ -185,10 +182,6 @@ void MainWindow::openFile(QString path) {
 	} else {
 		ui->tabWidget->setCurrentWidget(tab);
 	}
-}
-
-void MainWindow::import() {
-	ImportMenu(this, m_projectPath).run();
 }
 
 void MainWindow::undo() {

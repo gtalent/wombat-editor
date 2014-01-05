@@ -44,7 +44,6 @@ class MainWindow: public QMainWindow, public wombat::editor::EditorTabListener, 
 		void openProject();
 		void openFile(QModelIndex);
 		void openFile(QString);
-		void import();
 		void saveFile();
 		void undo();
 		void redo();
@@ -55,7 +54,6 @@ class MainWindow: public QMainWindow, public wombat::editor::EditorTabListener, 
 
 		void fileSaved();
 		void fileChanged();
-
 };
 
 #endif // MAINWINDOW_HPP

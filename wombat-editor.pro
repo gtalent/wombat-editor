@@ -23,8 +23,6 @@ SOURCES += \
 	newmenu.cpp \
 	newproject.cpp \
 	mainwindow.cpp \
-	importmenu.cpp \
-	wombatcanvas.cpp \
 	main.cpp
 
 HEADERS += \
@@ -47,15 +45,12 @@ HEADERS += \
 	wombatcore/wombatprofile.hpp \
 	newmenu.hpp \
 	newproject.hpp \
-	mainwindow.hpp \
-	importmenu.hpp \
-	wombatcanvas.hpp
+	mainwindow.hpp
 
 FORMS += \
 	mainwindow.ui \
 	newmenu.ui \
 	newproject.ui \
-	importmenu.ui \
 	wombatcore/newspritesheet.ui \
 	wombatcore/newanimation.ui \
 	wombatcore/animationeditor.ui \
