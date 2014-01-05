@@ -263,17 +263,6 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionImport">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Import...</string>
-   </property>
-   <property name="toolTip">
-    <string>Import Resource</string>
-   </property>
-  </action>
   <action name="actionUndo">
    <property name="enabled">
     <bool>false</bool>
@@ -406,22 +395,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>openProject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionImport</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>import()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

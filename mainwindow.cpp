@@ -11,29 +11,6 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.hpp"
 
-QString defaultPaths[] = {
-	"Animations",
-	"Creatures",
-	"Creatures/Classes",
-	"Creatures/Moves",
-	"Creatures/Types",
-	"Instances",
-	"Instances/Creatures",
-	"Instances/People",
-	"Items",
-	"Misc",
-	"Misc/SaveVariables.json",
-	"People",
-	"People/Classes",
-	"Resources",
-	"Resources/SpriteSheets",
-	"Worlds",
-	"Worlds/Sprites",
-	"Worlds/TileClasses",
-	"Worlds/Worlds",
-	"Worlds/Zones"
-};
-
 using namespace wombat::editor;
 
 MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -148,7 +125,6 @@ void MainWindow::openProject(QString path) {
 	model->setNameFilters(l);
 	model->setNameFilterDisables(false);
 	ui->fileList->setRootIndex(model->setRootPath(path));
-	ui->actionImport->setEnabled(true);
 }
 
 void MainWindow::openFile(QModelIndex index) {

@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <map>
-
 #include <QModelIndex>
 #include <QMainWindow>
 #include <QPoint>
