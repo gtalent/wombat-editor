@@ -14,7 +14,7 @@ class ImageSelector: public QDialog {
 	public:
 		explicit ImageSelector(QWidget *parent, QString path);
 		~ImageSelector();
-		
+
 	private:
 		Ui::ImageSelector *ui;
 };

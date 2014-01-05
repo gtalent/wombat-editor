@@ -1,5 +1,5 @@
 #include "editorcore/misc.hpp"
-#include "wombatprofile.hpp"
+#include "wombatcore/wombatprofile.hpp"
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
 #include <QApplication>

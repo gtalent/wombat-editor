@@ -57,6 +57,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnRemove">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>&amp;Remove</string>
          </property>
@@ -80,7 +83,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QListView" name="listView"/>
+        <widget class="QTableView" name="lstAnims"/>
        </item>
       </layout>
      </item>

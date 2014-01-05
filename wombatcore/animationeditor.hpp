@@ -24,6 +24,9 @@ class AnimationEditor: public EditorTab {
 		~AnimationEditor();
 		bool saveFile();
 
+	public slots:
+		void addBtnClick();
+
 	private:
 		Ui::AnimationEditor *ui;
 };

@@ -6,28 +6,29 @@ TARGET = WombatEditor
 TEMPLATE = app
 
 SOURCES += \
+	models/editormodels.cpp \
 	editorcore/editorprofile.cpp \
 	editorcore/editortab.cpp \
 	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
-	models/editormodels.cpp \
-	wombatprofile.cpp \
-	main.cpp \
-	mainwindow.cpp \
+	wombatcore/newspritesheet.cpp \
+	wombatcore/newanimation.cpp \
+	wombatcore/animationeditor.cpp \
+	wombatcore/savevariables.cpp \
+	wombatcore/savevariableeditor.cpp \
+	wombatcore/spritesheeteditor.cpp \
+	wombatcore/imageselector.cpp \
+	wombatcore/wombatprofile.cpp \
 	newmenu.cpp \
 	newproject.cpp \
-	savevariables.cpp \
+	mainwindow.cpp \
 	importmenu.cpp \
-	savevariableeditor.cpp \
-	animationeditor.cpp \
-	imageselector.cpp \
-	spritesheeteditor.cpp \
-	newspritesheet.cpp \
 	wombatcanvas.cpp \
-	newanimation.cpp
+	main.cpp
 
 HEADERS += \
+	models/editormodels.hpp \
 	editorcore/editorprofile.hpp \
 	editorcore/editortablistener.hpp \
 	editorcore/editortab.hpp \
@@ -36,33 +37,32 @@ HEADERS += \
 	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \
 	editorcore/modeliomanager.hpp \
-	models/editormodels.hpp \
-	wombatprofile.hpp \
-	mainwindow.hpp \
+	wombatcore/newspritesheet.hpp \
+	wombatcore/newanimation.hpp \
+	wombatcore/animationeditor.hpp \
+	wombatcore/spritesheeteditor.hpp \
+	wombatcore/savevariableeditor.hpp \
+	wombatcore/savevariables.hpp \
+	wombatcore/imageselector.hpp \
+	wombatcore/wombatprofile.hpp \
 	newmenu.hpp \
 	newproject.hpp \
-	savevariables.hpp \
+	mainwindow.hpp \
 	importmenu.hpp \
-	savevariableeditor.hpp \
-	animationeditor.hpp \
-	imageselector.hpp \
-	spritesheeteditor.hpp \
-	newspritesheet.hpp \
-	wombatcanvas.hpp \
-	newanimation.hpp
+	wombatcanvas.hpp
 
 FORMS += \
 	mainwindow.ui \
 	newmenu.ui \
 	newproject.ui \
 	importmenu.ui \
-	savevariableeditor.ui \
-	animationeditor.ui \
-	imageselector.ui \
-	spritesheeteditor.ui \
-	newspritesheet.ui \
-	savevariables.ui \
-	newanimation.ui
+	wombatcore/newspritesheet.ui \
+	wombatcore/newanimation.ui \
+	wombatcore/animationeditor.ui \
+	wombatcore/savevariableeditor.ui \
+	wombatcore/spritesheeteditor.ui \
+	wombatcore/imageselector.ui \
+	wombatcore/savevariables.ui
 
 RESOURCES += \
 	rsrc.qrc

@@ -7,14 +7,11 @@
 #include <QString>
 
 #include "editorcore/misc.hpp"
-#include "mainwindow.hpp"
 #include "editorcore/editortab.hpp"
 #include "newmenu.hpp"
-#include "savevariables.hpp"
-#include "spritesheeteditor.hpp"
 #include "importmenu.hpp"
 #include "newproject.hpp"
-#include "newspritesheet.hpp"
+#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
 QString defaultPaths[] = {
