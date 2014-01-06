@@ -1,4 +1,4 @@
-#include "imageselector.hpp"
+#include "imageselectordialog.hpp"
 #include "animationeditor.hpp"
 #include "ui_animationeditor.h"
 
@@ -20,7 +20,7 @@ bool AnimationEditor::saveFile() {
 }
 
 void AnimationEditor::addBtnClick() {
-	ImageSelector imgSel(this, "Add Image...");
+	ImageSelectorDialog imgSel(this, "Add Image...");
 	imgSel.exec();
 }
 

@@ -18,7 +18,9 @@ SOURCES += \
 	wombatcore/savevariables.cpp \
 	wombatcore/savevariableeditor.cpp \
 	wombatcore/spritesheeteditor.cpp \
-	wombatcore/imageselector.cpp \
+	wombatcore/spritesheetmanager.cpp \
+	wombatcore/imageselectorwidget.cpp \
+	wombatcore/imageselectordialog.cpp \
 	wombatcore/wombatprofile.cpp \
 	newmenu.cpp \
 	newproject.cpp \
@@ -40,8 +42,10 @@ HEADERS += \
 	wombatcore/animationeditor.hpp \
 	wombatcore/spritesheeteditor.hpp \
 	wombatcore/savevariableeditor.hpp \
+	wombatcore/spritesheetmanager.hpp \
 	wombatcore/savevariables.hpp \
-	wombatcore/imageselector.hpp \
+	wombatcore/imageselectorwidget.hpp \
+	wombatcore/imageselectordialog.hpp \
 	wombatcore/wombatprofile.hpp \
 	newmenu.hpp \
 	newproject.hpp \
@@ -56,7 +60,8 @@ FORMS += \
 	wombatcore/animationeditor.ui \
 	wombatcore/savevariableeditor.ui \
 	wombatcore/spritesheeteditor.ui \
-	wombatcore/imageselector.ui \
+	wombatcore/imageselectorwidget.ui \
+	wombatcore/imageselectordialog.ui \
 	wombatcore/savevariables.ui
 
 RESOURCES += \
