@@ -10,6 +10,8 @@
 namespace wombat {
 namespace editor {
 
+using namespace wombat::editor;
+
 void setupWombatProfile(EditorProfile &p) {
 	// setup animations
 	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {

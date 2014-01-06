@@ -5,6 +5,8 @@
 namespace wombat {
 namespace editor {
 
+using namespace wombat::editor;
+
 AnimationEditor::AnimationEditor(EditorTabParams args): EditorTab(args), ui(new Ui::AnimationEditor) {
 	ui->setupUi(this);
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(addBtnClick()));

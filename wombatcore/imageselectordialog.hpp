@@ -8,6 +8,9 @@ namespace Ui {
 class ImageSelectorDialog;
 }
 
+namespace wombat {
+namespace editor {
+
 class ImageSelectorDialog: public QDialog {
 	Q_OBJECT
 
@@ -18,5 +21,8 @@ class ImageSelectorDialog: public QDialog {
 	private:
 		Ui::ImageSelectorDialog *ui;
 };
+
+}
+}
 
 #endif // IMAGESELECTOR_HPP

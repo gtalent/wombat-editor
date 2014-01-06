@@ -6,6 +6,8 @@
 namespace wombat {
 namespace editor {
 
+using namespace wombat::editor;
+
 NewAnimation::NewAnimation(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewAnimation) {
 	ui->setupUi(this);
 	m_projectPath = args.projectPath;

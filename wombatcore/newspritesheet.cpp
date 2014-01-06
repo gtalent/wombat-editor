@@ -6,6 +6,9 @@
 
 using namespace wombat::editor;
 
+namespace wombat {
+namespace editor {
+
 NewSpriteSheet::NewSpriteSheet(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewSpriteSheet) {
 	ui->setupUi(this);
 	m_projectPath = args.projectPath;
@@ -45,4 +48,7 @@ void NewSpriteSheet::accept() {
 
 QString NewSpriteSheet::path() {
 	return m_path;
+}
+
+}
 }

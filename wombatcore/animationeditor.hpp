@@ -16,6 +16,8 @@ class AnimationEditor;
 namespace wombat {
 namespace editor {
 
+using namespace wombat::editor;
+
 class AnimationEditor: public EditorTab {
 	Q_OBJECT
 

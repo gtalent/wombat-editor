@@ -13,6 +13,9 @@ namespace Ui {
 class SpriteSheetEditor;
 }
 
+namespace wombat {
+namespace editor {
+
 class SpriteSheetEditor: public wombat::editor::EditorTab {
 	Q_OBJECT
 
@@ -84,5 +87,8 @@ class SpriteSheetEditor: public wombat::editor::EditorTab {
 		int newImageId();
 		void recycleImageId(int imgId);
 };
+
+}
+}
 
 #endif // SPRITESHEETEDITOR_HPP

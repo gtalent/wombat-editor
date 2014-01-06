@@ -10,6 +10,9 @@ namespace Ui {
 class SaveVariableEditor;
 }
 
+namespace wombat {
+namespace editor {
+
 using models::cyborgbear::unknown;
 
 class SaveVariableEditor: public QDialog {
@@ -29,5 +32,8 @@ class SaveVariableEditor: public QDialog {
 		void updateValue(unknown);
 		unknown getValue();
 };
+
+}
+}
 
 #endif // SAVEVARIABLEEDITOR_HPP

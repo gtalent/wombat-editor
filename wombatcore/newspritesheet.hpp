@@ -7,6 +7,9 @@ namespace Ui {
 class NewSpriteSheet;
 }
 
+namespace wombat {
+namespace editor {
+
 class NewSpriteSheet: public wombat::editor::NewFileMenu {
 	Q_OBJECT
 		
@@ -28,5 +31,8 @@ class NewSpriteSheet: public wombat::editor::NewFileMenu {
 	public slots:
 		void accept();
 };
+
+}
+}
 
 #endif // NEWSPRITESHEET_HPP

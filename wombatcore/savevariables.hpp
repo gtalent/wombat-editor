@@ -15,6 +15,9 @@ namespace Ui {
 	class SaveVariables;
 }
 
+namespace wombat {
+namespace editor {
+
 class SaveVariables: public wombat::editor::EditorTab {
 	Q_OBJECT
 
@@ -86,5 +89,8 @@ class SaveVariables: public wombat::editor::EditorTab {
 		void removeClicked();
 		void tableClicked(QModelIndex);
 };
+
+}
+}
 
 #endif // SAVEVARIABLES_H

@@ -15,6 +15,9 @@ using models::cyborgbear::unknown;
 using namespace wombat::editor;
 using namespace std;
 
+namespace wombat {
+namespace editor {
+
 SaveVariables::SaveVariables(EditorTabParams args): EditorTab(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -244,4 +247,7 @@ void SaveVariables::EditVarCommand::redo() {
 		m_parent->m_file.vars[m_newVarName] = unknown();
 	}
 	m_parent->setVar(row, m_newVarName, m_newVal);
+}
+
+}
 }

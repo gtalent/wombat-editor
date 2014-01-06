@@ -1,6 +1,9 @@
 #include "editorcore/modeliomanager.hpp"
 #include "spritesheetmanager.hpp"
 
+namespace wombat {
+namespace editor {
+
 SpriteSheetManager::SpriteSheetManager(models::SpriteSheet model): src(model.srcFile) {
 	m_model = model;
 }
@@ -23,4 +26,7 @@ QImage SpriteSheetManager::getImage(models::SpriteSheetImage img) {
 
 QPixmap SpriteSheetManager::getPixmap(models::SpriteSheetImage img) {
 	return QPixmap::fromImage(getImage(img));
+}
+
+}
 }

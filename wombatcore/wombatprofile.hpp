@@ -6,6 +6,8 @@
 namespace wombat {
 namespace editor {
 
+using wombat::editor::EditorProfile;
+
 void setupWombatProfile(EditorProfile&);
 
 }

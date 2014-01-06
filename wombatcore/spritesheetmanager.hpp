@@ -4,6 +4,9 @@
 #include <QPixmap>
 #include "models/editormodels.hpp"
 
+namespace wombat {
+namespace editor {
+
 class SpriteSheetManager {
 	private:
 		models::SpriteSheet m_model;
@@ -13,5 +16,8 @@ class SpriteSheetManager {
 		QImage getImage(models::SpriteSheetImage);
 		QPixmap getPixmap(models::SpriteSheetImage);
 };
+
+}
+}
 
 #endif

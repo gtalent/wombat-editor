@@ -12,6 +12,9 @@
 using std::string;
 using namespace wombat::editor;
 
+namespace wombat {
+namespace editor {
+
 class AnimationTreeModel: public QAbstractItemModel {
 	Q_OBJECT
 	public:
@@ -265,4 +268,7 @@ void SpriteSheetEditor::RemoveImageCommand::undo() {
 	}
 	m_parent->m_model = m_before;
 	m_parent->draw();
+}
+
+}
 }

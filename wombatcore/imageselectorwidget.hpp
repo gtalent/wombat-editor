@@ -8,6 +8,9 @@ namespace Ui {
 class ImageSelectorWidget;
 }
 
+namespace wombat {
+namespace editor {
+
 class ImageSelectorWidget: public QWidget {
 	Q_OBJECT
 
@@ -18,5 +21,8 @@ class ImageSelectorWidget: public QWidget {
 	private:
 		Ui::ImageSelectorWidget *ui;
 };
+
+}
+}
 
 #endif // IMAGESELECTOR_HPP

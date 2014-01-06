@@ -1,6 +1,9 @@
 #include "savevariableeditor.hpp"
 #include "ui_savevariableeditor.h"
 
+namespace wombat {
+namespace editor {
+
 SaveVariableEditor::SaveVariableEditor(QWidget *parent, QString key, unknown val): QDialog(parent), ui(new Ui::SaveVariableEditor) {
 	ui->setupUi(this);
 	ui->leName->setText(key);
@@ -64,4 +67,7 @@ void SaveVariableEditor::updateType(QString t) {
 		ui->lblValue->setBuddy(ui->sbValue);
 		ui->cbType->setCurrentText("Number");
 	}
+}
+
+}
 }
