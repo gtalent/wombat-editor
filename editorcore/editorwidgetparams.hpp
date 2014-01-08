@@ -6,7 +6,7 @@
 namespace wombat {
 namespace editor {
 
-struct EditorTabParams {
+struct EditorWidgetParams {
 	QString projectPath;
 	QString filePath;
 	QWidget *parent;

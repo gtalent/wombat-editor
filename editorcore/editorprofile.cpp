@@ -10,8 +10,8 @@ NewFileMenu *EditorProfile::newFileMenu(NewFileMenuParams args) {
 	return 0;
 }
 
-EditorTab *EditorProfile::editorTab(EditorTabParams args) {
-	for (auto f : m_editorTabMakers) {
+EditorWidget *EditorProfile::editorWidget(EditorWidgetParams args) {
+	for (auto f : m_editorWidgetMakers) {
 		auto retval = f(args);
 		if (retval) {
 			retval->modelIoManager(&m_models);
@@ -43,8 +43,8 @@ void EditorProfile::addNewFileMenuMaker(QString fileType, NewFileMenuMaker mkr) 
 	m_newFileMenuMakers[fileType] = mkr;
 }
 
-void EditorProfile::addEditorTabMaker(EditorTabMaker mkr) {
-	m_editorTabMakers.push_back(mkr);
+void EditorProfile::addEditorWidgetMaker(EditorWidgetMaker mkr) {
+	m_editorWidgetMakers.push_back(mkr);
 }
 
 void EditorProfile::addDefaultPath(QString path) {
@@ -54,6 +54,14 @@ void EditorProfile::addDefaultPath(QString path) {
 		}
 	}
 	m_defaultPaths.push_back(path);
+}
+
+void EditorProfile::var(QString key, QString val) {
+	m_vars[key] = val;
+}
+
+QString EditorProfile::var(QString key) {
+	return m_vars[key];
 }
 
 }

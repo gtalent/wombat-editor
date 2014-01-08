@@ -6,8 +6,8 @@
 #include <QGraphicsScene>
 
 #include "models/editormodels.hpp"
-#include "editorcore/editortab.hpp"
-#include "editorcore/editortabparams.hpp"
+#include "editorcore/editorwidget.hpp"
+#include "editorcore/editorwidgetparams.hpp"
 
 namespace Ui {
 class SpriteSheetEditor;
@@ -16,7 +16,7 @@ class SpriteSheetEditor;
 namespace wombat {
 namespace editor {
 
-class SpriteSheetEditor: public wombat::editor::EditorTab {
+class SpriteSheetEditor: public wombat::editor::EditorWidget {
 	Q_OBJECT
 
 	private:
@@ -67,7 +67,7 @@ class SpriteSheetEditor: public wombat::editor::EditorTab {
 		QMap<int, Image> m_imgs;
 
 	public:
-		explicit SpriteSheetEditor(wombat::editor::EditorTabParams);
+		explicit SpriteSheetEditor(wombat::editor::EditorWidgetParams);
 		~SpriteSheetEditor();
 		QImage buildImage(QImage*, models::Bounds);
 		virtual bool saveFile();

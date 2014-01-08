@@ -7,9 +7,10 @@ namespace editor {
 
 using namespace wombat::editor;
 
-AnimationEditor::AnimationEditor(EditorTabParams args): EditorTab(args), ui(new Ui::AnimationEditor) {
+AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::AnimationEditor) {
 	ui->setupUi(this);
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(addBtnClick()));
+	m_projectPath = args.projectPath;
 }
 
 AnimationEditor::~AnimationEditor() {
@@ -22,7 +23,7 @@ bool AnimationEditor::saveFile() {
 }
 
 void AnimationEditor::addBtnClick() {
-	ImageSelectorDialog imgSel(this, "Add Image...");
+	ImageSelectorDialog imgSel(this, m_projectPath, "Add Image...");
 	imgSel.exec();
 }
 

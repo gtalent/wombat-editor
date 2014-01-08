@@ -5,7 +5,7 @@
 #include <QString>
 
 #include "editorcore/misc.hpp"
-#include "editorcore/editortab.hpp"
+#include "editorcore/editorwidget.hpp"
 #include "newmenu.hpp"
 #include "newproject.hpp"
 #include "ui_mainwindow.h"
@@ -59,7 +59,7 @@ int MainWindow::writeSettings(QString path) {
 
 	settings.openProject = m_projectPath;
 	for (int i = 0; i < ui->tabWidget->count(); i++) {
-		auto t = dynamic_cast<EditorTab*>(ui->tabWidget->widget(i));
+		auto t = dynamic_cast<EditorWidget*>(ui->tabWidget->widget(i));
 		if (t) {
 			settings.openFiles.push_back(t->path());
 		}
@@ -133,19 +133,19 @@ void MainWindow::openFile(QModelIndex index) {
 }
 
 void MainWindow::openFile(QString path) {
-	EditorTab *tab = m_openTabs[path];
+	auto tab = m_openTabs[path];
 	if (!tab) {
 		QString tabName = "";
 		QStringList list = path.split("/");
 		tabName = list[list.size() - 1];
 
 		// setup tab
-		EditorTabParams args;
+		EditorWidgetParams args;
 		args.projectPath = m_projectPath;
 		args.filePath = path;
 		args.parent = ui->tabWidget;
 		args.models = &m_models;
-		tab = m_profile->editorTab(args);
+		tab = m_profile->editorWidget(args);
 
 		if (tab) {
 			tab->addListener(this);
@@ -161,7 +161,7 @@ void MainWindow::openFile(QString path) {
 }
 
 void MainWindow::undo() {
-	EditorTab *tab = currentTab();
+	auto tab = currentTab();
 	if (tab) {
 		tab->undo();
 		ui->actionUndo->setEnabled(tab->canUndo());
@@ -170,7 +170,7 @@ void MainWindow::undo() {
 }
 
 void MainWindow::redo() {
-	EditorTab *tab = currentTab();
+	auto tab = currentTab();
 	if (tab) {
 		tab->redo();
 		ui->actionUndo->setEnabled(tab->canUndo());
@@ -178,7 +178,7 @@ void MainWindow::redo() {
 	}
 }
 
-void MainWindow::closeTab(EditorTab *tab) {
+void MainWindow::closeTab(EditorWidget *tab) {
 	if (tab) {
 		ui->actionUndo->setEnabled(false);
 		ui->actionRedo->setEnabled(false);
@@ -190,7 +190,7 @@ void MainWindow::closeTab(EditorTab *tab) {
 }
 
 void MainWindow::closeTab(int index) {
-	closeTab(dynamic_cast<EditorTab*>(ui->tabWidget->widget(index)));
+	closeTab(dynamic_cast<EditorWidget*>(ui->tabWidget->widget(index)));
 }
 
 void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
@@ -229,8 +229,8 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	}
 }
 
-EditorTab *MainWindow::currentTab() {
-	return dynamic_cast<EditorTab*>(ui->tabWidget->currentWidget());
+EditorWidget *MainWindow::currentTab() {
+	return dynamic_cast<EditorWidget*>(ui->tabWidget->currentWidget());
 }
 
 void MainWindow::logDebug(QString msg) {
@@ -239,7 +239,7 @@ void MainWindow::logDebug(QString msg) {
 }
 
 void MainWindow::saveFile() {
-	EditorTab *tab = currentTab();
+	EditorWidget *tab = currentTab();
 	if (tab)
 		tab->saveFile();
 }
@@ -252,7 +252,7 @@ void MainWindow::fileSaved() {
 }
 
 void MainWindow::fileChanged() {
-	EditorTab *tab = currentTab();
+	EditorWidget *tab = currentTab();
 	if (tab) {
 		ui->actionSave->setEnabled(true);
 		ui->actionUndo->setEnabled(tab->canUndo());
@@ -265,7 +265,7 @@ void MainWindow::fileChanged() {
 }
 
 void MainWindow::changeTab() {
-	EditorTab *tab = currentTab();
+	EditorWidget *tab = currentTab();
 	if (tab) {
 		ui->actionSave->setEnabled(!tab->currentStateSaved());
 		ui->actionUndo->setEnabled(tab->canUndo());

@@ -4,33 +4,42 @@
 #include <functional>
 #include <QVector>
 #include <QMap>
+#include <QDockWidget>
+#include "models/editormodels.hpp"
 #include "modeliomanager.hpp"
-#include "editortab.hpp"
+#include "dockwindow.hpp"
+#include "editorwidget.hpp"
 #include "newfilemenu.hpp"
 
 namespace wombat {
 namespace editor {
 
-typedef std::function<EditorTab*(EditorTabParams)> EditorTabMaker;
+typedef std::function<EditorWidget*(EditorWidgetParams)> EditorWidgetMaker;
 
 typedef std::function<NewFileMenu*(NewFileMenuParams)> NewFileMenuMaker;
+
+typedef std::function<DockWindow*(DockWindowParams)> DockMaker;
 
 class EditorProfile {
 	private:
 		QMap<QString, NewFileMenuMaker> m_newFileMenuMakers;
 
-		QVector<EditorTabMaker> m_editorTabMakers;
+		QVector<EditorWidgetMaker> m_editorWidgetMakers;
 
 		QVector<QString> m_fileTypes;
 
 		QVector<QString> m_defaultPaths;
 
+		QVector<DockMaker> m_dockMakers;
+
 		ModelIoManager m_models;
+
+		QMap<QString, QString> m_vars;
 
 	public:
 		NewFileMenu *newFileMenu(NewFileMenuParams);
 
-		EditorTab *editorTab(EditorTabParams);
+		EditorWidget *editorWidget(EditorWidgetParams);
 
 		QVector<QString> defaultPaths();
 
@@ -38,9 +47,13 @@ class EditorProfile {
 
 		void addNewFileMenuMaker(QString, NewFileMenuMaker);
 
-		void addEditorTabMaker(EditorTabMaker);
+		void addEditorWidgetMaker(EditorWidgetMaker);
 
 		void addDefaultPath(QString);
+
+		void var(QString key, QString val);
+
+		QString var(QString key);
 };
 
 }

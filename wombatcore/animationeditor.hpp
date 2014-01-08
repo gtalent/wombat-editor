@@ -3,11 +3,10 @@
 
 #include <QWidget>
 
-
 #include "models/editormodels.hpp"
 
-#include "editorcore/editortab.hpp"
-#include "editorcore/editortabparams.hpp"
+#include "editorcore/editorwidget.hpp"
+#include "editorcore/editorwidgetparams.hpp"
 
 namespace Ui {
 class AnimationEditor;
@@ -18,11 +17,14 @@ namespace editor {
 
 using namespace wombat::editor;
 
-class AnimationEditor: public EditorTab {
+class AnimationEditor: public EditorWidget {
 	Q_OBJECT
 
+	private:
+		QString m_projectPath;
+
 	public:
-		explicit AnimationEditor(EditorTabParams);
+		explicit AnimationEditor(EditorWidgetParams);
 		~AnimationEditor();
 		bool saveFile();
 

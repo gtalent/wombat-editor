@@ -18,7 +18,7 @@ using namespace std;
 namespace wombat {
 namespace editor {
 
-SaveVariables::SaveVariables(EditorTabParams args): EditorTab(args), ui(new Ui::SaveVariables) {
+SaveVariables::SaveVariables(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_file.fromJson(modelIoManager()->read(args.filePath));

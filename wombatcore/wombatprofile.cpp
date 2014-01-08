@@ -14,7 +14,7 @@ using namespace wombat::editor;
 
 void setupWombatProfile(EditorProfile &p) {
 	// setup animations
-	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
+	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + "Animations/")) {
 			return new AnimationEditor(args);
 		}
@@ -30,7 +30,7 @@ void setupWombatProfile(EditorProfile &p) {
 
 
 	// setup sprite sheets
-	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
+	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
 			return new SpriteSheetEditor(args);
 		}
@@ -47,7 +47,7 @@ void setupWombatProfile(EditorProfile &p) {
 
 
 	// setup save variables
-	p.addEditorTabMaker([](EditorTabParams args) -> EditorTab* {
+	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.projectPath + "Misc/SaveVariables.json" == args.filePath) {
 			//open save variables tab
 			return new SaveVariables(args);

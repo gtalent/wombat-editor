@@ -7,7 +7,7 @@
 #include <QString>
 
 #include "editorcore/misc.hpp"
-#include "editorcore/editortab.hpp"
+#include "editorcore/editorwidget.hpp"
 #include "editorcore/editorprofile.hpp"
 #include "editorcore/modeliomanager.hpp"
 
@@ -15,13 +15,13 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow: public QMainWindow, public wombat::editor::EditorTabListener, public wombat::editor::DebugLogger {
+class MainWindow: public QMainWindow, public wombat::editor::EditorWidgetListener, public wombat::editor::DebugLogger {
 	Q_OBJECT
 	public:
 		Ui::MainWindow *ui;
 	private:
 		QString m_projectPath;
-		QMap<QString, wombat::editor::EditorTab*> m_openTabs;
+		QMap<QString, wombat::editor::EditorWidget*> m_openTabs;
 		wombat::editor::ModelIoManager m_models;
 		wombat::editor::EditorProfile *m_profile;
 
@@ -33,7 +33,7 @@ class MainWindow: public QMainWindow, public wombat::editor::EditorTabListener, 
 		virtual void logDebug(QString msg);
 
 	private:
-		wombat::editor::EditorTab *currentTab();
+		wombat::editor::EditorWidget *currentTab();
 		int readSettings(QString path);
 		int writeSettings(QString path);
 
@@ -47,7 +47,7 @@ class MainWindow: public QMainWindow, public wombat::editor::EditorTabListener, 
 		void redo();
 		void changeTab();
 		void closeTab(int index);
-		void closeTab(wombat::editor::EditorTab *tab);
+		void closeTab(wombat::editor::EditorWidget *tab);
 		void filePaneContextMenu(const QPoint &p);
 
 		void fileSaved();

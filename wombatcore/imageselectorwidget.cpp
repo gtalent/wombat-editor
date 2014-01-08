@@ -6,8 +6,9 @@
 namespace wombat {
 namespace editor {
 
-ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString): QWidget(parent), ui(new Ui::ImageSelectorWidget) {
+ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath): QWidget(parent), ui(new Ui::ImageSelectorWidget) {
 	ui->setupUi(this);
+	m_projectPath = projectPath;
 }
 
 ImageSelectorWidget::~ImageSelectorWidget() {

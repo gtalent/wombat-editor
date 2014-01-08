@@ -7,8 +7,9 @@ TEMPLATE = app
 
 SOURCES += \
 	models/editormodels.cpp \
+	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
-	editorcore/editortab.cpp \
+	editorcore/editorwidget.cpp \
 	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
@@ -29,10 +30,12 @@ SOURCES += \
 
 HEADERS += \
 	models/editormodels.hpp \
+	editorcore/dockwindow.hpp \
+	editorcore/dockwindowparams.hpp \
 	editorcore/editorprofile.hpp \
-	editorcore/editortablistener.hpp \
-	editorcore/editortab.hpp \
-	editorcore/editortabparams.hpp \
+	editorcore/editorwidgetlistener.hpp \
+	editorcore/editorwidget.hpp \
+	editorcore/editorwidgetparams.hpp \
 	editorcore/newfilemenuparams.hpp \
 	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \
@@ -61,7 +64,6 @@ FORMS += \
 	wombatcore/savevariableeditor.ui \
 	wombatcore/spritesheeteditor.ui \
 	wombatcore/imageselectorwidget.ui \
-	wombatcore/imageselectordialog.ui \
 	wombatcore/savevariables.ui
 
 RESOURCES += \

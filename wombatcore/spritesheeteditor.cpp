@@ -23,7 +23,7 @@ class AnimationTreeModel: public QAbstractItemModel {
  		QVariant headerData(int, Qt::Orientation, int role = Qt::DisplayRole) const;
 };
 
-SpriteSheetEditor::SpriteSheetEditor(EditorTabParams args): EditorTab(args), ui(new Ui::SpriteSheetEditor) {
+SpriteSheetEditor::SpriteSheetEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
 	m_projectDir = args.projectPath;
 	load(args.filePath);

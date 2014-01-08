@@ -1,19 +1,27 @@
+#include <QDialogButtonBox>
 #include <QDir>
 
 #include "imageselectordialog.hpp"
-#include "ui_imageselectordialog.h"
-
-#include <iostream>
 
 namespace wombat {
 namespace editor {
 
-ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, QString): QDialog(parent), ui(new Ui::ImageSelectorDialog) {
-	ui->setupUi(this);
+ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, QString projectPath, QString title = "Image Selector"): QDialog(parent) {
+	setWindowTitle(title);
+	setBaseSize(600, 500);
+
+	m_vbox = new QVBoxLayout();
+	m_widget = new ImageSelectorWidget(this, projectPath);
+
+	m_vbox->addWidget(m_widget);
+	setLayout(m_vbox);
+
+	m_mgr = 0;
 }
 
 ImageSelectorDialog::~ImageSelectorDialog() {
-	delete ui;
+	delete m_vbox;
+	delete m_widget;
 }
 
 }

@@ -14,8 +14,11 @@ namespace editor {
 class ImageSelectorWidget: public QWidget {
 	Q_OBJECT
 
+	private:
+		QString m_projectPath;
+
 	public:
-		ImageSelectorWidget(QWidget *parent, QString path);
+		ImageSelectorWidget(QWidget *parent, QString projectPath);
 		~ImageSelectorWidget();
 
 	private:

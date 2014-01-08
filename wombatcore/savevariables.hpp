@@ -8,7 +8,7 @@
 #include <QTableWidgetItem>
 #include <QUndoCommand>
 
-#include "editorcore/editortab.hpp"
+#include "editorcore/editorwidget.hpp"
 #include "models/editormodels.hpp"
 
 namespace Ui {
@@ -18,7 +18,7 @@ namespace Ui {
 namespace wombat {
 namespace editor {
 
-class SaveVariables: public wombat::editor::EditorTab {
+class SaveVariables: public wombat::editor::EditorWidget {
 	Q_OBJECT
 
 	private:
@@ -68,7 +68,7 @@ class SaveVariables: public wombat::editor::EditorTab {
 		models::SaveVariables m_file;
 	
 	public:
-		explicit SaveVariables(wombat::editor::EditorTabParams);
+		explicit SaveVariables(wombat::editor::EditorWidgetParams);
 		~SaveVariables();
 
 	protected:

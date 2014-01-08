@@ -2,11 +2,11 @@
 #define IMAGESELECTORDIALOG_HPP
 
 #include <QDialog>
+#include <QBoxLayout>
 #include <QString>
 
-namespace Ui {
-class ImageSelectorDialog;
-}
+#include "spritesheetmanager.hpp"
+#include "imageselectorwidget.hpp"
 
 namespace wombat {
 namespace editor {
@@ -14,12 +14,14 @@ namespace editor {
 class ImageSelectorDialog: public QDialog {
 	Q_OBJECT
 
-	public:
-		explicit ImageSelectorDialog(QWidget *parent, QString path);
-		~ImageSelectorDialog();
-
 	private:
-		Ui::ImageSelectorDialog *ui;
+		QVBoxLayout *m_vbox;
+		ImageSelectorWidget *m_widget;
+		SpriteSheetManager *m_mgr;
+
+	public:
+		ImageSelectorDialog(QWidget *parent, QString projectPath, QString path);
+		~ImageSelectorDialog();
 };
 
 }

@@ -1,5 +1,5 @@
-#ifndef EDITORTABLISTENER_HPP
-#define EDITORTABLISTENER_HPP
+#ifndef EDITORWIDGETLISTENER_HPP
+#define EDITORWIDGETLISTENER_HPP
 
 namespace wombat {
 namespace editor {
@@ -7,7 +7,7 @@ namespace editor {
 /**
  * Used to allow the MainWindow to track when editors are change and save files.
  */
-class EditorTabListener {
+class EditorWidgetListener {
 	public:
         virtual void fileSaved() {}
         virtual void fileChanged() {}

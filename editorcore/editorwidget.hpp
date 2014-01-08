@@ -1,24 +1,24 @@
-#ifndef EDITORTAB_HPP
-#define EDITORTAB_HPP
+#ifndef EDITORWIDGET_HPP
+#define EDITORWIDGET_HPP
 
 #include <QWidget>
 #include <QUndoStack>
 
 #include "modeliomanager.hpp"
-#include "editortablistener.hpp"
-#include "editortabparams.hpp"
+#include "editorwidgetlistener.hpp"
+#include "editorwidgetparams.hpp"
 
 namespace wombat {
 namespace editor {
 
 class EditorProfile;
 
-class EditorTab: public QWidget {
+class EditorWidget: public QWidget {
 	friend EditorProfile;
 	private:
 		ModelIoManager *m_models;
 
-		QVector<EditorTabListener*> m_listeners;
+		QVector<EditorWidgetListener*> m_listeners;
 		QUndoStack *m_undoStack;
 
 		int m_lastCommand;
@@ -28,10 +28,10 @@ class EditorTab: public QWidget {
 		QString m_path;
 
 	public:
-		EditorTab(EditorTabParams);
-		~EditorTab();
-		void addListener(EditorTabListener *l);
-		void removeListener(EditorTabListener *l);
+		EditorWidget(EditorWidgetParams);
+		~EditorWidget();
+		void addListener(EditorWidgetListener *l);
+		void removeListener(EditorWidgetListener *l);
 		bool currentStateSaved();
 		QString title();
 		void title(QString);
@@ -40,7 +40,7 @@ class EditorTab: public QWidget {
 		bool canUndo();
 		bool canRedo();
 		QString path();
-		virtual void closeTab();
+		virtual void closeWidget();
 		virtual bool saveFile() = 0;
 
 	protected:

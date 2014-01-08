@@ -1,24 +1,24 @@
-#include "editortab.hpp"
+#include "editorwidget.hpp"
 
 namespace wombat {
 namespace editor {
 
-EditorTab::EditorTab(EditorTabParams args): QWidget(args.parent) {
+EditorWidget::EditorWidget(EditorWidgetParams args): QWidget(args.parent) {
 	m_undoStack = new QUndoStack(args.parent);
 	m_lastCommand = m_lastSavedCommand = 0;
 	m_path = args.filePath;
 	m_models = args.models;
 }
 
-EditorTab::~EditorTab() {
+EditorWidget::~EditorWidget() {
 	delete m_undoStack;
 }
 
-void EditorTab::addListener(EditorTabListener *l) {
+void EditorWidget::addListener(EditorWidgetListener *l) {
 	m_listeners.push_back(l);
 }
 
-void EditorTab::removeListener(EditorTabListener *l) {
+void EditorWidget::removeListener(EditorWidgetListener *l) {
 	for (int i = 0; i < m_listeners.size(); i++) {
 		if (m_listeners[i] == l) {
 			m_listeners.erase(m_listeners.begin() + i);
@@ -27,19 +27,19 @@ void EditorTab::removeListener(EditorTabListener *l) {
 	}
 }
 
-bool EditorTab::currentStateSaved() {
+bool EditorWidget::currentStateSaved() {
 	return m_lastSavedCommand == m_lastCommand;
 }
 
-QString EditorTab::title() {
+QString EditorWidget::title() {
 	return m_title;
 }
 
-void EditorTab::title(QString title) {
+void EditorWidget::title(QString title) {
 	m_title = title;
 }
 
-void EditorTab::notifyFileChange(QUndoCommand *uc) {
+void EditorWidget::notifyFileChange(QUndoCommand *uc) {
 	if (uc) {
 		m_undoStack->push(uc);
 		m_lastCommand = m_undoStack->index();
@@ -49,22 +49,22 @@ void EditorTab::notifyFileChange(QUndoCommand *uc) {
 	}
 }
 
-void EditorTab::modelIoManager(ModelIoManager *models) {
+void EditorWidget::modelIoManager(ModelIoManager *models) {
 	m_models = models;
 }
 
-ModelIoManager *EditorTab::modelIoManager() {
+ModelIoManager *EditorWidget::modelIoManager() {
 	return m_models;
 }
 
-void EditorTab::notifyFileSave() {
+void EditorWidget::notifyFileSave() {
 	for (int i = 0; i < m_listeners.size(); i++) {
 		m_listeners[i]->fileSaved();
 	}
 	m_lastSavedCommand = m_lastCommand;
 }
 
-void EditorTab::undo() {
+void EditorWidget::undo() {
 	if (m_undoStack->canUndo()) {
 		m_undoStack->undo();
 		m_lastCommand = m_undoStack->index();
@@ -77,7 +77,7 @@ void EditorTab::undo() {
 	}
 }
 
-void EditorTab::redo() {
+void EditorWidget::redo() {
 	if (m_undoStack->canRedo()) {
 		m_undoStack->redo();
 		m_lastCommand = m_undoStack->index();
@@ -90,19 +90,19 @@ void EditorTab::redo() {
 	}
 }
 
-bool EditorTab::canUndo() {
+bool EditorWidget::canUndo() {
 	return m_undoStack->canUndo();
 }
 
-bool EditorTab::canRedo() {
+bool EditorWidget::canRedo() {
 	return m_undoStack->canRedo();
 }
 
-QString EditorTab::path() {
+QString EditorWidget::path() {
 	return m_path;
 }
 
-void EditorTab::closeTab() {
+void EditorWidget::closeWidget() {
 }
 
 }

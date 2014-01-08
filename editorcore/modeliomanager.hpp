@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QString>
 #include <functional>
-#include "../models/editormodels.hpp"
+#include "models/editormodels.hpp"
 
 namespace wombat {
 namespace editor {
