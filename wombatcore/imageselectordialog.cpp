@@ -31,7 +31,10 @@ ImageSelectorDialog::~ImageSelectorDialog() {
 }
 
 void ImageSelectorDialog::okPressed() {
-	accept();
+	int sel = m_widget->selectedWidget();
+	if (sel != -1) {
+		accept();
+	}
 }
 
 }
