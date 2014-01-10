@@ -2,6 +2,7 @@
 #define IMAGESELECTORDIALOG_HPP
 
 #include <QDialog>
+#include <QDialogButtonBox>
 #include <QBoxLayout>
 #include <QString>
 
@@ -15,13 +16,16 @@ class ImageSelectorDialog: public QDialog {
 	Q_OBJECT
 
 	private:
+		QDialogButtonBox *m_btnBox;
 		QVBoxLayout *m_vbox;
 		ImageSelectorWidget *m_widget;
-		SpriteSheetManager *m_mgr;
 
 	public:
-		ImageSelectorDialog(QWidget *parent, QString projectPath, QString path);
+		ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString path);
 		~ImageSelectorDialog();
+
+	private slots:
+		void okPressed();
 };
 
 }

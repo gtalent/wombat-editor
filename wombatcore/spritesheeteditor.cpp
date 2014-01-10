@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QAbstractItemModel>
 #include <QGraphicsPixmapItem>
+#include <QDialogButtonBox>
 #include <QPainter>
 
 #include "editorcore/misc.hpp"
@@ -200,7 +201,6 @@ int SpriteSheetEditor::removeImage() {
 }
 
 void SpriteSheetEditor::draw() {
-	ui->canvas->setParent(this);
 	int width = m_model.tilesWide * m_model.tileWidth;
 	int height = m_model.tilesHigh * m_model.tileHeight;
 

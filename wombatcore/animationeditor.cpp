@@ -23,7 +23,7 @@ bool AnimationEditor::saveFile() {
 }
 
 void AnimationEditor::addBtnClick() {
-	ImageSelectorDialog imgSel(this, m_projectPath, "Add Image...");
+	ImageSelectorDialog imgSel(this, modelIoManager(), m_projectPath, "Add Image...");
 	imgSel.exec();
 }
 
