@@ -9,6 +9,9 @@ NewMenu::NewMenu(QWidget *parent, QString projectDir, QVector<QString> itemTypes
 			this->ui->options->addItem(t);
 		}
 	}
+
+	setSizeGripEnabled(false);
+	setFixedSize(400, 275);
 }
 
 NewMenu::~NewMenu() {

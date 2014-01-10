@@ -12,6 +12,9 @@ NewProject::NewProject(QWidget *parent, QVector<QString> defaultPaths): NewFileM
 	ui->setupUi(this);
 	ui->lePath->setText(QDir::homePath());
 	m_defaultPaths = defaultPaths;
+
+	setSizeGripEnabled(false);
+	setFixedSize(550, 150);
 }
 
 NewProject::~NewProject() {

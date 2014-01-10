@@ -12,6 +12,9 @@ namespace editor {
 NewSpriteSheet::NewSpriteSheet(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewSpriteSheet) {
 	ui->setupUi(this);
 	m_projectPath = args.projectPath;
+
+	setSizeGripEnabled(false);
+	setFixedSize(450, 175);
 }
 
 NewSpriteSheet::~NewSpriteSheet() {

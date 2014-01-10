@@ -42,10 +42,8 @@ unknown SaveVariableEditor::getValue() {
 	return v;
 }
 
-std::pair<QString, unknown> SaveVariableEditor::getVar() {
-	std::pair<QString, unknown> out;
-	out.first = ui->leName->text();
-	out.second = getValue();
+QPair<QString, unknown> SaveVariableEditor::getVar() {
+	QPair<QString, unknown> out(ui->leName->text(), getValue());
 	return out;
 }
 

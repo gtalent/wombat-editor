@@ -25,7 +25,7 @@ class SaveVariableEditor: public QDialog {
 	public:
 		explicit SaveVariableEditor(QWidget *parent, QString key, unknown val);
 		~SaveVariableEditor();
-		std::pair<QString, unknown> getVar();
+		QPair<QString, unknown> getVar();
 
 	public slots:
 		void updateType(QString);

@@ -79,7 +79,7 @@ void SaveVariables::addClicked() {
 	SaveVariableEditor editor(this, "", unk);
 	editor.setWindowTitle("Add Variable...");
 	while (editor.exec()) {
-		std::pair<QString, unknown> p = editor.getVar();
+		auto p = editor.getVar();
 		bool exists = false;
 		QString stdStrName = p.first;
 		for (auto i = m_file.vars.begin(); i != m_file.vars.end(); ++i) {
@@ -106,7 +106,7 @@ void SaveVariables::editCurrentVar() {
 	editor.setWindowTitle("Edit Variable...");
 	for (bool done = false; !done;) {
 		if (editor.exec()) {
-			std::pair<QString, unknown> nv = editor.getVar();
+			auto nv = editor.getVar();
 
 			//check to see if a variable by this name already exists
 			bool exists = false;
