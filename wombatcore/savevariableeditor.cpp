@@ -8,6 +8,8 @@ SaveVariableEditor::SaveVariableEditor(QWidget *parent, QString key, unknown val
 	ui->setupUi(this);
 	ui->leName->setText(key);
 	updateValue(val);
+	setSizeGripEnabled(false);
+	setFixedSize(400, 170);
 }
 
 SaveVariableEditor::~SaveVariableEditor() {
