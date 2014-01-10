@@ -7,7 +7,8 @@ namespace editor {
 
 ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString title = "Image Selector"): QDialog(parent) {
 	setWindowTitle(title);
-	setBaseSize(600, 500);
+	setMinimumSize(600, 400);
+	adjustSize();
 
 	m_vbox = new QVBoxLayout(this);
 	m_btnBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
