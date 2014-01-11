@@ -24,6 +24,8 @@ class ImageSelectorDialog: public QDialog {
 		ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString path);
 		~ImageSelectorDialog();
 
+		models::Image selectedImage();
+
 	private slots:
 		void okPressed();
 };

@@ -11,10 +11,14 @@ class SpriteSheetManager {
 	private:
 		models::SpriteSheet m_model;
 		QImage src;
+
 	public:
 		SpriteSheetManager(models::SpriteSheet);
 		QImage getImage(models::SpriteSheetImage);
 		QPixmap getPixmap(models::SpriteSheetImage);
+
+		static QImage getImage(models::Image);
+		static QPixmap getPixmap(models::Image);
 };
 
 }

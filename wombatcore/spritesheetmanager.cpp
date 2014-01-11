@@ -28,5 +28,17 @@ QPixmap SpriteSheetManager::getPixmap(models::SpriteSheetImage img) {
 	return QPixmap::fromImage(getImage(img));
 }
 
+QImage SpriteSheetManager::getImage(models::Image img) {
+	models::SpriteSheet model;
+	model.readJsonFile(img.spriteSheet);
+	return SpriteSheetManager(model).getImage(model.images[img.imgId]);
+}
+
+QPixmap SpriteSheetManager::getPixmap(models::Image img) {
+	models::SpriteSheet model;
+	model.readJsonFile(img.spriteSheet);
+	return SpriteSheetManager(model).getPixmap(model.images[img.imgId]);
+}
+
 }
 }

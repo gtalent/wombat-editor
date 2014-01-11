@@ -44,7 +44,9 @@ ImageSelectorWidget::~ImageSelectorWidget() {
 int ImageSelectorWidget::openSpriteSheet(QString path) {
 	models::SpriteSheet model;
 	model.fromJson(m_modelIo->read(path));
+
 	m_ptToImg.clear();
+	m_currentModelPath = path;
 
 	SpriteSheetManager sheet(model);
 
@@ -75,14 +77,20 @@ int ImageSelectorWidget::openSpriteSheet(QString path) {
 	return 0;
 }
 
-int ImageSelectorWidget::selectedWidget() {
+models::Image ImageSelectorWidget::selectedImage() {
 	auto items = m_scene->selectedItems();
+	models::Image out;
+	out.imgId = -1;
 	for (auto i : items) {
 		if (i->isSelected()) {
-			return pointImgId(i->x(), i->y());
+			out.spriteSheet = m_currentModelPath;
+			out.imgId = pointImgId(i->x(), i->y());
+			out.defaultSize.width = m_model.tileWidth;
+			out.defaultSize.height = m_model.tileHeight;
+			break;
 		}
 	}
-	return -1;
+	return out;
 }
 
 void ImageSelectorWidget::populateSheetSelect() {

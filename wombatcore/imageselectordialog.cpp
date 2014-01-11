@@ -1,5 +1,3 @@
-#include <QDir>
-
 #include "imageselectordialog.hpp"
 
 namespace wombat {
@@ -31,9 +29,13 @@ ImageSelectorDialog::~ImageSelectorDialog() {
 	delete m_widget;
 }
 
+models::Image ImageSelectorDialog::selectedImage() {
+	return m_widget->selectedImage();
+}
+
 void ImageSelectorDialog::okPressed() {
-	int sel = m_widget->selectedWidget();
-	if (sel != -1) {
+	auto sel = m_widget->selectedImage();
+	if (sel.imgId != -1) {
 		accept();
 	}
 }

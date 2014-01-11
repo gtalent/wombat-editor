@@ -22,6 +22,7 @@ class ImageSelectorWidget: public QWidget {
 		QString m_projectPath;
 		QGraphicsScene *m_scene;
 		ModelIoManager *m_modelIo;
+		QString m_currentModelPath;
 		models::SpriteSheet m_model;
 		QMap<QString, int> m_ptToImg;
 
@@ -31,7 +32,7 @@ class ImageSelectorWidget: public QWidget {
 
 		int openSpriteSheet(QString path);
 
-		int selectedWidget();
+		models::Image selectedImage();
 
 	private:
 		void populateSheetSelect();
