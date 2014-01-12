@@ -41,7 +41,7 @@ class EditorWidget: public QWidget {
 		bool canRedo();
 		QString path();
 		virtual void closeWidget();
-		virtual bool saveFile() = 0;
+		virtual int saveFile() = 0;
 
 	protected:
 		void modelIoManager(ModelIoManager*);

@@ -26,7 +26,7 @@ class AnimationEditor: public EditorWidget {
 	public:
 		explicit AnimationEditor(EditorWidgetParams);
 		~AnimationEditor();
-		bool saveFile();
+		int saveFile();
 
 	public slots:
 		void addBtnClick();

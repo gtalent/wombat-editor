@@ -45,7 +45,7 @@ SpriteSheetEditor::~SpriteSheetEditor() {
 	delete m_scene;
 }
 
-bool SpriteSheetEditor::saveFile() {
+int SpriteSheetEditor::saveFile() {
 	notifyFileSave();
 	auto out = m_model.toJson(models::cyborgbear::Readable);
 	modelIoManager()->write(path(), out);
@@ -64,7 +64,7 @@ bool SpriteSheetEditor::saveFile() {
 		}
 	}
 
-	return imgOut.save(m_model.srcFile, "png", 100);
+	return imgOut.save(m_model.srcFile, "png", 100) ? 0 : 1;
 }
 
 QImage SpriteSheetEditor::buildImage(QImage *src, models::Bounds bnds) {

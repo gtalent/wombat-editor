@@ -70,7 +70,7 @@ class SpriteSheetEditor: public wombat::editor::EditorWidget {
 		explicit SpriteSheetEditor(wombat::editor::EditorWidgetParams);
 		~SpriteSheetEditor();
 		QImage buildImage(QImage*, models::Bounds);
-		virtual bool saveFile();
+		virtual int saveFile();
 		
 	private slots:
 		int addImages();

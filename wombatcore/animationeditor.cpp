@@ -6,8 +6,6 @@
 namespace wombat {
 namespace editor {
 
-using namespace wombat::editor;
-
 AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::AnimationEditor) {
 	ui->setupUi(this);
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(addBtnClick()));
@@ -20,7 +18,7 @@ AnimationEditor::~AnimationEditor() {
 	delete ui;
 }
 
-bool AnimationEditor::saveFile() {
+int AnimationEditor::saveFile() {
 	return 0;
 }
 

@@ -168,11 +168,11 @@ void SaveVariables::tableClicked(QModelIndex) {
 	ui->btnEdit->setEnabled(true);
 }
 
-bool SaveVariables::saveFile() {
+int SaveVariables::saveFile() {
 	auto out = m_file.toJson(models::cyborgbear::Readable);
 	modelIoManager()->write(path(), out);
 	notifyFileSave();
-	return false;
+	return 0;
 }
 	
 int SaveVariables::rowOfKey(QString key) {

@@ -81,7 +81,7 @@ class SaveVariables: public wombat::editor::EditorWidget {
 		int rowOfKey(QString key);
 
 	public slots:
-		bool saveFile();
+		int saveFile();
 
 	protected slots:
 		void addClicked();
