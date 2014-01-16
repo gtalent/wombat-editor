@@ -55,8 +55,7 @@ void NewProject::accept() {
 		}
 	}
 
-	this->close();
-	this->parentWidget()->activateWindow();
+	QDialog::accept();
 }
 
 QString NewProject::path() {

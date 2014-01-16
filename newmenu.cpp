@@ -20,8 +20,7 @@ NewMenu::~NewMenu() {
 
 void NewMenu::accept() {
 	this->strNewWhat = this->ui->options->currentItem()->text();
-	this->close();
-	this->parentWidget()->activateWindow();
+	QDialog::accept();
 }
 
 QString NewMenu::newWhat() {

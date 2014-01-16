@@ -42,14 +42,14 @@ int MainWindow::readSettings(QString path) {
 	models::EditorSettings settings;
 	retval = settings.readJsonFile(path);
 
-	if (settings.openProject != "") {
-		openProject(settings.openProject);
+	if (settings.OpenProject != "") {
+		openProject(settings.OpenProject);
 	}
 
-	for (auto i : settings.openFiles) {
+	for (auto i : settings.OpenFiles) {
 		openFile(i);
 	}
-	ui->tabWidget->setCurrentIndex(settings.openTab);
+	ui->tabWidget->setCurrentIndex(settings.OpenTab);
 
 	return retval;
 }
@@ -57,14 +57,14 @@ int MainWindow::readSettings(QString path) {
 int MainWindow::writeSettings(QString path) {
 	models::EditorSettings settings;
 
-	settings.openProject = m_projectPath;
+	settings.OpenProject = m_projectPath;
 	for (int i = 0; i < ui->tabWidget->count(); i++) {
 		auto t = dynamic_cast<EditorWidget*>(ui->tabWidget->widget(i));
 		if (t) {
-			settings.openFiles.push_back(t->path());
+			settings.OpenFiles.push_back(t->path());
 		}
 	}
-	settings.openTab = ui->tabWidget->currentIndex();
+	settings.OpenTab = ui->tabWidget->currentIndex();
 
 	settings.writeJsonFile(path, models::cyborgbear::Readable);
 
@@ -73,11 +73,11 @@ int MainWindow::writeSettings(QString path) {
 
 void MainWindow::newMenu() {
 	NewMenu menu(this, m_projectPath, m_profile->fileTypes());
-	if (!menu.exec()) {
+	if (menu.exec() == QDialog::Accepted) {
 		QString nw = menu.newWhat();
 		if (nw == "Project") {
 			NewProject np(this, m_profile->defaultPaths());
-			if (np.exec() == 0) {
+			if (np.exec() == QDialog::Accepted) {
 				QString p = np.path();
 				if (p != "") {
 					openProject(p);
@@ -89,8 +89,7 @@ void MainWindow::newMenu() {
 			args.fileType = nw;
 			args.parent = this;
 			auto nm = m_profile->newFileMenu(args);
-			if (nm && nm->exec() == 0) {
-				wombat::editor::logDebug(nm->path());
+			if (nm && nm->exec() == QDialog::Accepted) {
 				openFile(nm->path());
 			}
 			delete nm;

@@ -27,25 +27,24 @@ void NewSpriteSheet::accept() {
 		//setup JSON file
 		models::SpriteSheet model;
 
-		model.srcFile = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".png";
+		model.SrcFile = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".png";
 
 		QStringList ts = ui->cbTileSize->currentText().split("x");
-		model.tileWidth = ts[0].toInt();
-		model.tileHeight = ts[1].toInt();
+		model.TileWidth = ts[0].toInt();
+		model.TileHeight = ts[1].toInt();
 
 		QStringList ss = ui->cbSheetSize->currentText().split("x");
-		model.tilesWide = ss[0].toInt();
-		model.tilesHigh = ss[1].toInt();
+		model.TilesWide = ss[0].toInt();
+		model.TilesHigh = ss[1].toInt();
 
 		model.writeJsonFile(m_path, models::cyborgbear::Readable);
 
 
 		//setup image file
-		QImage sprt(model.tilesWide * model.tileWidth, model.tilesHigh * model.tileHeight, QImage::Format_ARGB32);
-		sprt.save(model.srcFile);
+		QImage sprt(model.TilesWide * model.TileWidth, model.TilesHigh * model.TileHeight, QImage::Format_ARGB32);
+		sprt.save(model.SrcFile);
 
-		this->close();
-		this->parentWidget()->activateWindow();
+		accept();
 	}
 }
 

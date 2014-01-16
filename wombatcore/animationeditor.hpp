@@ -2,6 +2,7 @@
 #define ANIMATIONEDITOR_HPP
 
 #include <QWidget>
+#include <QAbstractTableModel>
 
 #include "models/editormodels.hpp"
 
@@ -15,27 +16,72 @@ class AnimationEditor;
 namespace wombat {
 namespace editor {
 
-using namespace wombat::editor;
-
 class AnimationEditor: public EditorWidget {
 	Q_OBJECT
 
 	private:
+		class ImageTableModel: public QAbstractTableModel {
+			private:
+				models::Animation &m_model;
+				QMap<QString, QPixmap> &m_pixMaps;
+
+			public:
+				ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps);
+
+				QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
+				virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+
+				virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+				QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+		};
+
+		//COMMANDS
+		class Command: public QUndoCommand {
+			private:
+				AnimationEditor *m_parent;
+				models::Animation m_before;
+				models::Animation m_after;
+
+			public:
+				Command(AnimationEditor *parent, models::Animation before, models::Animation after);
+
+				void undo();
+
+				void redo();
+		};
+
+	private:
+		Ui::AnimationEditor *ui;
+
+		ImageTableModel *m_modelView;
+
 		QString m_projectPath;
 
+		QMap<QString, QPixmap> m_pixMaps;
+
+		models::Animation m_model;
+
 	public:
-		explicit AnimationEditor(EditorWidgetParams);
+		AnimationEditor(EditorWidgetParams);
+
 		~AnimationEditor();
+
 		int saveFile();
 
 	public slots:
 		void addBtnClick();
 
-	private:
-		Ui::AnimationEditor *ui;
+		void rmBtnClick();
+
+		void tableClicked();
+
+	protected:
+		void updateModel(models::Animation);
 };
 
 }
 }
 
-#endif // ANIMATIONEDITOR_HPP
+#endif

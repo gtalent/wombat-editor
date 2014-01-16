@@ -28,8 +28,8 @@ SpriteSheetEditor::SpriteSheetEditor(EditorWidgetParams args): EditorWidget(args
 	ui->setupUi(this);
 	m_projectDir = args.projectPath;
 	load(args.filePath);
-	int width = m_model.tilesWide * m_model.tileWidth;
-	int height = m_model.tilesHigh * m_model.tileHeight;
+	int width = m_model.TilesWide * m_model.TileWidth;
+	int height = m_model.TilesHigh * m_model.TileHeight;
 	m_scene = new QGraphicsScene(0, 0, width, height, this);
 	connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(sceneSelection()));
 	ui->canvas->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -50,32 +50,32 @@ int SpriteSheetEditor::saveFile() {
 	auto out = m_model.toJson(models::cyborgbear::Readable);
 	modelIoManager()->write(path(), out);
 
-	int width = m_model.tilesWide * m_model.tileWidth;
-	int height = m_model.tilesHigh * m_model.tileHeight;
+	int width = m_model.TilesWide * m_model.TileWidth;
+	int height = m_model.TilesHigh * m_model.TileHeight;
 
 	QImage imgOut(width, height, QImage::Format_ARGB32);
 
-	for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
+	for (auto i = m_model.Images.begin(); i != m_model.Images.end(); ++i) {
 		QImage &src = m_imgs[i.key()].img;
-		for (int x = 0; x < i.value().srcBounds.width; x++) {
-			for (int y = 0; y < i.value().srcBounds.height; y++) {
-				imgOut.setPixel(i.value().srcBounds.x + x, i.value().srcBounds.y + y, src.pixel(x, y));
+		for (int x = 0; x < i.value().SrcBounds.Width; x++) {
+			for (int y = 0; y < i.value().SrcBounds.Height; y++) {
+				imgOut.setPixel(i.value().SrcBounds.X + x, i.value().SrcBounds.Y + y, src.pixel(x, y));
 			}
 		}
 	}
 
-	return imgOut.save(m_model.srcFile, "png", 100) ? 0 : 1;
+	return imgOut.save(m_model.SrcFile, "png", 100) ? 0 : 1;
 }
 
 QImage SpriteSheetEditor::buildImage(QImage *src, models::Bounds bnds) {
-	int w = m_model.tileWidth;
-	int h = m_model.tileHeight;
+	int w = m_model.TileWidth;
+	int h = m_model.TileHeight;
 	QImage sprt(w, h, QImage::Format_ARGB32);
 	sprt.fill(0);
 
 	for (int i = 0; i < w; i++) {
 		for (int ii = 0; ii < h; ii++) {
-			sprt.setPixel(i, ii, src->pixel(i + bnds.x, ii + bnds.y));
+			sprt.setPixel(i, ii, src->pixel(i + bnds.X, ii + bnds.Y));
 		}
 	}
 	return sprt;
@@ -83,17 +83,17 @@ QImage SpriteSheetEditor::buildImage(QImage *src, models::Bounds bnds) {
 
 int SpriteSheetEditor::newImageId() {
 	int retval;
-	if (m_model.recycledImageIds.empty()) {
-		retval = m_model.imageIdIterator++;
+	if (m_model.RecycledImageIds.empty()) {
+		retval = m_model.ImageIdIterator++;
 	} else {
-		retval = m_model.recycledImageIds.back();
-		m_model.recycledImageIds.pop_back();
+		retval = m_model.RecycledImageIds.back();
+		m_model.RecycledImageIds.pop_back();
 	}
 	return retval;
 }
 
 void SpriteSheetEditor::recycleImageId(int imgId) {
-	m_model.recycledImageIds.push_back(imgId);
+	m_model.RecycledImageIds.push_back(imgId);
 }
 
 int SpriteSheetEditor::addImages() {
@@ -103,31 +103,31 @@ int SpriteSheetEditor::addImages() {
 		QVector<Image> imgs;
 		for (int n = 0; n < files.size(); n++) {
 			QImage src(files[n]);
-			for (int i = 0; i < files.size(); i += m_model.tileHeight) {
-				for (int ii = 0; ii < files.size(); ii += m_model.tileWidth) {
+			for (int i = 0; i < files.size(); i += m_model.TileHeight) {
+				for (int ii = 0; ii < files.size(); ii += m_model.TileWidth) {
 					int imgId = newImageId();
-					if (imgId >= m_model.tilesHigh * m_model.tilesWide) {
+					if (imgId >= m_model.TilesHigh * m_model.TilesWide) {
 						return 1;
 					}
 
 					models::SpriteSheetImage imgModel;
 					models::Point pt = indexPoint(imgId);
-					imgModel.srcBounds.x = pt.x * m_model.tileWidth;
-					imgModel.srcBounds.y = pt.y * m_model.tileHeight;
-					imgModel.srcBounds.width = m_model.tileWidth;
-					imgModel.srcBounds.height = m_model.tileHeight;
-					m_model.images[imgId] = imgModel;
+					imgModel.SrcBounds.X = pt.X * m_model.TileWidth;
+					imgModel.SrcBounds.Y = pt.Y * m_model.TileHeight;
+					imgModel.SrcBounds.Width = m_model.TileWidth;
+					imgModel.SrcBounds.Height = m_model.TileHeight;
+					m_model.Images[imgId] = imgModel;
 
 					Image img;
-					img.x = imgModel.srcBounds.x;
-					img.y = imgModel.srcBounds.y;
+					img.x = imgModel.SrcBounds.X;
+					img.y = imgModel.SrcBounds.Y;
 					img.imgId = imgId;
 
 					models::Bounds srcBnds;
-					srcBnds.x = ii;
-					srcBnds.y = i;
-					srcBnds.width = m_model.tileWidth;
-					srcBnds.height = m_model.tileHeight;
+					srcBnds.X = ii;
+					srcBnds.Y = i;
+					srcBnds.Width = m_model.TileWidth;
+					srcBnds.Height = m_model.TileHeight;
 					img.img = buildImage(&src, srcBnds);
 					img.pxMap = QPixmap::fromImage(img.img);
 
@@ -143,21 +143,21 @@ int SpriteSheetEditor::addImages() {
 
 models::Point SpriteSheetEditor::indexPoint(int i) {
 	models::Point p;
-	p.x = i % m_model.tilesWide;
-	p.y = i / m_model.tilesWide;
+	p.X = i % m_model.TilesWide;
+	p.Y = i / m_model.TilesWide;
 	return p;
 }
 
 int SpriteSheetEditor::load(QString path) {
 	m_model.fromJson(modelIoManager()->read(path));
 
-	QImage src(m_model.srcFile);
+	QImage src(m_model.SrcFile);
 	if (!src.isNull()) {
-		for (auto i = m_model.images.begin(); i != m_model.images.end(); ++i) {
+		for (auto i = m_model.Images.begin(); i != m_model.Images.end(); ++i) {
 			Image img;
-			img.x = i.value().srcBounds.x;
-			img.y = i.value().srcBounds.y;
-			img.img = buildImage(&src, i.value().srcBounds);
+			img.x = i.value().SrcBounds.X;
+			img.y = i.value().SrcBounds.Y;
+			img.img = buildImage(&src, i.value().SrcBounds);
 			img.pxMap = QPixmap::fromImage(img.img);
 			img.imgId = i.key();
 			m_imgs[i.key()] = img;
@@ -188,7 +188,7 @@ int SpriteSheetEditor::removeImage() {
 					QVector<Image> imgs;
 					imgs.push_back(img.value());
 					auto before = m_model;
-					m_model.images.remove(img.key());
+					m_model.Images.remove(img.key());
 					recycleImageId(img.key());
 					notifyFileChange(new RemoveImageCommand(this, imgs, before, m_model));
 					break;
@@ -201,8 +201,8 @@ int SpriteSheetEditor::removeImage() {
 }
 
 void SpriteSheetEditor::draw() {
-	int width = m_model.tilesWide * m_model.tileWidth;
-	int height = m_model.tilesHigh * m_model.tileHeight;
+	int width = m_model.TilesWide * m_model.TileWidth;
+	int height = m_model.TilesHigh * m_model.TileHeight;
 
 	m_scene->clear();
 	m_scene->setSceneRect(0, 0, width, height);

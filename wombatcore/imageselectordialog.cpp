@@ -37,7 +37,7 @@ models::Image ImageSelectorDialog::selectedImage() {
 
 void ImageSelectorDialog::okPressed() {
 	auto sel = m_widget->selectedImage();
-	if (sel.imgId != -1) {
+	if (sel.ImgId != -1) {
 		accept();
 	}
 }

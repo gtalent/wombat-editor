@@ -22,7 +22,7 @@ class NewAnimation: public NewFileMenu {
 		QString m_path;
 
 	public:
-		explicit NewAnimation(NewFileMenuParams);
+		NewAnimation(NewFileMenuParams);
 		~NewAnimation();
 		QString path();
 		void accept();

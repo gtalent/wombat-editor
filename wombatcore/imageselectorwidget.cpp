@@ -54,14 +54,14 @@ int ImageSelectorWidget::openSpriteSheet(QString path) {
 
 	int x = 0;
 	int y = 0;
-	for (auto img = model.images.begin(); img != model.images.end(); ++img) {
-		if (x == model.tileWidth * model.tilesWide) {
+	for (auto img = model.Images.begin(); img != model.Images.end(); ++img) {
+		if (x == model.TileWidth * model.TilesWide) {
 			x = 0;
 			y++;
 		}
 		m_scene->addPixmap(sheet.getPixmap(img.value()))->setPos(x, y);
 		m_ptToImg[pointKey(x, y)] = img.key();
-		x += model.tileWidth;
+		x += model.TileWidth;
 	}
 
 	auto items = m_scene->items();
@@ -80,13 +80,13 @@ int ImageSelectorWidget::openSpriteSheet(QString path) {
 models::Image ImageSelectorWidget::selectedImage() {
 	auto items = m_scene->selectedItems();
 	models::Image out;
-	out.imgId = -1;
+	out.ImgId = -1;
 	for (auto i : items) {
 		if (i->isSelected()) {
-			out.spriteSheet = m_currentModelPath;
-			out.imgId = pointImgId(i->x(), i->y());
-			out.defaultSize.width = m_model.tileWidth;
-			out.defaultSize.height = m_model.tileHeight;
+			out.SpriteSheet = m_currentModelPath;
+			out.ImgId = pointImgId(i->x(), i->y());
+			out.DefaultSize.Width = m_model.TileWidth;
+			out.DefaultSize.Height = m_model.TileHeight;
 			break;
 		}
 	}

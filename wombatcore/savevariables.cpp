@@ -22,8 +22,8 @@ SaveVariables::SaveVariables(EditorWidgetParams args): EditorWidget(args), ui(ne
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_file.fromJson(modelIoManager()->read(args.filePath));
-	for (auto i = m_file.vars.begin(); i != m_file.vars.end(); i++) {
-		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.vars[i.key()]);
+	for (auto i = m_file.Vars.begin(); i != m_file.Vars.end(); i++) {
+		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.Vars[i.key()]);
 	}
 }
 
@@ -58,14 +58,14 @@ void SaveVariables::tblInsertVar(int row, QString name, unknown val) {
 
 void SaveVariables::addVar(QString name, unknown val) {
 	tblInsertVar(ui->tblVars->rowCount(), name, val);
-	m_file.vars.remove(name);
-	m_file.vars.insert(name, unknown());
-	m_file.vars[name].set(&val);
+	m_file.Vars.remove(name);
+	m_file.Vars.insert(name, unknown());
+	m_file.Vars[name].set(&val);
 }
 
 void SaveVariables::removeVar(int row) {
 	QString key = ui->tblVars->item(row, 0)->text();
-	m_file.vars.remove(key);
+	m_file.Vars.remove(key);
 	ui->tblVars->removeRow(row);
 	if (ui->tblVars->currentIndex().row() == -1) {
 		ui->btnRemove->setEnabled(false);
@@ -82,7 +82,7 @@ void SaveVariables::addClicked() {
 		auto p = editor.getVar();
 		bool exists = false;
 		QString stdStrName = p.first;
-		for (auto i = m_file.vars.begin(); i != m_file.vars.end(); ++i) {
+		for (auto i = m_file.Vars.begin(); i != m_file.Vars.end(); ++i) {
 			if (i.key() == stdStrName) {
 				exists = true;
 			}
@@ -102,7 +102,7 @@ void SaveVariables::addClicked() {
 void SaveVariables::editCurrentVar() {
 	int row = ui->tblVars->currentItem()->row();
 	QString key = ui->tblVars->item(row, 0)->text();
-	SaveVariableEditor editor(this, key, m_file.vars[key]);
+	SaveVariableEditor editor(this, key, m_file.Vars[key]);
 	editor.setWindowTitle("Edit Variable...");
 	for (bool done = false; !done;) {
 		if (editor.exec()) {
@@ -112,7 +112,7 @@ void SaveVariables::editCurrentVar() {
 			bool exists = false;
 			if (key != nv.first) { // if a variable by this name already exists
 				// delete the old value from the list in case the name changed
-				for (auto i = m_file.vars.begin(); i != m_file.vars.end(); ++i) {
+				for (auto i = m_file.Vars.begin(); i != m_file.Vars.end(); ++i) {
 					if (i.key() == nv.first) {
 						exists = true;
 						break;
@@ -154,13 +154,13 @@ void SaveVariables::setVar(int row, QString name, unknown val) {
 	ui->tblVars->setItem(row, 0, new QTableWidgetItem(name));
 	ui->tblVars->setItem(row, 1, new QTableWidgetItem(type));
 	ui->tblVars->setItem(row, 2, new QTableWidgetItem(valStr));
-	m_file.vars[name].set(&val);
+	m_file.Vars[name].set(&val);
 }
 
 void SaveVariables::removeClicked() {
 	int row = ui->tblVars->currentItem()->row();
 	QString key = ui->tblVars->item(row, 0)->text();
-	notifyFileChange(new RemoveVarCommand(this, key, &m_file.vars[key]));
+	notifyFileChange(new RemoveVarCommand(this, key, &m_file.Vars[key]));
 }
 
 void SaveVariables::tableClicked(QModelIndex) {
@@ -170,9 +170,9 @@ void SaveVariables::tableClicked(QModelIndex) {
 
 int SaveVariables::saveFile() {
 	auto out = m_file.toJson(models::cyborgbear::Readable);
-	modelIoManager()->write(path(), out);
+	auto ret = modelIoManager()->write(path(), out);
 	notifyFileSave();
-	return 0;
+	return ret;
 }
 	
 int SaveVariables::rowOfKey(QString key) {
@@ -211,9 +211,9 @@ SaveVariables::RemoveVarCommand::RemoveVarCommand(SaveVariables *parent, QString
 void SaveVariables::RemoveVarCommand::undo() {
 	if (m_varTblRow != -1) {
 		m_parent->tblInsertVar(m_varTblRow, m_varName, m_varVal);
-		m_parent->m_file.vars.remove(m_varName);
-		m_parent->m_file.vars.insert(m_varName, unknown());
-		m_parent->m_file.vars[m_varName].set(&m_varVal);
+		m_parent->m_file.Vars.remove(m_varName);
+		m_parent->m_file.Vars.insert(m_varName, unknown());
+		m_parent->m_file.Vars[m_varName].set(&m_varVal);
 	}
 }
 
@@ -228,14 +228,14 @@ SaveVariables::EditVarCommand::EditVarCommand(SaveVariables *parent, QString nam
 	m_varName = name;
 	m_newVarName = newName;
 	m_newVal.set(&unk);
-	m_oldVal.set(&(m_parent->m_file.vars[name]));
+	m_oldVal.set(&(m_parent->m_file.Vars[name]));
 }
 
 void SaveVariables::EditVarCommand::undo() {
 	int row = m_parent->rowOfKey(m_newVarName);
 	if (m_varName != m_newVarName) { // if a variable by this name already exists
-		m_parent->m_file.vars.remove(m_newVarName);
-		m_parent->m_file.vars[m_varName] = unknown();
+		m_parent->m_file.Vars.remove(m_newVarName);
+		m_parent->m_file.Vars[m_varName] = unknown();
 	}
 	m_parent->setVar(row, m_varName, m_oldVal);
 }
@@ -243,8 +243,8 @@ void SaveVariables::EditVarCommand::undo() {
 void SaveVariables::EditVarCommand::redo() {
 	int row = m_parent->rowOfKey(m_varName);
 	if (m_varName != m_newVarName) { // if a variable by this name already exists
-		m_parent->m_file.vars.remove(m_varName);
-		m_parent->m_file.vars[m_newVarName] = unknown();
+		m_parent->m_file.Vars.remove(m_varName);
+		m_parent->m_file.Vars[m_newVarName] = unknown();
 	}
 	m_parent->setVar(row, m_newVarName, m_newVal);
 }

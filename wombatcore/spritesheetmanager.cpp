@@ -4,21 +4,21 @@
 namespace wombat {
 namespace editor {
 
-SpriteSheetManager::SpriteSheetManager(models::SpriteSheet model): src(model.srcFile) {
+SpriteSheetManager::SpriteSheetManager(models::SpriteSheet model): src(model.SrcFile) {
 	m_model = model;
 }
 
 QImage SpriteSheetManager::getImage(models::SpriteSheetImage img) {
-	int w = m_model.tileWidth;
-	int h = m_model.tileHeight;
-	auto bnds = img.srcBounds;
+	int w = m_model.TileWidth;
+	int h = m_model.TileHeight;
+	auto bnds = img.SrcBounds;
 
 	QImage sprt(w, h, QImage::Format_ARGB32);
 	sprt.fill(0);
 
 	for (int i = 0; i < w; i++) {
 		for (int ii = 0; ii < h; ii++) {
-			sprt.setPixel(i, ii, src.pixel(i + bnds.x, ii + bnds.y));
+			sprt.setPixel(i, ii, src.pixel(i + bnds.X, ii + bnds.Y));
 		}
 	}
 	return sprt;
@@ -30,14 +30,14 @@ QPixmap SpriteSheetManager::getPixmap(models::SpriteSheetImage img) {
 
 QImage SpriteSheetManager::getImage(models::Image img) {
 	models::SpriteSheet model;
-	model.readJsonFile(img.spriteSheet);
-	return SpriteSheetManager(model).getImage(model.images[img.imgId]);
+	model.readJsonFile(img.SpriteSheet);
+	return SpriteSheetManager(model).getImage(model.Images[img.ImgId]);
 }
 
 QPixmap SpriteSheetManager::getPixmap(models::Image img) {
 	models::SpriteSheet model;
-	model.readJsonFile(img.spriteSheet);
-	return SpriteSheetManager(model).getPixmap(model.images[img.imgId]);
+	model.readJsonFile(img.SpriteSheet);
+	return SpriteSheetManager(model).getPixmap(model.Images[img.ImgId]);
 }
 
 }
