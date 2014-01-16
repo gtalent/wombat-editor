@@ -17,13 +17,17 @@ AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), u
 	ui->lstAnims->setModel(m_modelView);
 	ui->lstAnims->verticalHeader()->setVisible(true);
 	ui->lstAnims->resizeColumnsToContents();
+
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(addBtnClick()));
 	connect(ui->btnRemove, SIGNAL(clicked()), this, SLOT(rmBtnClick()));
 	connect(ui->lstAnims, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClicked()));
 }
 
 AnimationEditor::~AnimationEditor() {
+	disconnect(ui->lstAnims, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClicked()));
+	disconnect(ui->btnRemove, SIGNAL(clicked()), this, SLOT(rmBtnClick()));
 	disconnect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(addBtnClick()));
+
 	delete m_modelView;
 	delete ui;
 }
