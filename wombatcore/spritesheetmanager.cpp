@@ -7,7 +7,6 @@ namespace editor {
 SpriteSheetManager::SpriteSheetManager(models::SpriteSheet model, QString projectPath): m_src(projectPath + model.SrcFile) {
 	m_model = model;
 	m_projectPath = projectPath;
-	//TODO: load the source image into m_src
 }
 
 QImage SpriteSheetManager::getImage(models::SpriteSheetImage img) {
