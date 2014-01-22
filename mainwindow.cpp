@@ -19,7 +19,6 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 	connect(ui->fileList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filePaneContextMenu(QPoint)));
 
 	ui->actionAnimationEditor->setEnabled(false);
-	ui->dockAnimationEditor->setVisible(false);
 
 	ui->dockDebug->setVisible(false);
 

@@ -7,8 +7,8 @@
 using namespace wombat::editor;
 
 int main(int argc, char *argv[]) {
-	QApplication::setApplicationName("Wombat Editor");
 	QApplication a(argc, argv);
+	a.setApplicationName("Wombat Editor");
 	wombat::editor::EditorProfile profile;
 	wombat::editor::setupWombatProfile(profile);
 	MainWindow w(&profile);
