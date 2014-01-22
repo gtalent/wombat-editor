@@ -62,7 +62,7 @@ class SpriteSheetEditor: public wombat::editor::EditorWidget {
 		Ui::SpriteSheetEditor *ui;
 		models::SpriteSheet m_model;
 		models::Point m_sheetIdx;
-		QString m_projectDir;
+		QString m_projectPath;
 		QGraphicsScene *m_scene;
 		QMap<int, Image> m_imgs;
 

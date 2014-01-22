@@ -25,7 +25,7 @@ QString NewAnimation::path() {
 }
 
 void NewAnimation::accept() {
-	auto path = m_projectPath + "Animations/" + ui->leName->text() + ".json";
+	auto path = "Animations/" + ui->leName->text() + ".json";
 	if (!QFile::exists(path)) {
 		models::Animation model;
 		model.writeJsonFile(path);

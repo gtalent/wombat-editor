@@ -24,9 +24,10 @@ class AnimationEditor: public EditorWidget {
 			private:
 				models::Animation &m_model;
 				QMap<QString, QPixmap> &m_pixMaps;
+				QString &m_projectPath;
 
 			public:
-				ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps);
+				ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps, QString &projectPath);
 
 				QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 

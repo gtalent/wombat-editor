@@ -13,7 +13,7 @@ AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), u
 	m_model.fromJson(modelIoManager()->read(args.filePath));
 
 	m_projectPath = args.projectPath;
-	m_modelView = new ImageTableModel(m_model, m_pixMaps);
+	m_modelView = new ImageTableModel(m_model, m_pixMaps, m_projectPath);
 	ui->lstAnims->setModel(m_modelView);
 	ui->lstAnims->verticalHeader()->setVisible(true);
 	ui->lstAnims->resizeColumnsToContents();
@@ -68,12 +68,12 @@ void AnimationEditor::updateModel(models::Animation model) {
 	m_model = model;
 
 	// refresh the model view
-	ImageTableModel dummy(m_model, m_pixMaps);
+	ImageTableModel dummy(m_model, m_pixMaps, m_projectPath);
 	ui->lstAnims->setModel(&dummy);
 	ui->lstAnims->setModel(m_modelView);
 }
 
-AnimationEditor::ImageTableModel::ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps): QAbstractTableModel(0), m_model(model), m_pixMaps(pixMaps) {
+AnimationEditor::ImageTableModel::ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps, QString &projectPath): QAbstractTableModel(0), m_model(model), m_pixMaps(pixMaps), m_projectPath(projectPath) {
 }
 
 QVariant AnimationEditor::ImageTableModel::data(const QModelIndex &index, int role) const {
@@ -87,13 +87,14 @@ QVariant AnimationEditor::ImageTableModel::data(const QModelIndex &index, int ro
 		{
 			auto img = slide.Image;
 			if (!m_pixMaps.contains(slide.Image.toJson())) {
-				m_pixMaps[img.toJson()] = SpriteSheetManager::getPixmap(img);
+				m_pixMaps[img.toJson()] = SpriteSheetManager::getPixmap(img, m_projectPath);
 			}
 			return m_pixMaps[slide.Image.toJson()];
 		}
 		case 1:
 		{
-			auto spriteSheet = slide.Image.SpriteSheet;
+			auto spriteSheet = m_projectPath + slide.Image.SpriteSheet;
+			logDebug(spriteSheet);
 			spriteSheet = spriteSheet.mid(spriteSheet.lastIndexOf('/') + 1);
 			spriteSheet = spriteSheet.mid(0, spriteSheet.size() - 5);
 			return spriteSheet;

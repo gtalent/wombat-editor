@@ -48,7 +48,7 @@ int ImageSelectorWidget::openSpriteSheet(QString path) {
 	m_ptToImg.clear();
 	m_currentModelPath = path;
 
-	SpriteSheetManager sheet(model);
+	SpriteSheetManager sheet(model, m_projectPath);
 
 	m_scene->clear();
 

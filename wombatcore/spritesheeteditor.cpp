@@ -26,7 +26,7 @@ class AnimationTreeModel: public QAbstractItemModel {
 
 SpriteSheetEditor::SpriteSheetEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SpriteSheetEditor) {
 	ui->setupUi(this);
-	m_projectDir = args.projectPath;
+	m_projectPath = args.projectPath;
 	load(args.filePath);
 	int width = m_model.TilesWide * m_model.TileWidth;
 	int height = m_model.TilesHigh * m_model.TileHeight;
@@ -64,7 +64,7 @@ int SpriteSheetEditor::saveFile() {
 		}
 	}
 
-	return imgOut.save(m_model.SrcFile, "png", 100) ? 0 : 1;
+	return imgOut.save(m_projectPath + m_model.SrcFile, "png", 100) ? 0 : 1;
 }
 
 QImage SpriteSheetEditor::buildImage(QImage *src, models::Bounds bnds) {
@@ -151,7 +151,7 @@ models::Point SpriteSheetEditor::indexPoint(int i) {
 int SpriteSheetEditor::load(QString path) {
 	m_model.fromJson(modelIoManager()->read(path));
 
-	QImage src(m_model.SrcFile);
+	QImage src(m_projectPath + m_model.SrcFile);
 	if (!src.isNull()) {
 		for (auto i = m_model.Images.begin(); i != m_model.Images.end(); ++i) {
 			Image img;

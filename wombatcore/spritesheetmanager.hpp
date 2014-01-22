@@ -10,15 +10,16 @@ namespace editor {
 class SpriteSheetManager {
 	private:
 		models::SpriteSheet m_model;
-		QImage src;
+		QString m_projectPath;
+		QImage m_src;
 
 	public:
-		SpriteSheetManager(models::SpriteSheet);
+		SpriteSheetManager(models::SpriteSheet, QString projectPath);
 		QImage getImage(models::SpriteSheetImage);
 		QPixmap getPixmap(models::SpriteSheetImage);
 
-		static QImage getImage(models::Image);
-		static QPixmap getPixmap(models::Image);
+		static QImage getImage(models::Image, QString projectPath);
+		static QPixmap getPixmap(models::Image, QString projectPath);
 };
 
 }
