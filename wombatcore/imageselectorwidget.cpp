@@ -43,7 +43,7 @@ ImageSelectorWidget::~ImageSelectorWidget() {
 
 int ImageSelectorWidget::openSpriteSheet(QString path) {
 	models::SpriteSheet model;
-	model.fromJson(m_modelIo->read(path));
+	model.fromJson(m_modelIo->read(m_projectPath + path));
 
 	m_ptToImg.clear();
 	m_currentModelPath = path;
@@ -104,14 +104,13 @@ void ImageSelectorWidget::populateSheetSelect() {
 
 QString ImageSelectorWidget::pointKey(int x, int y) {
 	return QString("(%1, %2)").arg(x).arg(y);
-}
-
+} 
 int ImageSelectorWidget::pointImgId(int x, int y) {
 	return m_ptToImg[pointKey(x, y)];
 }
 
 void ImageSelectorWidget::changeSpriteSheet(QString file) {
-	openSpriteSheet(m_projectPath + "Resources/SpriteSheets/" + file);
+	openSpriteSheet("Resources/SpriteSheets/" + file);
 }
 
 }
