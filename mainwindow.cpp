@@ -18,8 +18,6 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 	// for some reason this can't be done QtDesigner
 	connect(ui->fileList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filePaneContextMenu(QPoint)));
 
-	ui->actionAnimationEditor->setEnabled(false);
-
 	ui->dockDebug->setVisible(false);
 
 	m_profile = profile;

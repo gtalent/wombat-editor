@@ -274,20 +274,6 @@
     <string>Ctrl+F4</string>
    </property>
   </action>
-  <action name="actionAnimationEditor">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Animation Editor</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+2</string>
-   </property>
-  </action>
   <action name="actionDebugLog">
    <property name="checkable">
     <bool>true</bool>
