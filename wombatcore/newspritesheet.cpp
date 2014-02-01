@@ -27,7 +27,7 @@ void NewSpriteSheet::accept() {
 		//setup JSON file
 		models::SpriteSheet model;
 
-		model.SrcFile = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".png";
+		model.SrcFile = "Resources/SpriteSheets/" + ui->leName->text() + ".png";
 
 		QStringList ts = ui->cbTileSize->currentText().split("x");
 		model.TileWidth = ts[0].toInt();
@@ -44,7 +44,7 @@ void NewSpriteSheet::accept() {
 		QImage sprt(model.TilesWide * model.TileWidth, model.TilesHigh * model.TileHeight, QImage::Format_ARGB32);
 		sprt.save(model.SrcFile);
 
-		accept();
+		QDialog::accept();
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "ui_newanimation.h"
 #include "models/editormodels.hpp"
 #include "newanimation.hpp"
+#include "editorcore/misc.hpp"
 
 namespace wombat {
 namespace editor {
@@ -25,13 +26,13 @@ QString NewAnimation::path() {
 }
 
 void NewAnimation::accept() {
-	auto path = "Animations/" + ui->leName->text() + ".json";
+	auto path = m_projectPath + "Animations/" + ui->leName->text() + ".json";
 	if (!QFile::exists(path)) {
 		models::Animation model;
 		model.writeJsonFile(path);
+		logDebug(path);
 		m_path = path;
-		this->close();
-		this->parentWidget()->activateWindow();
+		QDialog::accept();
 	}
 }
 

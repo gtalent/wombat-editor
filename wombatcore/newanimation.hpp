@@ -25,6 +25,8 @@ class NewAnimation: public NewFileMenu {
 		NewAnimation(NewFileMenuParams);
 		~NewAnimation();
 		QString path();
+
+	public slots:
 		void accept();
 };
 
