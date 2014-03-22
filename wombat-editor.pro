@@ -16,13 +16,14 @@ SOURCES += \
 	wombatcore/newspritesheet.cpp \
 	wombatcore/newanimation.cpp \
 	wombatcore/animationeditor.cpp \
-	wombatcore/savevariables.cpp \
-	wombatcore/savevariableeditor.cpp \
 	wombatcore/spritesheeteditor.cpp \
 	wombatcore/spritesheetmanager.cpp \
 	wombatcore/imageselectorwidget.cpp \
 	wombatcore/imageselectordialog.cpp \
 	wombatcore/wombatprofile.cpp \
+	savevariables/savevariables.cpp \
+	savevariables/savevariableeditor.cpp \
+	savevariables/profile.cpp \
 	newmenu.cpp \
 	newproject.cpp \
 	mainwindow.cpp \
@@ -44,12 +45,13 @@ HEADERS += \
 	wombatcore/newanimation.hpp \
 	wombatcore/animationeditor.hpp \
 	wombatcore/spritesheeteditor.hpp \
-	wombatcore/savevariableeditor.hpp \
 	wombatcore/spritesheetmanager.hpp \
-	wombatcore/savevariables.hpp \
 	wombatcore/imageselectorwidget.hpp \
 	wombatcore/imageselectordialog.hpp \
 	wombatcore/wombatprofile.hpp \
+	savevariables/savevariableeditor.hpp \
+	savevariables/savevariables.hpp \
+	savevariables/profile.hpp \
 	newmenu.hpp \
 	newproject.hpp \
 	mainwindow.hpp
@@ -61,10 +63,10 @@ FORMS += \
 	wombatcore/newspritesheet.ui \
 	wombatcore/newanimation.ui \
 	wombatcore/animationeditor.ui \
-	wombatcore/savevariableeditor.ui \
 	wombatcore/spritesheeteditor.ui \
 	wombatcore/imageselectorwidget.ui \
-	wombatcore/savevariables.ui
+	savevariables/savevariableeditor.ui \
+	savevariables/savevariables.ui
 
 RESOURCES += \
 	rsrc.qrc

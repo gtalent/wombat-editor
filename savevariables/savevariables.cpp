@@ -16,7 +16,7 @@ using namespace wombat::editor;
 using namespace std;
 
 namespace wombat {
-namespace editor {
+namespace savevariables {
 
 SaveVariables::SaveVariables(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);

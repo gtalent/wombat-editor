@@ -2,7 +2,7 @@
 #include "ui_savevariableeditor.h"
 
 namespace wombat {
-namespace editor {
+namespace savevariables {
 
 SaveVariableEditor::SaveVariableEditor(QWidget *parent, QString key, unknown val): QDialog(parent), ui(new Ui::SaveVariableEditor) {
 	ui->setupUi(this);

@@ -11,7 +11,7 @@ class SaveVariableEditor;
 }
 
 namespace wombat {
-namespace editor {
+namespace savevariables {
 
 using models::cyborgbear::unknown;
 

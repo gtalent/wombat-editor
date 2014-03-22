@@ -16,7 +16,7 @@ namespace Ui {
 }
 
 namespace wombat {
-namespace editor {
+namespace savevariables {
 
 class SaveVariables: public wombat::editor::EditorWidget {
 	Q_OBJECT

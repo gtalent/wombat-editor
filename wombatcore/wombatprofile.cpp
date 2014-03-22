@@ -3,8 +3,6 @@
 #include "newspritesheet.hpp"
 #include "newanimation.hpp"
 
-#include "savevariables.hpp"
-
 #include "editorcore/editorprofile.hpp"
 
 namespace wombat {
@@ -44,18 +42,6 @@ void setupWombatProfile(EditorProfile &p) {
 	});
 	p.addDefaultPath("Resources/");
 	p.addDefaultPath("Resources/SpriteSheets/");
-
-
-	// setup save variables
-	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
-		if (args.projectPath + "Misc/SaveVariables.json" == args.filePath) {
-			//open save variables tab
-			return new SaveVariables(args);
-		}
-		return 0;
-	});
-	p.addDefaultPath("Misc/");
-	p.addDefaultPath("Misc/SaveVariables.json");
 }
 
 }
