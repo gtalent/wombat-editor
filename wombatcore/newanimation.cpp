@@ -5,7 +5,7 @@
 #include "editorcore/misc.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 using namespace wombat::editor;
 

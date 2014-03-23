@@ -14,7 +14,9 @@ class AnimationEditor;
 }
 
 namespace wombat {
-namespace editor {
+namespace core {
+
+using namespace wombat::editor;
 
 class AnimationEditor: public EditorWidget {
 	Q_OBJECT

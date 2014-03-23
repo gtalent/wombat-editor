@@ -7,7 +7,7 @@
 using namespace wombat::editor;
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 NewSpriteSheet::NewSpriteSheet(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewSpriteSheet) {
 	ui->setupUi(this);

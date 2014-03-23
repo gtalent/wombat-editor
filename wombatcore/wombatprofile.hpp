@@ -4,11 +4,11 @@
 #include "editorcore/editorprofile.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 using wombat::editor::EditorProfile;
 
-void setupWombatProfile(EditorProfile&);
+void setupEditorProfile(EditorProfile&);
 
 }
 }

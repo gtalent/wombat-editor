@@ -6,11 +6,11 @@
 #include "editorcore/editorprofile.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 using namespace wombat::editor;
 
-void setupWombatProfile(EditorProfile &p) {
+void setupEditorProfile(EditorProfile &p) {
 	// setup animations
 	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + "Animations/")) {

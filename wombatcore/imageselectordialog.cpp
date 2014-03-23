@@ -1,7 +1,7 @@
 #include "imageselectordialog.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString title = "Image Selector"): QDialog(parent) {
 	setWindowTitle(title);

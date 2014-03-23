@@ -5,7 +5,7 @@
 #include "models/editormodels.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 class SpriteSheetManager {
 	private:

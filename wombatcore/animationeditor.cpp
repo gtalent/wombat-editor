@@ -5,7 +5,7 @@
 #include "ui_animationeditor.h"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::AnimationEditor) {
 	ui->setupUi(this);

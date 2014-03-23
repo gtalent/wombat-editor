@@ -10,7 +10,7 @@
 #include "imageselectorwidget.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 class ImageSelectorDialog: public QDialog {
 	Q_OBJECT

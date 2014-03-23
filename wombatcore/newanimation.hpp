@@ -9,7 +9,7 @@ class NewAnimation;
 }
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 using namespace wombat::editor;
 

@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	a.setApplicationName("Wombat Editor");
 
 	wombat::editor::EditorProfile profile;
-	wombat::editor::setupWombatProfile(profile);
+	wombat::core::setupEditorProfile(profile);
 	wombat::savevariables::setupEditorProfile(profile);
 
 	MainWindow w(&profile);

@@ -14,7 +14,7 @@ using std::string;
 using namespace wombat::editor;
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 class AnimationTreeModel: public QAbstractItemModel {
 	Q_OBJECT

@@ -8,7 +8,7 @@
 #include "ui_imageselectorwidget.h"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, ModelIoManager *modelIo): QWidget(parent), ui(new Ui::ImageSelectorWidget) {
 	ui->setupUi(this);

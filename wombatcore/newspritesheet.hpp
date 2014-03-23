@@ -8,7 +8,7 @@ class NewSpriteSheet;
 }
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 class NewSpriteSheet: public wombat::editor::NewFileMenu {
 	Q_OBJECT

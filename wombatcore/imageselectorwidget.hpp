@@ -12,7 +12,9 @@ class ImageSelectorWidget;
 }
 
 namespace wombat {
-namespace editor {
+namespace core {
+
+using namespace wombat::editor;
 
 class ImageSelectorWidget: public QWidget {
 	Q_OBJECT

@@ -2,7 +2,7 @@
 #include "spritesheetmanager.hpp"
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 SpriteSheetManager::SpriteSheetManager(models::SpriteSheet model, QString projectPath): m_src(projectPath + model.SrcFile) {
 	m_model = model;

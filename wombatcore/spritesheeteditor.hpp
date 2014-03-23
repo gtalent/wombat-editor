@@ -14,7 +14,7 @@ class SpriteSheetEditor;
 }
 
 namespace wombat {
-namespace editor {
+namespace core {
 
 class SpriteSheetEditor: public wombat::editor::EditorWidget {
 	Q_OBJECT
