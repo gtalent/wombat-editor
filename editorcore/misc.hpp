@@ -1,5 +1,5 @@
-#ifndef GLOBS_HPP
-#define GLOBS_HPP
+#ifndef MISC_HPP
+#define MISC_HPP
 
 #include "models/editormodels.hpp"
 
@@ -18,4 +18,4 @@ void logDebug(QString str);
 }
 }
 
-#endif // GLOBS_HPP
+#endif // MISC_HPP

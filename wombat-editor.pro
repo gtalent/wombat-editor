@@ -24,10 +24,10 @@ SOURCES += \
 	savevariables/savevariables.cpp \
 	savevariables/savevariableeditor.cpp \
 	savevariables/profile.cpp \
-	newmenu.cpp \
-	newproject.cpp \
-	mainwindow.cpp \
-	main.cpp
+	editor/newmenu.cpp \
+	editor/newproject.cpp \
+	editor/mainwindow.cpp \
+	editor/main.cpp
 
 HEADERS += \
 	models/editormodels.hpp \
@@ -52,23 +52,23 @@ HEADERS += \
 	savevariables/savevariableeditor.hpp \
 	savevariables/savevariables.hpp \
 	savevariables/profile.hpp \
-	newmenu.hpp \
-	newproject.hpp \
-	mainwindow.hpp
+	editor/newmenu.hpp \
+	editor/newproject.hpp \
+	editor/mainwindow.hpp
 
 FORMS += \
-	mainwindow.ui \
-	newmenu.ui \
-	newproject.ui \
 	wombatcore/newspritesheet.ui \
 	wombatcore/newanimation.ui \
 	wombatcore/animationeditor.ui \
 	wombatcore/spritesheeteditor.ui \
 	wombatcore/imageselectorwidget.ui \
 	savevariables/savevariableeditor.ui \
-	savevariables/savevariables.ui
+	savevariables/savevariables.ui \
+	editor/mainwindow.ui \
+	editor/newmenu.ui \
+	editor/newproject.ui
 
 RESOURCES += \
-	rsrc.qrc
+	editor/rsrc.qrc
 
 CONFIG += c++11
