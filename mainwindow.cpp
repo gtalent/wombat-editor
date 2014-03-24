@@ -105,7 +105,7 @@ void MainWindow::openProject(QString path) {
 	if (!path.endsWith("/"))
 		path += "/";
 	m_projectPath = path;
-	setWindowTitle("Wombat Editor - " + path.mid(0, path.length() - 1));
+	setWindowTitle(path.mid(0, path.length() - 1) + " - Wombat Editor");
 
 	if (ui->fileList->model())
 		delete ui->fileList->model();
@@ -235,9 +235,10 @@ void MainWindow::logDebug(QString msg) {
 }
 
 void MainWindow::saveFile() {
-	EditorWidget *tab = currentTab();
-	if (tab)
+	auto tab = currentTab();
+	if (tab) {
 		tab->saveFile();
+	}
 }
 
 void MainWindow::fileSaved() {
@@ -248,13 +249,12 @@ void MainWindow::fileSaved() {
 }
 
 void MainWindow::fileChanged() {
-	EditorWidget *tab = currentTab();
+	auto tab = currentTab();
 	if (tab) {
 		ui->actionSave->setEnabled(true);
 		ui->actionUndo->setEnabled(tab->canUndo());
 		ui->actionRedo->setEnabled(tab->canRedo());
 
-		auto tab = currentTab();
 		auto tabIdx = ui->tabWidget->indexOf(tab);
 		ui->tabWidget->setTabText(tabIdx, "* " + tab->title());
 	}
