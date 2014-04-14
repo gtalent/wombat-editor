@@ -102,6 +102,7 @@ void MainWindow::openProject() {
 }
 
 void MainWindow::openProject(QString path) {
+	logDebug("Opening project: " + path);
 	if (!path.endsWith("/"))
 		path += "/";
 	m_projectPath = path;
@@ -124,11 +125,12 @@ void MainWindow::openProject(QString path) {
 }
 
 void MainWindow::openFile(QModelIndex index) {
-	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).absoluteFilePath();
 	openFile(path);
 }
 
 void MainWindow::openFile(QString path) {
+	logDebug("Opening file: " + path);
 	auto tab = m_openTabs[path];
 	if (!tab) {
 		QString tabName = "";
@@ -194,7 +196,7 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	QPoint p = ui->fileList->mapToGlobal(itemPt);
 	QMenu m;
 
-	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).canonicalFilePath();
+	QString path = ((QFileSystemModel*) ui->fileList->model())->fileInfo(index).absoluteFilePath();
 	if (QFileInfo(path).isDir()) {
 		path += "/";
 	}
@@ -204,7 +206,6 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 		bool fileDeletable = true;
 		auto defaultPaths = m_profile->defaultPaths();
 		for (auto p : defaultPaths) {
-			wombat::editor::logDebug(m_projectPath + p + " == " + path);
 			if (m_projectPath + p == path) {
 				fileDeletable = false;
 				break;

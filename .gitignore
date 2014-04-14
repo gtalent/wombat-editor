@@ -9,5 +9,4 @@ wombat-editor.pro.user*
 moc_*
 ui_*
 qrc_*
-Makefile
 editor_settings.json
