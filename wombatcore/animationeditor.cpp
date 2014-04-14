@@ -57,6 +57,7 @@ void AnimationEditor::rmBtnClick() {
 	int row = ui->lstAnims->selectionModel()->currentIndex().row();
 	model.Images.remove(row);
 	notifyFileChange(new Command(this, m_model, model));
+	ui->btnRemove->setEnabled(false);
 }
 
 void AnimationEditor::tableClicked() {
