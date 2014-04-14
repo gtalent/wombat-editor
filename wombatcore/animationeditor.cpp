@@ -72,6 +72,8 @@ void AnimationEditor::updateModel(models::Animation model) {
 	ImageTableModel dummy(m_model, m_pixMaps, m_projectPath);
 	ui->lstAnims->setModel(&dummy);
 	ui->lstAnims->setModel(m_modelView);
+
+	ui->btnRemove->setEnabled(ui->lstAnims->selectionModel()->hasSelection());
 }
 
 AnimationEditor::ImageTableModel::ImageTableModel(models::Animation &model, QMap<QString, QPixmap> &pixMaps, QString &projectPath): QAbstractTableModel(0), m_model(model), m_pixMaps(pixMaps), m_projectPath(projectPath) {
