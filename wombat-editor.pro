@@ -6,7 +6,7 @@ TARGET = WombatEditor
 TEMPLATE = app
 
 SOURCES += \
-	models/editormodels.cpp \
+	models/models.cpp \
 	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
 	editorcore/editorwidget.cpp \
@@ -30,7 +30,7 @@ SOURCES += \
 	editor/main.cpp
 
 HEADERS += \
-	models/editormodels.hpp \
+	models/models.hpp \
 	editorcore/dockwindow.hpp \
 	editorcore/dockwindowparams.hpp \
 	editorcore/editorprofile.hpp \
