@@ -3,7 +3,6 @@
 
 #include "modeliomanager.hpp"
 
-namespace wombat {
 namespace editor {
 
 struct EditorWidgetParams {
@@ -13,7 +12,6 @@ struct EditorWidgetParams {
 	ModelIoManager *models;
 };
 
-}
 }
 
 #endif

@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="world">
+    <file>qml/tileeditor.qml</file>
+  </qresource>
+</RCC>

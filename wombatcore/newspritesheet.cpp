@@ -4,7 +4,7 @@
 #include "newspritesheet.hpp"
 #include "models/editormodels.hpp"
 
-using namespace wombat::editor;
+using namespace editor;
 
 namespace wombat {
 namespace core {

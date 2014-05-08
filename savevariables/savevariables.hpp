@@ -18,7 +18,7 @@ namespace Ui {
 namespace wombat {
 namespace savevariables {
 
-class SaveVariables: public wombat::editor::EditorWidget {
+class SaveVariables: public editor::EditorWidget {
 	Q_OBJECT
 
 	private:
@@ -68,7 +68,7 @@ class SaveVariables: public wombat::editor::EditorWidget {
 		models::SaveVariables m_file;
 	
 	public:
-		explicit SaveVariables(wombat::editor::EditorWidgetParams);
+		explicit SaveVariables(editor::EditorWidgetParams);
 		~SaveVariables();
 
 	protected:

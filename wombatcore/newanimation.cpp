@@ -7,7 +7,7 @@
 namespace wombat {
 namespace core {
 
-using namespace wombat::editor;
+using namespace editor;
 
 NewAnimation::NewAnimation(NewFileMenuParams args): NewFileMenu(args), ui(new Ui::NewAnimation) {
 	ui->setupUi(this);

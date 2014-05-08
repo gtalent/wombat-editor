@@ -3,7 +3,6 @@
 
 #include "models/editormodels.hpp"
 
-namespace wombat {
 namespace editor {
 
 class DebugLogger {
@@ -15,7 +14,6 @@ void addDebugLogger(DebugLogger *logger);
 
 void logDebug(QString str);
 
-}
 }
 
 #endif // MISC_HPP

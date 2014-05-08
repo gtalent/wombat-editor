@@ -11,7 +11,7 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.hpp"
 
-using namespace wombat::editor;
+using namespace editor;
 
 MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -81,7 +81,7 @@ void MainWindow::newMenu() {
 				}
 			}
 		} else {
-			wombat::editor::NewFileMenuParams args;
+			editor::NewFileMenuParams args;
 			args.projectPath = m_projectPath;
 			args.fileType = nw;
 			args.parent = this;

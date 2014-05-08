@@ -11,7 +11,7 @@
 #include "ui_spritesheeteditor.h"
 
 using std::string;
-using namespace wombat::editor;
+using namespace editor;
 
 namespace wombat {
 namespace core {

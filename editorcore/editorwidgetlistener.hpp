@@ -1,7 +1,6 @@
 #ifndef EDITORWIDGETLISTENER_HPP
 #define EDITORWIDGETLISTENER_HPP
 
-namespace wombat {
 namespace editor {
 
 /**
@@ -13,7 +12,6 @@ class EditorWidgetListener {
         virtual void fileChanged() {}
 };
 
-}
 }
 
 #endif

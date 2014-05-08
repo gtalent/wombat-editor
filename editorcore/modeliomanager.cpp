@@ -3,7 +3,6 @@
 #include "modeliomanager.hpp"
 #include "misc.hpp"
 
-namespace wombat {
 namespace editor {
 
 QString ModelIoManager::read(QString path) {
@@ -39,5 +38,4 @@ void ModelIoManager::updateListeners(QString path, QString value) {
 	}
 }
 
-}
 }

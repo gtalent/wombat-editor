@@ -8,7 +8,7 @@
 namespace wombat {
 namespace core {
 
-using namespace wombat::editor;
+using namespace editor;
 
 void setupEditorProfile(EditorProfile &p) {
 	// setup animations
@@ -19,10 +19,7 @@ void setupEditorProfile(EditorProfile &p) {
 		return 0;
 	});
 	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
-		if (args.fileType == "Animation") {
-			return new NewAnimation(args);
-		}
-		return 0;
+		return new NewAnimation(args);
 	});
 	p.addDefaultPath("Animations/");
 
@@ -35,10 +32,7 @@ void setupEditorProfile(EditorProfile &p) {
 		return 0;
 	});
 	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) -> NewFileMenu* {
-		if (args.fileType == "Sprite Sheet") {
-			return new NewSpriteSheet(args);
-		}
-		return 0;
+		return new NewSpriteSheet(args);
 	});
 	p.addDefaultPath("Resources/");
 	p.addDefaultPath("Resources/SpriteSheets/");

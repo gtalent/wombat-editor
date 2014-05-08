@@ -12,7 +12,7 @@
 #include "ui_savevariables.h"
 
 using models::cyborgbear::unknown;
-using namespace wombat::editor;
+using namespace editor;
 using namespace std;
 
 namespace wombat {

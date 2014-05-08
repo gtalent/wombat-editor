@@ -10,7 +10,7 @@ class NewSpriteSheet;
 namespace wombat {
 namespace core {
 
-class NewSpriteSheet: public wombat::editor::NewFileMenu {
+class NewSpriteSheet: public editor::NewFileMenu {
 	Q_OBJECT
 		
 	private:
@@ -19,7 +19,7 @@ class NewSpriteSheet: public wombat::editor::NewFileMenu {
 		QString m_path;
 
 	public:
-		explicit NewSpriteSheet(wombat::editor::NewFileMenuParams);
+		explicit NewSpriteSheet(editor::NewFileMenuParams);
 		~NewSpriteSheet();
 
 		/**

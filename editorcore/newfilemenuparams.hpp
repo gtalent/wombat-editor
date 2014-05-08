@@ -1,10 +1,9 @@
-#ifndef NEWFILEMENUPARAMS_HPP
-#define NEWFILEMENUPARAMS_HPP
+#ifndef EDITORCORE_NEWFILEMENUPARAMS_HPP
+#define EDITORCORE_NEWFILEMENUPARAMS_HPP
 
 #include <QString>
 #include <QWidget>
 
-namespace wombat {
 namespace editor {
 
 struct NewFileMenuParams {
@@ -13,7 +12,6 @@ struct NewFileMenuParams {
 	QWidget *parent;
 };
 
-}
 }
 
 #endif

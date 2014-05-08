@@ -8,7 +8,6 @@
 #include "editorwidgetlistener.hpp"
 #include "editorwidgetparams.hpp"
 
-namespace wombat {
 namespace editor {
 
 class EditorProfile;
@@ -50,7 +49,6 @@ class EditorWidget: public QWidget {
 		void notifyFileSave();
 };
 
-}
 }
 
 #endif

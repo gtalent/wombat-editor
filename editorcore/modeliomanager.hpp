@@ -6,7 +6,6 @@
 #include <functional>
 #include "models/editormodels.hpp"
 
-namespace wombat {
 namespace editor {
 
 class ModelIoManager {
@@ -22,7 +21,6 @@ class ModelIoManager {
 		void updateListeners(QString path, QString value);
 };
 
-}
 }
 
 #endif

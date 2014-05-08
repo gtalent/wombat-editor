@@ -11,7 +11,6 @@
 #include "editorwidget.hpp"
 #include "newfilemenu.hpp"
 
-namespace wombat {
 namespace editor {
 
 typedef std::function<EditorWidget*(EditorWidgetParams)> EditorWidgetMaker;
@@ -54,9 +53,16 @@ class EditorProfile {
 		void var(QString key, QString val);
 
 		QString var(QString key);
+
+		/**
+		 * Loads EditorProfile information for a QtQuick module.
+		 * @param the path to the desired
+		 */
+		void loadQtQuickModule(QString path);
+
+		void loadQtQuickProfile(models::EditorProfile);
 };
 
-}
 }
 
 #endif

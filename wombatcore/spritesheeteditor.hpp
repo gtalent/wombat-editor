@@ -16,7 +16,7 @@ class SpriteSheetEditor;
 namespace wombat {
 namespace core {
 
-class SpriteSheetEditor: public wombat::editor::EditorWidget {
+class SpriteSheetEditor: public editor::EditorWidget {
 	Q_OBJECT
 
 	private:
@@ -67,7 +67,7 @@ class SpriteSheetEditor: public wombat::editor::EditorWidget {
 		QMap<int, Image> m_imgs;
 
 	public:
-		explicit SpriteSheetEditor(wombat::editor::EditorWidgetParams);
+		explicit SpriteSheetEditor(editor::EditorWidgetParams);
 		~SpriteSheetEditor();
 		QImage buildImage(QImage*, models::Bounds);
 		virtual int saveFile();

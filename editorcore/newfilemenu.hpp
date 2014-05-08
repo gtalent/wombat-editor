@@ -5,7 +5,6 @@
 #include <QString>
 #include "newfilemenuparams.hpp"
 
-namespace wombat {
 namespace editor {
 
 class NewFileMenu: public QDialog {
@@ -15,7 +14,6 @@ class NewFileMenu: public QDialog {
 		virtual QString path() = 0;
 };
 
-}
 }
 
 #endif

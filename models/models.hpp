@@ -1131,6 +1131,35 @@ namespace models {
 
 using cyborgbear::string;
 
+class EditorProfile: public cyborgbear::Model {
+
+	public:
+
+		EditorProfile();
+
+		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+#ifdef CYBORGBEAR_BOOST_ENABLED
+
+		virtual string toBoostBinary();
+
+		virtual void fromBoostBinary(string dat);
+#endif
+		string FileType;
+		QVector< string > PathStartsWith;
+		QVector< string > DefaultPaths;
+		string Editor;
+		string NewFileMenu;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
 class EditorDockSettings: public cyborgbear::Model {
 
 	public:
@@ -1214,6 +1243,34 @@ namespace models {
 
 using cyborgbear::string;
 
+class TileClass: public cyborgbear::Model {
+
+	public:
+
+		TileClass();
+
+		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+#ifdef CYBORGBEAR_BOOST_ENABLED
+
+		virtual string toBoostBinary();
+
+		virtual void fromBoostBinary(string dat);
+#endif
+		string Import;
+		int TerrainFlags;
+		QVector< models::AnimLayer > LowerAnims;
+		QVector< models::AnimLayer > UpperAnims;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
 class Sprite: public cyborgbear::Model {
 
 	public:
@@ -1245,11 +1302,11 @@ namespace models {
 
 using cyborgbear::string;
 
-class TileClass: public cyborgbear::Model {
+class EditorModule: public cyborgbear::Model {
 
 	public:
 
-		TileClass();
+		EditorModule();
 
 		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
 
@@ -1260,38 +1317,7 @@ class TileClass: public cyborgbear::Model {
 
 		virtual void fromBoostBinary(string dat);
 #endif
-		string Import;
-		int TerrainFlags;
-		QVector< models::AnimLayer > LowerAnims;
-		QVector< models::AnimLayer > UpperAnims;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class EditorSettings: public cyborgbear::Model {
-
-	public:
-
-		EditorSettings();
-
-		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-#ifdef CYBORGBEAR_BOOST_ENABLED
-
-		virtual string toBoostBinary();
-
-		virtual void fromBoostBinary(string dat);
-#endif
-		QMap< string, models::EditorDockSettings > DockBounds;
-		string OpenProject;
-		QVector< string > OpenFiles;
-		int OpenTab;
+		QVector< models::EditorProfile > Profiles;
 };
 
 }
@@ -1359,6 +1385,59 @@ namespace models {
 
 using cyborgbear::string;
 
+class Zone: public cyborgbear::Model {
+
+	public:
+
+		Zone();
+
+		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+#ifdef CYBORGBEAR_BOOST_ENABLED
+
+		virtual string toBoostBinary();
+
+		virtual void fromBoostBinary(string dat);
+#endif
+		QVector< QVector< QVector< models::Tile > > > Tiles;
+		QVector< string > InitScripts;
+		models::Point Location;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
+class SaveFile: public cyborgbear::Model {
+
+	public:
+
+		SaveFile();
+
+		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
+
+		cyborgbear::JsonValOut buildJsonObj();
+#ifdef CYBORGBEAR_BOOST_ENABLED
+
+		virtual string toBoostBinary();
+
+		virtual void fromBoostBinary(string dat);
+#endif
+		QMap< string, cyborgbear::unknown > Vars;
+		models::User User;
+};
+
+}
+
+
+namespace models {
+
+using cyborgbear::string;
+
 class PersonClass: public cyborgbear::Model {
 
 	public:
@@ -1416,11 +1495,11 @@ namespace models {
 
 using cyborgbear::string;
 
-class SaveFile: public cyborgbear::Model {
+class World: public cyborgbear::Model {
 
 	public:
 
-		SaveFile();
+		World();
 
 		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
 
@@ -1431,8 +1510,7 @@ class SaveFile: public cyborgbear::Model {
 
 		virtual void fromBoostBinary(string dat);
 #endif
-		QMap< string, cyborgbear::unknown > Vars;
-		models::User User;
+		QVector< models::ZoneInstance > Zones;
 };
 
 }
@@ -1467,11 +1545,11 @@ namespace models {
 
 using cyborgbear::string;
 
-class World: public cyborgbear::Model {
+class EditorSettings: public cyborgbear::Model {
 
 	public:
 
-		World();
+		EditorSettings();
 
 		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
 
@@ -1482,7 +1560,10 @@ class World: public cyborgbear::Model {
 
 		virtual void fromBoostBinary(string dat);
 #endif
-		QVector< models::ZoneInstance > Zones;
+		QMap< string, models::EditorDockSettings > DockBounds;
+		string OpenProject;
+		QVector< string > OpenFiles;
+		int OpenTab;
 };
 
 }
@@ -1509,33 +1590,6 @@ class ZoneHeader: public cyborgbear::Model {
 #endif
 		string Path;
 		models::Size Size;
-};
-
-}
-
-
-namespace models {
-
-using cyborgbear::string;
-
-class Zone: public cyborgbear::Model {
-
-	public:
-
-		Zone();
-
-		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
-
-		cyborgbear::JsonValOut buildJsonObj();
-#ifdef CYBORGBEAR_BOOST_ENABLED
-
-		virtual string toBoostBinary();
-
-		virtual void fromBoostBinary(string dat);
-#endif
-		QVector< QVector< QVector< models::Tile > > > Tiles;
-		QVector< string > InitScripts;
-		models::Point Location;
 };
 
 }
@@ -1676,6 +1730,15 @@ void serialize(Archive &ar, models::Creature &model, const unsigned int) {
 }
 
 template<class Archive>
+void serialize(Archive &ar, models::EditorProfile &model, const unsigned int) {
+	ar & model.FileType;
+	ar & model.PathStartsWith;
+	ar & model.DefaultPaths;
+	ar & model.Editor;
+	ar & model.NewFileMenu;
+}
+
+template<class Archive>
 void serialize(Archive &ar, models::EditorDockSettings &model, const unsigned int) {
 	ar & model.Docked;
 	ar & model.Visible;
@@ -1699,6 +1762,14 @@ void serialize(Archive &ar, models::Animation &model, const unsigned int) {
 }
 
 template<class Archive>
+void serialize(Archive &ar, models::TileClass &model, const unsigned int) {
+	ar & model.Import;
+	ar & model.TerrainFlags;
+	ar & model.LowerAnims;
+	ar & model.UpperAnims;
+}
+
+template<class Archive>
 void serialize(Archive &ar, models::Sprite &model, const unsigned int) {
 	ar & model.AnimLayers;
 	ar & model.SpriteType;
@@ -1710,19 +1781,8 @@ void serialize(Archive &ar, models::Sprite &model, const unsigned int) {
 }
 
 template<class Archive>
-void serialize(Archive &ar, models::TileClass &model, const unsigned int) {
-	ar & model.Import;
-	ar & model.TerrainFlags;
-	ar & model.LowerAnims;
-	ar & model.UpperAnims;
-}
-
-template<class Archive>
-void serialize(Archive &ar, models::EditorSettings &model, const unsigned int) {
-	ar & model.DockBounds;
-	ar & model.OpenProject;
-	ar & model.OpenFiles;
-	ar & model.OpenTab;
+void serialize(Archive &ar, models::EditorModule &model, const unsigned int) {
+	ar & model.Profiles;
 }
 
 template<class Archive>
@@ -1744,6 +1804,19 @@ void serialize(Archive &ar, models::Tile &model, const unsigned int) {
 }
 
 template<class Archive>
+void serialize(Archive &ar, models::Zone &model, const unsigned int) {
+	ar & model.Tiles;
+	ar & model.InitScripts;
+	ar & model.Location;
+}
+
+template<class Archive>
+void serialize(Archive &ar, models::SaveFile &model, const unsigned int) {
+	ar & model.Vars;
+	ar & model.User;
+}
+
+template<class Archive>
 void serialize(Archive &ar, models::PersonClass &model, const unsigned int) {
 	ar & model.ID;
 	ar & model.Name;
@@ -1761,9 +1834,8 @@ void serialize(Archive &ar, models::ZoneInstance &model, const unsigned int) {
 }
 
 template<class Archive>
-void serialize(Archive &ar, models::SaveFile &model, const unsigned int) {
-	ar & model.Vars;
-	ar & model.User;
+void serialize(Archive &ar, models::World &model, const unsigned int) {
+	ar & model.Zones;
 }
 
 template<class Archive>
@@ -1772,21 +1844,17 @@ void serialize(Archive &ar, models::Person &model, const unsigned int) {
 }
 
 template<class Archive>
-void serialize(Archive &ar, models::World &model, const unsigned int) {
-	ar & model.Zones;
+void serialize(Archive &ar, models::EditorSettings &model, const unsigned int) {
+	ar & model.DockBounds;
+	ar & model.OpenProject;
+	ar & model.OpenFiles;
+	ar & model.OpenTab;
 }
 
 template<class Archive>
 void serialize(Archive &ar, models::ZoneHeader &model, const unsigned int) {
 	ar & model.Path;
 	ar & model.Size;
-}
-
-template<class Archive>
-void serialize(Archive &ar, models::Zone &model, const unsigned int) {
-	ar & model.Tiles;
-	ar & model.InitScripts;
-	ar & model.Location;
 }
 
 }

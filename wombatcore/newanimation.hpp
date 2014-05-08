@@ -11,7 +11,7 @@ class NewAnimation;
 namespace wombat {
 namespace core {
 
-using namespace wombat::editor;
+using namespace editor;
 
 class NewAnimation: public NewFileMenu {
 	Q_OBJECT

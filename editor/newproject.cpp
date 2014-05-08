@@ -6,7 +6,7 @@
 #include "newproject.hpp"
 #include "ui_newproject.h"
 
-using namespace wombat::editor;
+using namespace editor;
 
 NewProject::NewProject(QWidget *parent, QVector<QString> defaultPaths): NewFileMenu(parent), ui(new Ui::NewProject) {
 	ui->setupUi(this);

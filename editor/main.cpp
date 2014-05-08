@@ -5,15 +5,16 @@
 #include "models/editormodels.hpp"
 #include <QApplication>
 
-using namespace wombat::editor;
+using namespace wombat;
+using namespace editor;
 
 int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 	a.setApplicationName("Wombat Editor");
 
-	wombat::editor::EditorProfile profile;
-	wombat::core::setupEditorProfile(profile);
-	wombat::savevariables::setupEditorProfile(profile);
+	editor::EditorProfile profile;
+	core::setupEditorProfile(profile);
+	savevariables::setupEditorProfile(profile);
 
 	MainWindow w(&profile);
 	addDebugLogger(&w);

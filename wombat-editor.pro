@@ -7,6 +7,7 @@ TEMPLATE = app
 
 SOURCES += \
 	models/models.cpp \
+	editorcontrols/dockwidget.cpp\
 	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
 	editorcore/editorwidget.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
 	models/models.hpp \
+	editorcontrols/dockwidget.hpp\
 	editorcore/dockwindow.hpp \
 	editorcore/dockwindowparams.hpp \
 	editorcore/editorprofile.hpp \
@@ -70,5 +72,6 @@ FORMS += \
 
 RESOURCES += \
 	editor/rsrc.qrc
+	world/rsrc.qrc
 
 CONFIG += c++11

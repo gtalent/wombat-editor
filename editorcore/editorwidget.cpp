@@ -1,6 +1,5 @@
 #include "editorwidget.hpp"
 
-namespace wombat {
 namespace editor {
 
 EditorWidget::EditorWidget(EditorWidgetParams args): QWidget(args.parent) {
@@ -105,5 +104,4 @@ QString EditorWidget::path() {
 void EditorWidget::closeWidget() {
 }
 
-}
 }

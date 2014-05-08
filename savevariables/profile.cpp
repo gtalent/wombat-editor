@@ -5,7 +5,7 @@
 namespace wombat {
 namespace savevariables {
 
-using namespace wombat::editor;
+using namespace editor;
 
 void setupEditorProfile(EditorProfile &p) {
 	// setup save variables

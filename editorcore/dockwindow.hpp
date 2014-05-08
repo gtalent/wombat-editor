@@ -4,7 +4,6 @@
 #include <QDockWidget>
 #include "dockwindowparams.hpp"
 
-namespace wombat {
 namespace editor {
 
 class DockWindow: public QDockWidget {
@@ -19,7 +18,6 @@ class DockWindow: public QDockWidget {
 		void dockWidgetArea(Qt::DockWidgetArea);
 };
 
-}
 }
 
 #endif

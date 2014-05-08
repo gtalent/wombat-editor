@@ -1,6 +1,6 @@
+#include "misc.hpp"
 #include "editorprofile.hpp"
 
-namespace wombat {
 namespace editor {
 
 NewFileMenu *EditorProfile::newFileMenu(NewFileMenuParams args) {
@@ -64,5 +64,28 @@ QString EditorProfile::var(QString key) {
 	return m_vars[key];
 }
 
+void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
+	addEditorWidgetMaker([](EditorWidgetParams) -> EditorWidget* {
+		return 0;
+	});
+	addNewFileMenuMaker(prof.FileType, [](NewFileMenuParams) -> NewFileMenu* {
+		return 0;
+	});
+	for (auto p : prof.DefaultPaths) {
+		addDefaultPath(p);
+	}
 }
+
+void EditorProfile::loadQtQuickModule(QString path) {
+	models::EditorModule model;
+	auto err = model.readJsonFile(path);
+	if (err == models::cyborgbear::Error_Ok) {
+		for (auto prof : model.Profiles) {
+			loadQtQuickProfile(prof);
+		}
+	} else {
+		logDebug("Error loading QtQuickProfile: " + path);
+	}
+}
+
 }

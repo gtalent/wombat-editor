@@ -6,7 +6,7 @@
 namespace wombat {
 namespace core {
 
-using wombat::editor::EditorProfile;
+using editor::EditorProfile;
 
 void setupEditorProfile(EditorProfile&);
 

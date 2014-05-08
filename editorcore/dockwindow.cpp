@@ -1,6 +1,5 @@
 #include "dockwindow.hpp"
 
-namespace wombat {
 namespace editor {
 
 DockWindow::DockWindow(DockWindowParams args): QDockWidget(args.parent) {
@@ -15,5 +14,4 @@ void DockWindow::dockWidgetArea(Qt::DockWidgetArea area) {
 	m_area = area;
 }
 
-}
 }

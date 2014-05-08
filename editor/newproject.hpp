@@ -8,7 +8,7 @@ namespace Ui {
 class NewProject;
 }
 
-class NewProject: public wombat::editor::NewFileMenu {
+class NewProject: public editor::NewFileMenu {
 	Q_OBJECT
 		
 	private:

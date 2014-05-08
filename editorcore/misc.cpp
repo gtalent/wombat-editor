@@ -1,7 +1,6 @@
 #include <QVector>
 #include "misc.hpp"
 
-namespace wombat {
 namespace editor {
 
 QVector<DebugLogger*> debugLoggers;
@@ -15,5 +14,4 @@ void logDebug(QString str) {
 		l->logDebug(str);
 }
 
-}
 }
