@@ -1,5 +1,5 @@
-#ifndef DOCKWINDOW_HPP
-#define DOCKWINDOW_HPP
+#ifndef EDITORCORE_DOCKWINDOW_HPP
+#define EDITORCORE_DOCKWINDOW_HPP
 
 #include <QDockWidget>
 #include "dockwindowparams.hpp"

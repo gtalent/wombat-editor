@@ -1,5 +1,5 @@
-#ifndef MISC_HPP
-#define MISC_HPP
+#ifndef EDITORCORE_MISC_HPP
+#define EDITORCORE_MISC_HPP
 
 #include "models/editormodels.hpp"
 

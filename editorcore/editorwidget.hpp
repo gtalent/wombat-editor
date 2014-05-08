@@ -1,5 +1,5 @@
-#ifndef EDITORWIDGET_HPP
-#define EDITORWIDGET_HPP
+#ifndef EDITORCORE_EDITORWIDGET_HPP
+#define EDITORCORE_EDITORWIDGET_HPP
 
 #include <QWidget>
 #include <QUndoStack>

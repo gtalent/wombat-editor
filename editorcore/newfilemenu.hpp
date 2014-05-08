@@ -1,5 +1,5 @@
-#ifndef NEWFILEMENU_HPP
-#define NEWFILEMENU_HPP
+#ifndef EDITORCORE_NEWFILEMENU_HPP
+#define EDITORCORE_NEWFILEMENU_HPP
 
 #include <QDialog>
 #include <QString>

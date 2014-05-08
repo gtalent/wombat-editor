@@ -1,5 +1,5 @@
-#ifndef EDITORMANAGER_HPP
-#define EDITORMANAGER_HPP
+#ifndef EDITORCORE_EDITORMANAGER_HPP
+#define EDITORCORE_EDITORMANAGER_HPP
 
 #include <functional>
 #include <QVector>
