@@ -15,17 +15,17 @@ SOURCES += \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
 	editorcore/qtquickeditorwidget.cpp \
-	wombatcore/newspritesheet.cpp \
-	wombatcore/newanimation.cpp \
-	wombatcore/animationeditor.cpp \
-	wombatcore/spritesheeteditor.cpp \
-	wombatcore/spritesheetmanager.cpp \
-	wombatcore/imageselectorwidget.cpp \
-	wombatcore/imageselectordialog.cpp \
-	wombatcore/wombatprofile.cpp \
-	savevariables/savevariables.cpp \
-	savevariables/savevariableeditor.cpp \
-	savevariables/profile.cpp \
+	wombat/core/newspritesheet.cpp \
+	wombat/core/newanimation.cpp \
+	wombat/core/animationeditor.cpp \
+	wombat/core/spritesheeteditor.cpp \
+	wombat/core/spritesheetmanager.cpp \
+	wombat/core/imageselectorwidget.cpp \
+	wombat/core/imageselectordialog.cpp \
+	wombat/core/wombatprofile.cpp \
+	wombat/savevariables/savevariables.cpp \
+	wombat/savevariables/savevariableeditor.cpp \
+	wombat/savevariables/profile.cpp \
 	editor/newmenu.cpp \
 	editor/newproject.cpp \
 	editor/mainwindow.cpp \
@@ -45,35 +45,35 @@ HEADERS += \
 	editorcore/misc.hpp \
 	editorcore/modeliomanager.hpp \
 	editorcore/qtquickeditorwidget.hpp \
-	wombatcore/newspritesheet.hpp \
-	wombatcore/newanimation.hpp \
-	wombatcore/animationeditor.hpp \
-	wombatcore/spritesheeteditor.hpp \
-	wombatcore/spritesheetmanager.hpp \
-	wombatcore/imageselectorwidget.hpp \
-	wombatcore/imageselectordialog.hpp \
-	wombatcore/wombatprofile.hpp \
-	savevariables/savevariableeditor.hpp \
-	savevariables/savevariables.hpp \
-	savevariables/profile.hpp \
+	wombat/core/newspritesheet.hpp \
+	wombat/core/newanimation.hpp \
+	wombat/core/animationeditor.hpp \
+	wombat/core/spritesheeteditor.hpp \
+	wombat/core/spritesheetmanager.hpp \
+	wombat/core/imageselectorwidget.hpp \
+	wombat/core/imageselectordialog.hpp \
+	wombat/core/wombatprofile.hpp \
+	wombat/savevariables/savevariableeditor.hpp \
+	wombat/savevariables/savevariables.hpp \
+	wombat/savevariables/profile.hpp \
 	editor/newmenu.hpp \
 	editor/newproject.hpp \
 	editor/mainwindow.hpp
 
 FORMS += \
-	wombatcore/newspritesheet.ui \
-	wombatcore/newanimation.ui \
-	wombatcore/animationeditor.ui \
-	wombatcore/spritesheeteditor.ui \
-	wombatcore/imageselectorwidget.ui \
-	savevariables/savevariableeditor.ui \
-	savevariables/savevariables.ui \
+	wombat/core/newspritesheet.ui \
+	wombat/core/newanimation.ui \
+	wombat/core/animationeditor.ui \
+	wombat/core/spritesheeteditor.ui \
+	wombat/core/imageselectorwidget.ui \
+	wombat/savevariables/savevariableeditor.ui \
+	wombat/savevariables/savevariables.ui \
 	editor/mainwindow.ui \
 	editor/newmenu.ui \
 	editor/newproject.ui
 
 RESOURCES += \
 	editor/rsrc.qrc
-	world/rsrc.qrc
+	wombat/world/rsrc.qrc
 
 CONFIG += c++11

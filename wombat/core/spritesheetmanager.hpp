@@ -1,5 +1,5 @@
-#ifndef SPRITESHEETMANAGER_HPP
-#define SPRITESHEETMANAGER_HPP
+#ifndef WOMBATCORE_SPRITESHEETMANAGER_HPP
+#define WOMBATCORE_SPRITESHEETMANAGER_HPP
 
 #include <QPixmap>
 #include "models/editormodels.hpp"

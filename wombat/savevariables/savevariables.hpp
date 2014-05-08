@@ -1,5 +1,5 @@
-#ifndef SAVEVARIABLES_H
-#define SAVEVARIABLES_H
+#ifndef SAVEVARIABLES_SAVEVARIABLES_H
+#define SAVEVARIABLES_SAVEVARIABLES_H
 
 #include <QString>
 
@@ -12,7 +12,7 @@
 #include "models/editormodels.hpp"
 
 namespace Ui {
-	class SaveVariables;
+class SaveVariables;
 }
 
 namespace wombat {

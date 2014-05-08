@@ -1,5 +1,5 @@
-#ifndef ANIMATIONEDITOR_HPP
-#define ANIMATIONEDITOR_HPP
+#ifndef WOMBATCORE_ANIMATIONEDITOR_HPP
+#define WOMBATCORE_ANIMATIONEDITOR_HPP
 
 #include <QWidget>
 #include <QAbstractTableModel>

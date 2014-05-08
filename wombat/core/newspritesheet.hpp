@@ -1,5 +1,5 @@
-#ifndef NEWSPRITESHEET_HPP
-#define NEWSPRITESHEET_HPP
+#ifndef WOMBATCORE_NEWSPRITESHEET_HPP
+#define WOMBATCORE_NEWSPRITESHEET_HPP
 
 #include "editorcore/newfilemenu.hpp"
 

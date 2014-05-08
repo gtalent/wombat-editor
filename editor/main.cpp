@@ -1,6 +1,6 @@
 #include "editorcore/misc.hpp"
-#include "wombatcore/wombatprofile.hpp"
-#include "savevariables/profile.hpp"
+#include "wombat/core/wombatprofile.hpp"
+#include "wombat/savevariables/profile.hpp"
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
 #include <QApplication>

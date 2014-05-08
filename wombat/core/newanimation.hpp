@@ -1,5 +1,5 @@
-#ifndef NEWANIMATION_H
-#define NEWANIMATION_H
+#ifndef WOMBATCORE_NEWANIMATION_H
+#define WOMBATCORE_NEWANIMATION_H
 
 #include <QDialog>
 #include "editorcore/newfilemenu.hpp"

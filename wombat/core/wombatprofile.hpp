@@ -1,10 +1,10 @@
-#ifndef PROFILE_HPP
-#define PROFILE_HPP
+#ifndef WOMBATCORE_WOMBATPROFILE_HPP
+#define WOMBATCORE_WOMBATPROFILE_HPP
 
 #include "editorcore/editorprofile.hpp"
 
 namespace wombat {
-namespace savevariables {
+namespace core {
 
 using editor::EditorProfile;
 
