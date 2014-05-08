@@ -1,14 +1,14 @@
-#ifndef NEWMENU_HPP
-#define NEWMENU_HPP
+#ifndef EDITOR_NEWMENU_HPP
+#define EDITOR_NEWMENU_HPP
 
 #include <QString>
 #include <QDialog>
 
 namespace Ui {
-	class NewMenu;
+class NewMenu;
 }
 
-class NewMenu : public QDialog {
+class NewMenu: public QDialog {
 	Q_OBJECT
 
 	public:

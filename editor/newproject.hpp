@@ -1,5 +1,5 @@
-#ifndef NEWPROJECT_HPP
-#define NEWPROJECT_HPP
+#ifndef EDITOR_NEWPROJECT_HPP
+#define EDITOR_NEWPROJECT_HPP
 
 #include <QVector>
 #include "editorcore/newfilemenu.hpp"

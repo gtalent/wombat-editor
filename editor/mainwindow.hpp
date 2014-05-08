@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef EDITOR_MAINWINDOW_HPP
+#define EDITOR_MAINWINDOW_HPP
 
 #include <QModelIndex>
 #include <QMainWindow>
