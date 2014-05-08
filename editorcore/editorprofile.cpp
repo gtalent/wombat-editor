@@ -1,3 +1,5 @@
+#include <QQuickView>
+#include "qtquickeditorwidget.hpp"
 #include "misc.hpp"
 #include "editorprofile.hpp"
 
@@ -65,8 +67,8 @@ QString EditorProfile::var(QString key) {
 }
 
 void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
-	addEditorWidgetMaker([](EditorWidgetParams) -> EditorWidget* {
-		return 0;
+	addEditorWidgetMaker([prof](EditorWidgetParams args) -> EditorWidget* {
+		return new QtQuickEditorWidget(prof.Editor, args);
 	});
 	addNewFileMenuMaker(prof.FileType, [](NewFileMenuParams) -> NewFileMenu* {
 		return 0;
@@ -79,12 +81,14 @@ void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
 void EditorProfile::loadQtQuickModule(QString path) {
 	models::EditorModule model;
 	auto err = model.readJsonFile(path);
-	if (err == models::cyborgbear::Error_Ok) {
+	if (err == models::cyborgbear::Error_GenericParsingError) {
+		logDebug("Error loading QtQuickProfile: " + path);
+	} else if (err == models::cyborgbear::Error_TypeMismatch) {
+		logDebug("Error (Type Mismatch) loading QtQuickProfile: " + path);
+	} else {
 		for (auto prof : model.Profiles) {
 			loadQtQuickProfile(prof);
 		}
-	} else {
-		logDebug("Error loading QtQuickProfile: " + path);
 	}
 }
 

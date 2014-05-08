@@ -1,6 +1,7 @@
 #ifndef EDITORCORE_MODELIOMANAGER_HPP
 #define EDITORCORE_MODELIOMANAGER_HPP
 
+#include <QObject>
 #include <QMap>
 #include <QString>
 #include <functional>
@@ -8,7 +9,8 @@
 
 namespace editor {
 
-class ModelIoManager {
+class ModelIoManager: public QObject {
+	Q_OBJECT
 	private:
 		QMap<QString, QString> m_models;
 		QMap<QString, QVector<std::function<void(QString)>>> m_updateListeners;

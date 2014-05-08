@@ -1,4 +1,4 @@
-QT += core gui widgets
+QT += core gui widgets qml quick
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
@@ -15,7 +15,7 @@ SOURCES += \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
 	editorcore/qtquickeditorwidget.cpp \
-	wombat/core/newspritesheet.cpp \
+        wombat/core/newspritesheet.cpp \
 	wombat/core/newanimation.cpp \
 	wombat/core/animationeditor.cpp \
 	wombat/core/spritesheeteditor.cpp \
