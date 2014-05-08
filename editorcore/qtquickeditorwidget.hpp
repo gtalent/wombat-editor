@@ -2,6 +2,7 @@
 #define EDITORCORE_QTQUICKEDITORWIDGET_HPP
 
 #include <QGridLayout>
+#include "qtquicksignaler.hpp"
 #include "editorprofile.hpp"
 
 namespace editor {
@@ -9,6 +10,7 @@ namespace editor {
 class QtQuickEditorWidget: public EditorWidget {
 	private:
 		QGridLayout *m_layout;
+		QtQuickSignaler m_signaler;
 
 	public:
 		/**

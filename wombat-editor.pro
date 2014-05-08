@@ -15,7 +15,8 @@ SOURCES += \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
 	editorcore/qtquickeditorwidget.cpp \
-        wombat/core/newspritesheet.cpp \
+	editorcore/qtquicksignaler.cpp \
+	wombat/core/newspritesheet.cpp \
 	wombat/core/newanimation.cpp \
 	wombat/core/animationeditor.cpp \
 	wombat/core/spritesheeteditor.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
 	editorcore/misc.hpp \
 	editorcore/modeliomanager.hpp \
 	editorcore/qtquickeditorwidget.hpp \
+	editorcore/qtquicksignaler.hpp \
 	wombat/core/newspritesheet.hpp \
 	wombat/core/newanimation.hpp \
 	wombat/core/animationeditor.hpp \
