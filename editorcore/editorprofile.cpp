@@ -1,7 +1,9 @@
 #include <QQuickView>
+#include <QFile>
 #include "qtquickeditorwidget.hpp"
 #include "misc.hpp"
 #include "editorprofile.hpp"
+#include <QDebug>
 
 namespace editor {
 
@@ -68,7 +70,12 @@ QString EditorProfile::var(QString key) {
 
 void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
 	addEditorWidgetMaker([prof](EditorWidgetParams args) -> EditorWidget* {
-		return new QtQuickEditorWidget(prof.Editor, args);
+		for (auto pref : prof.PathStartsWith) {
+			if (args.filePath.startsWith(args.projectPath + pref)) {
+				return new QtQuickEditorWidget(prof.Editor, args);
+			}
+		}
+		return 0;
 	});
 	addNewFileMenuMaker(prof.FileType, [](NewFileMenuParams) -> NewFileMenu* {
 		return 0;
@@ -79,16 +86,25 @@ void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
 }
 
 void EditorProfile::loadQtQuickModule(QString path) {
-	models::EditorModule model;
-	auto err = model.readJsonFile(path);
-	if (err == models::cyborgbear::Error_GenericParsingError) {
-		logDebug("Error loading QtQuickProfile: " + path);
-	} else if (err == models::cyborgbear::Error_TypeMismatch) {
-		logDebug("Error (Type Mismatch) loading QtQuickProfile: " + path);
-	} else {
-		for (auto prof : model.Profiles) {
-			loadQtQuickProfile(prof);
+	using namespace models::cyborgbear;
+
+	QFile file(path);
+	if (file.open(QFile::ReadOnly | QFile::Text)) {
+		QTextStream in(&file);
+		models::EditorModule model;
+
+		auto err = model.fromJson(in.readAll());
+		if (err & Error_GenericParsingError) {
+			qDebug() << "Error loading QtQuickProfile:" << path;
+		} else if (err & Error_TypeMismatch) {
+			qDebug() << "Error (Type Mismatch) loading QtQuickProfile:" << path;
+		} else {
+			for (auto prof : model.Profiles) {
+				loadQtQuickProfile(prof);
+			}
 		}
+	} else {
+		qDebug() << "Could not load file: " << path;
 	}
 }
 

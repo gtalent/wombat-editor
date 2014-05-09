@@ -75,7 +75,7 @@ FORMS += \
 	editor/newproject.ui
 
 RESOURCES += \
-	editor/rsrc.qrc
-	wombat/world/rsrc.qrc
+	editor/rsrc.qrc \
+	wombat/world/world.qrc
 
 CONFIG += c++11

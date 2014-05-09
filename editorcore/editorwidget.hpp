@@ -10,10 +10,8 @@
 
 namespace editor {
 
-class EditorProfile;
-
 class EditorWidget: public QWidget {
-	friend EditorProfile;
+	friend class EditorProfile;
 	private:
 		ModelIoManager *m_models;
 
@@ -40,7 +38,6 @@ class EditorWidget: public QWidget {
 		bool canRedo();
 		QString path();
 		virtual void closeWidget();
-	signals:
 		virtual int saveFile() = 0;
 
 	protected:

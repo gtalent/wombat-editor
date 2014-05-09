@@ -3,14 +3,9 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.1
 
-ApplicationWindow {
-	SystemPalette {
-		id: syspal
-	}
-	color: syspal.window
+Item {
 	width: 800
 	height: 600
-	title: "Tile Editor"
 	ColumnLayout {
 		anchors.left: parent.left
 		anchors.right: parent.horizontalCenter

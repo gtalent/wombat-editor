@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC>
+	<qresource prefix="/world">
+		<file>qml/tileeditor.qml</file>
+		<file>module.json</file>
+	</qresource>
+</RCC>

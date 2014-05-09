@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
 	editor::EditorProfile profile;
 	core::setupEditorProfile(profile);
 	savevariables::setupEditorProfile(profile);
+	profile.loadQtQuickModule(":/world/module.json");
 
 	MainWindow w(&profile);
 	addDebugLogger(&w);

@@ -1,0 +1,16 @@
+{
+	"Profiles": [
+		{
+			"FileType": "TileClass",
+			"NewFileMenu": "qrc:/world/qml/newtileclass.qml",
+			"Editor": "qrc:/world/qml/tileeditor.qml",
+			"PathStartsWith": [
+				"World/Tiles/"
+			],
+			"DefaultPaths": [
+				"World",
+				"World/Tiles/"
+			]
+		}
+	]
+}
