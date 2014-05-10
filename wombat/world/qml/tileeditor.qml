@@ -4,47 +4,80 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.1
 
 Item {
-	width: 800
-	height: 600
-	ColumnLayout {
-		anchors.left: parent.left
-		anchors.right: parent.horizontalCenter
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
-		Label {
-			text: "Upper Animation Layers"
-		}
-		RowLayout {
-			anchors.leftMargin: 15
-			TableView {
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-				id: upperLayers
-				TableViewColumn {
-					title: "Animation"
-					role:  "animation"
-				}
-			}
-		}
-		Label {
-			text: "Lower Animation Layers"
-		}
-		RowLayout {
-			TableView {
-				id: lowerLayers
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-				TableViewColumn {
-					title: "Animation"
-					role:  "animation"
-				}
-			}
-		}
-	}
-	ColumnLayout {
-		anchors.left: parent.horizontalCenter
+	RowLayout {
 		anchors.right: parent.right
+		anchors.left: parent.left
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
+		ColumnLayout {
+			anchors.right: parent.horizontalCenter
+			anchors.left: parent.left
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+
+			// Upper layers
+			ColumnLayout {
+				anchors.right: parent.right
+				anchors.left: parent.left
+				anchors.top: parent.top
+				anchors.bottom: parent.verticalCenter
+				GroupBox {
+					title: "Upper Animation Layers"
+					anchors.right: parent.right
+					anchors.left: parent.left
+					anchors.top: parent.top
+					anchors.bottom: parent.bottom
+					ColumnLayout {
+						anchors.right: parent.right
+						anchors.left: parent.left
+						anchors.top: parent.top
+						anchors.bottom: parent.bottom
+						TableView {
+							id: upperLayers
+							anchors.right: parent.right
+							anchors.left: parent.left
+							anchors.top: parent.top
+							anchors.bottom: parent.bottom
+							TableViewColumn {
+								title: "Animation"
+								role:  "animation"
+							}
+						}
+					}
+				}
+			}
+
+			// Lower layers
+			ColumnLayout {
+				anchors.right: parent.right
+				anchors.left: parent.left
+				anchors.top: parent.verticalCenter
+				anchors.bottom: parent.bottom
+				GroupBox {
+					title: "Lower Animation Layers"
+					anchors.right: parent.right
+					anchors.left: parent.left
+					anchors.top: parent.top
+					anchors.bottom: parent.bottom
+					ColumnLayout {
+						anchors.right: parent.right
+						anchors.left: parent.left
+						anchors.top: parent.top
+						anchors.bottom: parent.bottom
+						TableView {
+							id: lowerLayers
+							anchors.right: parent.right
+							anchors.left: parent.left
+							anchors.top: parent.top
+							anchors.bottom: parent.bottom
+							TableViewColumn {
+								title: "Animation"
+								role:  "animation"
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

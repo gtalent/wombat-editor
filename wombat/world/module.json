@@ -8,7 +8,7 @@
 				"World/Tiles/"
 			],
 			"DefaultPaths": [
-				"World",
+				"World/",
 				"World/Tiles/"
 			]
 		}
