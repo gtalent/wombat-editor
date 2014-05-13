@@ -26,7 +26,9 @@ SOURCES += \
 	wombat/core/wombatprofile.cpp \
 	wombat/savevariables/savevariables.cpp \
 	wombat/savevariables/savevariableeditor.cpp \
-	wombat/savevariables/profile.cpp \
+	wombat/savevariables/savevariablesprofile.cpp \
+	wombat/world/tileeditor.cpp \
+	wombat/world/worldprofile.cpp \
 	editor/newmenu.cpp \
 	editor/newproject.cpp \
 	editor/mainwindow.cpp \
@@ -57,7 +59,9 @@ HEADERS += \
 	wombat/core/wombatprofile.hpp \
 	wombat/savevariables/savevariableeditor.hpp \
 	wombat/savevariables/savevariables.hpp \
-	wombat/savevariables/profile.hpp \
+	wombat/savevariables/savevariablesprofile.hpp \
+	wombat/world/tileeditor.hpp \
+	wombat/world/worldprofile.hpp \
 	editor/newmenu.hpp \
 	editor/newproject.hpp \
 	editor/mainwindow.hpp
@@ -75,7 +79,6 @@ FORMS += \
 	editor/newproject.ui
 
 RESOURCES += \
-	editor/rsrc.qrc \
-	wombat/world/world.qrc
+	editor/rsrc.qrc
 
 CONFIG += c++11

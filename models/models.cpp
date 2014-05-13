@@ -334,7 +334,7 @@ Animation::Animation() {
 	this->Import = "";
 }
 
-TileClass::TileClass() {
+Tile::Tile() {
 	this->Import = "";
 	this->TerrainFlags = 0;
 }
@@ -356,7 +356,7 @@ CreatureClass::CreatureClass() {
 	this->Predecessor = "";
 }
 
-Tile::Tile() {
+TileInstance::TileInstance() {
 }
 
 Zone::Zone() {
@@ -1781,7 +1781,7 @@ cyborgbear::Error Animation::loadJsonObj(cyborgbear::JsonVal in) {
 	return retval;
 }
 
-cyborgbear::Error TileClass::loadJsonObj(cyborgbear::JsonVal in) {
+cyborgbear::Error Tile::loadJsonObj(cyborgbear::JsonVal in) {
 	cyborgbear::Error retval = cyborgbear::Error_Ok;
 	cyborgbear::JsonObjOut inObj = cyborgbear::toObj(in);
 
@@ -2211,16 +2211,16 @@ cyborgbear::Error CreatureClass::loadJsonObj(cyborgbear::JsonVal in) {
 	return retval;
 }
 
-cyborgbear::Error Tile::loadJsonObj(cyborgbear::JsonVal in) {
+cyborgbear::Error TileInstance::loadJsonObj(cyborgbear::JsonVal in) {
 	cyborgbear::Error retval = cyborgbear::Error_Ok;
 	cyborgbear::JsonObjOut inObj = cyborgbear::toObj(in);
 
 	{
-		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "TileClass");
+		cyborgbear::JsonValOut obj0 = cyborgbear::objRead(inObj, "Tile");
 		{
 			cyborgbear::JsonValOut finalObj = cyborgbear::toObj(obj0);
 			if (cyborgbear::isObj(finalObj)) {
-				retval |= this->TileClass.loadJsonObj(obj0);
+				retval |= this->Tile.loadJsonObj(obj0);
 			} else {
 				if (cyborgbear::isNull(obj0)) {
 					retval |= cyborgbear::Error_MissingField;
@@ -3353,7 +3353,7 @@ cyborgbear::JsonValOut Animation::buildJsonObj() {
 	return obj;
 }
 
-cyborgbear::JsonValOut TileClass::buildJsonObj() {
+cyborgbear::JsonValOut Tile::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
 		cyborgbear::JsonValOut out0 = cyborgbear::toJsonVal(this->Import);
@@ -3536,12 +3536,12 @@ cyborgbear::JsonValOut CreatureClass::buildJsonObj() {
 	return obj;
 }
 
-cyborgbear::JsonValOut Tile::buildJsonObj() {
+cyborgbear::JsonValOut TileInstance::buildJsonObj() {
 	cyborgbear::JsonObjOut obj = cyborgbear::newJsonObj();
 	{
-		cyborgbear::JsonValOut obj0 = this->TileClass.buildJsonObj();
+		cyborgbear::JsonValOut obj0 = this->Tile.buildJsonObj();
 		cyborgbear::JsonValOut out0 = obj0;
-		cyborgbear::objSet(obj, "TileClass", out0);
+		cyborgbear::objSet(obj, "Tile", out0);
 		cyborgbear::decref(out0);
 	}
 	{
@@ -4291,13 +4291,13 @@ string Animation::toBoostBinary() {
 namespace models {
 
 #ifdef CYBORGBEAR_BOOST_ENABLED
-void TileClass::fromBoostBinary(string dat) {
+void Tile::fromBoostBinary(string dat) {
 	std::stringstream in(dat);
 	boost::archive::binary_iarchive ia(in);
 	ia >> *this;
 }
 
-string TileClass::toBoostBinary() {
+string Tile::toBoostBinary() {
 	std::stringstream out;
 	{
 		boost::archive::binary_oarchive oa(out);
@@ -4391,13 +4391,13 @@ string CreatureClass::toBoostBinary() {
 namespace models {
 
 #ifdef CYBORGBEAR_BOOST_ENABLED
-void Tile::fromBoostBinary(string dat) {
+void TileInstance::fromBoostBinary(string dat) {
 	std::stringstream in(dat);
 	boost::archive::binary_iarchive ia(in);
 	ia >> *this;
 }
 
-string Tile::toBoostBinary() {
+string TileInstance::toBoostBinary() {
 	std::stringstream out;
 	{
 		boost::archive::binary_oarchive oa(out);

@@ -1,6 +1,7 @@
 #include "editorcore/misc.hpp"
 #include "wombat/core/wombatprofile.hpp"
-#include "wombat/savevariables/profile.hpp"
+#include "wombat/savevariables/savevariablesprofile.hpp"
+#include "wombat/world/worldprofile.hpp"
 #include "mainwindow.hpp"
 #include "models/editormodels.hpp"
 #include <QApplication>
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
 	editor::EditorProfile profile;
 	core::setupEditorProfile(profile);
 	savevariables::setupEditorProfile(profile);
-	profile.loadQtQuickModule(":/world/module.json");
+	world::setupEditorProfile(profile);
 
 	MainWindow w(&profile);
 	addDebugLogger(&w);

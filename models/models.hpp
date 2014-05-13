@@ -1243,11 +1243,11 @@ namespace models {
 
 using cyborgbear::string;
 
-class TileClass: public cyborgbear::Model {
+class Tile: public cyborgbear::Model {
 
 	public:
 
-		TileClass();
+		Tile();
 
 		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
 
@@ -1359,11 +1359,11 @@ namespace models {
 
 using cyborgbear::string;
 
-class Tile: public cyborgbear::Model {
+class TileInstance: public cyborgbear::Model {
 
 	public:
 
-		Tile();
+		TileInstance();
 
 		cyborgbear::Error loadJsonObj(cyborgbear::JsonVal obj);
 
@@ -1374,7 +1374,7 @@ class Tile: public cyborgbear::Model {
 
 		virtual void fromBoostBinary(string dat);
 #endif
-		models::TileClass TileClass;
+		models::Tile Tile;
 		models::Sprite Occupant;
 };
 
@@ -1400,7 +1400,7 @@ class Zone: public cyborgbear::Model {
 
 		virtual void fromBoostBinary(string dat);
 #endif
-		QVector< QVector< QVector< models::Tile > > > Tiles;
+		QVector< QVector< QVector< models::TileInstance > > > Tiles;
 		QVector< string > InitScripts;
 		models::Point Location;
 };
@@ -1762,7 +1762,7 @@ void serialize(Archive &ar, models::Animation &model, const unsigned int) {
 }
 
 template<class Archive>
-void serialize(Archive &ar, models::TileClass &model, const unsigned int) {
+void serialize(Archive &ar, models::Tile &model, const unsigned int) {
 	ar & model.Import;
 	ar & model.TerrainFlags;
 	ar & model.LowerAnims;
@@ -1798,8 +1798,8 @@ void serialize(Archive &ar, models::CreatureClass &model, const unsigned int) {
 }
 
 template<class Archive>
-void serialize(Archive &ar, models::Tile &model, const unsigned int) {
-	ar & model.TileClass;
+void serialize(Archive &ar, models::TileInstance &model, const unsigned int) {
+	ar & model.Tile;
 	ar & model.Occupant;
 }
 
