@@ -23,6 +23,7 @@ TileEditor::TileEditor(EditorWidgetParams args):
 	connect(m_chkWaterfall, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	connect(m_chkWhirlpool, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	connect(m_lowerAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
+	connect(m_upperAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
 }
 
 TileEditor::~TileEditor() {
@@ -31,6 +32,7 @@ TileEditor::~TileEditor() {
 	disconnect(m_chkWaterfall, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	disconnect(m_chkWhirlpool, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	disconnect(m_lowerAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
+	disconnect(m_upperAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
 }
 
 QLayout *TileEditor::buildGui() {
@@ -84,8 +86,11 @@ int TileEditor::saveFile() {
 }
 
 void TileEditor::loadView() {
-	m_upperAnim->setCurrentText(m_model.UpperAnim.Animation);
-	m_lowerAnim->setCurrentText(m_model.LowerAnim.Animation);
+	auto prefix = QString("Animations/").size();
+	auto upper = m_model.UpperAnim.Animation;
+	auto lower = m_model.LowerAnim.Animation;
+	m_upperAnim->setCurrentText(upper.right(upper.size() - prefix));
+	m_lowerAnim->setCurrentText(lower.right(lower.size() - prefix));
 	switch (m_model.TerrainType) {
 	case models::Land:
 		m_chkLand->setChecked(true);
@@ -113,8 +118,17 @@ void TileEditor::updateModel() {
 	} else if (m_chkWhirlpool->isChecked()) {
 		model.TerrainType = models::Whirlpool;
 	}
-	model.LowerAnim.Animation = m_lowerAnim->currentText();
-	model.UpperAnim.Animation = m_upperAnim->currentText();
+
+	if (m_lowerAnim->currentText() != "") {
+		model.LowerAnim.Animation = "Animations/" + m_lowerAnim->currentText();
+	} else {
+		model.LowerAnim.Animation = "";
+	}
+	if (m_upperAnim->currentText() != "") {
+		model.UpperAnim.Animation = "Animations/" + m_upperAnim->currentText();
+	} else {
+		model.UpperAnim.Animation = "";
+	}
 
 	if (m_model != model) { // only register change if there is a change
 		notifyFileChange(new Command(this, m_model, model));
