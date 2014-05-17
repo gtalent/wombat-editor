@@ -62,7 +62,7 @@ QLayout *TileEditor::buildGui() {
 	auto grpTerrainType = new QGroupBox("Terrain Type", this);
 	m_chkLand = new QRadioButton("L&and", this);
 	m_chkWater = new QRadioButton("&Water", this);
-	m_chkWaterfall = new QRadioButton("Water&fall", this);
+	m_chkWaterfall = new QRadioButton("Wate&rfall", this);
 	m_chkWhirlpool = new QRadioButton("Whirl&pool", this);
 	lytTerrainType->addWidget(m_chkLand);
 	lytTerrainType->addWidget(m_chkWater);
