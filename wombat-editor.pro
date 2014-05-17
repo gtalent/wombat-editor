@@ -35,6 +35,7 @@ SOURCES += \
 	editor/main.cpp
 
 HEADERS += \
+	models/enums.hpp \
 	models/models.hpp \
 	editorcontrols/dockwidget.hpp\
 	editorcore/dockwindow.hpp \
