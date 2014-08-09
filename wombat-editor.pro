@@ -41,7 +41,6 @@ HEADERS += \
 	editorcore/dockwindow.hpp \
 	editorcore/dockwindowparams.hpp \
 	editorcore/editorprofile.hpp \
-	editorcore/editorwidgetlistener.hpp \
 	editorcore/editorwidget.hpp \
 	editorcore/editorwidgetparams.hpp \
 	editorcore/newfilemenuparams.hpp \

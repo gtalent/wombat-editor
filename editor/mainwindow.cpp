@@ -146,7 +146,8 @@ void MainWindow::openFile(QString path) {
 		tab = m_profile->editorWidget(args);
 
 		if (tab) {
-			tab->addListener(this);
+			connect(tab, &EditorWidget::fileChanged, this, &MainWindow::fileChanged);
+			connect(tab, &EditorWidget::fileSaved, this, &MainWindow::fileSaved);
 			tab->title(tabName);
 			m_openTabs[path] = tab;
 			ui->tabWidget->addTab(tab, tab->title());
@@ -183,6 +184,8 @@ void MainWindow::closeTab(EditorWidget *tab) {
 		tab->close();
 		m_openTabs[tab->path()] = 0;
 		m_openTabs.erase(m_openTabs.find(tab->path()));
+		disconnect(tab, &EditorWidget::fileChanged, this, &MainWindow::fileChanged);
+		disconnect(tab, &EditorWidget::fileSaved, this, &MainWindow::fileSaved);
 		delete tab;
 	}
 }

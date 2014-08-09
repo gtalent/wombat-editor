@@ -5,17 +5,16 @@
 #include <QUndoStack>
 
 #include "modeliomanager.hpp"
-#include "editorwidgetlistener.hpp"
 #include "editorwidgetparams.hpp"
 
 namespace editor {
 
 class EditorWidget: public QWidget {
+	Q_OBJECT
 	friend class EditorProfile;
 	private:
 		ModelIoManager *m_models;
 
-		QVector<EditorWidgetListener*> m_listeners;
 		QUndoStack *m_undoStack;
 
 		int m_lastCommand;
@@ -27,8 +26,6 @@ class EditorWidget: public QWidget {
 	public:
 		EditorWidget(EditorWidgetParams);
 		~EditorWidget();
-		void addListener(EditorWidgetListener *l);
-		void removeListener(EditorWidgetListener *l);
 		bool currentStateSaved();
 		QString title();
 		void title(QString);
@@ -39,6 +36,10 @@ class EditorWidget: public QWidget {
 		QString path();
 		virtual void closeWidget();
 		virtual int saveFile() = 0;
+
+	signals:
+		void fileSaved();
+		void fileChanged();
 
 	protected:
 		void modelIoManager(ModelIoManager*);

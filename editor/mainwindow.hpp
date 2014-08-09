@@ -15,7 +15,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow: public QMainWindow, public editor::EditorWidgetListener, public editor::DebugLogger {
+class MainWindow: public QMainWindow, public editor::DebugLogger {
 	Q_OBJECT
 	public:
 		Ui::MainWindow *ui;

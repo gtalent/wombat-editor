@@ -13,19 +13,6 @@ EditorWidget::~EditorWidget() {
 	delete m_undoStack;
 }
 
-void EditorWidget::addListener(EditorWidgetListener *l) {
-	m_listeners.push_back(l);
-}
-
-void EditorWidget::removeListener(EditorWidgetListener *l) {
-	for (int i = 0; i < m_listeners.size(); i++) {
-		if (m_listeners[i] == l) {
-			m_listeners.erase(m_listeners.begin() + i);
-			break;
-		}
-	}
-}
-
 bool EditorWidget::currentStateSaved() {
 	return m_lastSavedCommand == m_lastCommand;
 }
@@ -43,9 +30,7 @@ void EditorWidget::notifyFileChange(QUndoCommand *uc) {
 		m_undoStack->push(uc);
 		m_lastCommand = m_undoStack->index();
 	}
-	for (int i = 0; i < m_listeners.size(); i++) {
-		m_listeners[i]->fileChanged();
-	}
+	emit fileChanged();
 }
 
 void EditorWidget::modelIoManager(ModelIoManager *models) {
@@ -57,9 +42,7 @@ ModelIoManager *EditorWidget::modelIoManager() {
 }
 
 void EditorWidget::notifyFileSave() {
-	for (int i = 0; i < m_listeners.size(); i++) {
-		m_listeners[i]->fileSaved();
-	}
+	emit fileSaved();
 	m_lastSavedCommand = m_lastCommand;
 }
 
