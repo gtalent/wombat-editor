@@ -17,11 +17,11 @@ class TileEditor: public editor::EditorWidget {
 		class Command: public QUndoCommand {
 			private:
 				TileEditor *m_parent;
-				models::Tile m_before;
-				models::Tile m_after;
+				models::TileClass m_before;
+				models::TileClass m_after;
 
 			public:
-				Command(TileEditor *parent, models::Tile before, models::Tile after);
+				Command(TileEditor *parent, models::TileClass before, models::TileClass after);
 
 				void undo();
 
@@ -29,7 +29,7 @@ class TileEditor: public editor::EditorWidget {
 		};
 
 	private:
-		models::Tile m_model;
+		models::TileClass m_model;
 		QDir m_projectDir;
 		QComboBox *m_upperAnim;
 		QComboBox *m_lowerAnim;
@@ -56,7 +56,7 @@ class TileEditor: public editor::EditorWidget {
 		void updateModel();
 
 	protected:
-		void setModel(models::Tile);
+		void setModel(models::TileClass);
 
 	private:
 		QLayout *buildGui();

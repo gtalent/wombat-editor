@@ -1,3 +1,4 @@
+#include <editorcore/misc.hpp>
 #include "tileeditor.hpp"
 #include "worldprofile.hpp"
 
@@ -15,7 +16,7 @@ void setupEditorProfile(EditorProfile &p) {
 		if (args.filePath.startsWith(args.projectPath + "World/Tiles/")) {
 			return new TileEditor(args);
 		}
-		return 0;
+		return nullptr;
 	});
 	p.addDefaultPath("World/Tiles/");
 }

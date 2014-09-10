@@ -108,7 +108,7 @@ void TileEditor::loadView() {
 }
 
 void TileEditor::updateModel() {
-	models::Tile model;
+	models::TileClass model;
 	if (m_chkLand->isChecked()) {
 		model.TerrainType = models::Land;
 	} else if (m_chkWater->isChecked()) {
@@ -135,12 +135,12 @@ void TileEditor::updateModel() {
 	}
 }
 
-void TileEditor::setModel(models::Tile model) {
+void TileEditor::setModel(models::TileClass model) {
 	m_model = model;
 	loadView();
 }
 
-TileEditor::Command::Command(TileEditor *parent, models::Tile before, models::Tile after) {
+TileEditor::Command::Command(TileEditor *parent, models::TileClass before, models::TileClass after) {
 	m_parent = parent;
 	m_before = before;
 	m_after = after;

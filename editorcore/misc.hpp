@@ -16,4 +16,4 @@ void logDebug(QString str);
 
 }
 
-#endif // MISC_HPP
+#endif

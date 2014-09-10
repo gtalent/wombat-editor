@@ -97,7 +97,6 @@ QVariant AnimationEditor::ImageTableModel::data(const QModelIndex &index, int ro
 		case 1:
 		{
 			auto spriteSheet = m_projectPath + slide.Image.SpriteSheet;
-			logDebug(spriteSheet);
 			spriteSheet = spriteSheet.mid(spriteSheet.lastIndexOf('/') + 1);
 			spriteSheet = spriteSheet.mid(0, spriteSheet.size() - 5);
 			return spriteSheet;

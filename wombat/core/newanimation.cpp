@@ -30,7 +30,6 @@ void NewAnimation::accept() {
 	if (!QFile::exists(path)) {
 		models::Animation model;
 		model.writeJsonFile(path);
-		logDebug(path);
 		m_path = path;
 		QDialog::accept();
 	}
