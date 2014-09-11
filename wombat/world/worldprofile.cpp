@@ -25,6 +25,9 @@ void setupEditorProfile(EditorProfile &p) {
 	p.addDefaultPath("World/TileClass/");
 
 	// Zone
+	p.addNewFileMenuMaker("Zone", [](NewFileMenuParams args) -> NewFileMenu* {
+		return new editor::GenericNewFileMenu<models::Zone>(args, "New Zone", "World/Zone");
+	});
 	p.addDefaultPath("World/Zone/");
 }
 

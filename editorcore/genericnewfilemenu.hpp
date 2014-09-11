@@ -1,11 +1,15 @@
 #ifndef EDITORCORE_GENERICNEWFILEMENU_HPP
 #define EDITORCORE_GENERICNEWFILEMENU_HPP
 
+#include <functional>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QFile>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <models/editormodels.hpp>
 #include <editorcore/newfilemenu.hpp>
+#include "misc.hpp"
 
 namespace editor {
 
@@ -15,7 +19,7 @@ namespace editor {
 class BaseGenericNewFileMenu: public NewFileMenu {
 	Q_OBJECT
 
-	private:
+	protected:
 		QString m_projectPath;
 		QString m_path, m_classPath;
 		QString m_appTitle;
@@ -23,12 +27,16 @@ class BaseGenericNewFileMenu: public NewFileMenu {
 		QDialogButtonBox *m_btns = nullptr;
 
 	public:
-		BaseGenericNewFileMenu(NewFileMenuParams args, QString title, QString classPath);
+		BaseGenericNewFileMenu(NewFileMenuParams args, QString title,
+			QString classPath);
 		~BaseGenericNewFileMenu();
 
 		QString path();
 
-		virtual models::cyborgbear::Model &defaultModel() = 0;
+		/**
+		 * @return 0 if success
+		 */
+		virtual int initFile(QString name) = 0;
 
 	public slots:
 		void accept();
@@ -37,13 +45,21 @@ class BaseGenericNewFileMenu: public NewFileMenu {
 template<typename Model>
 class GenericNewFileMenu: public BaseGenericNewFileMenu {
 	public:
-		GenericNewFileMenu(NewFileMenuParams args, QString title, QString classPath): 
+		GenericNewFileMenu(NewFileMenuParams args, QString title, QString classPath):
 			BaseGenericNewFileMenu(args, title, classPath) {
 		}
 
-		models::cyborgbear::Model &defaultModel() {
-			static Model m;
-			return m;
+		int initFile(QString name) {
+			auto path = m_projectPath + "/" + m_classPath + "/" + name + ".json";
+			int retval = 1;
+			if (!QFile::exists(path)) {
+				m_path = path;
+				Model().writeJsonFile(m_path, models::cyborgbear::Readable);
+				retval = 0;
+			} else {
+				QMessageBox::critical(this, m_appTitle, "A file with this name already exists.");
+			}
+			return retval;
 		}
 };
 

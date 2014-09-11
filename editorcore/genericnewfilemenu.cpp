@@ -1,14 +1,13 @@
 #include <QSizePolicy>
-#include <QMessageBox>
 #include <QHBoxLayout>
-#include <QFile>
 #include <QLabel>
 #include "misc.hpp"
 #include "genericnewfilemenu.hpp"
 
 namespace editor {
 
-BaseGenericNewFileMenu::BaseGenericNewFileMenu(NewFileMenuParams args, QString title, QString classPath): NewFileMenu(args) {
+BaseGenericNewFileMenu::BaseGenericNewFileMenu(NewFileMenuParams args, QString title,
+	QString classPath): NewFileMenu(args) {
 	setWindowTitle(title);
 	m_projectPath = args.projectPath;
 	m_appTitle = args.appTitle;
@@ -46,13 +45,8 @@ QString BaseGenericNewFileMenu::path() {
 }
 
 void BaseGenericNewFileMenu::accept() {
-	auto path = m_projectPath + "/" + m_classPath + "/" + m_leName->text() + ".json";
-	if (!QFile::exists(path)) {
-		defaultModel().writeJsonFile(path, models::cyborgbear::Readable);
-		m_path = path;
+	if (initFile(m_leName->text()) == 0) {
 		QDialog::accept();
-	} else {
-		QMessageBox::critical(this, m_appTitle, "A file with this name already exists.");
 	}
 }
 
