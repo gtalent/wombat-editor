@@ -13,6 +13,8 @@
 
 using namespace editor;
 
+const QString MainWindow::AppTitle = "Wombat Editor";
+
 MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 	// for some reason this can't be done QtDesigner
@@ -84,6 +86,7 @@ void MainWindow::newMenu() {
 			editor::NewFileMenuParams args;
 			args.projectPath = m_projectPath;
 			args.fileType = nw;
+			args.appTitle = AppTitle;
 			args.parent = this;
 			auto nm = m_profile->newFileMenu(args);
 			if (nm && nm->exec() == QDialog::Accepted) {
@@ -106,7 +109,7 @@ void MainWindow::openProject(QString path) {
 	if (!path.endsWith("/"))
 		path += "/";
 	m_projectPath = path;
-	setWindowTitle(path.mid(0, path.length() - 1) + " - Wombat Editor");
+	setWindowTitle(path.mid(0, path.length() - 1) + " - " + AppTitle);
 
 	if (ui->fileList->model())
 		delete ui->fileList->model();

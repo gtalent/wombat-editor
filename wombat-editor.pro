@@ -18,7 +18,6 @@ SOURCES += \
 	editorcore/qtquickeditorwidget.cpp \
 	editorcore/qtquicksignaler.cpp \
 	wombat/core/newspritesheet.cpp \
-	wombat/core/newanimation.cpp \
 	wombat/core/animationeditor.cpp \
 	wombat/core/spritesheeteditor.cpp \
 	wombat/core/spritesheetmanager.cpp \
@@ -52,7 +51,6 @@ HEADERS += \
 	editorcore/qtquickeditorwidget.hpp \
 	editorcore/qtquicksignaler.hpp \
 	wombat/core/newspritesheet.hpp \
-	wombat/core/newanimation.hpp \
 	wombat/core/animationeditor.hpp \
 	wombat/core/spritesheeteditor.hpp \
 	wombat/core/spritesheetmanager.hpp \
@@ -70,7 +68,6 @@ HEADERS += \
 
 FORMS += \
 	wombat/core/newspritesheet.ui \
-	wombat/core/newanimation.ui \
 	wombat/core/animationeditor.ui \
 	wombat/core/spritesheeteditor.ui \
 	wombat/core/imageselectorwidget.ui \

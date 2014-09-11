@@ -1,7 +1,7 @@
+#include <editorcore/genericnewfilemenu.hpp>
 #include "spritesheeteditor.hpp"
 #include "animationeditor.hpp"
 #include "newspritesheet.hpp"
-#include "newanimation.hpp"
 
 #include "editorcore/editorprofile.hpp"
 
@@ -13,15 +13,15 @@ using namespace editor;
 void setupEditorProfile(EditorProfile &p) {
 	// setup animations
 	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
-		if (args.filePath.startsWith(args.projectPath + "Animations/")) {
+		if (args.filePath.startsWith(args.projectPath + "Animation/")) {
 			return new AnimationEditor(args);
 		}
 		return nullptr;
 	});
 	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
-		return new NewAnimation(args);
+		return new GenericNewFileMenu<models::Animation>(args, "New Animation", "Animation");
 	});
-	p.addDefaultPath("Animations/");
+	p.addDefaultPath("Animation/");
 
 
 	// setup sprite sheets

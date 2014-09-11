@@ -12,7 +12,7 @@ namespace world {
 using namespace editor;
 
 TileEditor::TileEditor(EditorWidgetParams args):
-	EditorWidget(args), m_projectDir(args.projectPath + "/Animations") {
+	EditorWidget(args), m_projectDir(args.projectPath + "/Animation") {
 	m_model.fromJson(modelIoManager()->read(path()));
 
 	buildGui();
@@ -86,7 +86,7 @@ int TileEditor::saveFile() {
 }
 
 void TileEditor::loadView() {
-	auto prefix = QString("Animations/").size();
+	auto prefix = QString("Animation/").size();
 	auto upper = m_model.UpperAnim.Animation;
 	auto lower = m_model.LowerAnim.Animation;
 	m_upperAnim->setCurrentText(upper.right(upper.size() - prefix));
@@ -120,12 +120,12 @@ void TileEditor::updateModel() {
 	}
 
 	if (m_lowerAnim->currentText() != "") {
-		model.LowerAnim.Animation = "Animations/" + m_lowerAnim->currentText();
+		model.LowerAnim.Animation = "Animation/" + m_lowerAnim->currentText();
 	} else {
 		model.LowerAnim.Animation = "";
 	}
 	if (m_upperAnim->currentText() != "") {
-		model.UpperAnim.Animation = "Animations/" + m_upperAnim->currentText();
+		model.UpperAnim.Animation = "Animation/" + m_upperAnim->currentText();
 	} else {
 		model.UpperAnim.Animation = "";
 	}

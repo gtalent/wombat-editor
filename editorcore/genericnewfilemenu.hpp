@@ -18,6 +18,7 @@ class BaseGenericNewFileMenu: public NewFileMenu {
 	private:
 		QString m_projectPath;
 		QString m_path, m_classPath;
+		QString m_appTitle;
 		QLineEdit *m_leName = nullptr;
 		QDialogButtonBox *m_btns = nullptr;
 

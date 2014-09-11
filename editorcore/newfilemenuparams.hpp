@@ -9,6 +9,7 @@ namespace editor {
 struct NewFileMenuParams {
 	QString projectPath;
 	QString fileType;
+	QString appTitle;
 	QWidget *parent;
 };
 

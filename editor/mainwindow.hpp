@@ -18,7 +18,9 @@ class MainWindow;
 class MainWindow: public QMainWindow, public editor::DebugLogger {
 	Q_OBJECT
 	public:
+		static const QString AppTitle;
 		Ui::MainWindow *ui;
+
 	private:
 		QString m_projectPath;
 		QMap<QString, editor::EditorWidget*> m_openTabs;

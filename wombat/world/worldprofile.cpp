@@ -20,9 +20,12 @@ void setupEditorProfile(EditorProfile &p) {
 		return nullptr;
 	});
 	p.addNewFileMenuMaker("Tile Class", [](NewFileMenuParams args) -> NewFileMenu* {
-		return new editor::GenericNewFileMenu<models::TileClass>(args, "New Tile Class...", "World/TileClass");
+		return new editor::GenericNewFileMenu<models::TileClass>(args, "New Tile Class", "World/TileClass");
 	});
 	p.addDefaultPath("World/TileClass/");
+
+	// Zone
+	p.addDefaultPath("World/Zone/");
 }
 
 }
