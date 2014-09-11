@@ -1,3 +1,6 @@
+#ifndef WOMBAT_WORLD_TILEEDITOR_HPP
+#define WOMBAT_WORLD_TILEEDITOR_HPP
+
 #include <QComboBox>
 #include <QDir>
 #include <QGroupBox>
@@ -66,3 +69,5 @@ class TileEditor: public editor::EditorWidget {
 
 }
 }
+
+#endif

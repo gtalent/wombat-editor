@@ -16,7 +16,7 @@ void setupEditorProfile(EditorProfile &p) {
 		if (args.filePath.startsWith(args.projectPath + "Animations/")) {
 			return new AnimationEditor(args);
 		}
-		return 0;
+		return nullptr;
 	});
 	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
 		return new NewAnimation(args);
@@ -29,7 +29,7 @@ void setupEditorProfile(EditorProfile &p) {
 		if (args.filePath.startsWith(args.projectPath + "Resources/SpriteSheets/")) {
 			return new SpriteSheetEditor(args);
 		}
-		return 0;
+		return nullptr;
 	});
 	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) -> NewFileMenu* {
 		return new NewSpriteSheet(args);

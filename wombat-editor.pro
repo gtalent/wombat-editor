@@ -11,6 +11,7 @@ SOURCES += \
 	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
 	editorcore/editorwidget.cpp \
+	editorcore/genericnewfilemenu.cpp \
 	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
 	editorcore/modeliomanager.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
 	editorcore/editorprofile.hpp \
 	editorcore/editorwidget.hpp \
 	editorcore/editorwidgetparams.hpp \
+	editorcore/genericnewfilemenu.hpp \
 	editorcore/newfilemenuparams.hpp \
 	editorcore/newfilemenu.hpp \
 	editorcore/misc.hpp \

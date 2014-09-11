@@ -1,5 +1,5 @@
-#ifndef WOMBATCORE_NEWANIMATION_H
-#define WOMBATCORE_NEWANIMATION_H
+#ifndef WOMBAT_CORE_NEWANIMATION_HPP
+#define WOMBAT_CORE_NEWANIMATION_HPP
 
 #include <QDialog>
 #include "editorcore/newfilemenu.hpp"
@@ -33,4 +33,4 @@ class NewAnimation: public NewFileMenu {
 }
 }
 
-#endif // NEWANIMATION_H
+#endif
