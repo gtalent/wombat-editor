@@ -29,6 +29,7 @@ SOURCES += \
 	wombat/savevariables/savevariablesprofile.cpp \
 	wombat/world/tileeditor.cpp \
 	wombat/world/worldprofile.cpp \
+	wombat/world/zoneeditor.cpp \
 	editor/newmenu.cpp \
 	editor/newproject.cpp \
 	editor/mainwindow.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
 	wombat/savevariables/savevariablesprofile.hpp \
 	wombat/world/tileeditor.hpp \
 	wombat/world/worldprofile.hpp \
+	wombat/world/zoneeditor.hpp \
 	editor/newmenu.hpp \
 	editor/newproject.hpp \
 	editor/mainwindow.hpp

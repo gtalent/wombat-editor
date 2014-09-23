@@ -6,8 +6,8 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QRadioButton>
-#include "models/models.hpp"
-#include "editorcore/editorwidget.hpp"
+#include <models/models.hpp>
+#include <editorcore/editorwidget.hpp>
 
 namespace wombat {
 namespace world {
@@ -16,7 +16,7 @@ class TileEditor: public editor::EditorWidget {
 	Q_OBJECT
 
 	private:
-		//COMMANDS
+		// Commands
 		class Command: public QUndoCommand {
 			private:
 				TileEditor *m_parent;

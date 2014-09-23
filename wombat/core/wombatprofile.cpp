@@ -1,9 +1,8 @@
 #include <editorcore/genericnewfilemenu.hpp>
+#include <editorcore/editorprofile.hpp>
 #include "spritesheeteditor.hpp"
 #include "animationeditor.hpp"
 #include "newspritesheet.hpp"
-
-#include "editorcore/editorprofile.hpp"
 
 namespace wombat {
 namespace core {

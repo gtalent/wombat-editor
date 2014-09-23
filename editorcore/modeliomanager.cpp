@@ -7,7 +7,7 @@ namespace editor {
 
 QString ModelIoManager::read(QString path) {
 	if (m_models.contains(path)) {
-		return m_models[path];
+		return m_models[path]->model;
 	} else {
 		QFile file(path);
 		file.open(QIODevice::ReadOnly);
@@ -32,9 +32,37 @@ int ModelIoManager::write(QString path, QString value) {
 }
 
 void ModelIoManager::updateListeners(QString path, QString value) {
-	auto listeners = m_updateListeners[path];
-	for (auto l : listeners) {
-		l(value);
+	if (m_models.contains(path)) {
+		emit m_models[path]->update(value);
+	}
+}
+
+void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
+	ModelWrapper *wrapper;
+	if (m_models.contains(path)) {
+		wrapper = m_models[path];
+	} else {
+		QFile file(path);
+		file.open(QIODevice::ReadOnly);
+		QTextStream in(&file);
+		auto content = in.readAll();
+
+		wrapper = m_models[path] = new ModelWrapper(content);
+	}
+	wrapper->refCount++;
+	QObject::connect(wrapper, SIGNAL(update(QString)), receiver, method);
+}
+
+void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) {
+	if (m_models.contains(path)) {
+		auto wrapper = m_models[path];
+		QObject::disconnect(wrapper, SIGNAL(update(QString)), receiver, method);
+		wrapper->refCount--;
+
+		if (wrapper->refCount < 1) {
+			m_models.remove(path);
+			delete wrapper;
+		}
 	}
 }
 
