@@ -13,7 +13,7 @@
 
 using namespace editor;
 
-const QString MainWindow::AppTitle = "Wombat Editor";
+const QString MainWindow::AppTitle = "Wombat Studio";
 
 MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -60,7 +60,7 @@ int MainWindow::writeSettings(QString path) {
 	for (int i = 0; i < ui->tabWidget->count(); i++) {
 		auto t = dynamic_cast<EditorWidget*>(ui->tabWidget->widget(i));
 		if (t) {
-			settings.OpenFiles.push_back(t->path());
+			settings.OpenFiles.push_back(t->absolutePath());
 		}
 	}
 	settings.OpenTab = ui->tabWidget->currentIndex();
@@ -185,8 +185,8 @@ void MainWindow::closeTab(EditorWidget *tab) {
 		ui->actionUndo->setEnabled(false);
 		ui->actionRedo->setEnabled(false);
 		tab->close();
-		m_openTabs[tab->path()] = 0;
-		m_openTabs.erase(m_openTabs.find(tab->path()));
+		m_openTabs[tab->absolutePath()] = 0;
+		m_openTabs.erase(m_openTabs.find(tab->absolutePath()));
 		disconnect(tab, &EditorWidget::fileChanged, this, &MainWindow::fileChanged);
 		disconnect(tab, &EditorWidget::fileSaved, this, &MainWindow::fileSaved);
 		delete tab;

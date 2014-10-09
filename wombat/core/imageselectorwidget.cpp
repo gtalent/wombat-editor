@@ -43,7 +43,7 @@ ImageSelectorWidget::~ImageSelectorWidget() {
 
 int ImageSelectorWidget::openSpriteSheet(QString path) {
 	models::SpriteSheet model;
-	model.fromJson(m_modelIo->read(m_projectPath + path));
+	model.fromJson(m_modelIo->readAbsolutePath(m_projectPath + path));
 
 	m_ptToImg.clear();
 	m_currentModelPath = path;

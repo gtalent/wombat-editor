@@ -82,7 +82,7 @@ class SpriteSheetEditor: public editor::EditorWidget {
 		 * Returns point associated with the given index.
 		 */
 		models::Point indexPoint(int i);
-		int load(QString path);
+		int load(QString absolutePath);
 		void draw();
 		int newImageId();
 		void recycleImageId(int imgId);

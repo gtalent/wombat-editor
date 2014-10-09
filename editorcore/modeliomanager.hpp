@@ -31,9 +31,9 @@ class ModelIoManager: public QObject {
 		QMap<QString, ModelWrapper*> m_models;
 
 	public:
-		QString read(QString path);
+		QString readAbsolutePath(QString path);
 
-		int write(QString path, QString value);
+		int writeAbsolutePath(QString path, QString value);
 
 		void connectOnUpdate(QString path, const QObject *receiver, const char *method);
 

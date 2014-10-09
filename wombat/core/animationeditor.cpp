@@ -10,7 +10,7 @@ namespace core {
 AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), ui(new Ui::AnimationEditor) {
 	ui->setupUi(this);
 
-	m_model.fromJson(modelIoManager()->read(args.filePath));
+	m_model.fromJson(modelIoManager()->readAbsolutePath(args.filePath));
 
 	m_projectPath = args.projectPath;
 	m_modelView = new ImageTableModel(m_model, m_pixMaps, m_projectPath);
@@ -33,7 +33,7 @@ AnimationEditor::~AnimationEditor() {
 }
 
 int AnimationEditor::saveFile() {
-	auto ret = modelIoManager()->write(path(), m_model.toJson(models::cyborgbear::Readable));
+	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), m_model.toJson(models::cyborgbear::Readable));
 	notifyFileSave();
 	return ret;
 }

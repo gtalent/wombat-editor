@@ -80,7 +80,7 @@ bool EditorWidget::canRedo() {
 	return m_undoStack->canRedo();
 }
 
-QString EditorWidget::path() {
+QString EditorWidget::absolutePath() {
 	return m_path;
 }
 

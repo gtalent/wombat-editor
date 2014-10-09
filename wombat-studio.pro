@@ -2,7 +2,7 @@ QT += core gui widgets qml quick
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
-TARGET = WombatEditor
+TARGET = WombatStudio
 TEMPLATE = app
 
 SOURCES += \

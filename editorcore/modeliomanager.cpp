@@ -5,7 +5,7 @@
 
 namespace editor {
 
-QString ModelIoManager::read(QString path) {
+QString ModelIoManager::readAbsolutePath(QString path) {
 	if (m_models.contains(path)) {
 		return m_models[path]->model;
 	} else {
@@ -20,7 +20,7 @@ QString ModelIoManager::read(QString path) {
 	}
 }
 
-int ModelIoManager::write(QString path, QString value) {
+int ModelIoManager::writeAbsolutePath(QString path, QString value) {
 	QFile file(path);
 	file.open(QIODevice::WriteOnly);
 	QTextStream(&file) << value;

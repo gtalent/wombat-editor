@@ -11,7 +11,7 @@ using namespace editor;
 
 int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
-	a.setApplicationName("Wombat Editor");
+	a.setApplicationName(MainWindow::AppTitle);
 
 	editor::EditorProfile profile;
 	core::setupEditorProfile(profile);

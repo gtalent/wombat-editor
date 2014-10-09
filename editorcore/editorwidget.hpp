@@ -33,7 +33,7 @@ class EditorWidget: public QWidget {
 		void redo();
 		bool canUndo();
 		bool canRedo();
-		QString path();
+		QString absolutePath();
 		virtual void closeWidget();
 		virtual int saveFile() = 0;
 

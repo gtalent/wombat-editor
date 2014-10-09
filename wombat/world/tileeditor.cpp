@@ -13,7 +13,7 @@ using namespace editor;
 
 TileEditor::TileEditor(EditorWidgetParams args):
 	EditorWidget(args), m_projectDir(args.projectPath + "/Animation") {
-	m_model.fromJson(modelIoManager()->read(path()));
+	m_model.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
 
 	buildGui();
 	loadView();
@@ -80,7 +80,7 @@ QLayout *TileEditor::buildGui() {
 
 int TileEditor::saveFile() {
 	auto json = m_model.toJson(models::cyborgbear::Readable);
-	auto ret = modelIoManager()->write(path(), json);
+	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), json);
 	notifyFileSave();
 	return ret;
 }

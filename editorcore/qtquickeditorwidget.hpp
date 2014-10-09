@@ -18,7 +18,7 @@ class QtQuickEditorWidget: public EditorWidget {
 		 * @param path path to the QML file for building this widget
 		 * @param args the EditorWidgetParams needed for vevery EditorWidget
 		 */
-		QtQuickEditorWidget(QString path, EditorWidgetParams args);
+		QtQuickEditorWidget(QString absolutePath, EditorWidgetParams args);
 
 	signals:
 		/**

@@ -21,7 +21,7 @@ namespace savevariables {
 SaveVariables::SaveVariables(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_file.fromJson(modelIoManager()->read(args.filePath));
+	m_file.fromJson(modelIoManager()->readAbsolutePath(args.filePath));
 	for (auto i = m_file.Vars.begin(); i != m_file.Vars.end(); i++) {
 		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.Vars[i.key()]);
 	}
@@ -170,7 +170,7 @@ void SaveVariables::tableClicked(QModelIndex) {
 
 int SaveVariables::saveFile() {
 	auto out = m_file.toJson(models::cyborgbear::Readable);
-	auto ret = modelIoManager()->write(path(), out);
+	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), out);
 	notifyFileSave();
 	return ret;
 }

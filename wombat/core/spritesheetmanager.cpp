@@ -29,16 +29,16 @@ QPixmap SpriteSheetManager::getPixmap(models::SpriteSheetImage img) {
 	return QPixmap::fromImage(getImage(img));
 }
 
-QImage SpriteSheetManager::getImage(models::Image img, QString path) {
+QImage SpriteSheetManager::getImage(models::Image img, QString projectPath) {
 	models::SpriteSheet model;
-	model.readJsonFile(path + img.SpriteSheet);
-	return SpriteSheetManager(model, path).getImage(model.Images[img.ImgId]);
+	model.readJsonFile(projectPath + img.SpriteSheet);
+	return SpriteSheetManager(model, projectPath).getImage(model.Images[img.ImgId]);
 }
 
-QPixmap SpriteSheetManager::getPixmap(models::Image img, QString path) {
+QPixmap SpriteSheetManager::getPixmap(models::Image img, QString projectPath) {
 	models::SpriteSheet model;
-	model.readJsonFile(path + img.SpriteSheet);
-	return SpriteSheetManager(model, path).getPixmap(model.Images[img.ImgId]);
+	model.readJsonFile(projectPath + img.SpriteSheet);
+	return SpriteSheetManager(model, projectPath).getPixmap(model.Images[img.ImgId]);
 }
 
 }
