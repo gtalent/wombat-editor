@@ -5,7 +5,7 @@
 
 namespace models {
 
-extern cyborgbear::string Path_TileClass;
+extern const cyborgbear::string Path_TileClass;
 
 }
 
