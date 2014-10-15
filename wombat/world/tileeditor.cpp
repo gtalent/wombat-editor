@@ -12,7 +12,7 @@ namespace world {
 using namespace editor;
 
 TileEditor::TileEditor(EditorWidgetParams args):
-	EditorWidget(args), m_projectDir(args.projectPath + "/Animation") {
+	EditorWidget(args), m_animDir(args.projectPath + "/Animation") {
 	m_model.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
 
 	buildGui();
@@ -49,7 +49,7 @@ QLayout *TileEditor::buildGui() {
 
 	m_lowerAnim->addItem("");
 	m_upperAnim->addItem("");
-	auto files = m_projectDir.entryList();
+	auto files = m_animDir.entryList();
 	for (int i = 2; i < files.size(); i++) {
 		auto file = files[i];
 		if (file.endsWith(".json")) {

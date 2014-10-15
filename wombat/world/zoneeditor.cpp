@@ -1,3 +1,4 @@
+#include <QScrollBar>
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -13,7 +14,8 @@ using namespace editor;
 const int ZoneEditor::TileWidth = 32;
 const int ZoneEditor::TileHeight = 32;
 
-ZoneEditor::ZoneEditor(EditorWidgetParams args): EditorWidget(args) {
+ZoneEditor::ZoneEditor(EditorWidgetParams args):
+EditorWidget(args), m_worldUtil(args.models) {
 	m_projectPath = args.projectPath;
 	m_header.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
 	m_model.fromJson(modelIoManager()->readAbsolutePath(m_projectPath + "/" + m_header.Zone + ".json"));

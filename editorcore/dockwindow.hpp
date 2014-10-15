@@ -16,6 +16,8 @@ class DockWindow: public QDockWidget {
 		Qt::DockWidgetArea dockWidgetArea();
 
 		void dockWidgetArea(Qt::DockWidgetArea);
+
+		virtual QString dockId() = 0;
 };
 
 }

@@ -1,5 +1,7 @@
 #include <editorcore/genericnewfilemenu.hpp>
+#include <editorcore/editorprofile.hpp>
 #include <editorcore/misc.hpp>
+#include "tileclassexplorer.hpp"
 #include "tileeditor.hpp"
 #include "zoneeditor.hpp"
 #include "worldprofile.hpp"
@@ -24,6 +26,9 @@ void setupEditorProfile(EditorProfile &p) {
 		return new editor::GenericNewFileMenu<models::TileClass>(args, "New Tile Class", "World/TileClass");
 	});
 	p.addDefaultPath("World/TileClass/");
+
+	// TileClass Explorer
+	p.addDockMaker<TileClassExplorer>();
 
 	// Zone
 	p.addNewFileMenuMaker("Zone", [](NewFileMenuParams args) -> NewFileMenu* {

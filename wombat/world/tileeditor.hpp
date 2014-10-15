@@ -33,7 +33,7 @@ class TileEditor: public editor::EditorWidget {
 
 	private:
 		models::TileClass m_model;
-		QDir m_projectDir;
+		QDir m_animDir;
 		QComboBox *m_upperAnim;
 		QComboBox *m_lowerAnim;
 		QRadioButton *m_chkLand;

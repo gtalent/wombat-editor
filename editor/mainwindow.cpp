@@ -25,6 +25,7 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 	m_profile = profile;
 
 	readSettings("editor_settings.json");
+	setupDockWidgets();
 }
 
 MainWindow::~MainWindow() {
@@ -109,6 +110,7 @@ void MainWindow::openProject(QString path) {
 	if (!path.endsWith("/"))
 		path += "/";
 	m_projectPath = path;
+	m_models.setProjectPath(path);
 	setWindowTitle(path.mid(0, path.length() - 1) + " - " + AppTitle);
 
 	if (ui->fileList->model())
@@ -232,13 +234,22 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 	}
 }
 
-EditorWidget *MainWindow::currentTab() {
-	return dynamic_cast<EditorWidget*>(ui->tabWidget->currentWidget());
+void MainWindow::setupDockWidgets() {
+	const auto args = DockWindowParams(this, &m_models);
+	auto makers = m_profile->dockMakers();
+	for (auto maker : makers) {
+		auto dock = maker(args);
+		addDockWidget(dock->dockWidgetArea(), dock);
+	}
 }
 
 void MainWindow::logDebug(QString msg) {
 	ui->listDebugLog->addItem(msg);
 	ui->listDebugLog->scrollToBottom();
+}
+
+EditorWidget *MainWindow::currentTab() {
+	return dynamic_cast<EditorWidget*>(ui->tabWidget->currentWidget());
 }
 
 void MainWindow::saveFile() {

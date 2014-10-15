@@ -6,6 +6,7 @@
 #include <QPair>
 #include <editorcore/editorwidget.hpp>
 #include <models/models.hpp>
+#include "worldutil.hpp"
 
 namespace wombat {
 namespace world {
@@ -41,6 +42,7 @@ class ZoneEditor: public editor::EditorWidget {
 		QVector<QVector<QVector<Tile>>> m_tiles;
 		models::Zone m_model;
 		models::ZoneHeader m_header;
+		WorldUtil m_worldUtil;
 		const static int TileWidth;
 		const static int TileHeight;
 

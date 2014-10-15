@@ -22,31 +22,44 @@ typedef std::function<DockWindow*(DockWindowParams)> DockMaker;
 class EditorProfile {
 	private:
 		QMap<QString, NewFileMenuMaker> m_newFileMenuMakers;
-
 		QVector<EditorWidgetMaker> m_editorWidgetMakers;
-
 		QVector<QString> m_fileTypes;
-
 		QVector<QString> m_defaultPaths;
-
 		QVector<DockMaker> m_dockMakers;
-
-		ModelIoManager m_models;
-
 		QMap<QString, QString> m_vars;
 
 	public:
+		EditorProfile() = default;
+
 		NewFileMenu *newFileMenu(NewFileMenuParams);
 
 		EditorWidget *editorWidget(EditorWidgetParams);
 
-		QVector<QString> defaultPaths();
+		const QVector<QString> &defaultPaths();
 
-		QVector<QString> fileTypes();
+		const QVector<QString> &fileTypes();
+
+		const QVector<DockMaker> &dockMakers();
 
 		void addNewFileMenuMaker(QString, NewFileMenuMaker);
 
 		void addEditorWidgetMaker(EditorWidgetMaker);
+
+		/**
+		 * Adds a function that the MainWindow will use to make a DockWidget.
+		 */
+		void addDockMaker(DockMaker);
+
+		/**
+		 * Adds a function that the MainWindow will use to make a DockWidget
+		 * of type T. T should have a constructor that takes a DockWindowParams.
+		 */
+		template<typename T>
+		void addDockMaker() {
+			addDockMaker([](DockWindowParams args) -> DockWindow* {
+				return new T(args);
+			});
+		}
 
 		void addDefaultPath(QString);
 
@@ -61,6 +74,10 @@ class EditorProfile {
 		void loadQtQuickModule(QString path);
 
 		void loadQtQuickProfile(models::EditorProfile);
+
+	private:
+		EditorProfile(const EditorProfile&);
+		const EditorProfile &operator=(const EditorProfile&);
 };
 
 }

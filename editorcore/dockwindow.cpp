@@ -3,7 +3,8 @@
 namespace editor {
 
 DockWindow::DockWindow(DockWindowParams args): QDockWidget(args.parent) {
-	m_area = static_cast<Qt::DockWidgetArea>(0);
+	m_area = static_cast<Qt::DockWidgetArea>(1);
+	setFeatures(QDockWidget::AllDockWidgetFeatures);
 }
 		
 Qt::DockWidgetArea DockWindow::dockWidgetArea() {

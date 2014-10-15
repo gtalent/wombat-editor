@@ -18,19 +18,22 @@ EditorWidget *EditorProfile::editorWidget(EditorWidgetParams args) {
 	for (auto f : m_editorWidgetMakers) {
 		auto retval = f(args);
 		if (retval) {
-			retval->modelIoManager(&m_models);
 			return retval;
 		}
 	}
 	return 0;
 }
 
-QVector<QString> EditorProfile::defaultPaths() {
+const QVector<QString> &EditorProfile::defaultPaths() {
 	return m_defaultPaths;
 }
 
-QVector<QString> EditorProfile::fileTypes() {
+const QVector<QString> &EditorProfile::fileTypes() {
 	return m_fileTypes;
+}
+
+const QVector<DockMaker> &EditorProfile::dockMakers() {
+	return m_dockMakers;
 }
 
 void EditorProfile::addNewFileMenuMaker(QString fileType, NewFileMenuMaker mkr) {
@@ -106,6 +109,10 @@ void EditorProfile::loadQtQuickModule(QString path) {
 	} else {
 		qDebug() << "Could not load file: " << path;
 	}
+}
+
+void EditorProfile::addDockMaker(DockMaker dm) {
+	m_dockMakers.push_back(dm);
 }
 
 }

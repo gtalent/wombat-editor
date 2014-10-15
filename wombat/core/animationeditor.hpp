@@ -37,7 +37,7 @@ class AnimationEditor: public EditorWidget {
 
 				virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-				QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+				QVariant headerData(int index, Qt::Orientation orientation, int role) const;
 		};
 
 		//COMMANDS
@@ -56,14 +56,10 @@ class AnimationEditor: public EditorWidget {
 		};
 
 	private:
-		Ui::AnimationEditor *ui;
-
-		ImageTableModel *m_modelView;
-
+		Ui::AnimationEditor *ui = nullptr;
+		ImageTableModel *m_modelView = nullptr;
 		QString m_projectPath;
-
 		QMap<QString, QPixmap> m_pixMaps;
-
 		models::Animation m_model;
 
 	public:

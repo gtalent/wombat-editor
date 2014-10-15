@@ -6,7 +6,7 @@
 using namespace models;
 using namespace models::cyborgbear;
 
-string models::cyborgbear::version = "1.1.1";
+string models::cyborgbear::version = "1.1.2";
 
 int Model::readJsonFile(string path) {
 	try {

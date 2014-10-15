@@ -10,8 +10,8 @@ using namespace wombat;
 using namespace editor;
 
 int main(int argc, char *argv[]) {
-	QApplication a(argc, argv);
-	a.setApplicationName(MainWindow::AppTitle);
+	QApplication app(argc, argv);
+	app.setApplicationName(MainWindow::AppTitle);
 
 	editor::EditorProfile profile;
 	core::setupEditorProfile(profile);
@@ -22,5 +22,5 @@ int main(int argc, char *argv[]) {
 	addDebugLogger(&w);
 	w.show();
 
-	return a.exec();
+	return app.exec();
 }

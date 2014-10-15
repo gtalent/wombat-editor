@@ -702,6 +702,8 @@ class Point: public cyborgbear::Model {
 		bool operator==(const Point&) const;
 
 		bool operator!=(const Point&) const;
+
+		string name() const { return "Point"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -732,6 +734,8 @@ class Size: public cyborgbear::Model {
 		bool operator==(const Size&) const;
 
 		bool operator!=(const Size&) const;
+
+		string name() const { return "Size"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -762,6 +766,8 @@ class Bounds: public cyborgbear::Model {
 		bool operator==(const Bounds&) const;
 
 		bool operator!=(const Bounds&) const;
+
+		string name() const { return "Bounds"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -794,6 +800,8 @@ class SaveVariables: public cyborgbear::Model {
 		bool operator==(const SaveVariables&) const;
 
 		bool operator!=(const SaveVariables&) const;
+
+		string name() const { return "SaveVariables"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -823,6 +831,8 @@ class SpriteSheetImage: public cyborgbear::Model {
 		bool operator==(const SpriteSheetImage&) const;
 
 		bool operator!=(const SpriteSheetImage&) const;
+
+		string name() const { return "SpriteSheetImage"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -852,6 +862,8 @@ class SpriteSheet: public cyborgbear::Model {
 		bool operator==(const SpriteSheet&) const;
 
 		bool operator!=(const SpriteSheet&) const;
+
+		string name() const { return "SpriteSheet"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -888,6 +900,8 @@ class Image: public cyborgbear::Model {
 		bool operator==(const Image&) const;
 
 		bool operator!=(const Image&) const;
+
+		string name() const { return "Image"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -919,6 +933,8 @@ class Sprite: public cyborgbear::Model {
 		bool operator==(const Sprite&) const;
 
 		bool operator!=(const Sprite&) const;
+
+		string name() const { return "Sprite"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -953,6 +969,8 @@ class AnimationSlide: public cyborgbear::Model {
 		bool operator==(const AnimationSlide&) const;
 
 		bool operator!=(const AnimationSlide&) const;
+
+		string name() const { return "AnimationSlide"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -983,6 +1001,8 @@ class AnimLayer: public cyborgbear::Model {
 		bool operator==(const AnimLayer&) const;
 
 		bool operator!=(const AnimLayer&) const;
+
+		string name() const { return "AnimLayer"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1013,6 +1033,8 @@ class EditorProfile: public cyborgbear::Model {
 		bool operator==(const EditorProfile&) const;
 
 		bool operator!=(const EditorProfile&) const;
+
+		string name() const { return "EditorProfile"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1046,6 +1068,8 @@ class EditorDockSettings: public cyborgbear::Model {
 		bool operator==(const EditorDockSettings&) const;
 
 		bool operator!=(const EditorDockSettings&) const;
+
+		string name() const { return "EditorDockSettings"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1077,6 +1101,8 @@ class ZoneInstance: public cyborgbear::Model {
 		bool operator==(const ZoneInstance&) const;
 
 		bool operator!=(const ZoneInstance&) const;
+
+		string name() const { return "ZoneInstance"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1108,6 +1134,8 @@ class SpriteClass: public cyborgbear::Model {
 		bool operator==(const SpriteClass&) const;
 
 		bool operator!=(const SpriteClass&) const;
+
+		string name() const { return "SpriteClass"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1139,6 +1167,8 @@ class Animation: public cyborgbear::Model {
 		bool operator==(const Animation&) const;
 
 		bool operator!=(const Animation&) const;
+
+		string name() const { return "Animation"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1169,6 +1199,8 @@ class World: public cyborgbear::Model {
 		bool operator==(const World&) const;
 
 		bool operator!=(const World&) const;
+
+		string name() const { return "World"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1198,6 +1230,8 @@ class EditorModule: public cyborgbear::Model {
 		bool operator==(const EditorModule&) const;
 
 		bool operator!=(const EditorModule&) const;
+
+		string name() const { return "EditorModule"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1227,6 +1261,8 @@ class EditorSettings: public cyborgbear::Model {
 		bool operator==(const EditorSettings&) const;
 
 		bool operator!=(const EditorSettings&) const;
+
+		string name() const { return "EditorSettings"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1259,6 +1295,8 @@ class ZoneHeader: public cyborgbear::Model {
 		bool operator==(const ZoneHeader&) const;
 
 		bool operator!=(const ZoneHeader&) const;
+
+		string name() const { return "ZoneHeader"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1291,6 +1329,8 @@ class PersonClass: public cyborgbear::Model {
 		bool operator==(const PersonClass&) const;
 
 		bool operator!=(const PersonClass&) const;
+
+		string name() const { return "PersonClass"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1324,6 +1364,8 @@ class Person: public cyborgbear::Model {
 		bool operator==(const Person&) const;
 
 		bool operator!=(const Person&) const;
+
+		string name() const { return "Person"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1355,6 +1397,8 @@ class TileClass: public cyborgbear::Model {
 		bool operator==(const TileClass&) const;
 
 		bool operator!=(const TileClass&) const;
+
+		string name() const { return "TileClass"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1387,6 +1431,8 @@ class Tile: public cyborgbear::Model {
 		bool operator==(const Tile&) const;
 
 		bool operator!=(const Tile&) const;
+
+		string name() const { return "Tile"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();
@@ -1417,6 +1463,8 @@ class Zone: public cyborgbear::Model {
 		bool operator==(const Zone&) const;
 
 		bool operator!=(const Zone&) const;
+
+		string name() const { return "Zone"; }
 #ifdef CYBORGBEAR_BOOST_ENABLED
 
 		virtual string toBoostBinary();

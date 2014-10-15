@@ -21,6 +21,7 @@ namespace savevariables {
 SaveVariables::SaveVariables(EditorWidgetParams args): EditorWidget(args), ui(new Ui::SaveVariables) {
 	ui->setupUi(this);
 	ui->tblVars->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	ui->tblVars->horizontalHeader()->setStretchLastSection(true);
 	m_file.fromJson(modelIoManager()->readAbsolutePath(args.filePath));
 	for (auto i = m_file.Vars.begin(); i != m_file.Vars.end(); i++) {
 		tblInsertVar(ui->tblVars->rowCount(), i.key(), m_file.Vars[i.key()]);

@@ -24,8 +24,8 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 	private:
 		QString m_projectPath;
 		QMap<QString, editor::EditorWidget*> m_openTabs;
-		editor::ModelIoManager m_models;
 		editor::EditorProfile *m_profile;
+		editor::ModelIoManager m_models;
 
 	public:
 		explicit MainWindow(editor::EditorProfile *profile = 0, QWidget *parent = 0);
@@ -35,6 +35,7 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 		virtual void logDebug(QString msg);
 
 	private:
+		void setupDockWidgets();
 		editor::EditorWidget *currentTab();
 		int readSettings(QString path);
 		int writeSettings(QString path);
