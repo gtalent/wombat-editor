@@ -7,6 +7,7 @@ TEMPLATE = app
 
 SOURCES += \
 	models/models.cpp \
+	models/paths.cpp \
 	editorcontrols/dockwidget.cpp\
 	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
 HEADERS += \
 	models/enums.hpp \
 	models/models.hpp \
+	models/paths.hpp \
 	editorcontrols/dockwidget.hpp\
 	editorcore/dockwindow.hpp \
 	editorcore/dockwindowparams.hpp \

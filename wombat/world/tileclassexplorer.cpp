@@ -2,6 +2,7 @@
 #include <QHeaderView>
 #include <QTableView>
 #include <QVBoxLayout>
+#include <models/paths.hpp>
 #include "tileclassexplorer.hpp"
 
 namespace wombat {
@@ -10,6 +11,7 @@ namespace world {
 using editor::DockWindow;
 using editor::DockWindowParams;
 using models::TileClass;
+using models::Path_TileClass;
 
 const QString TileClassExplorer::DockId = "TileClassExplorer";
 
@@ -100,7 +102,7 @@ QString TileClassExplorer::dockId() {
 }
 
 void TileClassExplorer::loadTileClassList() {
-	auto tileClasses = m_modelio->readModels<TileClass>("World/TileClass");
+	auto tileClasses = m_modelio->readModels<TileClass>(Path_TileClass);
 	auto tileTable = new TileClassTable(this, tileClasses);
 	subscribe(tileClasses);
 	setTableModel(tileTable);
@@ -115,11 +117,11 @@ void TileClassExplorer::setTableModel(TileClassTable *tileTable) {
 }
 
 void TileClassExplorer::subscribe() {
-	auto tileClasses = m_modelio->readModels<TileClass>("World/TileClass");
+	auto tileClasses = m_modelio->readModels<TileClass>(Path_TileClass);
 	subscribe(tileClasses);
 }
 
-void TileClassExplorer::subscribe(const QMap<QString, models::TileClass> &tileClasses) {
+void TileClassExplorer::subscribe(const QMap<QString, TileClass> &tileClasses) {
 	unsubscribe();
 	for (auto tc = tileClasses.begin(); tc != tileClasses.end(); tc++) {
 		auto key = tc.key();
