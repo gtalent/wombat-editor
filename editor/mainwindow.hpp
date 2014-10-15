@@ -6,10 +6,10 @@
 #include <QPoint>
 #include <QString>
 
-#include "editorcore/misc.hpp"
-#include "editorcore/editorwidget.hpp"
-#include "editorcore/editorprofile.hpp"
-#include "editorcore/modeliomanager.hpp"
+#include <editorcore/misc.hpp>
+#include <editorcore/editorwidget.hpp>
+#include <editorcore/editorprofile.hpp>
+#include <editorcore/modeliomanager.hpp>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +26,7 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 		QMap<QString, editor::EditorWidget*> m_openTabs;
 		editor::EditorProfile *m_profile;
 		editor::ModelIoManager m_models;
+		QVector<QDockWidget*> m_dockWidgets;
 
 	public:
 		explicit MainWindow(editor::EditorProfile *profile = 0, QWidget *parent = 0);

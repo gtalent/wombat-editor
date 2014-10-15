@@ -1,5 +1,6 @@
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 #include "modeliomanager.hpp"
 #include "misc.hpp"
 
@@ -61,7 +62,7 @@ void ModelIoManager::updateListeners(QString path, QString value) {
 void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
 	path = cleanupPath(path);
 	Connection conn(path, receiver, method);
-	if (m_onUpdateConnections[conn]) {
+	if (!m_onUpdateConnections[conn]) {
 		m_onUpdateConnections[conn] = true;
 		ModelWrapper *wrapper = nullptr;
 		if (m_models.contains(path)) {
@@ -75,7 +76,7 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 			wrapper = m_models[path] = new ModelWrapper(content);
 		}
 		wrapper->refCount++;
-		QMetaObject::invokeMethod(wrapper, method, Q_ARG(QString, m_models[path]->model));
+
 		QObject::connect(wrapper, SIGNAL(update(QString)), receiver, method);
 	}
 }
@@ -84,6 +85,7 @@ void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, c
 	path = cleanupPath(path);
 	Connection conn(path, receiver, method);
 	m_onUpdateConnections.remove(conn);
+
 	if (m_models.contains(path)) {
 		auto wrapper = m_models[path];
 		QObject::disconnect(wrapper, SIGNAL(update(QString)), receiver, method);

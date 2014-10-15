@@ -31,6 +31,11 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 MainWindow::~MainWindow() {
 	writeSettings("editor_settings.json");
 
+	for (auto dock : m_dockWidgets) {
+		removeDockWidget(dock);
+		delete dock;
+	}
+
 	if (ui->fileList->model())
 		delete ui->fileList->model();
 	delete ui;
@@ -240,6 +245,7 @@ void MainWindow::setupDockWidgets() {
 	for (auto maker : makers) {
 		auto dock = maker(args);
 		addDockWidget(dock->dockWidgetArea(), dock);
+		m_dockWidgets.push_back(dock);
 	}
 }
 

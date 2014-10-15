@@ -89,10 +89,10 @@ DockWindow(args), m_worldUtil(args.modelio) {
 }
 
 TileClassExplorer::~TileClassExplorer() {
+	unsubscribe();
 	if (m_tileTableModel) {
 		delete m_tileTableModel;
 	}
-	unsubscribe();
 }
 
 QString TileClassExplorer::dockId() {
