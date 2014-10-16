@@ -2,7 +2,7 @@
 #include <editorcore/editorprofile.hpp>
 #include <editorcore/misc.hpp>
 #include "tileclassexplorer.hpp"
-#include "tileeditor.hpp"
+#include "tileclasseditor.hpp"
 #include "zoneeditor.hpp"
 #include "worldprofile.hpp"
 
@@ -18,7 +18,7 @@ void setupEditorProfile(EditorProfile &p) {
 	// Tile Editor
 	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + "World/TileClass/")) {
-			return new TileEditor(args);
+			return new TileClassEditor(args);
 		}
 		return nullptr;
 	});

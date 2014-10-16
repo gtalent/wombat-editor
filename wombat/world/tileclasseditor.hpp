@@ -12,19 +12,19 @@
 namespace wombat {
 namespace world {
 
-class TileEditor: public editor::EditorWidget {
+class TileClassEditor: public editor::EditorWidget {
 	Q_OBJECT
 
 	private:
 		// Commands
 		class Command: public QUndoCommand {
 			private:
-				TileEditor *m_parent;
+				TileClassEditor *m_parent;
 				models::TileClass m_before;
 				models::TileClass m_after;
 
 			public:
-				Command(TileEditor *parent, models::TileClass before, models::TileClass after);
+				Command(TileClassEditor *parent, models::TileClass before, models::TileClass after);
 
 				void undo();
 
@@ -46,12 +46,12 @@ class TileEditor: public editor::EditorWidget {
 		 * Constructor
 		 * @param args standard EditorWidget arguments
 		 */
-		TileEditor(editor::EditorWidgetParams args);
+		TileClassEditor(editor::EditorWidgetParams args);
 
 		/**
 		 * Destructor
 		 */
-		~TileEditor();
+		~TileClassEditor();
 
 		int saveFile();
 

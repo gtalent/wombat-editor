@@ -3,16 +3,19 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include "models/enums.hpp"
-#include "tileeditor.hpp"
+#include <models/enums.hpp>
+#include <models/paths.hpp>
+#include "tileclasseditor.hpp"
 
 namespace wombat {
 namespace world {
 
 using namespace editor;
+using namespace models;
+using namespace cyborgbear;
 
-TileEditor::TileEditor(EditorWidgetParams args):
-	EditorWidget(args), m_animDir(args.projectPath + "/Animation") {
+TileClassEditor::TileClassEditor(EditorWidgetParams args):
+	EditorWidget(args), m_animDir(args.projectPath + Path_Animation) {
 	m_model.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
 
 	buildGui();
@@ -26,7 +29,7 @@ TileEditor::TileEditor(EditorWidgetParams args):
 	connect(m_upperAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
 }
 
-TileEditor::~TileEditor() {
+TileClassEditor::~TileClassEditor() {
 	disconnect(m_chkLand, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	disconnect(m_chkWater, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
 	disconnect(m_chkWaterfall, SIGNAL(toggled(bool)), this, SLOT(updateModel()));
@@ -35,7 +38,7 @@ TileEditor::~TileEditor() {
 	disconnect(m_upperAnim, SIGNAL(currentIndexChanged(int)), this, SLOT(updateModel()));
 }
 
-QLayout *TileEditor::buildGui() {
+QLayout *TileClassEditor::buildGui() {
 	auto root = new QVBoxLayout(this);
 
 	auto lytAnimLayers = new QFormLayout();
@@ -78,54 +81,54 @@ QLayout *TileEditor::buildGui() {
 	return root;
 }
 
-int TileEditor::saveFile() {
-	auto json = m_model.toJson(models::cyborgbear::Readable);
+int TileClassEditor::saveFile() {
+	auto json = m_model.toJson(Readable);
 	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), json);
 	notifyFileSave();
 	return ret;
 }
 
-void TileEditor::loadView() {
-	auto prefix = QString("Animation/").size();
+void TileClassEditor::loadView() {
+	auto prefix = QString(Path_Animation).size();
 	auto upper = m_model.UpperAnim.Animation;
 	auto lower = m_model.LowerAnim.Animation;
 	m_upperAnim->setCurrentText(upper.right(upper.size() - prefix));
 	m_lowerAnim->setCurrentText(lower.right(lower.size() - prefix));
 	switch (m_model.TerrainType) {
-	case models::Land:
+	case Land:
 		m_chkLand->setChecked(true);
 		break;
-	case models::Water:
+	case Water:
 		m_chkWater->setChecked(true);
 		break;
-	case models::Waterfall:
+	case Waterfall:
 		m_chkWaterfall->setChecked(true);
 		break;
-	case models::Whirlpool:
+	case Whirlpool:
 		m_chkWhirlpool->setChecked(true);
 		break;
 	}
 }
 
-void TileEditor::updateModel() {
-	models::TileClass model;
+void TileClassEditor::updateModel() {
+	TileClass model;
 	if (m_chkLand->isChecked()) {
-		model.TerrainType = models::Land;
+		model.TerrainType = Land;
 	} else if (m_chkWater->isChecked()) {
-		model.TerrainType = models::Water;
+		model.TerrainType = Water;
 	} else if (m_chkWaterfall->isChecked()) {
-		model.TerrainType = models::Waterfall;
+		model.TerrainType = Waterfall;
 	} else if (m_chkWhirlpool->isChecked()) {
-		model.TerrainType = models::Whirlpool;
+		model.TerrainType = Whirlpool;
 	}
 
 	if (m_lowerAnim->currentText() != "") {
-		model.LowerAnim.Animation = "Animation/" + m_lowerAnim->currentText();
+		model.LowerAnim.Animation = Path_Animation + m_lowerAnim->currentText();
 	} else {
 		model.LowerAnim.Animation = "";
 	}
 	if (m_upperAnim->currentText() != "") {
-		model.UpperAnim.Animation = "Animation/" + m_upperAnim->currentText();
+		model.UpperAnim.Animation = Path_Animation + m_upperAnim->currentText();
 	} else {
 		model.UpperAnim.Animation = "";
 	}
@@ -135,22 +138,22 @@ void TileEditor::updateModel() {
 	}
 }
 
-void TileEditor::setModel(models::TileClass model) {
+void TileClassEditor::setModel(TileClass model) {
 	m_model = model;
 	loadView();
 }
 
-TileEditor::Command::Command(TileEditor *parent, models::TileClass before, models::TileClass after) {
+TileClassEditor::Command::Command(TileClassEditor *parent, TileClass before, TileClass after) {
 	m_parent = parent;
 	m_before = before;
 	m_after = after;
 }
 
-void TileEditor::Command::undo() {
+void TileClassEditor::Command::undo() {
 	m_parent->setModel(m_before);
 }
 
-void TileEditor::Command::redo() {
+void TileClassEditor::Command::redo() {
 	m_parent->setModel(m_after);
 }
 

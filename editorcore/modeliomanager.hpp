@@ -33,7 +33,7 @@ class ModelIoManager: public QObject {
 			private:
 				QString m_path;
 				const QObject *m_receiver = nullptr;
-				const char *m_method = nullptr;
+				QString m_method;
 
 			public:
 				Connection(QString path, const QObject *receiver, const char *method);
@@ -76,7 +76,7 @@ class ModelIoManager: public QObject {
 		void disconnectOnUpdate(QString path, const QObject *receiver, const char *method);
 
 	private:
-		void updateListeners(QString path, QString value);
+		void updateFile(QString path, QString value);
 
 		QString loadFileAbsolutePath(QString path);
 

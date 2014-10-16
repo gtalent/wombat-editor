@@ -28,8 +28,8 @@ SOURCES += \
 	wombat/savevariables/savevariables.cpp \
 	wombat/savevariables/savevariableeditor.cpp \
 	wombat/savevariables/savevariablesprofile.cpp \
+	wombat/world/tileclasseditor.cpp \
 	wombat/world/tileclassexplorer.cpp \
-	wombat/world/tileeditor.cpp \
 	wombat/world/worldprofile.cpp \
 	wombat/world/worldutil.cpp \
 	wombat/world/zoneeditor.cpp \
@@ -65,8 +65,8 @@ HEADERS += \
 	wombat/savevariables/savevariableeditor.hpp \
 	wombat/savevariables/savevariables.hpp \
 	wombat/savevariables/savevariablesprofile.hpp \
+	wombat/world/tileclasseditor.hpp \
 	wombat/world/tileclassexplorer.hpp \
-	wombat/world/tileeditor.hpp \
 	wombat/world/worldprofile.hpp \
 	wombat/world/worldutil.hpp \
 	wombat/world/zoneeditor.hpp \

@@ -18,12 +18,12 @@ const QString TileClassExplorer::DockId = "TileClassExplorer";
 TileClassExplorer::TileClassTable::TileClassTable(TileClassExplorer *parent,
                                                   QMap<QString, TileClass> tcs) {
 	for (auto tc = tcs.begin(); tc != tcs.end(); tc++) {
-		auto key = tc.key();
+		auto key = Path_TileClass + tc.key();
 		auto val = tc.value();
 		auto &worldUtil = parent->m_worldUtil;
 
 		try {
-			key = key.mid(key.lastIndexOf("/"), key.lastIndexOf(".") + 1);
+			key = key.mid(key.lastIndexOf("/") + 1, key.lastIndexOf(".") + 1);
 		} catch (...) {
 		}
 		m_model.push_back(Row(key, worldUtil.firstImage(val.LowerAnim.Animation)));
@@ -124,16 +124,22 @@ void TileClassExplorer::subscribe() {
 void TileClassExplorer::subscribe(const QMap<QString, TileClass> &tileClasses) {
 	unsubscribe();
 	for (auto tc = tileClasses.begin(); tc != tileClasses.end(); tc++) {
-		auto key = tc.key();
+		auto key = Path_TileClass + tc.key();
 		auto val = tc.value();
+		auto lowerAnim = val.LowerAnim.Animation + ".json";
+		auto upperAnim = val.UpperAnim.Animation + ".json";
 
 		m_tcSubs.push_back(key);
-		m_tcSubs.push_back(val.LowerAnim.Animation);
-		m_tcSubs.push_back(val.UpperAnim.Animation);
+		m_tcSubs.push_back(lowerAnim);
+		m_tcSubs.push_back(upperAnim);
 
 		m_modelio->connectOnUpdate(key, this, SLOT(loadTileClassList()));
-		m_modelio->connectOnUpdate(val.LowerAnim.Animation, this, SLOT(loadTileClassList()));
-		m_modelio->connectOnUpdate(val.LowerAnim.Animation, this, SLOT(loadTileClassList()));
+		if (lowerAnim != ".json") {
+			m_modelio->connectOnUpdate(lowerAnim, this, SLOT(loadTileClassList()));
+		}
+		if (upperAnim != ".json") {
+			m_modelio->connectOnUpdate(upperAnim, this, SLOT(loadTileClassList()));
+		}
 	}
 }
 

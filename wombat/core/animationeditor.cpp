@@ -12,7 +12,6 @@ AnimationEditor::AnimationEditor(EditorWidgetParams args): EditorWidget(args), u
 
 	m_model.fromJson(modelIoManager()->readAbsolutePath(args.filePath));
 
-	//TODO:
 	m_projectPath = args.projectPath;
 	m_modelView = new ImageTableModel(m_model, m_pixMaps, m_projectPath);
 	ui->lstAnims->setModel(m_modelView);

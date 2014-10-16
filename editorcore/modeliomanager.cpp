@@ -15,7 +15,8 @@ ModelIoManager::Connection::Connection(QString path, const QObject *receiver, co
 }
 
 bool ModelIoManager::Connection::operator<(const Connection &c) const {
-	return m_path < c.m_path && m_receiver < c.m_receiver && m_method < c.m_method;
+	return (m_path < c.m_path) || (m_path == c.m_path && m_receiver < c.m_receiver) ||
+	       (m_path == c.m_path && m_receiver == c.m_receiver && m_method < c.m_method);
 }
 
 
@@ -35,7 +36,6 @@ QString ModelIoManager::readAbsolutePath(QString path) {
 		return m_models[path]->model;
 	} else {
 		auto content = loadFileAbsolutePath(path);
-		updateListeners(path, content);
 		return content;
 	}
 }
@@ -47,20 +47,21 @@ int ModelIoManager::writeAbsolutePath(QString path, QString value) {
 	QTextStream(&file) << value;
 	file.close();
 
-	updateListeners(path, value);
+	updateFile(path, value);
 
 	return 0;
 }
 
-void ModelIoManager::updateListeners(QString path, QString value) {
+void ModelIoManager::updateFile(QString path, QString value) {
 	path = cleanupPath(path);
 	if (m_models.contains(path)) {
+		m_models[path]->model = value;
 		emit m_models[path]->update(value);
 	}
 }
 
 void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
-	path = cleanupPath(path);
+	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);
 	if (!m_onUpdateConnections[conn]) {
 		m_onUpdateConnections[conn] = true;
@@ -73,7 +74,7 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 			QTextStream in(&file);
 			auto content = in.readAll();
 
-			wrapper = m_models[path] = new ModelWrapper(content);
+			m_models[path] = wrapper = new ModelWrapper(content);
 		}
 		wrapper->refCount++;
 
@@ -82,7 +83,7 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 }
 
 void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) {
-	path = cleanupPath(path);
+	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);
 	m_onUpdateConnections.remove(conn);
 
@@ -92,8 +93,8 @@ void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, c
 		wrapper->refCount--;
 
 		if (wrapper->refCount < 1) {
-			m_models.remove(path);
-			delete wrapper;
+			//m_models.remove(path);
+			//delete wrapper;
 		}
 	}
 }
@@ -105,7 +106,7 @@ QString ModelIoManager::loadFileAbsolutePath(QString path) {
 }
 
 QString ModelIoManager::toAbsolutePath(QString path) {
-	return QFileInfo(m_projectPath + "/" + path).absolutePath();
+	return QFileInfo(m_projectPath + "/" + path).absoluteFilePath();
 }
 
 QString ModelIoManager::cleanupPath(QString path) {

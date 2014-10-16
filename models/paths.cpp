@@ -4,6 +4,8 @@ namespace models {
 
 using cyborgbear::string;
 
-const string Path_TileClass = "World/TileClass";
+const cyborgbear::string Path_Animation = "Animation/";
+
+const string Path_TileClass = "World/TileClass/";
 
 }
