@@ -1,14 +1,17 @@
 #include <QDir>
 #include <QGraphicsPixmapItem>
 
-#include "editorcore/misc.hpp"
-#include "editorcore/modeliomanager.hpp"
+#include <editorcore/misc.hpp>
+#include <editorcore/modeliomanager.hpp>
+#include <models/paths.hpp>
 #include "spritesheetmanager.hpp"
 #include "imageselectorwidget.hpp"
 #include "ui_imageselectorwidget.h"
 
 namespace wombat {
 namespace core {
+
+using models::Path_SpriteSheet;
 
 ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, ModelIoManager *modelIo): QWidget(parent), ui(new Ui::ImageSelectorWidget) {
 	ui->setupUi(this);
@@ -25,7 +28,7 @@ ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, M
 
 	connect(ui->cbSpriteSheet, SIGNAL(currentTextChanged(QString)), this, SLOT(changeSpriteSheet(QString)));
 
-	auto anims = QDir(m_projectPath + "Resources/SpriteSheets").entryInfoList();
+	auto anims = QDir(m_projectPath + Path_SpriteSheet).entryInfoList();
 	for (auto s : anims) {
 		if (s.isFile() and s.fileName().endsWith(".json")) {
 			changeSpriteSheet(s.fileName());
@@ -94,7 +97,7 @@ models::Image ImageSelectorWidget::selectedImage() {
 }
 
 void ImageSelectorWidget::populateSheetSelect() {
-	auto anims = QDir(m_projectPath + "Resources/SpriteSheets").entryInfoList();
+	auto anims = QDir(m_projectPath + Path_SpriteSheet).entryInfoList();
 	for (auto s : anims) {
 		if (s.isFile() and s.fileName().endsWith(".json")) {
 			ui->cbSpriteSheet->addItem(s.fileName());
@@ -110,7 +113,7 @@ int ImageSelectorWidget::pointImgId(int x, int y) {
 }
 
 void ImageSelectorWidget::changeSpriteSheet(QString file) {
-	openSpriteSheet("Resources/SpriteSheets/" + file);
+	openSpriteSheet(Path_SpriteSheet + file);
 }
 
 }

@@ -49,7 +49,7 @@ void NewProject::accept() {
 			f.open(QIODevice::WriteOnly);
 			QTextStream out(&f);
 			if (p.endsWith(".json")) {
-				out << "{}\n";
+				out << "{}\0";
 			}
 			f.close();
 		}

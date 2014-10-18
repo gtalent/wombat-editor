@@ -2,9 +2,11 @@
 #include <QImage>
 #include "ui_newspritesheet.h"
 #include "newspritesheet.hpp"
-#include "models/editormodels.hpp"
+#include <models/editormodels.hpp>
+#include <models/paths.hpp>
 
 using namespace editor;
+using models::Path_SpriteSheet;
 
 namespace wombat {
 namespace core {
@@ -22,12 +24,12 @@ NewSpriteSheet::~NewSpriteSheet() {
 }
 
 void NewSpriteSheet::accept() {
-	m_path = m_projectPath + "Resources/SpriteSheets/" + ui->leName->text() + ".json";
+	m_path = m_projectPath + Path_SpriteSheet + ui->leName->text() + ".json";
 	if (!QFile::exists(m_path)) {
 		//setup JSON file
 		models::SpriteSheet model;
 
-		model.SrcFile = "Resources/SpriteSheets/" + ui->leName->text() + ".png";
+		model.SrcFile = Path_SpriteSheet + ui->leName->text() + ".png";
 
 		QStringList ts = ui->cbTileSize->currentText().split("x");
 		model.TileWidth = ts[0].toInt();
