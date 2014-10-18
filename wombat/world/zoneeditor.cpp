@@ -14,11 +14,81 @@ using namespace editor;
 const int ZoneEditor::TileWidth = 32;
 const int ZoneEditor::TileHeight = 32;
 
+// ZoneEditorTile
+
+ZoneEditorTile::ZoneEditorTile(const ZoneEditorTile &o) {
+	m_parent = o.m_parent;
+	m_lower = o.m_lower;
+	m_upper = o.m_upper;
+	m_occupant = o.m_occupant;
+}
+
+void ZoneEditorTile::init(ZoneEditor *parent) {
+	m_parent = parent;
+}
+
+void ZoneEditorTile::set(models::Tile tile, int x, int y) {
+	auto &key = tile.TileClass.Import;
+	auto &classes = m_parent->m_tileClasses;
+	if (key != "") {
+		if (!classes.contains(key)) {
+			auto &modelio = *m_parent->modelIoManager();
+			auto path = m_parent->m_projectPath + "/" + key;
+			auto json = modelio.readAbsolutePath(path);
+			classes[key].fromJson(json);
+		}
+	}
+
+	auto &c = classes[key];
+	auto lower = firstImageOf(c.LowerAnim.Animation);
+	auto upper = firstImageOf(c.UpperAnim.Animation);
+
+	addItem(m_lower, lower, x, y);
+	addItem(m_upper, upper, x, y);
+}
+
+QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
+	QPixmap *retval = nullptr;
+	if (animPath != "") {
+		auto &imgs = m_parent->m_imgs;
+		if (!imgs.contains(animPath)) {
+			models::Animation model;
+			auto &modelio = *m_parent->modelIoManager();
+			auto path = m_parent->m_projectPath + "/" + animPath;
+			auto json = modelio.readAbsolutePath(path);
+			model.fromJson(json);
+			if (model.Images.size()) {
+				auto img = model.Images[0].Image;
+				imgs[animPath] = SpriteSheetManager::getPixmap(img, m_parent->m_projectPath);
+			}
+		}
+		retval = &imgs[animPath];
+	}
+	return retval;
+}
+
+QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
+                                               QPixmap *img, int x, int y) {
+	auto &scene = *m_parent->m_scene;
+	if (gfxItem) {
+		scene.removeItem(gfxItem);
+		gfxItem = nullptr;
+	}
+	if (img) {
+		gfxItem = scene.addPixmap(*img);
+		gfxItem->setPos(x, y);
+	}
+	return gfxItem;
+}
+
+
+// ZoneEditor
+
 ZoneEditor::ZoneEditor(EditorWidgetParams args):
 EditorWidget(args), m_worldUtil(args.models) {
 	m_projectPath = args.projectPath;
 	m_header.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
-	m_model.fromJson(modelIoManager()->readAbsolutePath(m_projectPath + "/" + m_header.Zone + ".json"));
+	m_model.fromJson(modelIoManager()->readAbsolutePath(m_projectPath + "/" + m_header.Zone));
 
 	buildGui();
 	loadView();
@@ -64,64 +134,6 @@ void ZoneEditor::loadView() {
 
 int ZoneEditor::saveFile() {
 	return 1;
-}
-
-void ZoneEditor::Tile::init(ZoneEditor *parent) {
-	m_parent = parent;
-}
-
-void ZoneEditor::Tile::set(models::Tile tile, int x, int y) {
-	auto &key = tile.TileClass.Import;
-	auto &classes = m_parent->m_tileClasses;
-	if (key != "") {
-		if (!classes.contains(key)) {
-			auto &modelio = *m_parent->modelIoManager();
-			auto path = m_parent->m_projectPath + "/" + key + ".json";
-			auto json = modelio.readAbsolutePath(path);
-			classes[key].fromJson(json);
-		}
-	}
-
-	auto &c = classes[key];
-	auto lower = firstImageOf(c.LowerAnim.Animation);
-	auto upper = firstImageOf(c.UpperAnim.Animation);
-
-	addItem(m_lower, lower, x, y);
-	addItem(m_upper, upper, x, y);
-}
-
-QPixmap *ZoneEditor::Tile::firstImageOf(QString animPath) {
-	QPixmap *retval = nullptr;
-	if (animPath != "") {
-		auto &imgs = m_parent->m_imgs;
-		if (!imgs.contains(animPath)) {
-			models::Animation model;
-			auto &modelio = *m_parent->modelIoManager();
-			auto path = m_parent->m_projectPath + "/" + animPath + ".json";
-			auto json = modelio.readAbsolutePath(path);
-			model.fromJson(json);
-			if (model.Images.size()) {
-				auto img = model.Images[0].Image;
-				imgs[animPath] = SpriteSheetManager::getPixmap(img, m_parent->m_projectPath);
-			}
-		}
-		retval = &imgs[animPath];
-	}
-	return retval;
-}
-
-QGraphicsPixmapItem *ZoneEditor::Tile::addItem(QGraphicsPixmapItem *&gfxItem,
-                                               QPixmap *img, int x, int y) {
-	auto &scene = *m_parent->m_scene;
-	if (gfxItem) {
-		scene.removeItem(gfxItem);
-		gfxItem = nullptr;
-	}
-	if (img) {
-		gfxItem = scene.addPixmap(*img);
-		gfxItem->setPos(x, y);
-	}
-	return gfxItem;
 }
 
 }

@@ -31,6 +31,9 @@ QString ModelIoManager::getProjectPath() {
 }
 
 QString ModelIoManager::readAbsolutePath(QString path) {
+	if (!path.endsWith(".json")) {
+		path += ".json";
+	}
 	path = cleanupPath(path);
 	if (m_models.contains(path)) {
 		return m_models[path]->model;
@@ -41,6 +44,9 @@ QString ModelIoManager::readAbsolutePath(QString path) {
 }
 
 int ModelIoManager::writeAbsolutePath(QString path, QString value) {
+	if (!path.endsWith(".json")) {
+		path += ".json";
+	}
 	path = cleanupPath(path);
 	QFile file(path);
 	file.open(QIODevice::WriteOnly);
@@ -61,6 +67,9 @@ void ModelIoManager::updateFile(QString path, QString value) {
 }
 
 void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
+	if (!path.endsWith(".json")) {
+		path += ".json";
+	}
 	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);
 	if (!m_onUpdateConnections[conn]) {
@@ -83,6 +92,9 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 }
 
 void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) {
+	if (!path.endsWith(".json")) {
+		path += ".json";
+	}
 	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);
 	m_onUpdateConnections.remove(conn);
