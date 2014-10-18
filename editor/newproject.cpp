@@ -3,8 +3,8 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "newproject.hpp"
 #include "ui_newproject.h"
+#include "newproject.hpp"
 
 using namespace editor;
 

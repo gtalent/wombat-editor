@@ -1,4 +1,4 @@
-#include "editorcore/misc.hpp"
+#include <editorcore/misc.hpp>
 #include "imageselectordialog.hpp"
 #include "spritesheetmanager.hpp"
 #include "animationeditor.hpp"

@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QFormLayout>
 #include <QLabel>
 #include <QPushButton>

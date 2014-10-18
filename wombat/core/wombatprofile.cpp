@@ -22,7 +22,7 @@ void setupEditorProfile(editor::EditorProfile &p) {
 		}
 		return nullptr;
 	});
-	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) -> NewFileMenu* {
+	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) {
 		return new GenericNewFileMenu<models::Animation>(args, "New Animation", "Animation");
 	});
 	p.addDefaultPath(Path_Animation);
@@ -35,10 +35,10 @@ void setupEditorProfile(editor::EditorProfile &p) {
 		}
 		return nullptr;
 	});
-	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) -> NewFileMenu* {
+	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) {
 		return new NewSpriteSheet(args);
 	});
-	p.addDefaultPath(Path_SpriteSheet + "/");
+	p.addDefaultPath(Path_SpriteSheet);
 }
 
 }

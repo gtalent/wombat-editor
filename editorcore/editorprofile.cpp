@@ -1,9 +1,9 @@
 #include <QQuickView>
+#include <QDebug>
 #include <QFile>
 #include "qtquickeditorwidget.hpp"
 #include "misc.hpp"
 #include "editorprofile.hpp"
-#include <QDebug>
 
 namespace editor {
 

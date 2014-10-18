@@ -6,7 +6,7 @@
 #include <QComboBox>
 #include <QMessageBox>
 
-#include "editorcore/misc.hpp"
+#include <editorcore/misc.hpp>
 #include "savevariableeditor.hpp"
 #include "savevariables.hpp"
 #include "ui_savevariables.h"

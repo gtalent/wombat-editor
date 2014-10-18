@@ -1,6 +1,5 @@
 #include "savevariables.hpp"
-
-#include "editorcore/editorprofile.hpp"
+#include "savevariablesprofile.hpp"
 
 namespace wombat {
 namespace savevariables {

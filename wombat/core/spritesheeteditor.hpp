@@ -5,9 +5,9 @@
 #include <QMap>
 #include <QGraphicsScene>
 
-#include "models/editormodels.hpp"
-#include "editorcore/editorwidget.hpp"
-#include "editorcore/editorwidgetparams.hpp"
+#include <models/editormodels.hpp>
+#include <editorcore/editorwidget.hpp>
+#include <editorcore/editorwidgetparams.hpp>
 
 namespace Ui {
 class SpriteSheetEditor;

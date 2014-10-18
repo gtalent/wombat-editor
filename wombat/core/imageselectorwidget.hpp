@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QString>
-#include "models/editormodels.hpp"
-#include "editorcore/modeliomanager.hpp"
+#include <models/editormodels.hpp>
+#include <editorcore/modeliomanager.hpp>
 
 namespace Ui {
 class ImageSelectorWidget;

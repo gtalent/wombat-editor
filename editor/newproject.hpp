@@ -2,7 +2,7 @@
 #define EDITOR_NEWPROJECT_HPP
 
 #include <QVector>
-#include "editorcore/newfilemenu.hpp"
+#include <editorcore/newfilemenu.hpp>
 
 namespace Ui {
 class NewProject;

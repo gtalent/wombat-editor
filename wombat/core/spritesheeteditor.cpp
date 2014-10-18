@@ -6,7 +6,7 @@
 #include <QDialogButtonBox>
 #include <QPainter>
 
-#include "editorcore/misc.hpp"
+#include <editorcore/misc.hpp>
 #include "spritesheeteditor.hpp"
 #include "ui_spritesheeteditor.h"
 

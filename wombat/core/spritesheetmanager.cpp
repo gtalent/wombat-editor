@@ -1,4 +1,4 @@
-#include "editorcore/modeliomanager.hpp"
+#include <editorcore/modeliomanager.hpp>
 #include "spritesheetmanager.hpp"
 
 namespace wombat {

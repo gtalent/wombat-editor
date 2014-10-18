@@ -26,7 +26,7 @@ void setupEditorProfile(EditorProfile &p) {
 		}
 		return nullptr;
 	});
-	p.addNewFileMenuMaker("Tile Class", [](NewFileMenuParams args) -> NewFileMenu* {
+	p.addNewFileMenuMaker("Tile Class", [](NewFileMenuParams args) {
 		return new editor::GenericNewFileMenu<models::TileClass>(args, "New Tile Class", Path_TileClass);
 	});
 	p.addDefaultPath(Path_TileClass);
@@ -35,7 +35,7 @@ void setupEditorProfile(EditorProfile &p) {
 	p.addDockMaker<TileClassExplorer>();
 
 	// Zone
-	p.addNewFileMenuMaker("Zone", [](NewFileMenuParams args) -> NewFileMenu* {
+	p.addNewFileMenuMaker("Zone", [](NewFileMenuParams args) {
 		return new editor::GenericNewFileMenu<models::Zone>(args, "New Zone", Path_Zone);
 	});
 	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {

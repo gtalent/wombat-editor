@@ -2,7 +2,7 @@
 #define WOMBATCORE_SPRITESHEETMANAGER_HPP
 
 #include <QPixmap>
-#include "models/editormodels.hpp"
+#include <models/editormodels.hpp>
 
 namespace wombat {
 namespace core {

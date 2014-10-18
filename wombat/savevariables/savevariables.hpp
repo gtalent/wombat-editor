@@ -8,8 +8,8 @@
 #include <QTableWidgetItem>
 #include <QUndoCommand>
 
-#include "editorcore/editorwidget.hpp"
-#include "models/editormodels.hpp"
+#include <editorcore/editorwidget.hpp>
+#include <models/editormodels.hpp>
 
 namespace Ui {
 class SaveVariables;

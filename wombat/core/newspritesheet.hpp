@@ -1,7 +1,7 @@
 #ifndef WOMBATCORE_NEWSPRITESHEET_HPP
 #define WOMBATCORE_NEWSPRITESHEET_HPP
 
-#include "editorcore/newfilemenu.hpp"
+#include <editorcore/newfilemenu.hpp>
 
 namespace Ui {
 class NewSpriteSheet;

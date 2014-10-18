@@ -1,6 +1,5 @@
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 #include "modeliomanager.hpp"
 #include "misc.hpp"
 

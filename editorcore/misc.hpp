@@ -1,7 +1,7 @@
 #ifndef EDITORCORE_MISC_HPP
 #define EDITORCORE_MISC_HPP
 
-#include "models/editormodels.hpp"
+#include <models/editormodels.hpp>
 
 namespace editor {
 

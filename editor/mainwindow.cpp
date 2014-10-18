@@ -4,8 +4,8 @@
 #include <QMenu>
 #include <QString>
 
-#include "editorcore/misc.hpp"
-#include "editorcore/editorwidget.hpp"
+#include <editorcore/misc.hpp>
+#include <editorcore/editorwidget.hpp>
 #include "newmenu.hpp"
 #include "newproject.hpp"
 #include "ui_mainwindow.h"

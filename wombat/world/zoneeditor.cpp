@@ -1,6 +1,5 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
-#include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <wombat/core/spritesheetmanager.hpp>
 #include "zoneeditor.hpp"

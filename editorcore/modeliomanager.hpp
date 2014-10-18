@@ -2,7 +2,6 @@
 #define EDITORCORE_MODELIOMANAGER_HPP
 
 #include <QDir>
-#include <QDebug>
 #include <QObject>
 #include <QMap>
 #include <QString>

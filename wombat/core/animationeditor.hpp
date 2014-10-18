@@ -4,10 +4,10 @@
 #include <QWidget>
 #include <QAbstractTableModel>
 
-#include "models/editormodels.hpp"
+#include <models/editormodels.hpp>
 
-#include "editorcore/editorwidget.hpp"
-#include "editorcore/editorwidgetparams.hpp"
+#include <editorcore/editorwidget.hpp>
+#include <editorcore/editorwidgetparams.hpp>
 
 namespace Ui {
 class AnimationEditor;
