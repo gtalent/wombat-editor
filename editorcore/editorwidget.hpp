@@ -13,13 +13,10 @@ class EditorWidget: public QWidget {
 	Q_OBJECT
 	friend class EditorProfile;
 	private:
-		ModelIoManager *m_models;
-
-		QUndoStack *m_undoStack;
-
-		int m_lastCommand;
-		int m_lastSavedCommand;
-
+		ModelIoManager *m_models = nullptr;
+		QUndoStack *m_undoStack = nullptr;
+		int m_lastCommand = 0;
+		int m_lastSavedCommand = 0;
 		QString m_title;
 		QString m_path;
 

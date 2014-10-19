@@ -12,7 +12,7 @@ class NewProject: public editor::NewFileMenu {
 	Q_OBJECT
 		
 	private:
-		Ui::NewProject *ui;
+		Ui::NewProject *ui = nullptr;
 		QString m_strProjectDir;
 		QVector<QString> m_defaultPaths;
 

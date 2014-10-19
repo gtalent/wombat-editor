@@ -22,7 +22,7 @@ class NewMenu: public QDialog {
 		QString newWhat();
 
 	private:
-		Ui::NewMenu *ui;
+		Ui::NewMenu *ui = nullptr;
 		QString strNewWhat;
 
 	public slots:

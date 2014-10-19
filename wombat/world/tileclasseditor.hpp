@@ -19,7 +19,7 @@ class TileClassEditor: public editor::EditorWidget {
 		// Commands
 		class Command: public QUndoCommand {
 			private:
-				TileClassEditor *m_parent;
+				TileClassEditor *m_parent = nullptr;
 				models::TileClass m_before;
 				models::TileClass m_after;
 
@@ -34,12 +34,12 @@ class TileClassEditor: public editor::EditorWidget {
 	private:
 		models::TileClass m_model;
 		QDir m_animDir;
-		QComboBox *m_upperAnim;
-		QComboBox *m_lowerAnim;
-		QRadioButton *m_chkLand;
-		QRadioButton *m_chkWater;
-		QRadioButton *m_chkWaterfall;
-		QRadioButton *m_chkWhirlpool;
+		QComboBox *m_upperAnim = nullptr;
+		QComboBox *m_lowerAnim = nullptr;
+		QRadioButton *m_chkLand = nullptr;
+		QRadioButton *m_chkWater = nullptr;
+		QRadioButton *m_chkWaterfall = nullptr;
+		QRadioButton *m_chkWhirlpool = nullptr;
 
 	public:
 		/**

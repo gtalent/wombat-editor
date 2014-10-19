@@ -43,7 +43,7 @@ class AnimationEditor: public EditorWidget {
 		//COMMANDS
 		class Command: public QUndoCommand {
 			private:
-				AnimationEditor *m_parent;
+				AnimationEditor *m_parent = nullptr;
 				models::Animation m_before;
 				models::Animation m_after;
 

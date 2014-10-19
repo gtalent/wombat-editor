@@ -9,7 +9,7 @@ namespace editor {
 
 class QtQuickEditorWidget: public EditorWidget {
 	private:
-		QLayout *m_layout;
+		QLayout *m_layout = nullptr;
 		QtQuickSignaler m_signaler;
 
 	public:

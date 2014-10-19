@@ -28,7 +28,7 @@ class SaveVariables: public editor::EditorWidget {
 			private:
 				QString m_varName;
 				models::cyborgbear::unknown m_varVal;
-				SaveVariables *m_parent;
+				SaveVariables *m_parent = nullptr;
 
 			public:
 				AddVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown unk);
@@ -41,7 +41,7 @@ class SaveVariables: public editor::EditorWidget {
 				QString m_varName;
 				models::cyborgbear::unknown m_varVal;
 				int m_varTblRow;
-				SaveVariables *m_parent;
+				SaveVariables *m_parent = nullptr;
 
 			public:
 				RemoveVarCommand(SaveVariables *parent, QString name, models::cyborgbear::unknown unk);
@@ -55,7 +55,7 @@ class SaveVariables: public editor::EditorWidget {
 				QString m_newVarName;
 				models::cyborgbear::unknown m_newVal;
 				models::cyborgbear::unknown m_oldVal;
-				SaveVariables *m_parent;
+				SaveVariables *m_parent = nullptr;
 
 			public:
 				EditVarCommand(SaveVariables *parent, QString name, QString newName, models::cyborgbear::unknown unk);
@@ -64,7 +64,7 @@ class SaveVariables: public editor::EditorWidget {
 		};
 
 	private:
-		Ui::SaveVariables *ui;
+		Ui::SaveVariables *ui = nullptr;
 		models::SaveVariables m_file;
 	
 	public:

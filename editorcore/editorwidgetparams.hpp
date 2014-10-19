@@ -8,8 +8,8 @@ namespace editor {
 struct EditorWidgetParams {
 	QString projectPath;
 	QString filePath;
-	QWidget *parent;
-	ModelIoManager *models;
+	QWidget *parent = nullptr;
+	ModelIoManager *models = nullptr;
 };
 
 }

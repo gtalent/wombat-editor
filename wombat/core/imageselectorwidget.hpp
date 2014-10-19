@@ -20,10 +20,10 @@ class ImageSelectorWidget: public QWidget {
 	Q_OBJECT
 
 	private:
-		Ui::ImageSelectorWidget *ui;
+		Ui::ImageSelectorWidget *ui = nullptr;
 		QString m_projectPath;
-		QGraphicsScene *m_scene;
-		ModelIoManager *m_modelIo;
+		QGraphicsScene *m_scene = nullptr;
+		ModelIoManager *m_modelIo = nullptr;
 		QString m_currentModelPath;
 		models::SpriteSheet m_model;
 		QMap<QString, int> m_ptToImg;

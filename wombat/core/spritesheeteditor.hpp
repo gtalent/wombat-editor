@@ -26,16 +26,16 @@ class SpriteSheetEditor: public editor::EditorWidget {
 				QPixmap pxMap;
 				QImage img;
 				models::Bounds srcBnds;
-				int imgId;
+				int imgId = 0;
 				// The location of the image on the sprite sheet
-				int x, y;
+				int x = 0, y = 0;
 		};
 
 		//COMMANDS
 		class AddImageCommand: public QUndoCommand {
 			private:
 				QVector<Image> m_newImages;
-				SpriteSheetEditor *m_parent;
+				SpriteSheetEditor *m_parent = nullptr;
 				models::SpriteSheet m_before;
 				models::SpriteSheet m_after;
 			public:
@@ -48,7 +48,7 @@ class SpriteSheetEditor: public editor::EditorWidget {
 		class RemoveImageCommand: public QUndoCommand {
 			private:
 				QVector<Image> m_newImages;
-				SpriteSheetEditor *m_parent;
+				SpriteSheetEditor *m_parent = nullptr;
 				models::SpriteSheet m_before;
 				models::SpriteSheet m_after;
 			public:
@@ -59,11 +59,11 @@ class SpriteSheetEditor: public editor::EditorWidget {
 				void redo();
 		};
 
-		Ui::SpriteSheetEditor *ui;
+		Ui::SpriteSheetEditor *ui = nullptr;
 		models::SpriteSheet m_model;
 		models::Point m_sheetIdx;
 		QString m_projectPath;
-		QGraphicsScene *m_scene;
+		QGraphicsScene *m_scene = nullptr;
 		QMap<int, Image> m_imgs;
 
 	public:

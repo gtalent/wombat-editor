@@ -14,7 +14,7 @@ class NewSpriteSheet: public editor::NewFileMenu {
 	Q_OBJECT
 		
 	private:
-		Ui::NewSpriteSheet *ui;
+		Ui::NewSpriteSheet *ui = nullptr;
 		QString m_projectPath;
 		QString m_path;
 

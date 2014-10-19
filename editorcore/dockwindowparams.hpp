@@ -8,7 +8,7 @@ namespace editor {
 
 struct DockWindowParams {
 	class QMainWindow *parent = nullptr;
-	ModelIoManager *modelio;
+	ModelIoManager *modelio = nullptr;
 
 	DockWindowParams(QMainWindow *parent, ModelIoManager *modelio) {
 		this->parent = parent;

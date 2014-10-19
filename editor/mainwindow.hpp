@@ -19,12 +19,12 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 	Q_OBJECT
 	public:
 		static const QString AppTitle;
-		Ui::MainWindow *ui;
+		Ui::MainWindow *ui = nullptr;
 
 	private:
 		QString m_projectPath;
 		QMap<QString, editor::EditorWidget*> m_openTabs;
-		editor::EditorProfile *m_profile;
+		editor::EditorProfile *m_profile = nullptr;
 		editor::ModelIoManager m_models;
 		QVector<QDockWidget*> m_dockWidgets;
 

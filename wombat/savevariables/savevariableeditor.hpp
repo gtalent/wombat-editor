@@ -18,9 +18,8 @@ using models::cyborgbear::unknown;
 class SaveVariableEditor: public QDialog {
 	Q_OBJECT
 
-
 	private:
-		Ui::SaveVariableEditor *ui;
+		Ui::SaveVariableEditor *ui = nullptr;
 
 	public:
 		explicit SaveVariableEditor(QWidget *parent, QString key, unknown val);

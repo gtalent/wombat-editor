@@ -16,9 +16,9 @@ class ImageSelectorDialog: public QDialog {
 	Q_OBJECT
 
 	private:
-		QDialogButtonBox *m_btnBox;
-		QVBoxLayout *m_vbox;
-		ImageSelectorWidget *m_widget;
+		QDialogButtonBox *m_btnBox = nullptr;
+		QVBoxLayout *m_vbox = nullptr;
+		ImageSelectorWidget *m_widget = nullptr;
 
 	public:
 		ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString path);
