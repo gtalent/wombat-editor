@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QFile>
 #include <QTextStream>
 #include "modeliomanager.hpp"
@@ -27,6 +28,14 @@ void ModelIoManager::setProjectPath(QString projectPath) {
 
 QString ModelIoManager::getProjectPath() {
 	return m_projectPath;
+}
+
+QString ModelIoManager::read(QString path) {
+	return readAbsolutePath(m_projectPath + path);
+}
+
+int ModelIoManager::write(QString path, QString value) {
+	return writeAbsolutePath(m_projectPath + path, value);
 }
 
 QString ModelIoManager::readAbsolutePath(QString path) {
@@ -117,7 +126,7 @@ QString ModelIoManager::loadFileAbsolutePath(QString path) {
 }
 
 QString ModelIoManager::toAbsolutePath(QString path) {
-	return QFileInfo(m_projectPath + "/" + path).absoluteFilePath();
+	return QFileInfo(m_projectPath + path).absoluteFilePath();
 }
 
 QString ModelIoManager::cleanupPath(QString path) {

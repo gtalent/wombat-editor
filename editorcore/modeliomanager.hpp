@@ -60,6 +60,10 @@ class ModelIoManager: public QObject {
 		template<typename Model>
 		QMap<QString, Model> readModels(QString path);
 
+		QString read(QString path);
+
+		int write(QString path, QString value);
+
 		QString readAbsolutePath(QString path);
 
 		int writeAbsolutePath(QString path, QString value);

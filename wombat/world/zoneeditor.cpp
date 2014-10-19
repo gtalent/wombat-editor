@@ -81,13 +81,25 @@ QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
 }
 
 
+// ZoneEditorGraphicsView
+
+class ZoneEditorGraphicsView: public QGraphicsView {
+	public:
+		ZoneEditorGraphicsView(ZoneEditor *parent);
+};
+
+ZoneEditorGraphicsView::ZoneEditorGraphicsView(ZoneEditor *parent):
+QGraphicsView(parent) {
+}
+
+
 // ZoneEditor
 
 ZoneEditor::ZoneEditor(EditorWidgetParams args):
 EditorWidget(args), m_worldUtil(args.models) {
 	m_projectPath = args.projectPath;
 	m_header.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
-	m_model.fromJson(modelIoManager()->readAbsolutePath(m_projectPath + "/" + m_header.Zone));
+	m_model.fromJson(modelIoManager()->read(m_header.Zone));
 
 	buildGui();
 	loadView();
@@ -95,7 +107,7 @@ EditorWidget(args), m_worldUtil(args.models) {
 
 void ZoneEditor::buildGui() {
 	auto layout = new QVBoxLayout(this);
-	m_graphicsView = new QGraphicsView(this);
+	m_graphicsView = new ZoneEditorGraphicsView(this);
 
 	int width = m_header.TilesWide * TileWidth;
 	int height = m_header.TilesHigh * TileHeight;
