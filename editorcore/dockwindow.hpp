@@ -2,11 +2,12 @@
 #define EDITORCORE_DOCKWINDOW_HPP
 
 #include <QDockWidget>
+#include "commonobject.hpp"
 #include "dockwindowparams.hpp"
 
 namespace editor {
 
-class DockWindow: public QDockWidget {
+class DockWindow: public QDockWidget, public CommonObject {
 	private:
 		Qt::DockWidgetArea m_area;
 
@@ -16,8 +17,6 @@ class DockWindow: public QDockWidget {
 		Qt::DockWidgetArea dockWidgetArea();
 
 		void dockWidgetArea(Qt::DockWidgetArea);
-
-		virtual QString dockId() = 0;
 };
 
 }

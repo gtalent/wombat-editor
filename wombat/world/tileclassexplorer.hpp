@@ -40,7 +40,10 @@ class TileClassExplorer: public editor::DockWindow {
 				QVariant headerData(int index, Qt::Orientation orientation, int role) const;
 		};
 
+	public:
 		static const QString DockId;
+
+	private:
 		QTableView *m_tileTable = nullptr;
 		TileClassTable *m_tileTableModel = nullptr;
 		QString m_projectPath;
@@ -50,12 +53,18 @@ class TileClassExplorer: public editor::DockWindow {
 
 	public:
 		TileClassExplorer(editor::DockWindowParams);
+
 		~TileClassExplorer();
 
-		QString dockId() override;
+		QString objectId() const override;
 
 	public slots:
 		void loadTileClassList();
+
+		/**
+		 * @return the relative path of the currently selected TileClass
+		 */
+		QString selectedTile();
 
 	private:
 		void setTableModel(TileClassTable *tileTable);

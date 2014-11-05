@@ -6,6 +6,7 @@
 #include <QPoint>
 #include <QString>
 
+#include <editorcore/appcontext.hpp>
 #include <editorcore/misc.hpp>
 #include <editorcore/editorwidget.hpp>
 #include <editorcore/editorprofile.hpp>
@@ -24,9 +25,10 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 	private:
 		QString m_projectPath;
 		QMap<QString, editor::EditorWidget*> m_openTabs;
+		QVector<editor::DockWindow*> m_dockWindows;
 		editor::EditorProfile *m_profile = nullptr;
 		editor::ModelIoManager m_models;
-		QVector<QDockWidget*> m_dockWidgets;
+		editor::AppContext m_context;
 
 	public:
 		explicit MainWindow(editor::EditorProfile *profile = 0, QWidget *parent = 0);

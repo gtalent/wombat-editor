@@ -9,9 +9,12 @@ SOURCES += \
 	models/models.cpp \
 	models/paths.cpp \
 	editorcontrols/dockwidget.cpp\
+	editorcore/appcontext.cpp \
+	editorcore/commonobject.cpp \
 	editorcore/dockwindow.cpp \
 	editorcore/editorprofile.cpp \
 	editorcore/editorwidget.cpp \
+	editorcore/editorwidgetparams.cpp \
 	editorcore/genericnewfilemenu.cpp \
 	editorcore/newfilemenu.cpp \
 	editorcore/misc.cpp \
@@ -43,6 +46,8 @@ HEADERS += \
 	models/models.hpp \
 	models/paths.hpp \
 	editorcontrols/dockwidget.hpp\
+	editorcore/appcontext.hpp \
+	editorcore/commonobject.hpp \
 	editorcore/dockwindow.hpp \
 	editorcore/dockwindowparams.hpp \
 	editorcore/editorprofile.hpp \

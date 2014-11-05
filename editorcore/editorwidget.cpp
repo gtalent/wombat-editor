@@ -2,7 +2,8 @@
 
 namespace editor {
 
-EditorWidget::EditorWidget(EditorWidgetParams args): QWidget(args.parent) {
+EditorWidget::EditorWidget(EditorWidgetParams args):
+QWidget(args.parent), m_context(args.context) {
 	m_undoStack = new QUndoStack(args.parent);
 	m_lastCommand = m_lastSavedCommand = 0;
 	m_path = args.filePath;
@@ -78,6 +79,10 @@ bool EditorWidget::canUndo() {
 
 bool EditorWidget::canRedo() {
 	return m_undoStack->canRedo();
+}
+
+const AppContext &EditorWidget::context() const {
+	return m_context;
 }
 
 QString EditorWidget::absolutePath() {

@@ -31,7 +31,7 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 MainWindow::~MainWindow() {
 	writeSettings("editor_settings.json");
 
-	for (auto dock : m_dockWidgets) {
+	for (auto dock : m_dockWindows) {
 		removeDockWidget(dock);
 		delete dock;
 	}
@@ -148,11 +148,7 @@ void MainWindow::openFile(QString path) {
 		tabName = list[list.size() - 1];
 
 		// setup tab
-		EditorWidgetParams args;
-		args.projectPath = m_projectPath;
-		args.filePath = path;
-		args.parent = ui->tabWidget;
-		args.models = &m_models;
+		EditorWidgetParams args(m_projectPath, path, ui->tabWidget, &m_models, m_context);
 		tab = m_profile->editorWidget(args);
 
 		if (tab) {
@@ -241,11 +237,12 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 
 void MainWindow::setupDockWidgets() {
 	const auto args = DockWindowParams(this, &m_models);
-	auto makers = m_profile->dockMakers();
-	for (auto maker : makers) {
+	auto &makers = m_profile->dockMakers();
+	for (auto &maker : makers) {
 		auto dock = maker(args);
 		addDockWidget(dock->dockWidgetArea(), dock);
-		m_dockWidgets.push_back(dock);
+		m_context.addCommonObject(dock);
+		m_dockWindows.push_back(dock);
 	}
 }
 

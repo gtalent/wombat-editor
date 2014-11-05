@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QUndoStack>
 
+#include "appcontext.hpp"
 #include "modeliomanager.hpp"
 #include "editorwidgetparams.hpp"
 
@@ -13,6 +14,7 @@ class EditorWidget: public QWidget {
 	Q_OBJECT
 	friend class EditorProfile;
 	private:
+		const AppContext &m_context;
 		ModelIoManager *m_models = nullptr;
 		QUndoStack *m_undoStack = nullptr;
 		int m_lastCommand = 0;
@@ -30,6 +32,7 @@ class EditorWidget: public QWidget {
 		void redo();
 		bool canUndo();
 		bool canRedo();
+		const AppContext &context() const;
 		QString absolutePath();
 		virtual void closeWidget();
 		virtual int saveFile() = 0;

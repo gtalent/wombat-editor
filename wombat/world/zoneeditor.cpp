@@ -1,7 +1,10 @@
+#include <QDebug>
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QGraphicsPixmapItem>
+#include <QMouseEvent>
 #include <wombat/core/spritesheetmanager.hpp>
+#include "tileclassexplorer.hpp"
 #include "zoneeditor.hpp"
 
 namespace wombat {
@@ -67,7 +70,7 @@ QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
 }
 
 QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
-                                               QPixmap *img, int x, int y) {
+                                             QPixmap *img, int x, int y) {
 	auto &scene = *m_parent->m_scene;
 	if (gfxItem) {
 		scene.removeItem(gfxItem);
@@ -84,12 +87,30 @@ QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
 // ZoneEditorGraphicsView
 
 class ZoneEditorGraphicsView: public QGraphicsView {
+	private:
+		ZoneEditor *m_parent = nullptr;
+
 	public:
 		ZoneEditorGraphicsView(ZoneEditor *parent);
+
+		void mouseMoveEvent(QMouseEvent *event);
+
+		void mousePressEvent(QMouseEvent *event);
 };
 
 ZoneEditorGraphicsView::ZoneEditorGraphicsView(ZoneEditor *parent):
 QGraphicsView(parent) {
+	m_parent = parent;
+}
+
+void ZoneEditorGraphicsView::mouseMoveEvent(QMouseEvent*) {
+}
+
+void ZoneEditorGraphicsView::mousePressEvent(QMouseEvent *event) {
+	auto pos = mapToScene(event->pos());
+	if (m_parent) {
+		m_parent->click(pos.x(), pos.y());
+	}
 }
 
 
@@ -145,6 +166,17 @@ void ZoneEditor::loadView() {
 
 int ZoneEditor::saveFile() {
 	return 1;
+}
+
+void ZoneEditor::click(int, int) {
+	auto co = &context().commonObject(TileClassExplorer::DockId);
+	auto te = dynamic_cast<TileClassExplorer*>(co);
+	if (te) {
+		qDebug() << te->objectId();
+	}
+}
+
+void ZoneEditor::updateTile(int, int) {
 }
 
 }

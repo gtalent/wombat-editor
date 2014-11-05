@@ -38,6 +38,7 @@ class ZoneEditorTile: public QObject {
 class ZoneEditor: public editor::EditorWidget {
 	Q_OBJECT
 	friend ZoneEditorTile;
+	friend class ZoneEditorGraphicsView;
 	private:
 		QString m_projectPath;
 		QGraphicsView *m_graphicsView = nullptr;
@@ -62,7 +63,22 @@ class ZoneEditor: public editor::EditorWidget {
 
 		int saveFile() override;
 
+	protected:
+		/**
+		 * @param x x coordinate to regester the click at within the Zone
+		 * @param y y coordinate to regester the click at within the Zone
+		 */
+		void click(int x, int y);
+
 	private:
+		/**
+		 * Updates the tile at the given location with the TileClass
+		 * currently selected in the TileClass Explorer.
+		 * @param x x coordinate to regester the click at within the Zone
+		 * @param y y coordinate to regester the click at within the Zone
+		 */
+		void updateTile(int x, int y);
+
 		void buildGui();
 
 		void loadView();

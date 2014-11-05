@@ -97,7 +97,7 @@ TileClassExplorer::~TileClassExplorer() {
 	}
 }
 
-QString TileClassExplorer::dockId() {
+QString TileClassExplorer::objectId() const {
 	return DockId;
 }
 
@@ -106,6 +106,10 @@ void TileClassExplorer::loadTileClassList() {
 	auto tileTable = new TileClassTable(this, tileClasses);
 	subscribe(tileClasses);
 	setTableModel(tileTable);
+}
+
+QString TileClassExplorer::selectedTile() {
+	return "";
 }
 
 void TileClassExplorer::setTableModel(TileClassTable *tileTable) {
