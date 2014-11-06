@@ -69,6 +69,13 @@ QVariant TileClassExplorer::TileClassTable::headerData(int index, Qt::Orientatio
 	return QVariant();
 }
 
+TileClassExplorer::TileClassTable::Row TileClassExplorer::TileClassTable::row(int row) {
+	if (row > -1 && row < m_model.size()) {
+		return m_model[row];
+	}
+	return TileClassExplorer::TileClassTable::Row();
+}
+
 // TileClassExplorer
 
 TileClassExplorer::TileClassExplorer(DockWindowParams args):
@@ -109,7 +116,15 @@ void TileClassExplorer::loadTileClassList() {
 }
 
 QString TileClassExplorer::selectedTile() {
-	return "";
+	QString retval = "";
+	int row = m_tileTable->currentIndex().row();
+
+	QString name = m_tileTableModel->row(row).name;
+	if (name != "") {
+		retval = Path_TileClass + name;
+	}
+
+	return retval;
 }
 
 void TileClassExplorer::setTableModel(TileClassTable *tileTable) {

@@ -172,7 +172,7 @@ void ZoneEditor::click(int, int) {
 	auto co = &context().commonObject(TileClassExplorer::DockId);
 	auto te = dynamic_cast<TileClassExplorer*>(co);
 	if (te) {
-		qDebug() << te->objectId();
+		qDebug() << te->selectedTile();
 	}
 }
 

@@ -38,6 +38,8 @@ class TileClassExplorer: public editor::DockWindow {
 				virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 				QVariant headerData(int index, Qt::Orientation orientation, int role) const;
+
+				Row row(int row);
 		};
 
 	public:
