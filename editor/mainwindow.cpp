@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileSystemModel>

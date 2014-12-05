@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QObject>
 #include <QPair>
+#include <QSharedPointer>
 #include <editorcore/editorwidget.hpp>
 #include <models/models.hpp>
 #include "worldutil.hpp"
@@ -16,30 +17,52 @@ class ZoneEditorTile: public QObject {
 	Q_OBJECT
 	protected:
 		class ZoneEditor *m_parent = nullptr;
-		QGraphicsPixmapItem *m_lower = nullptr;
-		QGraphicsPixmapItem *m_upper = nullptr;
-		QGraphicsPixmapItem *m_occupant = nullptr;
+		QSharedPointer<QGraphicsPixmapItem> m_lower;
+		QSharedPointer<QGraphicsPixmapItem> m_upper;
+		QSharedPointer<QGraphicsPixmapItem> m_occupant;
 
 	public:
 		ZoneEditorTile() = default;
 
 		ZoneEditorTile(const ZoneEditorTile &o);
 
+		~ZoneEditorTile();
+
 		void init(class ZoneEditor *parent);
 
 		void set(models::Tile, int x, int y);
 
+		void set(models::TileClass, int x, int y);
+
 	private:
 		QPixmap *firstImageOf(QString animPath);
 
-		QGraphicsPixmapItem *addItem(QGraphicsPixmapItem *&gfxItem, QPixmap *img, int x, int y);
+		QGraphicsPixmapItem *addItem(QGraphicsPixmapItem *gfxItem, QPixmap *img, int x, int y);
+
+		void rmItem(QGraphicsPixmapItem *gfxItem);
 };
 
 class ZoneEditor: public editor::EditorWidget {
 	Q_OBJECT
-	friend ZoneEditorTile;
+	friend class ZoneEditorTile;
 	friend class ZoneEditorGraphicsView;
 	private:
+		// Commands
+		class UpdateTileCommand: public QUndoCommand {
+			private:
+				ZoneEditor *m_parent = nullptr;
+				models::Point m_address;
+				models::Tile m_before;
+				models::Tile m_after;
+
+			public:
+				UpdateTileCommand(ZoneEditor *parent, models::Point address, models::Tile before, models::Tile after);
+
+				void undo();
+
+				void redo();
+		};
+
 		QString m_projectPath;
 		QGraphicsView *m_graphicsView = nullptr;
 		QGraphicsScene *m_scene = nullptr;
@@ -48,6 +71,7 @@ class ZoneEditor: public editor::EditorWidget {
 		QMap<QString, QPixmap> m_imgs;
 		QMap<QString, models::TileClass> m_tileClasses;
 		QVector<QVector<QVector<ZoneEditorTile>>> m_tiles;
+		ZoneEditorTile m_cursorTile;
 		models::Zone m_model;
 		models::ZoneHeader m_header;
 		WorldUtil m_worldUtil;
@@ -65,8 +89,8 @@ class ZoneEditor: public editor::EditorWidget {
 
 	protected:
 		/**
-		 * @param x x coordinate to regester the click at within the Zone
-		 * @param y y coordinate to regester the click at within the Zone
+		 * @param x x coordinate to register the click at within the Zone
+		 * @param y y coordinate to register the click at within the Zone
 		 */
 		void click(int x, int y);
 
@@ -77,7 +101,9 @@ class ZoneEditor: public editor::EditorWidget {
 		 * @param x x coordinate to regester the click at within the Zone
 		 * @param y y coordinate to regester the click at within the Zone
 		 */
-		void updateTile(int x, int y);
+		void updateTileClass(int x, int y, models::TileClass);
+
+		void updateTile(int x, int y, models::Tile tc);
 
 		void buildGui();
 

@@ -11,7 +11,7 @@ NewFileMenu *EditorProfile::newFileMenu(NewFileMenuParams args) {
 	if (m_newFileMenuMakers.contains(args.fileType)) {
 		return m_newFileMenuMakers[args.fileType](args);
 	}
-	return 0;
+	return nullptr;
 }
 
 EditorWidget *EditorProfile::editorWidget(EditorWidgetParams args) {
@@ -21,7 +21,7 @@ EditorWidget *EditorProfile::editorWidget(EditorWidgetParams args) {
 			return retval;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 const QVector<QString> &EditorProfile::defaultPaths() {
@@ -78,10 +78,10 @@ void EditorProfile::loadQtQuickProfile(models::EditorProfile prof) {
 				return new QtQuickEditorWidget(prof.Editor, args);
 			}
 		}
-		return 0;
+		return nullptr;
 	});
 	addNewFileMenuMaker(prof.FileType, [](NewFileMenuParams) -> NewFileMenu* {
-		return 0;
+		return nullptr;
 	});
 	for (auto p : prof.DefaultPaths) {
 		addDefaultPath(p);

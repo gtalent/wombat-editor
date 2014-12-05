@@ -16,6 +16,23 @@ using namespace editor;
 const int ZoneEditor::TileWidth = 32;
 const int ZoneEditor::TileHeight = 32;
 
+// TileClas
+ZoneEditor::UpdateTileCommand::UpdateTileCommand
+(ZoneEditor *parent, models::Point address, models::Tile before, models::Tile after) {
+	m_parent = parent;
+	m_address = address;
+	m_before = before;
+	m_after = after;
+}
+
+void ZoneEditor::UpdateTileCommand::undo() {
+	m_parent->updateTile(m_address.X, m_address.Y, m_before);
+}
+
+void ZoneEditor::UpdateTileCommand::redo() {
+	m_parent->updateTile(m_address.X, m_address.Y, m_after);
+}
+
 // ZoneEditorTile
 
 ZoneEditorTile::ZoneEditorTile(const ZoneEditorTile &o) {
@@ -25,12 +42,21 @@ ZoneEditorTile::ZoneEditorTile(const ZoneEditorTile &o) {
 	m_occupant = o.m_occupant;
 }
 
+ZoneEditorTile::~ZoneEditorTile() {
+	rmItem(m_lower.data());
+	rmItem(m_upper.data());
+}
+
 void ZoneEditorTile::init(ZoneEditor *parent) {
 	m_parent = parent;
 }
 
 void ZoneEditorTile::set(models::Tile tile, int x, int y) {
-	auto &key = tile.TileClass.Import;
+	set(tile.TileClass, x, y);
+}
+
+void ZoneEditorTile::set(models::TileClass tc, int x, int y) {
+	auto &key = tc.Import;
 	auto &classes = m_parent->m_tileClasses;
 	if (key != "") {
 		if (!classes.contains(key)) {
@@ -42,11 +68,11 @@ void ZoneEditorTile::set(models::Tile tile, int x, int y) {
 	}
 
 	auto &c = classes[key];
-	auto lower = firstImageOf(c.LowerAnim.Animation);
-	auto upper = firstImageOf(c.UpperAnim.Animation);
+	auto lowerPm = firstImageOf(c.LowerAnim.Animation);
+	auto upperPm = firstImageOf(c.UpperAnim.Animation);
 
-	addItem(m_lower, lower, x, y);
-	addItem(m_upper, upper, x, y);
+	m_lower = QSharedPointer<QGraphicsPixmapItem>(addItem(m_lower.data(), lowerPm, x, y));
+	m_upper = QSharedPointer<QGraphicsPixmapItem>(addItem(m_upper.data(), upperPm, x, y));
 }
 
 QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
@@ -69,7 +95,7 @@ QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
 	return retval;
 }
 
-QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
+QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *gfxItem,
                                              QPixmap *img, int x, int y) {
 	auto &scene = *m_parent->m_scene;
 	if (gfxItem) {
@@ -81,6 +107,12 @@ QGraphicsPixmapItem *ZoneEditorTile::addItem(QGraphicsPixmapItem *&gfxItem,
 		gfxItem->setPos(x, y);
 	}
 	return gfxItem;
+}
+
+void ZoneEditorTile::rmItem(QGraphicsPixmapItem *gfxItem) {
+	if (gfxItem) {
+		m_parent->m_scene->removeItem(gfxItem);
+	}
 }
 
 
@@ -126,6 +158,49 @@ EditorWidget(args), m_worldUtil(args.models) {
 	loadView();
 }
 
+int ZoneEditor::saveFile() {
+	auto json = m_header.toJson(models::cyborgbear::Readable);
+	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), json);
+
+	json = m_model.toJson(models::cyborgbear::Readable);
+	ret |= modelIoManager()->write(m_header.Zone, json);
+
+	notifyFileSave();
+	return ret;
+}
+
+void ZoneEditor::click(int x, int y) {
+	auto co = &context().commonObject(TileClassExplorer::DockId);
+	auto te = dynamic_cast<TileClassExplorer*>(co);
+	x /= TileWidth;
+	y /= TileHeight;
+	models::Point addr;
+	addr.X = x;
+	addr.Y = y;
+	if (te) {
+		models::TileClass tc;
+		tc.Import = te->selectedTile();
+		auto &old = m_model.Tiles[0][y][x];
+		auto updated = old;
+		updated.TileClass = tc;
+
+		notifyFileChange(new UpdateTileCommand(this, addr, old, updated));
+	}
+}
+
+void ZoneEditor::updateTileClass(int x, int y, models::TileClass tc) {
+	// TODO: bounds checking
+	auto &tile = m_model.Tiles[0][y][x];
+	tile.TileClass = tc;
+	m_tiles[0][y][x].set(tile, x * TileWidth, y * TileHeight);
+}
+
+void ZoneEditor::updateTile(int x, int y, models::Tile tile) {
+	// TODO: bounds checking
+	m_model.Tiles[0][y][x] = tile;
+	m_tiles[0][y][x].set(tile, x * TileWidth, y * TileHeight);
+}
+
 void ZoneEditor::buildGui() {
 	auto layout = new QVBoxLayout(this);
 	m_graphicsView = new ZoneEditorGraphicsView(this);
@@ -162,21 +237,6 @@ void ZoneEditor::loadView() {
 			}
 		}
 	}
-}
-
-int ZoneEditor::saveFile() {
-	return 1;
-}
-
-void ZoneEditor::click(int, int) {
-	auto co = &context().commonObject(TileClassExplorer::DockId);
-	auto te = dynamic_cast<TileClassExplorer*>(co);
-	if (te) {
-		qDebug() << te->selectedTile();
-	}
-}
-
-void ZoneEditor::updateTile(int, int) {
 }
 
 }

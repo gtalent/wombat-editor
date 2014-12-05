@@ -41,11 +41,11 @@ QLayout *TileClassEditor::buildGui() {
 	auto root = new QVBoxLayout(this);
 
 	auto lytAnimLayers = new QFormLayout();
-	auto grpAnimLayers = new QGroupBox("Animation Layers", this);
+	auto grpAnimLayers = new QGroupBox(tr("Animation Layers"), this);
 	m_lowerAnim = new QComboBox(this);
 	m_upperAnim = new QComboBox(this);
-	lytAnimLayers->addRow("&Lower Layer:", m_lowerAnim);
-	lytAnimLayers->addRow("&Upper Layer:", m_upperAnim);
+	lytAnimLayers->addRow(tr("&Lower Layer:"), m_lowerAnim);
+	lytAnimLayers->addRow(tr("&Upper Layer:"), m_upperAnim);
 	grpAnimLayers->setLayout(lytAnimLayers);
 
 
@@ -63,11 +63,11 @@ QLayout *TileClassEditor::buildGui() {
 
 
 	auto lytTerrainType = new QVBoxLayout();
-	auto grpTerrainType = new QGroupBox("Terrain Type", this);
-	m_chkLand = new QRadioButton("L&and", this);
-	m_chkWater = new QRadioButton("&Water", this);
-	m_chkWaterfall = new QRadioButton("Wate&rfall", this);
-	m_chkWhirlpool = new QRadioButton("Whirl&pool", this);
+	auto grpTerrainType = new QGroupBox(tr("Terrain Type"), this);
+	m_chkLand = new QRadioButton(tr("L&and"), this);
+	m_chkWater = new QRadioButton(tr("&Water"), this);
+	m_chkWaterfall = new QRadioButton(tr("Wate&rfall"), this);
+	m_chkWhirlpool = new QRadioButton(tr("Whirl&pool"), this);
 	lytTerrainType->addWidget(m_chkLand);
 	lytTerrainType->addWidget(m_chkWater);
 	lytTerrainType->addWidget(m_chkWaterfall);

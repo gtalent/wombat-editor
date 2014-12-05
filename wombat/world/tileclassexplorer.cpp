@@ -60,7 +60,7 @@ QVariant TileClassExplorer::TileClassTable::headerData(int index, Qt::Orientatio
 				case 0:
 					return "";
 				case 1:
-					return "Tile Class";
+					return tr("Tile Class");
 			}
 		} else {
 			return index + 1;
@@ -81,7 +81,7 @@ TileClassExplorer::TileClassTable::Row TileClassExplorer::TileClassTable::row(in
 TileClassExplorer::TileClassExplorer(DockWindowParams args):
 DockWindow(args), m_worldUtil(args.modelio) {
 	m_modelio = args.modelio;
-	setWindowTitle("Tile Classes");
+	setWindowTitle(tr("Tile Classes"));
 
 	auto contents = new QWidget();
 	auto layout = new QVBoxLayout(contents);

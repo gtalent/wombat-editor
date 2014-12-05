@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 
 	editor::EditorProfile profile;
 	core::setupEditorProfile(profile);
-	savevariables::setupEditorProfile(profile);
+	//savevariables::setupEditorProfile(profile);
 	world::setupEditorProfile(profile);
 
 	MainWindow w(&profile);

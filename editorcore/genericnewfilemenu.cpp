@@ -16,7 +16,7 @@ BaseGenericNewFileMenu::BaseGenericNewFileMenu(NewFileMenuParams args, QString t
 	auto label = new QLabel(this);
 	m_leName = new QLineEdit(this);
 
-	label->setText("&Name:");
+	label->setText(tr("&Name:"));
 	label->setBuddy(m_leName);
 
 	setSizeGripEnabled(false);

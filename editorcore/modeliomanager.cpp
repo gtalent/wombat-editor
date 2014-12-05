@@ -113,8 +113,8 @@ void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, c
 		wrapper->refCount--;
 
 		if (wrapper->refCount < 1) {
-			//m_models.remove(path);
-			//delete wrapper;
+			m_models.remove(path);
+			delete wrapper;
 		}
 	}
 }

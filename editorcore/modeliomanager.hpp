@@ -60,6 +60,12 @@ class ModelIoManager: public QObject {
 		template<typename Model>
 		QMap<QString, Model> readModels(QString path);
 
+		template<typename Model>
+		Model readModelAbsolutePath(QString path);
+
+		template<typename Model>
+		Model readModel(QString path);
+
 		QString read(QString path);
 
 		int write(QString path, QString value);
@@ -117,6 +123,18 @@ QMap<QString, Model> ModelIoManager::readModels(QString path) {
 	out.remove(".");
 	out.remove("..");
 	return out;
+}
+
+template<typename Model>
+Model ModelIoManager::readModelAbsolutePath(QString path) {
+	Model m;
+	m.fromJson(readAbsolutePath(path));
+	return m;
+}
+
+template<typename Model>
+Model ModelIoManager::readModel(QString path) {
+	return readModelAbsolutePath<Model>(toAbsolutePath(path));
 }
 
 }
