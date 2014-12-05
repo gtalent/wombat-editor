@@ -180,11 +180,13 @@ void ZoneEditor::click(int x, int y) {
 	if (te) {
 		models::TileClass tc;
 		tc.Import = te->selectedTile();
-		auto &old = m_model.Tiles[0][y][x];
-		auto updated = old;
-		updated.TileClass = tc;
+		if (tc.Import != "") {
+			auto &old = m_model.Tiles[0][y][x];
+			auto updated = old;
+			updated.TileClass = tc;
 
-		notifyFileChange(new UpdateTileCommand(this, addr, old, updated));
+			notifyFileChange(new UpdateTileCommand(this, addr, old, updated));
+		}
 	}
 }
 
