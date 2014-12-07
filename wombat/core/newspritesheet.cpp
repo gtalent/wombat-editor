@@ -2,6 +2,7 @@
 #include <QImage>
 #include "ui_newspritesheet.h"
 #include "newspritesheet.hpp"
+#include <editorcore/misc.hpp>
 #include <models/editormodels.hpp>
 #include <models/paths.hpp>
 
@@ -24,7 +25,7 @@ NewSpriteSheet::~NewSpriteSheet() {
 }
 
 void NewSpriteSheet::accept() {
-	m_path = m_projectPath + Path_SpriteSheet + ui->leName->text() + ".json";
+	m_path = m_projectPath + Path_SpriteSheet + ui->leName->text() + MODEL_FILE_EXTENSION;
 	if (!QFile::exists(m_path)) {
 		//setup JSON file
 		models::SpriteSheet model;

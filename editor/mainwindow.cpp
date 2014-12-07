@@ -25,12 +25,12 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 
 	m_profile = profile;
 
-	readSettings("editor_settings.json");
+	readSettings("editor_settings" + MODEL_FILE_EXTENSION);
 	setupDockWidgets();
 }
 
 MainWindow::~MainWindow() {
-	writeSettings("editor_settings.json");
+	writeSettings("editor_settings" + MODEL_FILE_EXTENSION);
 
 	for (auto dock : m_dockWindows) {
 		removeDockWidget(dock);
@@ -129,7 +129,7 @@ void MainWindow::openProject(QString path) {
 		ui->fileList->hideColumn(i);
 	}
 	QStringList l;
-	l << "*.json";
+	l << "*" + MODEL_FILE_EXTENSION;
 	model->setNameFilters(l);
 	model->setNameFilterDisables(false);
 	ui->fileList->setRootIndex(model->setRootPath(path));

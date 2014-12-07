@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <editorcore/misc.hpp>
 #include "ui_newproject.h"
 #include "newproject.hpp"
 
@@ -45,10 +46,10 @@ void NewProject::accept() {
 		if (p.endsWith("/")) {
 			QDir().mkpath(path + "/" + p);
 		} else {
-			QFile f(path + "/Misc/SaveVariables.json");
+			QFile f(path + "/Misc/SaveVariables" + MODEL_FILE_EXTENSION);
 			f.open(QIODevice::WriteOnly);
 			QTextStream out(&f);
-			if (p.endsWith(".json")) {
+			if (p.endsWith(MODEL_FILE_EXTENSION)) {
 				out << "{}\0";
 			}
 			f.close();

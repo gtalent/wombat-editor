@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
+#include <editorcore/misc.hpp>
 #include <models/editormodels.hpp>
 
 namespace editor {
@@ -110,7 +111,7 @@ QMap<QString, Model> ModelIoManager::readModels(QString path) {
 	for (auto &file : files) {
 		QString json;
 		auto filePath = file.absoluteFilePath();
-		if (filePath.endsWith(".json")) {
+		if (filePath.endsWith(MODEL_FILE_EXTENSION)) {
 			if (m_models.contains(filePath)) {
 				json = m_models[filePath]->model;
 			} else {

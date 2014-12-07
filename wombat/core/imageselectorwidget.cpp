@@ -30,7 +30,7 @@ ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, M
 
 	auto anims = QDir(m_projectPath + Path_SpriteSheet).entryInfoList();
 	for (auto s : anims) {
-		if (s.isFile() and s.fileName().endsWith(".json")) {
+		if (s.isFile() and s.fileName().endsWith(MODEL_FILE_EXTENSION)) {
 			changeSpriteSheet(s.fileName());
 			break;
 		}
@@ -99,7 +99,7 @@ models::Image ImageSelectorWidget::selectedImage() {
 void ImageSelectorWidget::populateSheetSelect() {
 	auto anims = QDir(m_projectPath + Path_SpriteSheet).entryInfoList();
 	for (auto s : anims) {
-		if (s.isFile() and s.fileName().endsWith(".json")) {
+		if (s.isFile() and s.fileName().endsWith(MODEL_FILE_EXTENSION)) {
 			ui->cbSpriteSheet->addItem(s.fileName());
 		}
 	}

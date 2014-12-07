@@ -50,7 +50,7 @@ class GenericNewFileMenu: public BaseGenericNewFileMenu {
 		}
 
 		int initFile(QString name) {
-			auto path = m_projectPath + "/" + m_classPath + "/" + name + ".json";
+			auto path = m_projectPath + "/" + m_classPath + "/" + name + MODEL_FILE_EXTENSION;
 			int retval = 1;
 			if (!QFile::exists(path)) {
 				m_path = path;

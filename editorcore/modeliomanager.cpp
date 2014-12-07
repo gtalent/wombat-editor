@@ -39,8 +39,8 @@ int ModelIoManager::write(QString path, QString value) {
 }
 
 QString ModelIoManager::readAbsolutePath(QString path) {
-	if (!path.endsWith(".json")) {
-		path += ".json";
+	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
+		path += MODEL_FILE_EXTENSION;
 	}
 	path = cleanupPath(path);
 	if (m_models.contains(path)) {
@@ -52,8 +52,8 @@ QString ModelIoManager::readAbsolutePath(QString path) {
 }
 
 int ModelIoManager::writeAbsolutePath(QString path, QString value) {
-	if (!path.endsWith(".json")) {
-		path += ".json";
+	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
+		path += MODEL_FILE_EXTENSION;
 	}
 	path = cleanupPath(path);
 	QFile file(path);
@@ -75,8 +75,8 @@ void ModelIoManager::updateFile(QString path, QString value) {
 }
 
 void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
-	if (!path.endsWith(".json")) {
-		path += ".json";
+	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
+		path += MODEL_FILE_EXTENSION;
 	}
 	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);
@@ -100,8 +100,8 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 }
 
 void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) {
-	if (!path.endsWith(".json")) {
-		path += ".json";
+	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
+		path += MODEL_FILE_EXTENSION;
 	}
 	path = toAbsolutePath(path);
 	Connection conn(path, receiver, method);

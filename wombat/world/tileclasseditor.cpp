@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <editorcore/misc.hpp>
 #include <models/enums.hpp>
 #include <models/paths.hpp>
 #include "tileclasseditor.hpp"
@@ -54,7 +55,7 @@ QLayout *TileClassEditor::buildGui() {
 	auto files = m_animDir.entryList();
 	for (int i = 2; i < files.size(); i++) {
 		auto file = files[i];
-		if (file.endsWith(".json")) {
+		if (file.endsWith(MODEL_FILE_EXTENSION)) {
 			file = file.left(file.size() - 5);
 		}
 		m_upperAnim->addItem(file);
