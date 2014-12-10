@@ -3,7 +3,7 @@
 #include "ui_newspritesheet.h"
 #include "newspritesheet.hpp"
 #include <editorcore/misc.hpp>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 #include <models/paths.hpp>
 
 using namespace editor;

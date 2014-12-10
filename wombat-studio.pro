@@ -6,6 +6,7 @@ TARGET = WombatStudio
 TEMPLATE = app
 
 SOURCES += \
+	models/generated.cpp \
 	models/models.cpp \
 	models/paths.cpp \
 	editorcontrols/dockwidget.cpp\
@@ -43,6 +44,7 @@ SOURCES += \
 
 HEADERS += \
 	models/enums.hpp \
+	models/generated.hpp \
 	models/models.hpp \
 	models/paths.hpp \
 	editorcontrols/dockwidget.hpp\

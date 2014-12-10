@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QString>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 #include <editorcore/modeliomanager.hpp>
 
 namespace Ui {

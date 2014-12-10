@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 #include <editorcore/newfilemenu.hpp>
 #include "misc.hpp"
 

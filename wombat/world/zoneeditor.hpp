@@ -28,6 +28,8 @@ class ZoneEditorTile: public QObject {
 
 		~ZoneEditorTile();
 
+		ZoneEditorTile &operator=(const ZoneEditorTile &o);
+
 		void init(class ZoneEditor *parent);
 
 		void set(models::Tile, int x, int y);
@@ -47,16 +49,19 @@ class ZoneEditor: public editor::EditorWidget {
 	friend class ZoneEditorTile;
 	friend class ZoneEditorGraphicsView;
 	private:
+		struct TileUpdate {
+			models::Tile before;
+			models::Tile after;
+		};
+
 		// Commands
 		class UpdateTileCommand: public QUndoCommand {
 			private:
 				ZoneEditor *m_parent = nullptr;
-				models::Point m_address;
-				models::Tile m_before;
-				models::Tile m_after;
+				QMap<models::Point, TileUpdate> m_changeBuffer;
 
 			public:
-				UpdateTileCommand(ZoneEditor *parent, models::Point address, models::Tile before, models::Tile after);
+				UpdateTileCommand(ZoneEditor *parent, QMap<models::Point, TileUpdate> changeBuffer);
 
 				void undo();
 
@@ -71,7 +76,8 @@ class ZoneEditor: public editor::EditorWidget {
 		QMap<QString, QPixmap> m_imgs;
 		QMap<QString, models::TileClass> m_tileClasses;
 		QVector<QVector<QVector<ZoneEditorTile>>> m_tiles;
-		ZoneEditorTile m_cursorTile;
+		QMap<models::Point, TileUpdate> m_changeBuffer;
+		QVector<QSharedPointer<ZoneEditorTile>> m_previewTiles;
 		models::Zone m_model;
 		models::ZoneHeader m_header;
 		WorldUtil m_worldUtil;
@@ -95,15 +101,25 @@ class ZoneEditor: public editor::EditorWidget {
 		void click(int x, int y);
 
 	private:
+		void applyTile(int x, int y, models::Tile tile);
+
 		/**
-		 * Updates the tile at the given location with the TileClass
-		 * currently selected in the TileClass Explorer.
+		 * Updates the Tile at the given location with the given TileClass.
 		 * @param x x coordinate to regester the click at within the Zone
 		 * @param y y coordinate to regester the click at within the Zone
+		 * @param tc the TileClass to give the Tile at the given address
 		 */
-		void updateTileClass(int x, int y, models::TileClass);
+		void pushTileUpdate(int x, int y, models::TileClass tc);
 
-		void updateTile(int x, int y, models::Tile tc);
+		/**
+		 * Pushes a change to the change buffer at the given address.
+		 */
+		void pushChange(int x, int y);
+
+		/**
+		 * Applies the changes in the change buffer, and then clears the change buffer.
+		 */
+		void applyChanges();
 
 		void buildGui();
 

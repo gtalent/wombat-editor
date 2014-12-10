@@ -2,7 +2,7 @@
 #include <wombat/core/wombatprofile.hpp>
 #include <wombat/savevariables/savevariablesprofile.hpp>
 #include <wombat/world/worldprofile.hpp>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 #include <QApplication>
 #include "mainwindow.hpp"
 

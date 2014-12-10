@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QAbstractTableModel>
 
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 
 #include <editorcore/editorwidget.hpp>
 #include <editorcore/editorwidgetparams.hpp>

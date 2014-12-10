@@ -9,7 +9,7 @@
 #include <QUndoCommand>
 
 #include <editorcore/editorwidget.hpp>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 
 namespace Ui {
 class SaveVariables;

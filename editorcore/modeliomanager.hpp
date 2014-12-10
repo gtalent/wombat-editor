@@ -6,7 +6,7 @@
 #include <QMap>
 #include <QString>
 #include <editorcore/misc.hpp>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 
 namespace editor {
 

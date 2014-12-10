@@ -4,7 +4,7 @@
 #include <QString>
 #include <QDialog>
 
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 
 namespace Ui {
 class SaveVariableEditor;

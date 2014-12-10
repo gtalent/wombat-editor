@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QMap>
 #include <QDockWidget>
-#include <models/editormodels.hpp>
+#include <models/models.hpp>
 #include "modeliomanager.hpp"
 #include "dockwindow.hpp"
 #include "editorwidget.hpp"

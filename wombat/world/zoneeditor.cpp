@@ -18,19 +18,23 @@ const int ZoneEditor::TileHeight = 32;
 
 // TileClas
 ZoneEditor::UpdateTileCommand::UpdateTileCommand
-(ZoneEditor *parent, models::Point address, models::Tile before, models::Tile after) {
+(ZoneEditor *parent, QMap<models::Point, ZoneEditor::TileUpdate> changeBuffer) { 
 	m_parent = parent;
-	m_address = address;
-	m_before = before;
-	m_after = after;
+	m_changeBuffer = changeBuffer;
 }
 
 void ZoneEditor::UpdateTileCommand::undo() {
-	m_parent->updateTile(m_address.X, m_address.Y, m_before);
+	for (auto c = m_changeBuffer.begin(); c != m_changeBuffer.end(); c++) {
+		auto &addr = c.key();
+		m_parent->applyTile(addr.X, addr.Y, m_changeBuffer[addr].before);
+	}
 }
 
 void ZoneEditor::UpdateTileCommand::redo() {
-	m_parent->updateTile(m_address.X, m_address.Y, m_after);
+	for (auto c = m_changeBuffer.begin(); c != m_changeBuffer.end(); c++) {
+		auto &addr = c.key();
+		m_parent->applyTile(addr.X, addr.Y, m_changeBuffer[addr].after);
+	}
 }
 
 // ZoneEditorTile
@@ -45,6 +49,14 @@ ZoneEditorTile::ZoneEditorTile(const ZoneEditorTile &o) {
 ZoneEditorTile::~ZoneEditorTile() {
 	rmItem(m_lower.data());
 	rmItem(m_upper.data());
+}
+
+ZoneEditorTile &ZoneEditorTile::operator=(const ZoneEditorTile &o) {
+	m_parent = o.m_parent;
+	m_lower = o.m_lower;
+	m_upper = o.m_upper;
+	m_occupant = o.m_occupant;
+	return *this;
 }
 
 void ZoneEditorTile::init(ZoneEditor *parent) {
@@ -128,6 +140,8 @@ class ZoneEditorGraphicsView: public QGraphicsView {
 		void mouseMoveEvent(QMouseEvent *event);
 
 		void mousePressEvent(QMouseEvent *event);
+
+		void mouseReleaseEvent(QMouseEvent *event);
 };
 
 ZoneEditorGraphicsView::ZoneEditorGraphicsView(ZoneEditor *parent):
@@ -135,13 +149,23 @@ QGraphicsView(parent) {
 	m_parent = parent;
 }
 
-void ZoneEditorGraphicsView::mouseMoveEvent(QMouseEvent*) {
+void ZoneEditorGraphicsView::mouseMoveEvent(QMouseEvent *event) {
+	auto pos = mapToScene(event->pos());
+	if (m_parent) {
+		m_parent->pushChange(pos.x(), pos.y());
+	}
 }
 
 void ZoneEditorGraphicsView::mousePressEvent(QMouseEvent *event) {
 	auto pos = mapToScene(event->pos());
 	if (m_parent) {
-		m_parent->click(pos.x(), pos.y());
+		m_parent->pushChange(pos.x(), pos.y());
+	}
+}
+
+void ZoneEditorGraphicsView::mouseReleaseEvent(QMouseEvent*) {
+	if (m_parent) {
+		m_parent->applyChanges();
 	}
 }
 
@@ -172,35 +196,70 @@ int ZoneEditor::saveFile() {
 void ZoneEditor::click(int x, int y) {
 	auto co = &context().commonObject(TileClassExplorer::DockId);
 	auto te = dynamic_cast<TileClassExplorer*>(co);
-	x /= TileWidth;
-	y /= TileHeight;
+
+	// get current cursor address
 	models::Point addr;
-	addr.X = x;
-	addr.Y = y;
+	addr.X = x / TileWidth;
+	addr.Y = y / TileHeight;
+
 	if (te) {
 		models::TileClass tc;
 		tc.Import = te->selectedTile();
 		if (tc.Import != "") {
-			auto &old = m_model.Tiles[0][y][x];
+			auto &old = m_model.Tiles[0][addr.Y][addr.X];
 			auto updated = old;
 			updated.TileClass = tc;
 
-			notifyFileChange(new UpdateTileCommand(this, addr, old, updated));
+			if (old != updated) {
+				notifyFileChange(new UpdateTileCommand(this, m_changeBuffer));
+			}
 		}
 	}
 }
 
-void ZoneEditor::updateTileClass(int x, int y, models::TileClass tc) {
-	// TODO: bounds checking
-	auto &tile = m_model.Tiles[0][y][x];
-	tile.TileClass = tc;
-	m_tiles[0][y][x].set(tile, x * TileWidth, y * TileHeight);
-}
-
-void ZoneEditor::updateTile(int x, int y, models::Tile tile) {
+void ZoneEditor::applyTile(int x, int y, models::Tile tile) {
 	// TODO: bounds checking
 	m_model.Tiles[0][y][x] = tile;
 	m_tiles[0][y][x].set(tile, x * TileWidth, y * TileHeight);
+}
+
+void ZoneEditor::pushTileUpdate(int x, int y, models::TileClass tc) {
+	models::Point addr;
+	addr.X = x / TileWidth;
+	addr.Y = y / TileHeight;
+
+	const auto &current = m_model.Tiles[0][addr.Y][addr.X];
+	if (current.TileClass != tc) {
+		m_changeBuffer[addr].before = current;
+		m_changeBuffer[addr].after = current;
+		m_changeBuffer[addr].after.TileClass = tc;
+
+		QSharedPointer<ZoneEditorTile> zet(new ZoneEditorTile());
+		zet->init(this);
+		zet->set(tc, addr.X * TileWidth, addr.Y * TileHeight);
+		m_previewTiles.push_back(zet);
+	}
+}
+
+void ZoneEditor::pushChange(int x, int y) {
+	auto co = &context().commonObject(TileClassExplorer::DockId);
+	auto te = dynamic_cast<TileClassExplorer*>(co);
+
+	if (te) {
+		models::TileClass tc;
+		tc.Import = te->selectedTile();
+		if (tc.Import != "") {
+			pushTileUpdate(x, y, tc);
+		}
+	}
+}
+
+void ZoneEditor::applyChanges() {
+	if (m_changeBuffer.size()) {
+		notifyFileChange(new UpdateTileCommand(this, m_changeBuffer));
+		m_changeBuffer.clear();
+		m_previewTiles.clear();
+	}
 }
 
 void ZoneEditor::buildGui() {
