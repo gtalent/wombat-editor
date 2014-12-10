@@ -218,7 +218,6 @@ void ZoneEditor::click(int x, int y) {
 }
 
 void ZoneEditor::applyTile(int x, int y, models::Tile tile) {
-	// TODO: bounds checking
 	m_model.Tiles[0][y][x] = tile;
 	m_tiles[0][y][x].set(tile, x * TileWidth, y * TileHeight);
 }
@@ -249,7 +248,19 @@ void ZoneEditor::pushChange(int x, int y) {
 		models::TileClass tc;
 		tc.Import = te->selectedTile();
 		if (tc.Import != "") {
-			pushTileUpdate(x, y, tc);
+			auto addrX = x / TileWidth;
+			auto addrY = y / TileHeight;
+
+			if (m_model.Tiles.size() > 0) {
+				if (m_model.Tiles[0].size() > addrY && addrY >= 0) {
+					if (m_model.Tiles[0][addrY].size() > addrX && addrX >= 0) {
+
+						pushTileUpdate(x, y, tc);
+
+					}
+				}
+			}
+
 		}
 	}
 }
