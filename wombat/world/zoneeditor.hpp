@@ -34,8 +34,6 @@ class ZoneEditorTile: public QObject {
 
 		void set(models::Tile, int x, int y);
 
-		void set(models::TileClass, int x, int y);
-
 	private:
 		QPixmap *firstImageOf(QString animPath);
 

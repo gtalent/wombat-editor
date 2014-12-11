@@ -64,10 +64,7 @@ void ZoneEditorTile::init(ZoneEditor *parent) {
 }
 
 void ZoneEditorTile::set(models::Tile tile, int x, int y) {
-	set(tile.TileClass, x, y);
-}
-
-void ZoneEditorTile::set(models::TileClass tc, int x, int y) {
+	auto tc = tile.TileClass;
 	auto &key = tc.Import;
 	auto &classes = m_parent->m_tileClasses;
 	if (key != "") {
@@ -230,12 +227,12 @@ void ZoneEditor::pushTileUpdate(int x, int y, models::TileClass tc) {
 	const auto &current = m_model.Tiles[0][addr.Y][addr.X];
 	if (current.TileClass != tc) {
 		m_changeBuffer[addr].before = current;
-		m_changeBuffer[addr].after = current;
-		m_changeBuffer[addr].after.TileClass = tc;
+		auto &after = m_changeBuffer[addr].after = current;
+		after.TileClass = tc;
 
 		QSharedPointer<ZoneEditorTile> zet(new ZoneEditorTile());
 		zet->init(this);
-		zet->set(tc, addr.X * TileWidth, addr.Y * TileHeight);
+		zet->set(after, addr.X * TileWidth, addr.Y * TileHeight);
 		m_previewTiles.push_back(zet);
 	}
 }
