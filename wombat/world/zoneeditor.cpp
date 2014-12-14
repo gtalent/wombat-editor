@@ -64,6 +64,7 @@ void ZoneEditorTile::init(ZoneEditor *parent) {
 }
 
 void ZoneEditorTile::set(models::Tile tile, int x, int y) {
+	auto &modelio = *m_parent->modelIoManager();
 	auto tc = tile.TileClass;
 	auto &key = tc.Import;
 	auto &classes = m_parent->m_tileClasses;
@@ -74,11 +75,16 @@ void ZoneEditorTile::set(models::Tile tile, int x, int y) {
 			auto json = modelio.readAbsolutePath(path);
 			classes[key].fromJson(json);
 		}
+		modelio.connectOnUpdate(key, m_parent, SLOT(refreshImageCache()));
 	}
 
 	auto &c = classes[key];
 	auto lowerPm = firstImageOf(c.LowerAnim.Animation);
 	auto upperPm = firstImageOf(c.UpperAnim.Animation);
+
+	// subscribe to the Animations
+	modelio.connectOnUpdate(c.LowerAnim.Animation, m_parent, SLOT(refreshImageCache()));
+	modelio.connectOnUpdate(c.UpperAnim.Animation, m_parent, SLOT(refreshImageCache()));
 
 	m_lower = QSharedPointer<QGraphicsPixmapItem>(addItem(m_lower.data(), lowerPm, x, y));
 	m_upper = QSharedPointer<QGraphicsPixmapItem>(addItem(m_upper.data(), upperPm, x, y));
@@ -91,15 +97,16 @@ QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
 		if (!imgs.contains(animPath)) {
 			models::Animation model;
 			auto &modelio = *m_parent->modelIoManager();
-			auto path = m_parent->m_projectPath + "/" + animPath;
-			auto json = modelio.readAbsolutePath(path);
+			auto json = modelio.read(animPath);
 			model.fromJson(json);
 			if (model.Images.size()) {
+				const auto &projectPath = m_parent->m_projectPath;
 				auto img = model.Images[0].Image;
-				imgs[animPath] = SpriteSheetManager::getPixmap(img, m_parent->m_projectPath);
+				auto pxMp = new QPixmap(SpriteSheetManager::getPixmap(img, projectPath));
+				imgs[animPath] = QSharedPointer<QPixmap>(pxMp);
 			}
 		}
-		retval = &imgs[animPath];
+		retval = imgs[animPath].data();
 	}
 	return retval;
 }
@@ -173,7 +180,7 @@ ZoneEditor::ZoneEditor(EditorWidgetParams args):
 EditorWidget(args), m_worldUtil(args.models) {
 	m_projectPath = args.projectPath;
 	m_header.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
-	m_model.fromJson(modelIoManager()->read(m_header.Zone));
+	m_model = modelIoManager()->readModel<models::Zone>(m_header.Zone);
 
 	buildGui();
 	loadView();
@@ -188,6 +195,16 @@ int ZoneEditor::saveFile() {
 
 	notifyFileSave();
 	return ret;
+}
+
+void ZoneEditor::refreshImageCache() {
+	// preserve old image QSharedPointers until this method returns
+	auto oldImgs = m_imgs;
+
+	m_tileClasses.clear();
+	m_imgs.clear();
+	m_model = modelIoManager()->readModel<models::Zone>(m_header.Zone);
+	loadView();
 }
 
 void ZoneEditor::click(int x, int y) {

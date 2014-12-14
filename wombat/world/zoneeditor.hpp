@@ -71,7 +71,7 @@ class ZoneEditor: public editor::EditorWidget {
 		QGraphicsScene *m_scene = nullptr;
 		QMap<QGraphicsItem*, models::Point> m_imgPtMap;
 		// maps Animation paths to the first image of the Animation
-		QMap<QString, QPixmap> m_imgs;
+		QMap<QString, QSharedPointer<QPixmap>> m_imgs;
 		QMap<QString, models::TileClass> m_tileClasses;
 		QVector<QVector<QVector<ZoneEditorTile>>> m_tiles;
 		QMap<models::Point, TileUpdate> m_changeBuffer;
@@ -90,6 +90,9 @@ class ZoneEditor: public editor::EditorWidget {
 		ZoneEditor(editor::EditorWidgetParams args);
 
 		int saveFile() override;
+
+	public slots:
+		void refreshImageCache();
 
 	protected:
 		/**

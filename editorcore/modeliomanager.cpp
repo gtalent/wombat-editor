@@ -75,27 +75,29 @@ void ModelIoManager::updateFile(QString path, QString value) {
 }
 
 void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
-	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
-		path += MODEL_FILE_EXTENSION;
-	}
-	path = toAbsolutePath(path);
-	Connection conn(path, receiver, method);
-	if (!m_onUpdateConnections[conn]) {
-		m_onUpdateConnections[conn] = true;
-		ModelWrapper *wrapper = nullptr;
-		if (m_models.contains(path)) {
-			wrapper = m_models[path];
-		} else {
-			QFile file(path);
-			file.open(QIODevice::ReadOnly);
-			QTextStream in(&file);
-			auto content = in.readAll();
-
-			m_models[path] = wrapper = new ModelWrapper(content);
+	if (path != "") {
+		if (!path.endsWith(MODEL_FILE_EXTENSION)) {
+			path += MODEL_FILE_EXTENSION;
 		}
-		wrapper->refCount++;
+		path = toAbsolutePath(path);
+		Connection conn(path, receiver, method);
+		if (!m_onUpdateConnections[conn]) {
+			m_onUpdateConnections[conn] = true;
+			ModelWrapper *wrapper = nullptr;
+			if (m_models.contains(path)) {
+				wrapper = m_models[path];
+			} else {
+				QFile file(path);
+				file.open(QIODevice::ReadOnly);
+				QTextStream in(&file);
+				auto content = in.readAll();
 
-		QObject::connect(wrapper, SIGNAL(update(QString)), receiver, method);
+				m_models[path] = wrapper = new ModelWrapper(content);
+			}
+			wrapper->refCount++;
+
+			QObject::connect(wrapper, SIGNAL(update(QString)), receiver, method);
+		}
 	}
 }
 
