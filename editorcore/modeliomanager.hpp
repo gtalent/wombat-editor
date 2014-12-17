@@ -45,7 +45,13 @@ class ModelIoManager: public QObject {
 		mutable QMap<Connection, bool> m_onUpdateConnections;
 		QString m_projectPath;
 
+	private:
+		ModelIoManager(const ModelIoManager&);
+		ModelIoManager &operator=(const ModelIoManager&);
+
 	public:
+		ModelIoManager() = default;
+
 		void setProjectPath(QString projectPath);
 
 		/**
