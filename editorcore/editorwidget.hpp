@@ -15,7 +15,7 @@ class EditorWidget: public QWidget {
 	friend class EditorProfile;
 	private:
 		const AppContext &m_context;
-		ModelIoManager *m_models = nullptr;
+		const ModelIoManager &m_models;
 		QUndoStack *m_undoStack = nullptr;
 		int m_lastCommand = 0;
 		int m_lastSavedCommand = 0;
@@ -43,7 +43,7 @@ class EditorWidget: public QWidget {
 
 	protected:
 		void modelIoManager(ModelIoManager*);
-		ModelIoManager *modelIoManager();
+		const ModelIoManager &modelIoManager();
 		void notifyFileChange(QUndoCommand *c = 0);
 		void notifyFileSave();
 };

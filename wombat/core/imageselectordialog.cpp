@@ -3,7 +3,7 @@
 namespace wombat {
 namespace core {
 
-ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString title = "Image Selector"): QDialog(parent) {
+ImageSelectorDialog::ImageSelectorDialog(QWidget *parent, const ModelIoManager &modelIo, QString projectPath, QString title = "Image Selector"): QDialog(parent) {
 	setWindowTitle(title);
 	setMinimumSize(600, 400);
 	setMaximumSize(600, 400);

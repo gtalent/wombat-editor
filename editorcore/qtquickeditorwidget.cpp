@@ -14,7 +14,6 @@ QtQuickEditorWidget::QtQuickEditorWidget(QString path, EditorWidgetParams args):
 
 	auto *view = new QQuickView();
 	auto context = view->rootContext();
-	context->setContextProperty("modelio", args.models);
 	context->setContextProperty("signals", &m_signaler);
 	view->setSource(QUrl(path));
 	view->setResizeMode(QQuickView::SizeRootObjectToView);

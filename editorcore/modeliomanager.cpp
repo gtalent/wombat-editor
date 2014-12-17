@@ -26,19 +26,19 @@ void ModelIoManager::setProjectPath(QString projectPath) {
 	m_projectPath = cleanupPath(projectPath);
 }
 
-QString ModelIoManager::getProjectPath() {
+QString ModelIoManager::getProjectPath() const {
 	return m_projectPath;
 }
 
-QString ModelIoManager::read(QString path) {
+QString ModelIoManager::read(QString path) const {
 	return readAbsolutePath(m_projectPath + path);
 }
 
-int ModelIoManager::write(QString path, QString value) {
+int ModelIoManager::write(QString path, QString value) const {
 	return writeAbsolutePath(m_projectPath + path, value);
 }
 
-QString ModelIoManager::readAbsolutePath(QString path) {
+QString ModelIoManager::readAbsolutePath(QString path) const {
 	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
 		path += MODEL_FILE_EXTENSION;
 	}
@@ -51,7 +51,7 @@ QString ModelIoManager::readAbsolutePath(QString path) {
 	}
 }
 
-int ModelIoManager::writeAbsolutePath(QString path, QString value) {
+int ModelIoManager::writeAbsolutePath(QString path, QString value) const {
 	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
 		path += MODEL_FILE_EXTENSION;
 	}
@@ -66,7 +66,7 @@ int ModelIoManager::writeAbsolutePath(QString path, QString value) {
 	return 0;
 }
 
-void ModelIoManager::updateFile(QString path, QString value) {
+void ModelIoManager::updateFile(QString path, QString value) const {
 	path = cleanupPath(path);
 	if (m_models.contains(path)) {
 		m_models[path]->model = value;
@@ -74,7 +74,7 @@ void ModelIoManager::updateFile(QString path, QString value) {
 	}
 }
 
-void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) {
+void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) const {
 	if (path != "") {
 		if (!path.endsWith(MODEL_FILE_EXTENSION)) {
 			path += MODEL_FILE_EXTENSION;
@@ -101,7 +101,7 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 	}
 }
 
-void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) {
+void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) const {
 	if (!path.endsWith(MODEL_FILE_EXTENSION)) {
 		path += MODEL_FILE_EXTENSION;
 	}
@@ -121,17 +121,17 @@ void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, c
 	}
 }
 
-QString ModelIoManager::loadFileAbsolutePath(QString path) {
+QString ModelIoManager::loadFileAbsolutePath(QString path) const {
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	return QTextStream(&file).readAll();
 }
 
-QString ModelIoManager::toAbsolutePath(QString path) {
+QString ModelIoManager::toAbsolutePath(QString path) const {
 	return QFileInfo(m_projectPath + path).absoluteFilePath();
 }
 
-QString ModelIoManager::cleanupPath(QString path) {
+QString ModelIoManager::cleanupPath(QString path) const {
 	return QFileInfo(path).absoluteFilePath();
 }
 

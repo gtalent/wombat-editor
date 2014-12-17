@@ -49,7 +49,7 @@ class TileClassExplorer: public editor::DockWindow {
 		QTableView *m_tileTable = nullptr;
 		TileClassTable *m_tileTableModel = nullptr;
 		QString m_projectPath;
-		editor::ModelIoManager *m_modelio = nullptr;
+		const editor::ModelIoManager &m_modelio;
 		WorldUtil m_worldUtil;
 		QVector<QString> m_tcSubs;
 

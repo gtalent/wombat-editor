@@ -79,8 +79,7 @@ TileClassExplorer::TileClassTable::Row TileClassExplorer::TileClassTable::row(in
 // TileClassExplorer
 
 TileClassExplorer::TileClassExplorer(DockWindowParams args):
-DockWindow(args), m_worldUtil(args.modelio) {
-	m_modelio = args.modelio;
+DockWindow(args), m_modelio(args.modelio), m_worldUtil(args.modelio) {
 	setWindowTitle(tr("Tile Classes"));
 
 	auto contents = new QWidget();
@@ -109,7 +108,7 @@ QString TileClassExplorer::objectId() const {
 }
 
 void TileClassExplorer::loadTileClassList() {
-	auto tileClasses = m_modelio->readModels<TileClass>(Path_TileClass);
+	auto tileClasses = m_modelio.readModels<TileClass>(Path_TileClass);
 	auto tileTable = new TileClassTable(this, tileClasses);
 	subscribe(tileClasses);
 	setTableModel(tileTable);
@@ -136,7 +135,7 @@ void TileClassExplorer::setTableModel(TileClassTable *tileTable) {
 }
 
 void TileClassExplorer::subscribe() {
-	auto tileClasses = m_modelio->readModels<TileClass>(Path_TileClass);
+	auto tileClasses = m_modelio.readModels<TileClass>(Path_TileClass);
 	subscribe(tileClasses);
 }
 
@@ -152,19 +151,19 @@ void TileClassExplorer::subscribe(const QMap<QString, TileClass> &tileClasses) {
 		m_tcSubs.push_back(lowerAnim);
 		m_tcSubs.push_back(upperAnim);
 
-		m_modelio->connectOnUpdate(key, this, SLOT(loadTileClassList()));
+		m_modelio.connectOnUpdate(key, this, SLOT(loadTileClassList()));
 		if (lowerAnim != "") {
-			m_modelio->connectOnUpdate(lowerAnim, this, SLOT(loadTileClassList()));
+			m_modelio.connectOnUpdate(lowerAnim, this, SLOT(loadTileClassList()));
 		}
 		if (upperAnim != "") {
-			m_modelio->connectOnUpdate(upperAnim, this, SLOT(loadTileClassList()));
+			m_modelio.connectOnUpdate(upperAnim, this, SLOT(loadTileClassList()));
 		}
 	}
 }
 
 void TileClassExplorer::unsubscribe() {
 	for (auto sub : m_tcSubs) {
-		m_modelio->disconnectOnUpdate(sub, this, SLOT(loadTileClassList()));
+		m_modelio.disconnectOnUpdate(sub, this, SLOT(loadTileClassList()));
 	}
 	m_tcSubs.clear();
 }

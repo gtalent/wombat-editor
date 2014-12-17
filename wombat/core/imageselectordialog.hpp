@@ -21,7 +21,7 @@ class ImageSelectorDialog: public QDialog {
 		ImageSelectorWidget *m_widget = nullptr;
 
 	public:
-		ImageSelectorDialog(QWidget *parent, ModelIoManager *modelIo, QString projectPath, QString path);
+		ImageSelectorDialog(QWidget *parent, const ModelIoManager &modelIo, QString projectPath, QString path);
 		~ImageSelectorDialog();
 
 		models::Image selectedImage();

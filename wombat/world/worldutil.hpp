@@ -9,7 +9,7 @@ namespace world {
 
 class WorldUtil {
 	private:
-		editor::ModelIoManager *m_modelio = nullptr;
+		const editor::ModelIoManager &m_modelio;
 		QMap<QString, QPixmap> *m_imgs = nullptr;
 		bool m_externalImgs = true;
 
@@ -18,7 +18,7 @@ class WorldUtil {
 		 * Constructor
 		 * @param modelio the ModelIoManager for the current project
 		 */
-		WorldUtil(editor::ModelIoManager *modelio, QMap<QString, QPixmap> *imgs = nullptr);
+		WorldUtil(const editor::ModelIoManager &modelio, QMap<QString, QPixmap> *imgs = nullptr);
 
 		/**
 		 * Destructor

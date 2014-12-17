@@ -149,7 +149,7 @@ void MainWindow::openFile(QString path) {
 		tabName = list[list.size() - 1];
 
 		// setup tab
-		EditorWidgetParams args(m_projectPath, path, ui->tabWidget, &m_models, m_context);
+		EditorWidgetParams args(m_projectPath, path, ui->tabWidget, m_models, m_context);
 		tab = m_profile->editorWidget(args);
 
 		if (tab) {
@@ -237,7 +237,7 @@ void MainWindow::filePaneContextMenu(const QPoint &itemPt) {
 }
 
 void MainWindow::setupDockWidgets() {
-	const auto args = DockWindowParams(this, &m_models);
+	const auto args = DockWindowParams(this, m_models);
 	auto &makers = m_profile->dockMakers();
 	for (auto &maker : makers) {
 		auto dock = maker(args);

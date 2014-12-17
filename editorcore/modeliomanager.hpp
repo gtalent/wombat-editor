@@ -41,8 +41,8 @@ class ModelIoManager: public QObject {
 				bool operator<(const Connection &c) const;
 		};
 
-		QMap<QString, ModelWrapper*> m_models;
-		QMap<Connection, bool> m_onUpdateConnections;
+		mutable QMap<QString, ModelWrapper*> m_models;
+		mutable QMap<Connection, bool> m_onUpdateConnections;
 		QString m_projectPath;
 
 	public:
@@ -52,55 +52,55 @@ class ModelIoManager: public QObject {
 		 * Gets the absolute path of the project of this ModelIoManager.
 		 * @return the absolute path of the project of this ModelIoManager.
 		 */
-		QString getProjectPath();
+		QString getProjectPath() const;
 
 		/**
 		 * Reads all JSON files in the given directory path as Models and
 		 * places associates them with their filenames in the returned QMap.
 		 */
 		template<typename Model>
-		QMap<QString, Model> readModels(QString path);
+		QMap<QString, Model> readModels(QString path) const;
 
 		template<typename Model>
-		Model readModelAbsolutePath(QString path);
+		Model readModelAbsolutePath(QString path) const;
 
 		template<typename Model>
-		Model readModel(QString path);
+		Model readModel(QString path) const;
 
-		QString read(QString path);
+		QString read(QString path) const;
 
-		int write(QString path, QString value);
+		int write(QString path, QString value) const;
 
-		QString readAbsolutePath(QString path);
+		QString readAbsolutePath(QString path) const;
 
-		int writeAbsolutePath(QString path, QString value);
+		int writeAbsolutePath(QString path, QString value) const;
 
 		/**
 		 * @path relative path from the root of the project directory
 		 */
-		void connectOnUpdate(QString path, const QObject *receiver, const char *method);
+		void connectOnUpdate(QString path, const QObject *receiver, const char *method) const;
 
 		/**
 		 * @path relative path from the root of the project directory
 		 */
-		void disconnectOnUpdate(QString path, const QObject *receiver, const char *method);
+		void disconnectOnUpdate(QString path, const QObject *receiver, const char *method) const;
 
 	private:
-		void updateFile(QString path, QString value);
+		void updateFile(QString path, QString value) const;
 
-		QString loadFileAbsolutePath(QString path);
+		QString loadFileAbsolutePath(QString path) const;
 
-		QString toAbsolutePath(QString path);
+		QString toAbsolutePath(QString path) const;
 
 		/**
 		 * Returns a cleaned up version the given path,
 		 * removing extra slashes, ".."s, etc.
 		 */
-		QString cleanupPath(QString path);
+		QString cleanupPath(QString path) const;
 };
 
 template<typename Model>
-QMap<QString, Model> ModelIoManager::readModels(QString path) {
+QMap<QString, Model> ModelIoManager::readModels(QString path) const {
 	path += "/";
 	path = toAbsolutePath(path);
 
@@ -127,14 +127,14 @@ QMap<QString, Model> ModelIoManager::readModels(QString path) {
 }
 
 template<typename Model>
-Model ModelIoManager::readModelAbsolutePath(QString path) {
+Model ModelIoManager::readModelAbsolutePath(QString path) const {
 	Model m;
 	m.fromJson(readAbsolutePath(path));
 	return m;
 }
 
 template<typename Model>
-Model ModelIoManager::readModel(QString path) {
+Model ModelIoManager::readModel(QString path) const {
 	return readModelAbsolutePath<Model>(toAbsolutePath(path));
 }
 

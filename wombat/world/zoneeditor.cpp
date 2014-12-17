@@ -64,17 +64,17 @@ void ZoneEditorTile::init(ZoneEditor *parent) {
 }
 
 void ZoneEditorTile::set(models::Tile tile, int x, int y) {
-	auto &modelio = *m_parent->modelIoManager();
+	auto &modelio = m_parent->modelIoManager();
 	auto tc = tile.TileClass;
 	auto &key = tc.Import;
 	auto &classes = m_parent->m_tileClasses;
 	if (key != "") {
 		if (!classes.contains(key)) {
-			auto &modelio = *m_parent->modelIoManager();
-			auto path = m_parent->m_projectPath + "/" + key;
-			auto json = modelio.readAbsolutePath(path);
-			classes[key].fromJson(json);
+			auto &modelio = m_parent->modelIoManager();
+			classes[key] = modelio.readModel<models::TileClass>(key);
 		}
+
+		// subscribe to the TileClass
 		modelio.connectOnUpdate(key, m_parent, SLOT(refreshImageCache()));
 	}
 
@@ -95,10 +95,8 @@ QPixmap *ZoneEditorTile::firstImageOf(QString animPath) {
 	if (animPath != "") {
 		auto &imgs = m_parent->m_imgs;
 		if (!imgs.contains(animPath)) {
-			models::Animation model;
-			auto &modelio = *m_parent->modelIoManager();
-			auto json = modelio.read(animPath);
-			model.fromJson(json);
+			auto &modelio = m_parent->modelIoManager();
+			auto model = modelio.readModel<models::Animation>(animPath);
 			if (model.Images.size()) {
 				const auto &projectPath = m_parent->m_projectPath;
 				auto img = model.Images[0].Image;
@@ -179,8 +177,8 @@ void ZoneEditorGraphicsView::mouseReleaseEvent(QMouseEvent*) {
 ZoneEditor::ZoneEditor(EditorWidgetParams args):
 EditorWidget(args), m_worldUtil(args.models) {
 	m_projectPath = args.projectPath;
-	m_header.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
-	m_model = modelIoManager()->readModel<models::Zone>(m_header.Zone);
+	m_header.fromJson(modelIoManager().readAbsolutePath(absolutePath()));
+	m_model = modelIoManager().readModel<models::Zone>(m_header.Zone);
 
 	buildGui();
 	loadView();
@@ -188,10 +186,10 @@ EditorWidget(args), m_worldUtil(args.models) {
 
 int ZoneEditor::saveFile() {
 	auto json = m_header.toJson(models::cyborgbear::Readable);
-	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), json);
+	auto ret = modelIoManager().writeAbsolutePath(absolutePath(), json);
 
 	json = m_model.toJson(models::cyborgbear::Readable);
-	ret |= modelIoManager()->write(m_header.Zone, json);
+	ret |= modelIoManager().write(m_header.Zone, json);
 
 	notifyFileSave();
 	return ret;
@@ -203,7 +201,7 @@ void ZoneEditor::refreshImageCache() {
 
 	m_tileClasses.clear();
 	m_imgs.clear();
-	m_model = modelIoManager()->readModel<models::Zone>(m_header.Zone);
+	m_model = modelIoManager().readModel<models::Zone>(m_header.Zone);
 	loadView();
 }
 

@@ -23,13 +23,13 @@ class ImageSelectorWidget: public QWidget {
 		Ui::ImageSelectorWidget *ui = nullptr;
 		QString m_projectPath;
 		QGraphicsScene *m_scene = nullptr;
-		ModelIoManager *m_modelIo = nullptr;
+		const ModelIoManager &m_modelIo;
 		QString m_currentModelPath;
 		models::SpriteSheet m_model;
 		QMap<QString, int> m_ptToImg;
 
 	public:
-		ImageSelectorWidget(QWidget *parent, QString projectPath, ModelIoManager *modelIo);
+		ImageSelectorWidget(QWidget *parent, QString projectPath, const ModelIoManager &modelIo);
 		~ImageSelectorWidget();
 
 		int openSpriteSheet(QString path);

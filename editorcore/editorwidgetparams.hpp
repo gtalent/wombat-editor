@@ -10,11 +10,11 @@ struct EditorWidgetParams {
 	QString projectPath;
 	QString filePath;
 	QWidget *parent = nullptr;
-	ModelIoManager *models = nullptr;
+	const ModelIoManager &models;
 	const AppContext &context;
 
 	EditorWidgetParams(QString projectPath, QString filePath,
-	                   QWidget *parent, ModelIoManager *models,
+	                   QWidget *parent, const ModelIoManager &models,
 							 const AppContext &context);
 };
 

@@ -9,8 +9,7 @@ namespace world {
 using core::SpriteSheetManager;
 using editor::MODEL_FILE_EXTENSION;
 
-WorldUtil::WorldUtil(editor::ModelIoManager *modelio, QMap<QString, QPixmap> *imgs) {
-	m_modelio = modelio;
+WorldUtil::WorldUtil(const editor::ModelIoManager &modelio, QMap<QString, QPixmap> *imgs): m_modelio(modelio) {
 	if (imgs == nullptr) {
 		m_externalImgs = false;
 		imgs = new QMap<QString, QPixmap>();
@@ -27,10 +26,10 @@ WorldUtil::~WorldUtil() {
 }
 
 QPixmap WorldUtil::firstImage(models::Animation anim) {
-	auto projectPath = m_modelio->getProjectPath();
+	auto projectPath = m_modelio.getProjectPath();
 	
 	if (anim.Import != "") {
-		anim.fromJson(m_modelio->readAbsolutePath(projectPath + "/" + anim.Import + MODEL_FILE_EXTENSION));
+		anim.fromJson(m_modelio.readAbsolutePath(projectPath + "/" + anim.Import + MODEL_FILE_EXTENSION));
 	}
 
 	if (anim.Images.size()) {
@@ -52,8 +51,8 @@ QPixmap WorldUtil::firstImage(models::Animation anim) {
 }
 
 QPixmap WorldUtil::firstImage(QString animPath) {
-	animPath = m_modelio->getProjectPath() + "/" + animPath + MODEL_FILE_EXTENSION;
-	auto json = m_modelio->readAbsolutePath(animPath);
+	animPath = m_modelio.getProjectPath() + "/" + animPath + MODEL_FILE_EXTENSION;
+	auto json = m_modelio.readAbsolutePath(animPath);
 	models::Animation anim;
 	anim.fromJson(json);
 	return firstImage(anim);

@@ -3,11 +3,10 @@
 namespace editor {
 
 EditorWidget::EditorWidget(EditorWidgetParams args):
-QWidget(args.parent), m_context(args.context) {
+QWidget(args.parent), m_context(args.context), m_models(args.models) {
 	m_undoStack = new QUndoStack(args.parent);
 	m_lastCommand = m_lastSavedCommand = 0;
 	m_path = args.filePath;
-	m_models = args.models;
 }
 
 EditorWidget::~EditorWidget() {
@@ -34,11 +33,7 @@ void EditorWidget::notifyFileChange(QUndoCommand *uc) {
 	emit fileChanged();
 }
 
-void EditorWidget::modelIoManager(ModelIoManager *models) {
-	m_models = models;
-}
-
-ModelIoManager *EditorWidget::modelIoManager() {
+const ModelIoManager &EditorWidget::modelIoManager() {
 	return m_models;
 }
 

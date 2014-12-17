@@ -16,7 +16,7 @@ using namespace cyborgbear;
 
 TileClassEditor::TileClassEditor(EditorWidgetParams args):
 	EditorWidget(args), m_animDir(args.projectPath + Path_Animation) {
-	m_model.fromJson(modelIoManager()->readAbsolutePath(absolutePath()));
+	m_model.fromJson(modelIoManager().readAbsolutePath(absolutePath()));
 
 	buildGui();
 	loadView();
@@ -83,7 +83,7 @@ QLayout *TileClassEditor::buildGui() {
 
 int TileClassEditor::saveFile() {
 	auto json = m_model.toJson(Readable);
-	auto ret = modelIoManager()->writeAbsolutePath(absolutePath(), json);
+	auto ret = modelIoManager().writeAbsolutePath(absolutePath(), json);
 	notifyFileSave();
 	return ret;
 }

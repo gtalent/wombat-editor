@@ -13,7 +13,8 @@ namespace core {
 
 using models::Path_SpriteSheet;
 
-ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, ModelIoManager *modelIo): QWidget(parent), ui(new Ui::ImageSelectorWidget) {
+ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, const ModelIoManager &modelIo):
+QWidget(parent), ui(new Ui::ImageSelectorWidget), m_modelIo(modelIo) {
 	ui->setupUi(this);
 	m_scene = new QGraphicsScene(this);
 	m_scene->setBackgroundBrush(QColor(0, 0, 0, 0));
@@ -22,7 +23,6 @@ ImageSelectorWidget::ImageSelectorWidget(QWidget *parent, QString projectPath, M
 	ui->canvas->setScene(m_scene);
 
 	m_projectPath = projectPath;
-	m_modelIo = modelIo;
 
 	populateSheetSelect();
 
@@ -46,7 +46,7 @@ ImageSelectorWidget::~ImageSelectorWidget() {
 
 int ImageSelectorWidget::openSpriteSheet(QString path) {
 	models::SpriteSheet model;
-	model.fromJson(m_modelIo->readAbsolutePath(m_projectPath + path));
+	model.fromJson(m_modelIo.readAbsolutePath(m_projectPath + path));
 
 	m_ptToImg.clear();
 	m_currentModelPath = path;

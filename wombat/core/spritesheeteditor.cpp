@@ -48,7 +48,7 @@ SpriteSheetEditor::~SpriteSheetEditor() {
 int SpriteSheetEditor::saveFile() {
 	notifyFileSave();
 	auto out = m_model.toJson(models::cyborgbear::Readable);
-	modelIoManager()->writeAbsolutePath(absolutePath(), out);
+	modelIoManager().writeAbsolutePath(absolutePath(), out);
 
 	int width = m_model.TilesWide * m_model.TileWidth;
 	int height = m_model.TilesHigh * m_model.TileHeight;
@@ -149,7 +149,7 @@ models::Point SpriteSheetEditor::indexPoint(int i) {
 }
 
 int SpriteSheetEditor::load(QString path) {
-	m_model.fromJson(modelIoManager()->readAbsolutePath(path));
+	m_model.fromJson(modelIoManager().readAbsolutePath(path));
 
 	QImage src(m_projectPath + m_model.SrcFile);
 	if (!src.isNull()) {
