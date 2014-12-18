@@ -14,6 +14,7 @@
 
 using namespace editor;
 
+const QString MainWindow::EditorSettings = "editor_settings.json";
 const QString MainWindow::AppTitle = "Wombat Studio";
 
 MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -25,12 +26,12 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 
 	m_profile = profile;
 
-	readSettings("editor_settings" + MODEL_FILE_EXTENSION);
+	readSettings(EditorSettings);
 	setupDockWidgets();
 }
 
 MainWindow::~MainWindow() {
-	writeSettings("editor_settings" + MODEL_FILE_EXTENSION);
+	writeSettings(EditorSettings);
 
 	for (auto tab : m_openTabs) {
 		deleteTab(tab);

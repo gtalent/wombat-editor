@@ -19,6 +19,7 @@ class MainWindow;
 class MainWindow: public QMainWindow, public editor::DebugLogger {
 	Q_OBJECT
 	public:
+		static const QString EditorSettings;
 		static const QString AppTitle;
 		Ui::MainWindow *ui = nullptr;
 
