@@ -64,7 +64,6 @@ void ZoneEditorTile::init(ZoneEditor *parent) {
 }
 
 void ZoneEditorTile::set(models::Tile tile, int x, int y) {
-	auto &modelio = m_parent->modelIoManager();
 	auto tc = tile.TileClass;
 	auto &key = tc.Import;
 	auto &classes = m_parent->m_tileClasses;
@@ -75,7 +74,7 @@ void ZoneEditorTile::set(models::Tile tile, int x, int y) {
 		}
 
 		// subscribe to the TileClass
-		modelio.connectOnUpdate(key, m_parent, SLOT(refreshImageCache()));
+		m_parent->subscribe(key, SLOT(refreshImageCache()));
 	}
 
 	auto &c = classes[key];
@@ -83,8 +82,8 @@ void ZoneEditorTile::set(models::Tile tile, int x, int y) {
 	auto upperPm = firstImageOf(c.UpperAnim.Animation);
 
 	// subscribe to the Animations
-	modelio.connectOnUpdate(c.LowerAnim.Animation, m_parent, SLOT(refreshImageCache()));
-	modelio.connectOnUpdate(c.UpperAnim.Animation, m_parent, SLOT(refreshImageCache()));
+	m_parent->subscribe(c.LowerAnim.Animation, SLOT(refreshImageCache()));
+	m_parent->subscribe(c.UpperAnim.Animation, SLOT(refreshImageCache()));
 
 	m_lower = QSharedPointer<QGraphicsPixmapItem>(addItem(m_lower.data(), lowerPm, x, y));
 	m_upper = QSharedPointer<QGraphicsPixmapItem>(addItem(m_upper.data(), upperPm, x, y));

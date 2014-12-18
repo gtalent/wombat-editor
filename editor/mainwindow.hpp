@@ -52,6 +52,7 @@ class MainWindow: public QMainWindow, public editor::DebugLogger {
 		void undo();
 		void redo();
 		void changeTab();
+		void deleteTab(editor::EditorWidget *tab);
 		void closeTab(int index);
 		void closeTab(editor::EditorWidget *tab);
 		void filePaneContextMenu(const QPoint &p);

@@ -28,21 +28,28 @@ class ModelWrapper: public QObject {
 };
 
 class ModelIoManager: public QObject {
-	private:
+	public:
 		class Connection {
 			private:
+				ModelIoManager *m_parent = nullptr;
 				QString m_path;
 				const QObject *m_receiver = nullptr;
 				QString m_method;
 
 			public:
-				Connection(QString path, const QObject *receiver, const char *method);
+				Connection() = default;
+
+				Connection(ModelIoManager *parent, QString path, const QObject *receiver, const char *method);
 
 				bool operator<(const Connection &c) const;
+
+				void disconnect();
 		};
 
 		mutable QMap<QString, ModelWrapper*> m_models;
 		mutable QMap<Connection, bool> m_onUpdateConnections;
+		// trick needed to access this in a mutable manner in non-const methods
+		mutable ModelIoManager *m_me = this;
 		QString m_projectPath;
 
 	private:
@@ -84,7 +91,7 @@ class ModelIoManager: public QObject {
 		/**
 		 * @path relative path from the root of the project directory
 		 */
-		void connectOnUpdate(QString path, const QObject *receiver, const char *method) const;
+		Connection connectOnUpdate(QString path, const QObject *receiver, const char *method) const;
 
 		/**
 		 * @path relative path from the root of the project directory

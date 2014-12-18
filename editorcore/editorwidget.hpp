@@ -16,6 +16,7 @@ class EditorWidget: public QWidget {
 	private:
 		const AppContext &m_context;
 		const ModelIoManager &m_models;
+		QVector<ModelIoManager::Connection> m_subsciptions;
 		QUndoStack *m_undoStack = nullptr;
 		int m_lastCommand = 0;
 		int m_lastSavedCommand = 0;
@@ -32,6 +33,7 @@ class EditorWidget: public QWidget {
 		void redo();
 		bool canUndo();
 		bool canRedo();
+		void subscribe(QString path, const char *method);
 		const AppContext &context() const;
 		QString absolutePath();
 		virtual void closeWidget();

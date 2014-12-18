@@ -8,7 +8,8 @@ namespace editor {
 
 // Connection
 
-ModelIoManager::Connection::Connection(QString path, const QObject *receiver, const char *method) {
+ModelIoManager::Connection::Connection(ModelIoManager *parent, QString path, const QObject *receiver, const char *method) {
+	m_parent = parent;
 	m_path = path;
 	m_receiver = receiver;
 	m_method = method;
@@ -17,6 +18,10 @@ ModelIoManager::Connection::Connection(QString path, const QObject *receiver, co
 bool ModelIoManager::Connection::operator<(const Connection &c) const {
 	return (m_path < c.m_path) || (m_path == c.m_path && m_receiver < c.m_receiver) ||
 	       (m_path == c.m_path && m_receiver == c.m_receiver && m_method < c.m_method);
+}
+
+void ModelIoManager::Connection::disconnect() {
+	m_parent->disconnectOnUpdate(m_path, m_receiver, m_method.toStdString().c_str());
 }
 
 
@@ -74,13 +79,13 @@ void ModelIoManager::updateFile(QString path, QString value) const {
 	}
 }
 
-void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) const {
+ModelIoManager::Connection ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, const char *method) const {
 	if (path != "") {
 		if (!path.endsWith(MODEL_FILE_EXTENSION)) {
 			path += MODEL_FILE_EXTENSION;
 		}
 		path = toAbsolutePath(path);
-		Connection conn(path, receiver, method);
+		Connection conn(m_me, path, receiver, method);
 		if (!m_onUpdateConnections[conn]) {
 			m_onUpdateConnections[conn] = true;
 			ModelWrapper *wrapper = nullptr;
@@ -97,8 +102,10 @@ void ModelIoManager::connectOnUpdate(QString path, const QObject *receiver, cons
 			wrapper->refCount++;
 
 			QObject::connect(wrapper, SIGNAL(update(QString)), receiver, method);
+			return conn;
 		}
 	}
+	return Connection(m_me, path, receiver, method);
 }
 
 void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, const char *method) const {
@@ -106,7 +113,7 @@ void ModelIoManager::disconnectOnUpdate(QString path, const QObject *receiver, c
 		path += MODEL_FILE_EXTENSION;
 	}
 	path = toAbsolutePath(path);
-	Connection conn(path, receiver, method);
+	Connection conn(m_me, path, receiver, method);
 	m_onUpdateConnections.remove(conn);
 
 	if (m_models.contains(path)) {

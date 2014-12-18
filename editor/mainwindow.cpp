@@ -32,6 +32,10 @@ MainWindow::MainWindow(EditorProfile *profile, QWidget *parent): QMainWindow(par
 MainWindow::~MainWindow() {
 	writeSettings("editor_settings" + MODEL_FILE_EXTENSION);
 
+	for (auto tab : m_openTabs) {
+		deleteTab(tab);
+	}
+
 	for (auto dock : m_dockWindows) {
 		removeDockWidget(dock);
 		delete dock;
@@ -184,16 +188,22 @@ void MainWindow::redo() {
 	}
 }
 
-void MainWindow::closeTab(EditorWidget *tab) {
+void MainWindow::deleteTab(EditorWidget *tab) {
 	if (tab) {
 		ui->actionUndo->setEnabled(false);
 		ui->actionRedo->setEnabled(false);
 		tab->close();
-		m_openTabs[tab->absolutePath()] = 0;
-		m_openTabs.erase(m_openTabs.find(tab->absolutePath()));
 		disconnect(tab, &EditorWidget::fileChanged, this, &MainWindow::fileChanged);
 		disconnect(tab, &EditorWidget::fileSaved, this, &MainWindow::fileSaved);
 		delete tab;
+	}
+}
+
+void MainWindow::closeTab(EditorWidget *tab) {
+	if (tab) {
+		m_openTabs[tab->absolutePath()] = 0;
+		m_openTabs.erase(m_openTabs.find(tab->absolutePath()));
+		deleteTab(tab);
 	}
 }
 

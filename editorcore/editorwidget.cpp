@@ -10,6 +10,9 @@ QWidget(args.parent), m_context(args.context), m_models(args.models) {
 }
 
 EditorWidget::~EditorWidget() {
+	for (auto sub : m_subsciptions) {
+		sub.disconnect();
+	}
 	delete m_undoStack;
 }
 
@@ -74,6 +77,11 @@ bool EditorWidget::canUndo() {
 
 bool EditorWidget::canRedo() {
 	return m_undoStack->canRedo();
+}
+
+void EditorWidget::subscribe(QString path, const char *method) {
+	auto conn = m_models.connectOnUpdate(path, this, method);
+	m_subsciptions.push_back(conn);
 }
 
 const AppContext &EditorWidget::context() const {
