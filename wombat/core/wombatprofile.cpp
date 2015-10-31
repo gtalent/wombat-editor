@@ -14,31 +14,30 @@ using namespace editor;
 using models::Path_Animation;
 using models::Path_SpriteSheet;
 
-void setupEditorProfile(editor::EditorProfile &p) {
+void setupEditorProfile(EditorProfile &profile) {
 	// setup animations
-	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
+	profile.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + models::Path_Animation)) {
 			return new AnimationEditor(args);
 		}
 		return nullptr;
 	});
-	p.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) {
+	profile.addNewFileMenuMaker("Animation", [](NewFileMenuParams args) {
 		return new GenericNewFileMenu<models::Animation>(args, "New Animation", "Animation");
 	});
-	p.addDefaultPath(Path_Animation);
-
+	profile.addDefaultPath(Path_Animation);
 
 	// setup sprite sheets
-	p.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
+	profile.addEditorWidgetMaker([](EditorWidgetParams args) -> EditorWidget* {
 		if (args.filePath.startsWith(args.projectPath + Path_SpriteSheet)) {
 			return new SpriteSheetEditor(args);
 		}
 		return nullptr;
 	});
-	p.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) {
+	profile.addNewFileMenuMaker("Sprite Sheet", [](NewFileMenuParams args) {
 		return new NewSpriteSheet(args);
 	});
-	p.addDefaultPath(Path_SpriteSheet);
+	profile.addDefaultPath(Path_SpriteSheet);
 }
 
 }
